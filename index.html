@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invictus Mind Premium - Master Plan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-absolute: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-surface-elevated: rgba(255, 255, 255, 0.03);
+            --bg-surface-hover: rgba(255, 255, 255, 0.06);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(255, 255, 255, 0.12);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8A8F98;
+            --text-tertiary: #52525B;
+            --accent-fire: #FF5E00;
+            --accent-fire-glow: rgba(255, 94, 0, 0.2);
+            --gradient-fire: linear-gradient(135deg, #FF4500, #FF8C00);
+            --accent-water: #00C6FF;
+            --accent-water-glow: rgba(0, 198, 255, 0.2);
+            --gradient-water: linear-gradient(135deg, #00C6FF, #0072FF);
+            --success: #10B981;
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-absolute);
+            color: var(--text-primary);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+            font-size: 15px; line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: ''; position: absolute; top: -20%; left: -10%;
+            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-fire-glow) 0%, transparent 60%);
+            filter: blur(100px); opacity: 0.4; pointer-events: none;
+        }
+        body::after {
+            content: ''; position: absolute; bottom: -20%; right: -10%;
+            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 60%);
+            filter: blur(100px); opacity: 0.3; pointer-events: none;
+        }
+
+        .app-container {
+            width: 100%; max-width: 428px; height: 100vh; max-height: 926px;
+            background-color: var(--bg-absolute); position: relative;
+            display: flex; flex-direction: column; overflow: hidden; z-index: 10;
+        }
+        @media (min-height: 950px) {
+            .app-container {
+                height: 926px; border-radius: 44px; border: 8px solid #1a1a1c;
+                box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+            }
+        }
+
+        h1, h2, h3, h4, .display-font { font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }
+        .text-gradient { background: var(--gradient-fire); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .scrollable { flex: 1; overflow-y: auto; padding: 0 24px 120px; scrollbar-width: none; }
+        .scrollable::-webkit-scrollbar { display: none; }
+
+        .app-header { padding: 50px 24px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 20; backdrop-filter: blur(10px); }
+        .header-greeting h1 { font-size: 1.7rem; font-weight: 600; color: #FFF; }
+        .header-greeting p { font-size: 0.85rem; color: var(--text-secondary); }
+        .profile-pic { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-weight: 600; }
+
+        .glass-card { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 20px; backdrop-filter: blur(12px); transition: transform 0.4s var(--ease-spring); }
+        
+        .btn-outline { background: transparent; border: 1px solid var(--border-glow); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s var(--ease-spring); display: inline-flex; justify-content: center;}
+        .btn-outline:hover { background: var(--bg-surface-hover); }
+        
+        .view { display: none; }
+        .view.active { display: block; animation: fadeInView 0.5s var(--ease-spring) forwards; }
+        @keyframes fadeInView { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .stagger-1 { animation: slideUpFade 0.6s var(--ease-spring) 0.1s both; }
+        .stagger-2 { animation: slideUpFade 0.6s var(--ease-spring) 0.2s both; }
+        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .ring-wrapper { position: relative; width: 160px; height: 160px; display: flex; justify-content: center; align-items: center; margin: 10px auto 30px; }
+        .ring-bg, .ring-progress { fill: none; stroke-width: 4; stroke-linecap: round; }
+        .ring-bg { stroke: var(--border-subtle); }
+        .ring-progress { stroke: url(#fire-grad); stroke-dasharray: 440; stroke-dashoffset: 220; transform: rotate(-90deg); transform-origin: 50% 50%; filter: drop-shadow(0 0 8px var(--accent-fire-glow)); }
+        .ring-content { position: absolute; text-align: center; }
+        .ring-content h2 { font-size: 2.5rem; line-height: 1; }
+        
+        .track-card { display: flex; align-items: center; cursor: pointer; margin-bottom: 12px; }
+        .track-card:hover { border-color: rgba(255, 255, 255, 0.2); }
+        .track-number { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 500; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; border-radius: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); margin-right: 16px; transition: all 0.3s; }
+        .track-card:hover .track-number { background: var(--accent-water); border-color: var(--accent-water); color: white; box-shadow: 0 0 15px var(--accent-water-glow); }
+
+        .sos-overlay { position: fixed; inset: 0; background: var(--bg-absolute); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; backdrop-filter: blur(20px); }
+        .sos-overlay.active { opacity: 1; pointer-events: auto; }
+        .sos-circle { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 70%); box-shadow: 0 0 60px var(--accent-water-glow); animation: breathe 8s ease-in-out infinite; }
+        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.6); opacity: 1; } }
+        .sos-text { margin-top: 80px; font-family: 'Outfit'; font-size: 1.3rem; font-weight: 300; text-align: center; max-width: 85%; line-height: 1.6; color: white; opacity: 0; transition: opacity 1s ease; }
+        .sos-text.visible { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <header class="app-header">
+            <div class="header-greeting">
+                <h1>Hola, Marjorie</h1>
+                <p>Master Track: Mujeres Mentoras</p>
+            </div>
+            <div class="profile-pic">M</div>
+        </header>
+
+        <main class="scrollable">
+            <div id="view-dashboard" class="view active">
+                <div class="hero-progress stagger-1">
+                    <div class="ring-wrapper">
+                        <svg width="160" height="160" viewBox="0 0 160 160">
+                            <defs><linearGradient id="fire-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF4500" /><stop offset="100%" stop-color="#FF8C00" /></linearGradient></defs>
+                            <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
+                            <circle class="ring-progress" cx="80" cy="80" r="70"></circle>
+                        </svg>
+                        <div class="ring-content">
+                            <h2 class="text-gradient">78</h2>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días de Inmersión</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="blocks-list stagger-2">
+                    <h3 style="color: white; font-size: 1.1rem; margin-bottom: 16px; margin-top: 10px;">Módulos Premium</h3>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque1_Premium.html'">
+                        <div class="track-number">1</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">El Poder del Silencio</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 1-10 • Autoridad y Postura</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque2_Premium.html'">
+                        <div class="track-number">2</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Redes y Capital Social</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 11-20 • Entorno Ejecutivo</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque3_Premium.html'">
+                        <div class="track-number">3</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Carga Alostática</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 21-30 • Resiliencia Fisiológica</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque4_Premium.html'">
+                        <div class="track-number">4</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Síndrome del Impostor</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 31-40 • Ansiedad de Ejecución</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque5_Premium.html'">
+                        <div class="track-number">5</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Red de Poder y Política</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 41-50 • Estrategia B2B</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque6_Premium.html'">
+                        <div class="track-number">6</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Mentoring a Sponsorship</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 51-60 • Apuestas de Alto Riesgo</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque7_Premium.html'">
+                        <div class="track-number">7</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Visibilidad e Influencia</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 61-70 • Marca Personal</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card track-card" onclick="window.location.href='Bloque8_Premium.html'">
+                        <div class="track-number">8</div>
+                        <div>
+                            <h4 style="font-size: 0.95rem; color: white;">Sostenibilidad Sistémica</h4>
+                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 71-78 • El Legado Corporativo</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-outline" style="width: 100%; margin-top: 24px; padding: 16px; border-color: rgba(255,255,255,0.1); color: var(--text-secondary); font-family: 'Outfit'; font-weight: 500; font-size: 0.95rem; display: flex; gap: 8px; justify-content: center; background: var(--bg-surface-elevated);" onclick="openSOS()">
+                        <span>🆘</span> Protocolo SOS: Regulación de Cortisol
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <div id="sos-overlay" class="sos-overlay">
+            <h3 style="font-family: 'Outfit'; font-weight: 300; color: var(--accent-water); margin-bottom: 60px; letter-spacing: 4px; font-size: 0.9rem;">INHALA...</h3>
+            <div class="sos-circle"></div>
+            <p id="sos-affirmation" class="sos-text">No estás aquí por suerte. Estás aquí por tu luz, tu capacidad y tu resiliencia.</p>
+            <button class="btn-outline" style="margin-top: 80px; border-color: rgba(255,255,255,0.2); color: white; padding: 12px 24px;" onclick="closeSOS()">Mi frecuencia se ha elevado</button>
+        </div>
+    </div>
+
+    <script>
+        const affirmations = [
+            "No estás aquí por suerte. Estás aquí por tu luz, tu capacidad y tu resiliencia.",
+            "El sistema intenta hacerte pequeña. Tu cuerpo acaba de reclamar el espacio que te pertenece.",
+            "La duda que sientes no es tuya; es un virus del sistema. Tu conocimiento técnico es letal y suficiente.",
+            "Nadie en esa sala tiene tu historia. Nadie tiene tu instinto estratégico. Confía en tu mapa.",
+            "Respira. Acabas de regular tu cortisol. Tu corteza prefrontal está nuevamente al mando. Eres imparable."
+        ];
+
+        let sosTimer;
+
+        function openSOS() {
+            const overlay = document.getElementById('sos-overlay');
+            const text = document.getElementById('sos-affirmation');
+            text.classList.remove('visible');
+            overlay.classList.add('active');
+            
+            text.innerText = affirmations[Math.floor(Math.random() * affirmations.length)];
+            
+            setTimeout(() => { text.classList.add('visible'); }, 1000);
+            
+            sosTimer = setInterval(() => {
+                text.classList.remove('visible');
+                setTimeout(() => {
+                    text.innerText = affirmations[Math.floor(Math.random() * affirmations.length)];
+                    text.classList.add('visible');
+                }, 1000);
+            }, 8000);
+        }
+
+        function closeSOS() {
+            clearInterval(sosTimer);
+            document.getElementById('sos-overlay').classList.remove('active');
+            document.getElementById('sos-affirmation').classList.remove('visible');
+        }
+    </script>
+
+    <!-- FOCUS Modal -->
+    <div id="focus-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(6,6,13,.98);padding:20px 24px 24px;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:10px">
+        <h3 id="focus-title" style="font-family:'Outfit';font-size:1.1rem;color:#FF6B00;">FOCUS</h3>
+        <button onclick="closeFocus()" style="background:transparent;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;width:40px;height:40px">×</button>
+      </div>
+      <div id="focus-content"></div>
+    </div>
+
+<script>
+const FOCUS_DATA = {
+  'auditoria': {
+    title: 'Auditoría de Disparadores',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">La distracción empieza desde adentro. Identifica qué sentimiento intentas evitar revisando tu celular o correo.</p>
+      <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:15px;">
+        <p style="color:#FF6B00;font-size:0.8rem;font-weight:bold;margin-bottom:8px;">¿Qué sentías justo antes de distraerte?</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="f-tag" onclick="this.classList.toggle('active')">Aburrimiento</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Ansiedad</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Fatiga</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Estrés</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Inseguridad</span>
+        </div>
+      </div>
+      <p style="color:#aaa;font-size:0.8rem;margin-bottom:10px;">Escribe el disparador para quitarle su poder cognitivo:</p>
+      <input type="text" placeholder="Ej: Me dio ansiedad enviar el reporte..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
+      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Registrar Disparador</button>
+      <style>.f-tag{background:rgba(255,255,255,0.1);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;} .f-tag.active{background:#FF6B00;}</style>
+    `
+  },
+  'pacto': {
+    title: 'Pacto de Identidad',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Los pactos pre-comprometen tus decisiones futuras para que sea más difícil distraerte.</p>
+      <div style="background:rgba(255,107,0,0.1);border:1px dashed #FF6B00;padding:15px;border-radius:12px;margin-bottom:15px;text-align:center;">
+        <p style="color:#FF6B00;font-size:1.2rem;font-family:'Outfit';font-weight:bold;font-style:italic;">"Soy una persona de enfoque inquebrantable"</p>
+        <p style="color:#aaa;font-size:0.75rem;margin-top:5px;">El sustantivo cambia tu comportamiento más que el verbo.</p>
+      </div>
+      <p style="color:#fff;font-size:0.8rem;margin-bottom:10px;">¿A qué tarea le dedicarás tu atención absoluta ahora?</p>
+      <input type="text" placeholder="Mi tarea es..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
+      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Sellar Pacto y Empezar</button>
+    `
+  },
+  'regla10': {
+    title: 'Regla de 10 Minutos',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Cuando sientas el impulso incontrolable de distraerte, espera 10 minutos. Casi siempre el impulso desaparece como una ola.</p>
+      <div style="text-align:center;margin:30px 0;">
+        <div id="f-timer" style="font-size:4.5rem;font-family:'Outfit';color:#FF6B00;font-weight:bold;">10:00</div>
+      </div>
+      <button id="f-start-btn" onclick="startFocusTimer()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Surfear el Impulso (10m)</button>
+    `
+  }
+};
+
+let fInterval;
+function launchFocus(id) {
+  const data = FOCUS_DATA[id];
+  document.getElementById('focus-title').innerText = data.title;
+  document.getElementById('focus-content').innerHTML = data.html;
+  document.getElementById('focus-modal').style.display = 'block';
+  clearInterval(fInterval);
+}
+
+function closeFocus() {
+  document.getElementById('focus-modal').style.display = 'none';
+  clearInterval(fInterval);
+}
+
+function startFocusTimer() {
+  let btn = document.getElementById('f-start-btn');
+  btn.style.display = 'none';
+  let timeLeft = 600;
+  let timerDisplay = document.getElementById('f-timer');
+  
+  fInterval = setInterval(() => {
+    timeLeft--;
+    let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    let s = (timeLeft % 60).toString().padStart(2, '0');
+    timerDisplay.innerText = m + ":" + s;
+    if(timeLeft <= 0) {
+      clearInterval(fInterval);
+      timerDisplay.innerText = "¡Listo!";
+      timerDisplay.style.color = "#10b981";
+    }
+  }, 1000);
+}
+
+// DYNAMIC INJECTION FOR MUJERES MENTORAS
+setTimeout(() => {
+  const focusHtml = `
+    <div id="focus-injected" class="kit-section-title" style="margin-top:24px;">🎯 FOCUS (Enfoque Profundo)</div>
+    <p style="font-size:.78rem;color:var(--text-secondary);margin-bottom:12px;margin-top:-6px">Técnicas científicas para blindar tu atención.</p>
+    <div class="crisis-grid crisis-grid-mm" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('auditoria')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">🔍</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Auditoría Triggers</span></div>
+      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('pacto')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">✍️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Pacto Identidad</span></div>
+      <div class="crisis-btn crisis-btn-mm" style="grid-column: 1 / -1; display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; cursor:pointer;" onclick="launchFocus('regla10')"><span class="cb-icon" style="margin:0; font-size:1.4rem;">⏱️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Regla 10 Minutos</span></div>
+    </div>
+  `;
+
+  if (typeof window.renderKitMentoria !== 'undefined') {
+    const origRender = window.renderKitMentoria;
+    window.renderKitMentoria = function() {
+      origRender();
+      setTimeout(() => {
+        const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
+        if (grid && !document.getElementById('focus-injected')) {
+           grid.insertAdjacentHTML('afterend', focusHtml);
+        }
+      }, 50);
+    };
+    
+    // Also inject if it's already active
+    if (document.getElementById('v-kit') && document.getElementById('v-kit').classList.contains('active')) {
+      const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
+      if (grid && !document.getElementById('focus-injected')) {
+         grid.insertAdjacentHTML('afterend', focusHtml);
+      }
+    }
+  } else {
+    // Fallback for files that use static HTML
+    const grid = document.querySelector('.crisis-grid');
+    if (grid && !document.getElementById('focus-injected')) {
+        grid.insertAdjacentHTML('afterend', focusHtml);
+    }
+  }
+}, 500);
+</script>
+
+</body>
+</html>

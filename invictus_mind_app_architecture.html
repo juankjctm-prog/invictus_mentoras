@@ -1,0 +1,263 @@
+
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--font-sans); }
+.section { margin-bottom: 2rem; }
+.section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 0.5px solid var(--color-border-tertiary); }
+.card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; margin-bottom: 0.75rem; }
+.card-featured { border: 2px solid var(--color-border-info); }
+.badge { display: inline-block; font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: var(--border-radius-md); margin-bottom: 6px; }
+.badge-info { background: var(--color-background-info); color: var(--color-text-info); }
+.badge-success { background: var(--color-background-success); color: var(--color-text-success); }
+.badge-warning { background: var(--color-background-warning); color: var(--color-text-warning); }
+.badge-danger { background: var(--color-background-danger); color: var(--color-text-danger); }
+.card-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.card-sub { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+.flow { display: flex; flex-direction: column; gap: 4px; }
+.flow-step { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--color-background-secondary); border-radius: var(--border-radius-md); }
+.step-num { min-width: 22px; height: 22px; border-radius: 50%; background: var(--color-background-info); color: var(--color-text-info); font-size: 11px; font-weight: 500; display: flex; align-items: center; justify-content: center; }
+.step-content { flex: 1; }
+.step-title { font-size: 13px; font-weight: 500; color: var(--color-text-primary); }
+.step-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; line-height: 1.4; }
+.step-time { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+.arrow { text-align: center; color: var(--color-text-tertiary); font-size: 18px; line-height: 1; margin: 2px 0; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 12px; }
+.metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+.metric-val { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+.metric-sub { font-size: 11px; color: var(--color-text-tertiary); margin-top: 2px; }
+.pill { display: inline-block; font-size: 11px; padding: 2px 8px; border-radius: 100px; border: 0.5px solid var(--color-border-tertiary); color: var(--color-text-secondary); margin: 2px 2px 2px 0; }
+.tag-green { background: var(--color-background-success); color: var(--color-text-success); border-color: transparent; }
+.tag-blue { background: var(--color-background-info); color: var(--color-text-info); border-color: transparent; }
+.tag-warn { background: var(--color-background-warning); color: var(--color-text-warning); border-color: transparent; }
+.divider { height: 0.5px; background: var(--color-border-tertiary); margin: 1.5rem 0; }
+.btn { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; padding: 6px 12px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: transparent; color: var(--color-text-primary); cursor: pointer; width: 100%; justify-content: center; margin-top: 8px; }
+.btn:hover { background: var(--color-background-secondary); }
+</style>
+
+<div style="padding: 1rem 0;">
+
+<div class="section">
+  <div class="section-title">Pantalla 0 — Diagn&#243;stico inicial obligatorio</div>
+  <div class="card card-featured">
+    <span class="badge badge-info">Antes del D&#237;a 1 — una sola vez</span>
+    <div class="card-title">Test PPM y comprensi&#243;n base</div>
+    <div class="card-sub">La app muestra un texto con conteo exacto de palabras. El usuario lee. El sistema cronometra autom&#225;ticamente y calcula PPM y % de comprensi&#243;n al responder 4 preguntas r&#225;pidas.</div>
+  </div>
+  <div class="grid2">
+    <div class="metric">
+      <div class="metric-label">PPM inicial t&#237;pico</div>
+      <div class="metric-val">130</div>
+      <div class="metric-sub">Adulto latinoamericano promedio</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Meta al D&#237;a 78</div>
+      <div class="metric-val">340+</div>
+      <div class="metric-sub">Con 75%+ de comprensi&#243;n</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Flujo de una sesi&#243;n — 12 fases en 30 min</div>
+  <div class="flow">
+    <div class="flow-step">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <div class="step-title">Ancla de sesi&#243;n</div>
+        <div class="step-sub">Intenci&#243;n escrita en 60 seg. La app muestra la frase del d&#237;a, el usuario la personaliza.</div>
+        <div class="step-time">1 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <div class="step-title">Lectura cronometrada</div>
+        <div class="step-sub">Texto aparece con cursor adaptativo. Cron&#243;metro visible. Al terminar: PPM calculado autom&#225;ticamente, sin que el usuario haga la f&#243;rmula.</div>
+        <div class="step-time">10-15 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <div class="step-title">Vocabulario activo</div>
+        <div class="step-sub">3 palabras del d&#237;a en tarjetas flip. El usuario las voltea, las ve en contexto, confirma que las reconoce.</div>
+        <div class="step-time">incluido en lectura</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <div class="step-title">Recall activo — 4 preguntas interactivas</div>
+        <div class="step-sub">El texto desaparece. 4 preguntas Duolingo-style: opci&#243;n m&#250;ltiple, deslizadores, completar frase. Sin escritura libre.</div>
+        <div class="step-time">3-5 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <div class="step-title">Imagen mental + Codificaci&#243;n dual</div>
+        <div class="step-sub">Pantalla en blanco. Instrucci&#243;n de visualizaci&#243;n. Timer de 60 seg. El usuario confirma que visualiz&#243;.</div>
+        <div class="step-time">1 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">6</div>
+      <div class="step-content">
+        <div class="step-title">M&#233;todo de Loci</div>
+        <div class="step-sub">La app indica el lugar del Palacio del d&#237;a. El usuario ancla los 3 conceptos. Se guardan para repaso del d&#237;a siguiente.</div>
+        <div class="step-time">1 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">7</div>
+      <div class="step-content">
+        <div class="step-title">Razonamiento anal&#243;gico</div>
+        <div class="step-sub">La app muestra la analog&#237;a incompleta. El usuario elige entre 3 opciones o escribe la palabra clave.</div>
+        <div class="step-time">1 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">8</div>
+      <div class="step-content">
+        <div class="step-title">Ejercicio pr&#225;ctico</div>
+        <div class="step-sub">Preguntas guiadas con campos de texto para Libreta IM. La app muestra las preguntas; el usuario escribe a mano en su libreta f&#237;sica y confirma que lo hizo.</div>
+        <div class="step-time">5 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">9</div>
+      <div class="step-content">
+        <div class="step-title">T&#233;cnica Feynman (cada 7 d&#237;as)</div>
+        <div class="step-sub">D&#237;as normales: saltada autom&#225;ticamente. D&#237;a Feynman: grabaci&#243;n de 90 seg o escritura libre.</div>
+        <div class="step-time">solo d&#237;as 7, 14, 21...</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">10</div>
+      <div class="step-content">
+        <div class="step-title">Metacognici&#243;n expl&#237;cita</div>
+        <div class="step-sub">3 preguntas r&#225;pidas con respuesta por deslizador o selecci&#243;n. 30 seg total.</div>
+        <div class="step-time">30 seg</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step">
+      <div class="step-num">11</div>
+      <div class="step-content">
+        <div class="step-title">Ensayo del Yo Futuro</div>
+        <div class="step-sub">La app muestra las frases incompletas del d&#237;a. El usuario las escribe a mano en Libreta IM y confirma.</div>
+        <div class="step-time">1 min</div>
+      </div>
+    </div>
+    <div class="arrow">&#8595;</div>
+    <div class="flow-step" style="border: 0.5px solid var(--color-border-info);">
+      <div class="step-num" style="background: var(--color-background-success); color: var(--color-text-success);">12</div>
+      <div class="step-content">
+        <div class="step-title">Registro PPM + sesi&#243;n completada</div>
+        <div class="step-sub">Dashboard muestra el PPM del d&#237;a, delta vs d&#237;a anterior, curva de la semana. Confetti + punto de racha.</div>
+        <div class="step-time">30 seg</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-title">Modo sueño — 3 opciones t&#233;cnicas</div>
+
+  <div class="card card-featured">
+    <span class="badge badge-success">Recomendada — mayor impacto</span>
+    <div class="card-title">Opci&#243;n A — Audio generado autom&#225;ticamente</div>
+    <div class="card-sub">Al terminar la sesi&#243;n, la app genera un audio de 8 min con TTS (voz natural): resumen de conceptos del d&#237;a + afirmaci&#243;n + 3 palabras del vocabulario. El audio se superpone a binaural beats Theta 6Hz pregrabados. El usuario lo escucha con auriculares mientras se duerme.</div>
+    <div style="margin-top: 10px;">
+      <span class="pill tag-green">Alta retenci&#243;n (TMR)</span>
+      <span class="pill tag-green">Autom&#225;tico — sin extra trabajo</span>
+      <span class="pill tag-blue">TTS via ElevenLabs / OpenAI</span>
+      <span class="pill tag-warn">Requiere internet o precarga</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge badge-warning">Opci&#243;n B — Audio pregrabado por bloque</span>
+    <div class="card-title">Audio de sesi&#243;n grabado en estudio</div>
+    <div class="card-sub">T&#250; grabas un audio de 8 min por sesi&#243;n con tu voz. Mucho m&#225;s personal e &#237;ntimo que TTS. Los usuarios escuchan tu voz mientras se duermen — conexi&#243;n directa con la mentora del programa. Mayor costo de producci&#243;n pero mayor percepci&#243;n de valor.</div>
+    <div style="margin-top: 10px;">
+      <span class="pill tag-green">Tu voz = conexi&#243;n real</span>
+      <span class="pill tag-green">Sin dependencia de internet</span>
+      <span class="pill tag-warn">78 audios a grabar</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <span class="badge badge-danger">Opci&#243;n C — M&#237;nima viable (MVP)</span>
+    <div class="card-title">Audio gen&#233;rico por bloque + beats</div>
+    <div class="card-sub">Un solo audio de resumen por bloque (8 audios totales, no 78). Menos personalizado pero viable para lanzar r&#225;pido. Se puede mejorar a Opci&#243;n A o B en v2.</div>
+    <div style="margin-top: 10px;">
+      <span class="pill tag-green">Solo 8 audios a producir</span>
+      <span class="pill tag-warn">Menos precisi&#243;n cient&#237;fica TMR</span>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="section">
+  <div class="section-title">Dashboard de progreso — lo que el usuario ve</div>
+  <div class="grid2">
+    <div class="metric">
+      <div class="metric-label">Mi PPM hoy</div>
+      <div class="metric-val">187</div>
+      <div class="metric-sub">+12 vs ayer</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Comprensi&#243;n</div>
+      <div class="metric-val">82%</div>
+      <div class="metric-sub">Meta: 75%+</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Racha actual</div>
+      <div class="metric-val">23 d&#237;as</div>
+      <div class="metric-sub">Mi record: 31</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Bloque</div>
+      <div class="metric-val">2 / 8</div>
+      <div class="metric-sub">D&#237;a 14 de 78</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">Tecnolog&#237;a recomendada — 3 caminos</div>
+  <div class="card">
+    <span class="badge badge-info">Camino 1 — No-code MVP</span>
+    <div class="card-title">FlutterFlow o Adalo</div>
+    <div class="card-sub">Construyes la app visual sin c&#243;digo. Integras el texto, el cron&#243;metro, las preguntas y el audio. Costo: $0-500. Tiempo: 4-8 semanas. Ideal para validar con las 50 primeras usuarias antes de invertir en desarrollo.</div>
+  </div>
+  <div class="card">
+    <span class="badge badge-success">Camino 2 — Freelance MVP</span>
+    <div class="card-title">Desarrollador React Native</div>
+    <div class="card-sub">App nativa iOS + Android. Cron&#243;metro preciso, audio nativo, notificaciones push para la racha. Costo: $2,500-4,000. Tiempo: 8-12 semanas. Mejor experiencia de usuario que no-code.</div>
+  </div>
+  <div class="card">
+    <span class="badge badge-warning">Camino 3 — Web app primero</span>
+    <div class="card-title">PWA (Progressive Web App)</div>
+    <div class="card-sub">Funciona en el navegador del celular, se instala como app sin pasar por App Store. Costo: $800-1,500. Tiempo: 3-5 semanas. Ideal para el piloto Tecna Corp — las ingenieras la usan desde el celular sin instalar nada.</div>
+  </div>
+  <button class="btn" onclick="sendPrompt('Recomiéndame qué camino técnico elegir para el MVP de Invictus Mind considerando que necesito validar con las mentoras de Tecna primero')">
+    <i class="ti ti-arrow-right" aria-hidden="true"></i> &#191;Cu&#225;l me recomiendas para Tecna?
+  </button>
+</div>
+
+</div>

@@ -1,0 +1,1371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invictus Mind - App Mockup</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-deep: #050508;
+            --bg-panel: rgba(20, 25, 35, 0.6);
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            
+            /* Dualidad Invictus */
+            --fire-accent: #FF5E00;
+            --fire-glow: rgba(255, 94, 0, 0.3);
+            --water-accent: #00E5FF;
+            --water-glow: rgba(0, 229, 255, 0.3);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --text-muted: #475569;
+            
+            --success: #10b981;
+            --locked: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-deep);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 15% 50%, var(--fire-glow), transparent 25%),
+                radial-gradient(circle at 85% 30%, var(--water-glow), transparent 25%);
+        }
+
+        /* Contenedor principal */
+        .app-container {
+            width: 100%;
+            max-width: 428px;
+            height: 100vh;
+            max-height: 926px;
+            background-color: var(--bg-deep);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        @media (min-height: 950px) {
+            .app-container {
+                height: 926px;
+                border-radius: 40px;
+                border: 8px solid #1a1a1a;
+            }
+        }
+
+        /* HEADER */
+        .app-header {
+            padding: 40px 24px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            background: linear-gradient(to bottom, rgba(5,5,8,1) 0%, rgba(5,5,8,0) 100%);
+        }
+
+        .header-greeting h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .header-greeting p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .profile-pic {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--fire-accent), var(--water-accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: white;
+            box-shadow: 0 0 15px var(--water-glow);
+        }
+
+        /* SCROLLABLE CONTENT AREA */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 24px 100px;
+            scrollbar-width: none;
+        }
+        .content-area::-webkit-scrollbar { display: none; }
+
+        /* VIEWS */
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease forwards;
+        }
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- DASHBOARD VIEW --- */
+        .progress-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0 40px;
+            position: relative;
+        }
+
+        .progress-ring-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .progress-ring {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .progress-ring circle {
+            fill: none;
+            stroke-width: 8;
+            stroke-linecap: round;
+        }
+
+        .ring-bg { stroke: var(--bg-glass); }
+        .ring-fill {
+            stroke: url(#gradient);
+            stroke-dasharray: 500;
+            stroke-dashoffset: 230; 
+            transition: stroke-dashoffset 1.5s ease-out;
+        }
+
+        .progress-text {
+            position: absolute;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .progress-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--fire-accent), var(--water-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .progress-text p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .section-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .blocks-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .block-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.2s;
+            cursor: pointer;
+        }
+
+        .block-card:active { transform: scale(0.98); }
+
+        .block-card.active {
+            border-color: var(--fire-accent);
+            background: linear-gradient(145deg, rgba(255,94,0,0.05) 0%, rgba(20,25,35,0.6) 100%);
+            box-shadow: 0 5px 20px var(--fire-glow);
+        }
+
+        .block-card.locked {
+            opacity: 0.5;
+            border-color: transparent;
+            cursor: not-allowed;
+        }
+
+        .block-number {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--bg-deep);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            margin-right: 16px;
+            border: 1px solid var(--border-glass);
+        }
+
+        .block-card.completed .block-number {
+            background: var(--success);
+            color: var(--bg-deep);
+            border: none;
+        }
+        
+        .block-card.active .block-number {
+            background: var(--fire-accent);
+            color: white;
+            border: none;
+        }
+
+        .block-info h3 {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .block-info p {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* --- SESSION VIEW (THE 12 PHASES) --- */
+        .session-header {
+            margin-bottom: 30px;
+        }
+        
+        .session-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: var(--fire-glow);
+            color: var(--fire-accent);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .session-header h2 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.8rem;
+            line-height: 1.2;
+            margin-bottom: 8px;
+        }
+
+        .phases-timeline {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .phases-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-glass);
+        }
+
+        .phase-item {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .phase-dot {
+            position: absolute;
+            left: -25px;
+            top: 4px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--bg-deep);
+            border: 2px solid var(--water-accent);
+            z-index: 2;
+        }
+
+        .phase-item.completed .phase-dot {
+            background: var(--success);
+            border-color: var(--success);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .phase-item.active .phase-dot {
+            background: var(--bg-deep);
+            border-color: var(--fire-accent);
+            box-shadow: 0 0 10px var(--fire-glow);
+        }
+
+        .phase-content {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .phase-item.active .phase-content {
+            border-color: var(--fire-glow);
+        }
+
+        .phase-content h4 {
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-primary);
+        }
+
+        .phase-content .duration {
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        .phase-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        /* Elementos específicos de lectura y forms */
+        .reader-box {
+            margin-top: 12px;
+            padding: 16px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            border-left: 3px solid var(--fire-accent);
+            max-height: 250px;
+            overflow-y: auto;
+        }
+        
+        .reader-box p {
+            margin-bottom: 12px;
+        }
+
+        .reader-box::-webkit-scrollbar { width: 4px; }
+        .reader-box::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 4px; }
+
+        .btn-primary {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--fire-accent), #ff8c00);
+            color: white;
+            border: none;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 16px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px var(--fire-glow);
+            transition: all 0.3s;
+        }
+
+        .btn-primary.active-timer {
+            background: linear-gradient(135deg, var(--water-accent), #00b4cc);
+            box-shadow: 0 5px 15px var(--water-glow);
+        }
+
+        .btn-primary:active { transform: translateY(2px); }
+        
+        .btn-bionic {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s;
+        }
+        
+        .btn-bionic:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .btn-bionic.active-bionic {
+            background: var(--water-glow);
+            border-color: var(--water-accent);
+            color: var(--water-accent);
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            resize: none;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--water-accent);
+            box-shadow: 0 0 10px var(--water-glow);
+        }
+
+        /* Componente de Audio Binaural */
+        .audio-player {
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+            padding: 12px 16px;
+            background: rgba(0, 229, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .audio-player:hover { background: rgba(0, 229, 255, 0.1); }
+
+        .play-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--water-accent);
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 16px;
+            box-shadow: 0 0 15px var(--water-glow);
+            transition: all 0.3s;
+            cursor: pointer;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .play-btn::after {
+            content: '';
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid var(--bg-deep);
+            margin-left: 3px;
+            transition: all 0.3s;
+        }
+        
+        .play-btn.playing { background: #00b4cc; }
+        .play-btn.playing::after {
+            border: none;
+            width: 12px;
+            height: 12px;
+            background-color: var(--bg-deep);
+            margin-left: 0;
+            border-radius: 2px;
+        }
+
+        .sound-waves {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 28px;
+            flex: 1;
+        }
+
+        .wave {
+            flex: 1;
+            background: var(--water-accent);
+            border-radius: 3px;
+            height: 15%;
+            transition: height 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .sound-waves.active .wave {
+            opacity: 1;
+            animation: pulse 1s infinite ease-in-out alternate;
+        }
+
+        .sound-waves.active .wave:nth-child(2) { animation-delay: 0.2s; }
+        .sound-waves.active .wave:nth-child(3) { animation-delay: 0.4s; }
+        .sound-waves.active .wave:nth-child(4) { animation-delay: 0.1s; }
+        .sound-waves.active .wave:nth-child(5) { animation-delay: 0.5s; }
+        .sound-waves.active .wave:nth-child(6) { animation-delay: 0.3s; }
+        .sound-waves.active .wave:nth-child(7) { animation-delay: 0.6s; }
+        .sound-waves.active .wave:nth-child(8) { animation-delay: 0.2s; }
+        .sound-waves.active .wave:nth-child(9) { animation-delay: 0.7s; }
+
+        @keyframes pulse {
+            0% { height: 15%; }
+            100% { height: 100%; }
+        }
+
+        /* --- LIBRETA VIEW --- */
+        .note-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border-left: 4px solid var(--fire-accent);
+            animation: fadeIn 0.4s ease;
+        }
+
+        .note-card h3 {
+            font-family: 'Outfit', sans-serif;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .note-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .note-date {
+            display: block;
+            margin-top: 12px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-align: right;
+        }
+
+        /* NAVIGATION BAR */
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background: rgba(10, 15, 22, 0.95);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding-bottom: 15px; 
+            z-index: 100;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-muted);
+            cursor: pointer;
+            width: 33%;
+            transition: color 0.3s;
+        }
+
+        .nav-item.active { color: var(--water-accent); }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            margin-bottom: 4px;
+        }
+
+        .nav-label {
+            font-size: 0.65rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        /* --- MODAL (INTERACTIVE LIBRETA) --- */
+        .modal-overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            z-index: 200;
+            display: none;
+            justify-content: center;
+            align-items: flex-end; /* sale de abajo hacia arriba */
+        }
+        .modal-overlay.active {
+            display: flex;
+            animation: fadeInModal 0.3s forwards;
+        }
+        .modal-content {
+            width: 100%;
+            background: var(--bg-deep);
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            border-top: 2px solid var(--water-accent);
+            padding: 24px;
+            box-shadow: 0 -10px 30px rgba(0, 229, 255, 0.15);
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: translateY(100%);
+            animation: slideUp 0.3s forwards;
+        }
+
+        @keyframes slideUp {
+            to { transform: translateY(0); }
+        }
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+        .close-modal {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        .modal-input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            padding: 14px;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--water-accent);
+            box-shadow: 0 0 10px var(--water-glow);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="app-header">
+            <div class="header-greeting">
+                <h1>Hola, Marjorie</h1>
+                <p>Tu transformación continúa.</p>
+            </div>
+            <div class="profile-pic">M</div>
+        </header>
+
+        <!-- CONTENT AREA -->
+        <main class="content-area">
+            
+            <!-- VIEW 1: DASHBOARD -->
+            <div id="view-dashboard" class="view">
+                <div class="progress-section">
+                    <div class="progress-ring-container">
+                        <svg class="progress-ring" viewBox="0 0 100 100">
+                            <defs>
+                                <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#FF5E00" />
+                                    <stop offset="100%" stop-color="#00E5FF" />
+                                </linearGradient>
+                            </defs>
+                            <circle class="ring-bg" cx="50" cy="50" r="45"></circle>
+                            <circle class="ring-fill" cx="50" cy="50" r="45"></circle>
+                        </svg>
+                        <div class="progress-text">
+                            <h2>41</h2>
+                            <p>De 78 Días</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <span>Master Track</span>
+                    <span style="font-size: 0.8rem; color: var(--fire-accent);">🔥 Racha: 12 Días</span>
+                </div>
+
+                <div class="blocks-grid">
+                    <div class="block-card completed">
+                        <div class="block-number">✓</div>
+                        <div class="block-info">
+                            <h3>Bloque 1 al 4</h3>
+                            <p>Completados con éxito.</p>
+                        </div>
+                    </div>
+                    <div class="block-card active" onclick="switchTab('view-session', this)">
+                        <div class="block-number">5</div>
+                        <div class="block-info">
+                            <h3>Bloque 5: Red de Poder y Política</h3>
+                            <p style="color: var(--fire-accent);">Día 41: La Realidad del Poder</p>
+                        </div>
+                    </div>
+                    <div class="block-card locked">
+                        <div class="block-number">6</div>
+                        <div class="block-info">
+                            <h3>Bloque 6: Del Mentoring al Sponsorship</h3>
+                            <p>Bloqueado. Requiere finalizar Bloque 5.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW 2: DAILY SESSION (12 PHASES) -->
+            <div id="view-session" class="view active">
+                <div class="session-header">
+                    <span class="session-badge">Bloque 5 • Día 41</span>
+                    <h2>La Realidad del Poder Corporativo</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Por Jeffrey Pfeffer (Stanford University)</p>
+                </div>
+
+                <div class="phases-timeline">
+                    <!-- Fase 1: Ancla -->
+                    <div class="phase-item completed">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>1. Ancla de Sesión <span class="duration">1 min</span></h4>
+                            <p class="phase-text">Inhala en 4s, sostén en 4s, exhala en 4s. Sistema nervioso regulado.</p>
+                        </div>
+                    </div>
+
+                    <!-- Fase 2: Lectura Cronometrada con Bionic Reading -->
+                    <div class="phase-item active" id="fase2-container">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>2. Lectura Cronometrada <span class="duration">12 min</span></h4>
+                            
+                            <button class="btn-bionic" id="btn-bionic" onclick="toggleBionicReading()">⚡ Activar Lectura Biónica</button>
+
+                            <div class="reader-box">
+                                <p class="text-title" style="color: white; font-size: 0.95rem; font-family: 'Outfit', sans-serif;">EL MITO DE LA MERITOCRACIA Y EL ASCENSO EJECUTIVO</p>
+                                <p class="text-body">Una de las debilidades estratégicas más prevalentes entre mujeres ejecutivas en entornos técnicos (B2B, STEM, QHSE, finanzas) es la convicción inquebrantable de que el excelente desempeño técnico es el único requisito para el ascenso corporativo. Jeffrey Pfeffer, investigador de Stanford y autor de "Power: Why Some People Have It and Others Don't", documentó mediante décadas de análisis organizacional que la correlación estadística entre el desempeño laboral puro y el ascenso en la alta gerencia es sorprendentemente débil (a menudo inferior al 0.3 en regresiones múltiples).</p>
+                                <p class="text-body">El desempeño operativo superior es lo que Pfeffer llama un "ticket de entrada": te califica para no ser despedida y mantener el puesto. Pero la promoción, la asignación de recursos presupuestarios y la supervivencia en los niveles de dirección dependen abrumadoramente del capital político, la visibilidad estratégica y la habilidad para influir en aquellos con poder de veto.</p>
+                                <p class="text-body">Muchas mujeres internalizan el concepto de la política corporativa como una práctica "sucia", poco ética o manipuladora, y optan activamente por alejarse de ella ("yo vengo aquí a trabajar, no a hacer política"). Este alejamiento voluntario de la red de poder deja a sus departamentos desfinanciados y a sus propias carreras estancadas. Renunciar a la política no te exime de sus consecuencias; solo te deja a merced de quienes sí saben jugarla.</p>
+                                <p class="text-body">Tu responsabilidad como mentora es desmitificar el poder. Debes enseñarle a tu mentoreada que el poder no es inherentemente malvado; es una herramienta amoral (como la electricidad) indispensable para escalar soluciones sistémicas. Si ella quiere que sus impecables procesos de seguridad o auditoría se implementen globalmente, necesitará aliados con presupuesto y capital de decisión. Y eso se logra mapeando lealtades, entendiendo las agendas ocultas de los VPs, y aprendiendo a intercambiar favores corporativos sin remordimientos.</p>
+                            </div>
+                            
+                            <!-- Interfaz del Cronómetro Real -->
+                            <div id="ppm-result" style="display:none; text-align:center; padding: 10px; background: rgba(16,185,129,0.1); color: var(--success); border-radius: 8px; margin-top: 12px; font-weight: bold;"></div>
+                            
+                            <button class="btn-primary" id="btn-timer" onclick="toggleTimer()">Iniciar Lectura Cronometrada</button>
+                        </div>
+                    </div>
+
+                    <!-- Fase 3: Vocabulario Activo -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>3. Vocabulario Activo <span class="duration">1 min</span></h4>
+                            <p class="phase-text">Término clave del día: <strong>Capital Político</strong>. Escribe tu propia definición operativa:</p>
+                            <input type="text" class="form-input" style="height: 40px;" placeholder="Ej: La capacidad de influencia...">
+                        </div>
+                    </div>
+
+                    <!-- Fase 4: Recall Activo (LA ESCRITURA ESTÁ AQUÍ) -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>4. Recall Activo <span class="duration">4 min</span></h4>
+                            <p class="phase-text">Sin mirar el texto, responde (Obliga al cerebro a la extracción):</p>
+                            <p style="font-size: 0.8rem; font-weight: 500; margin-top: 12px; color: white;">[Literal] ¿Cuál es la diferencia entre "desempeño laboral puro" y "capital político"?</p>
+                            <textarea class="form-input" style="height: 60px;" placeholder="..."></textarea>
+                            <p style="font-size: 0.8rem; font-weight: 500; margin-top: 12px; color: white;">[Inferencial] ¿Por qué "evadir la política" penaliza a tu equipo?</p>
+                            <textarea class="form-input" style="height: 60px;" placeholder="..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Fase 5: Codificación Dual -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>5. Codificación Dual <span class="duration">1 min</span></h4>
+                            <p class="phase-text">Visualiza un organigrama. Dibuja mentalmente líneas rojas que conecten a las personas que tienen "poder informal" fuera de su rol. ¿Quién tiene más líneas rojas en tu empresa?</p>
+                            <input type="text" class="form-input" style="height: 40px;" placeholder="Nombre del VP o contacto clave...">
+                        </div>
+                    </div>
+
+                    <!-- Fase 6: Loci -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>6. Método de Loci <span class="duration">1 min</span></h4>
+                            <p class="phase-text">Cierra los ojos y coloca el concepto del "Ticket de Entrada (Desempeño)" en la puerta principal de tu oficina. ¿Lo tienes? Haz clic al terminar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Fase 7: Razonamiento Analógico -->
+                    <div class="phase-item"> 
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>7. Razonamiento Analógico <span class="duration">1 min</span></h4>
+                            <p class="phase-text" style="color: white; font-weight: 500;">Completa la analogía mental de Pfeffer:</p>
+                            <p class="phase-text" style="font-style: italic; border-left: 2px solid var(--fire-accent); padding-left: 10px;">"El desempeño técnico es a la corporación lo que un buen motor es a un barco. Sin embargo, el Capital Político es el..."</p>
+                            <input type="text" class="form-input" style="height: 40px; margin-top: 8px;" placeholder="Ej: ...el timón que da la dirección." value="el timón que define el destino.">
+                        </div>
+                    </div>
+
+                    <!-- Fase 8: Práctico -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>8. Ejercicio Práctico <span class="duration">5 min</span></h4>
+                            <p class="phase-text">Identifica una oportunidad de presupuesto reciente que perdiste contra alguien menos técnico pero más político. ¿Qué favor o alianza le faltó a tu estrategia?</p>
+                            <textarea class="form-input" style="height: 70px;" placeholder="Análisis retrospectivo..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Fase 9: Feynman -->
+                    <div class="phase-item completed">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>9. Técnica Feynman <span class="duration">0 min</span></h4>
+                            <p class="phase-text">Esta etapa se aplica cada 7 sesiones para integración sistémica. Hoy descansa.</p>
+                        </div>
+                    </div>
+
+                    <!-- Fase 10: Metacognición -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>10. Metacognición <span class="duration">30 seg</span></h4>
+                            <p class="phase-text">¿Qué tan resistencia emocional sientes a abandonar tu creencia en la "meritocracia pura"? (1 = Ninguna, 10 = Mucha)</p>
+                            <input type="range" min="1" max="10" value="5" style="width: 100%; margin-top:10px; accent-color: var(--fire-accent);">
+                        </div>
+                    </div>
+
+                    <!-- Fase 11: Yo Futuro -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>11. Ensayo del Yo Futuro <span class="duration">1 min</span></h4>
+                            <p class="phase-text">Cierra los ojos e imagina tu próxima reunión de directorio. Mírate no justificando tu trabajo operativo, sino exigiendo recursos como una estratega.</p>
+                        </div>
+                    </div>
+
+                    <!-- Fase 12: Modo Sueño -->
+                    <div class="phase-item">
+                        <div class="phase-dot"></div>
+                        <div class="phase-content">
+                            <h4>12. Modo Sueño (Binaural) <span class="duration">8 min</span></h4>
+                            <p class="phase-text">Ponte audífonos. Frecuencia portadora 174Hz + Frecuencia Theta 6Hz para consolidación de memoria nocturna (Neuroplasticidad).</p>
+                            
+                            <div class="audio-player" onclick="toggleSleepMode(event)" style="margin-top:15px;">
+                                <button class="play-btn" id="audio-play-btn"></button>
+                                <div class="sound-waves" id="audio-waves">
+                                    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+                                    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+                                    <div class="wave"></div><div class="wave"></div><div class="wave"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin de fases -->
+                </div>
+            </div>
+
+            <!-- VIEW 3: LIBRETA (CUADERNO DE TRABAJO) -->
+            <div id="view-libreta" class="view">
+                <div class="session-header">
+                    <h2>Libreta Invictus</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Tu Cuaderno de Trabajo Corporativo. Todas las plantillas y auditorías guardadas.</p>
+                </div>
+
+                <!-- Sección: Guiones de Liderazgo -->
+                <div class="section-title" style="margin-top: 20px;">
+                    <span>📂 Guiones de Mentoría 1:1</span>
+                </div>
+                <div class="note-card">
+                    <h3>Guion de Candor Radical (Feedback Duro)</h3>
+                    <p style="margin-bottom:8px;"><strong>Contexto:</strong> Usar cuando una ejecutiva se defiende de la crítica operativa.</p>
+                    <div style="background:rgba(0,0,0,0.4); padding:10px; border-radius:8px; font-style:italic; font-size:0.8rem; border-left: 2px solid var(--fire-accent);">
+                        "No estoy criticando tu capacidad técnica, que es brillante. Estoy criticando el proceso de comunicación que usaste en la junta. El proceso falló, tú no."
+                    </div>
+                    <span class="note-date">Desbloqueado en Bloque 3</span>
+                </div>
+
+                <!-- Sección: Auditoría Política -->
+                <div class="section-title" id="auditorias-section" style="margin-top: 20px;">
+                    <span>📂 Auditorías de Poder</span>
+                </div>
+                
+                <!-- El contenedor donde se inyectarán las nuevas auditorías -->
+                <div id="auditorias-container">
+                    <div class="note-card default-audit-card" style="border-left-color: var(--water-accent);">
+                        <h3>Plantilla Base: Mapeo de Stakeholders</h3>
+                        <p style="margin-bottom:8px;">Antes de pedir presupuesto, mapear a los actores clave de la corporación para garantizar la viabilidad política de la iniciativa.</p>
+                        
+                        <button class="btn-primary" style="margin-top:12px; width:100%; justify-content:center; background: transparent; border: 1px solid var(--water-accent); color:var(--water-accent); font-size: 0.9rem; padding: 10px;" onclick="openAuditModal()">+ Llenar Nueva Auditoría ✍️</button>
+                    </div>
+                </div>
+
+                <!-- Sección: Trabajo Personal -->
+                <div class="section-title" style="margin-top: 20px;">
+                    <span>📂 Inventario Metacognitivo</span>
+                </div>
+                <div class="note-card" style="border-left-color: var(--success);">
+                    <h3>Registro de Arquetipos Limitantes</h3>
+                    <p><strong>Diagnóstico personal:</strong> "El Síndrome de la Supermujer" (Evito delegar tareas por miedo a perder el control de calidad perfecto).</p>
+                    <p style="margin-top:8px;"><strong>Micro-desafío:</strong> Enviar el reporte financiero este viernes con un 80% de perfección visual, sin revisar los formatos de celda. Soportar la incomodidad.</p>
+                    <span class="note-date">Guardado en Bloque 4</span>
+                </div>
+            </div>
+
+        </main>
+
+        <!-- BOTTOM NAV -->
+        <nav class="bottom-nav">
+            <div class="nav-item" onclick="switchTab('view-dashboard', this)">
+                <div class="nav-icon">📊</div>
+                <span class="nav-label">Home</span>
+            </div>
+            <div class="nav-item active" onclick="switchTab('view-session', this)">
+                <div class="nav-icon">⚡</div>
+                <span class="nav-label">Sesión</span>
+            </div>
+            <div class="nav-item" onclick="switchTab('view-libreta', this)">
+                <div class="nav-icon">📓</div>
+                <span class="nav-label">Libreta</span>
+            </div>
+        </nav>
+        
+        <!-- MODAL INTERACTIVO PARA LLENAR AUDITORÍA -->
+        <div class="modal-overlay" id="audit-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 style="font-family: 'Outfit'; font-size: 1.2rem; color: var(--water-accent);">Nueva Auditoría de Poder</h3>
+                    <button class="close-modal" onclick="closeAuditModal()">×</button>
+                </div>
+                
+                <div class="form-group">
+                    <label>Nombre del Proyecto / Iniciativa</label>
+                    <input type="text" class="modal-input" id="input-proyecto" placeholder="Ej: Aprobación Presupuesto Q3">
+                </div>
+                
+                <div class="form-group">
+                    <label>Promotor Clave (Alto Poder, Alto Interés)</label>
+                    <input type="text" class="modal-input" id="input-promotor" placeholder="Ej: Director de Operaciones">
+                </div>
+                
+                <div class="form-group">
+                    <label>Bloqueador Sistémico (Alto Poder, Bajo Interés)</label>
+                    <input type="text" class="modal-input" id="input-bloqueador" placeholder="Ej: Gerencia Legal o Finanzas">
+                </div>
+                
+                <div class="form-group">
+                    <label>Capital de Tarea a Ofrecer (Moneda de Cambio)</label>
+                    <textarea class="modal-input" id="input-moneda" style="height: 70px; resize: none;" placeholder="Ej: Si agilizan la firma legal, mi equipo auditará los reportes que ellos tienen atrasados..."></textarea>
+                </div>
+                
+                <button class="btn-primary" style="background: linear-gradient(135deg, var(--water-accent), #00b4cc); box-shadow: 0 5px 15px var(--water-glow); margin-top: 20px;" onclick="saveAudit()">Guardar en Libreta</button>
+            </div>
+        </div>
+        
+    </div>
+
+    <script>
+        function switchTab(viewId, element) {
+            document.querySelectorAll('.view').forEach(view => view.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(element.classList.contains('block-card')) {
+                document.querySelectorAll('.nav-item')[1].classList.add('active');
+            } else {
+                element.classList.add('active');
+            }
+        }
+
+        // --- LECTURA BIÓNICA (NEURO-TIPOGRAFÍA) ---
+        let isBionic = false;
+        let originalText = [];
+
+        function toggleBionicReading() {
+            const paragraphs = document.querySelectorAll('.reader-box p.text-body');
+            const btn = document.getElementById('btn-bionic');
+
+            if (!isBionic) {
+                paragraphs.forEach((p, i) => {
+                    originalText[i] = p.innerHTML; // Guardar original
+                    let words = p.innerText.split(/(\s+)/);
+                    let bionicHtml = words.map(word => {
+                        if (!word.trim()) return word; 
+                        
+                        const match = word.match(/([a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)(.*)/);
+                        if (!match) return `<b>${word}</b>`;
+                        
+                        const alpha = match[1];
+                        const rest = match[2];
+                        const prefix = word.substring(0, word.indexOf(alpha));
+                        
+                        let boldLen = Math.ceil(alpha.length / 2);
+                        if (alpha.length === 3) boldLen = 1;
+                        if (alpha.length > 4) boldLen = Math.ceil(alpha.length * 0.4);
+                        
+                        const boldPart = alpha.substring(0, boldLen);
+                        const normalPart = alpha.substring(boldLen);
+                        
+                        return `${prefix}<b style="font-weight: 700; color: #ffffff; letter-spacing: 0.3px;">${boldPart}</b><span style="opacity: 0.85;">${normalPart}</span>${rest}`;
+                    }).join('');
+                    p.innerHTML = bionicHtml;
+                });
+                isBionic = true;
+                btn.innerHTML = '🧠 Desactivar Lectura Biónica';
+                btn.classList.add('active-bionic');
+            } else {
+                paragraphs.forEach((p, i) => {
+                    p.innerHTML = originalText[i]; 
+                });
+                isBionic = false;
+                btn.innerHTML = '⚡ Activar Lectura Biónica';
+                btn.classList.remove('active-bionic');
+            }
+        }
+
+        // --- CRONÓMETRO REAL Y CÁLCULO DE PPM ---
+        let timerInterval;
+        let secondsPassed = 0;
+        let isTimerRunning = false;
+        const totalWordsD41 = 262; 
+
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer');
+            const resultBox = document.getElementById('ppm-result');
+            
+            if (!isTimerRunning) {
+                isTimerRunning = true;
+                secondsPassed = 0;
+                btn.classList.add('active-timer');
+                resultBox.style.display = 'none';
+                
+                timerInterval = setInterval(() => {
+                    secondsPassed++;
+                    const m = Math.floor(secondsPassed / 60).toString().padStart(2, '0');
+                    const s = (secondsPassed % 60).toString().padStart(2, '0');
+                    btn.innerHTML = `⏳ Leyendo... ${m}:${s} (Clic para Detener)`;
+                }, 1000);
+                
+            } else {
+                clearInterval(timerInterval);
+                isTimerRunning = false;
+                btn.classList.remove('active-timer');
+                btn.innerHTML = 'Lectura Completada';
+                btn.style.pointerEvents = 'none'; 
+                
+                const validSeconds = secondsPassed > 0 ? secondsPassed : 1; 
+                const ppm = Math.round((totalWordsD41 / validSeconds) * 60);
+                
+                resultBox.style.display = 'block';
+                resultBox.innerHTML = `🎯 Velocidad: ${ppm} PPM<br><span style="font-size:0.8rem; font-weight:normal; color:var(--text-primary);">Total: 262 palabras en ${validSeconds} segundos.</span>`;
+            }
+        }
+
+        // --- LÓGICA MODAL LIBRETA (INTERACTIVIDAD) ---
+        function openAuditModal() {
+            document.getElementById('audit-modal').classList.add('active');
+        }
+
+        function closeAuditModal() {
+            document.getElementById('audit-modal').classList.remove('active');
+        }
+
+        function saveAudit() {
+            const proyecto = document.getElementById('input-proyecto').value || 'Iniciativa Sin Nombre';
+            const promotor = document.getElementById('input-promotor').value || 'No definido';
+            const bloqueador = document.getElementById('input-bloqueador').value || 'No definido';
+            const moneda = document.getElementById('input-moneda').value || 'Ninguna estrategia de intercambio definida.';
+            
+            const newCard = document.createElement('div');
+            newCard.className = 'note-card';
+            newCard.style.borderLeftColor = 'var(--water-accent)';
+            newCard.innerHTML = `
+                <h3 style="color: var(--water-accent);">Auditoría: ${proyecto}</h3>
+                <p style="margin-bottom:6px;"><strong>Promotor Clave:</strong> ${promotor}</p>
+                <p style="margin-bottom:12px;"><strong>Bloqueador a Neutralizar:</strong> ${bloqueador}</p>
+                <div style="background:rgba(0,229,255,0.05); padding:12px; border-radius:8px; border: 1px solid rgba(0,229,255,0.2); font-size:0.8rem; color: white;">
+                    <strong>Estrategia de Intercambio (Lobby):</strong><br>
+                    <span style="color: var(--text-secondary);">${moneda}</span>
+                </div>
+                <span class="note-date">Guardado Hoy a las ${new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+            `;
+            
+            // Inyectar justo arriba del botón de crear nueva
+            const container = document.getElementById('auditorias-container');
+            container.insertBefore(newCard, container.firstElementChild);
+            
+            // Limpiar inputs
+            document.getElementById('input-proyecto').value = '';
+            document.getElementById('input-promotor').value = '';
+            document.getElementById('input-bloqueador').value = '';
+            document.getElementById('input-moneda').value = '';
+            
+            closeAuditModal();
+            
+            // Hacer scroll hacia la nueva tarjeta
+            newCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // --- WEB AUDIO API BINAURAL ---
+        let audioCtx, oscLeft, oscRight, panLeft, panRight, masterGain, noiseNode, noiseFilter;
+        let isAudioPlaying = false;
+
+        function toggleSleepMode(event) {
+            if(event.target.classList.contains('play-btn') && event.currentTarget !== event.target) return;
+            
+            const btn = document.getElementById('audio-play-btn');
+            const waves = document.getElementById('audio-waves');
+
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            if (isAudioPlaying) {
+                masterGain.gain.setTargetAtTime(0, audioCtx.currentTime, 0.5);
+                setTimeout(() => {
+                    if(oscLeft) oscLeft.stop();
+                    if(oscRight) oscRight.stop();
+                    if(noiseNode) noiseNode.stop();
+                    audioCtx.suspend();
+                    isAudioPlaying = false;
+                }, 1000);
+                
+                btn.classList.remove('playing');
+                waves.classList.remove('active');
+                return;
+            }
+
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const carrier = 174; 
+            const thetaDiff = 6; 
+            
+            oscLeft = audioCtx.createOscillator();
+            oscRight = audioCtx.createOscillator();
+            oscLeft.type = 'sine';
+            oscRight.type = 'sine';
+            oscLeft.frequency.value = carrier;
+            oscRight.frequency.value = carrier + thetaDiff;
+            
+            panLeft = audioCtx.createStereoPanner();
+            panRight = audioCtx.createStereoPanner();
+            panLeft.pan.value = -1;
+            panRight.pan.value = 1;
+            
+            const bufferSize = 2 * audioCtx.sampleRate;
+            const noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+            const output = noiseBuffer.getChannelData(0);
+            let lastOut = 0;
+            for (let i = 0; i < bufferSize; i++) {
+                let white = Math.random() * 2 - 1;
+                output[i] = (lastOut + (0.02 * white)) / 1.02;
+                lastOut = output[i];
+                output[i] *= 3.5; 
+            }
+            noiseNode = audioCtx.createBufferSource();
+            noiseNode.buffer = noiseBuffer;
+            noiseNode.loop = true;
+            
+            noiseFilter = audioCtx.createBiquadFilter();
+            noiseFilter.type = 'lowpass';
+            noiseFilter.frequency.value = 250; 
+            
+            masterGain = audioCtx.createGain();
+            masterGain.gain.value = 0;
+            
+            oscLeft.connect(panLeft).connect(masterGain);
+            oscRight.connect(panRight).connect(masterGain);
+            noiseNode.connect(noiseFilter).connect(masterGain);
+            masterGain.connect(audioCtx.destination);
+            
+            oscLeft.start();
+            oscRight.start();
+            noiseNode.start();
+            
+            masterGain.gain.setTargetAtTime(0.4, audioCtx.currentTime, 1.5);
+            
+            isAudioPlaying = true;
+            btn.classList.add('playing');
+            waves.classList.add('active');
+        }
+    </script>
+
+    <!-- FOCUS Modal -->
+    <div id="focus-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(6,6,13,.98);padding:20px 24px 24px;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:10px">
+        <h3 id="focus-title" style="font-family:'Outfit';font-size:1.1rem;color:#FF6B00;">FOCUS</h3>
+        <button onclick="closeFocus()" style="background:transparent;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;width:40px;height:40px">×</button>
+      </div>
+      <div id="focus-content"></div>
+    </div>
+
+<script>
+const FOCUS_DATA = {
+  'auditoria': {
+    title: 'Auditoría de Disparadores',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">La distracción empieza desde adentro. Identifica qué sentimiento intentas evitar revisando tu celular o correo.</p>
+      <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:15px;">
+        <p style="color:#FF6B00;font-size:0.8rem;font-weight:bold;margin-bottom:8px;">¿Qué sentías justo antes de distraerte?</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="f-tag" onclick="this.classList.toggle('active')">Aburrimiento</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Ansiedad</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Fatiga</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Estrés</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Inseguridad</span>
+        </div>
+      </div>
+      <p style="color:#aaa;font-size:0.8rem;margin-bottom:10px;">Escribe el disparador para quitarle su poder cognitivo:</p>
+      <input type="text" placeholder="Ej: Me dio ansiedad enviar el reporte..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
+      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Registrar Disparador</button>
+      <style>.f-tag{background:rgba(255,255,255,0.1);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;} .f-tag.active{background:#FF6B00;}</style>
+    `
+  },
+  'pacto': {
+    title: 'Pacto de Identidad',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Los pactos pre-comprometen tus decisiones futuras para que sea más difícil distraerte.</p>
+      <div style="background:rgba(255,107,0,0.1);border:1px dashed #FF6B00;padding:15px;border-radius:12px;margin-bottom:15px;text-align:center;">
+        <p style="color:#FF6B00;font-size:1.2rem;font-family:'Outfit';font-weight:bold;font-style:italic;">"Soy una persona de enfoque inquebrantable"</p>
+        <p style="color:#aaa;font-size:0.75rem;margin-top:5px;">El sustantivo cambia tu comportamiento más que el verbo.</p>
+      </div>
+      <p style="color:#fff;font-size:0.8rem;margin-bottom:10px;">¿A qué tarea le dedicarás tu atención absoluta ahora?</p>
+      <input type="text" placeholder="Mi tarea es..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
+      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Sellar Pacto y Empezar</button>
+    `
+  },
+  'regla10': {
+    title: 'Regla de 10 Minutos',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Cuando sientas el impulso incontrolable de distraerte, espera 10 minutos. Casi siempre el impulso desaparece como una ola.</p>
+      <div style="text-align:center;margin:30px 0;">
+        <div id="f-timer" style="font-size:4.5rem;font-family:'Outfit';color:#FF6B00;font-weight:bold;">10:00</div>
+      </div>
+      <button id="f-start-btn" onclick="startFocusTimer()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Surfear el Impulso (10m)</button>
+    `
+  }
+};
+
+let fInterval;
+function launchFocus(id) {
+  const data = FOCUS_DATA[id];
+  document.getElementById('focus-title').innerText = data.title;
+  document.getElementById('focus-content').innerHTML = data.html;
+  document.getElementById('focus-modal').style.display = 'block';
+  clearInterval(fInterval);
+}
+
+function closeFocus() {
+  document.getElementById('focus-modal').style.display = 'none';
+  clearInterval(fInterval);
+}
+
+function startFocusTimer() {
+  let btn = document.getElementById('f-start-btn');
+  btn.style.display = 'none';
+  let timeLeft = 600;
+  let timerDisplay = document.getElementById('f-timer');
+  
+  fInterval = setInterval(() => {
+    timeLeft--;
+    let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    let s = (timeLeft % 60).toString().padStart(2, '0');
+    timerDisplay.innerText = m + ":" + s;
+    if(timeLeft <= 0) {
+      clearInterval(fInterval);
+      timerDisplay.innerText = "¡Listo!";
+      timerDisplay.style.color = "#10b981";
+    }
+  }, 1000);
+}
+
+// DYNAMIC INJECTION FOR MUJERES MENTORAS
+setTimeout(() => {
+  const focusHtml = `
+    <div id="focus-injected" class="kit-section-title" style="margin-top:24px;">🎯 FOCUS (Enfoque Profundo)</div>
+    <p style="font-size:.78rem;color:var(--text-secondary);margin-bottom:12px;margin-top:-6px">Técnicas científicas para blindar tu atención.</p>
+    <div class="crisis-grid crisis-grid-mm" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('auditoria')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">🔍</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Auditoría Triggers</span></div>
+      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('pacto')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">✍️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Pacto Identidad</span></div>
+      <div class="crisis-btn crisis-btn-mm" style="grid-column: 1 / -1; display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; cursor:pointer;" onclick="launchFocus('regla10')"><span class="cb-icon" style="margin:0; font-size:1.4rem;">⏱️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Regla 10 Minutos</span></div>
+    </div>
+  `;
+
+  if (typeof window.renderKitMentoria !== 'undefined') {
+    const origRender = window.renderKitMentoria;
+    window.renderKitMentoria = function() {
+      origRender();
+      setTimeout(() => {
+        const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
+        if (grid && !document.getElementById('focus-injected')) {
+           grid.insertAdjacentHTML('afterend', focusHtml);
+        }
+      }, 50);
+    };
+    
+    // Also inject if it's already active
+    if (document.getElementById('v-kit') && document.getElementById('v-kit').classList.contains('active')) {
+      const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
+      if (grid && !document.getElementById('focus-injected')) {
+         grid.insertAdjacentHTML('afterend', focusHtml);
+      }
+    }
+  } else {
+    // Fallback for files that use static HTML
+    const grid = document.querySelector('.crisis-grid');
+    if (grid && !document.getElementById('focus-injected')) {
+        grid.insertAdjacentHTML('afterend', focusHtml);
+    }
+  }
+}, 500);
+</script>
+
+</body>
+</html>

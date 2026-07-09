@@ -1,0 +1,1763 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Invictus Mind Premium - Bloque 5</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* DESIGN TOKENS */
+        :root {
+            --bg-absolute: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-surface-elevated: rgba(255, 255, 255, 0.03);
+            --bg-surface-hover: rgba(255, 255, 255, 0.06);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(255, 255, 255, 0.12);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8A8F98;
+            --text-tertiary: #52525B;
+            --accent-fire: #FF5E00;
+            --accent-fire-glow: rgba(255, 94, 0, 0.2);
+            --gradient-fire: linear-gradient(135deg, #FF4500, #FF8C00);
+            --accent-water: #00C6FF;
+            --accent-water-glow: rgba(0, 198, 255, 0.2);
+            --gradient-water: linear-gradient(135deg, #00C6FF, #0072FF);
+            --success: #10B981;
+            --success-bg: rgba(16, 185, 129, 0.1);
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-absolute);
+            color: var(--text-primary);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+            font-size: 15px; line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: ''; position: absolute; top: -20%; left: -10%;
+            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-fire-glow) 0%, transparent 60%);
+            filter: blur(100px); opacity: 0.4; pointer-events: none;
+        }
+        body::after {
+            content: ''; position: absolute; bottom: -20%; right: -10%;
+            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 60%);
+            filter: blur(100px); opacity: 0.3; pointer-events: none;
+        }
+
+        .app-container {
+            width: 100%; max-width: 428px; height: 100vh; max-height: 926px;
+            background-color: var(--bg-absolute); position: relative;
+            display: flex; flex-direction: column; overflow: hidden; z-index: 10;
+        }
+        @media (min-height: 950px) {
+            .app-container {
+                height: 926px; border-radius: 44px; border: 8px solid #1a1a1c;
+                box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
+            }
+        }
+
+        h1, h2, h3, h4, .display-font { font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }
+        .text-gradient { background: var(--gradient-fire); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .scrollable { flex: 1; overflow-y: auto; padding: 0 24px 120px; scrollbar-width: none; }
+        .scrollable::-webkit-scrollbar { display: none; }
+
+        .app-header { padding: 50px 24px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 20; backdrop-filter: blur(10px); }
+        .header-greeting h1 { font-size: 1.7rem; font-weight: 600; color: #FFF; }
+        .header-greeting p { font-size: 0.85rem; color: var(--text-secondary); }
+        .profile-pic { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-weight: 600; }
+
+        .glass-card { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 20px; backdrop-filter: blur(12px); transition: transform 0.4s var(--ease-spring); }
+        .btn-outline { background: transparent; border: 1px solid var(--border-glow); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s var(--ease-spring); display: inline-flex; justify-content: center;}
+        .btn-outline:hover { background: var(--bg-surface-hover); }
+        .input-premium { width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; color: white; font-family: 'Inter'; font-size: 0.9rem; transition: all 0.3s; margin-bottom: 12px;}
+        .input-premium:focus { outline: none; border-color: rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.05); }
+
+        .view { display: none; }
+        .view.active { display: block; animation: fadeInView 0.5s var(--ease-spring) forwards; }
+        @keyframes fadeInView { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .ring-wrapper { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; margin: 10px auto 40px; }
+        .ring-bg, .ring-progress { fill: none; stroke-width: 4; stroke-linecap: round; }
+        .ring-bg { stroke: var(--border-subtle); }
+        .ring-progress { stroke: url(#fire-grad); stroke-dasharray: 565; stroke-dashoffset: 480; transform: rotate(-90deg); transform-origin: 50% 50%; filter: drop-shadow(0 0 8px var(--accent-fire-glow)); transition: stroke-dashoffset 1s ease-out;}
+        .ring-content { position: absolute; text-align: center; }
+        .ring-content h2 { font-size: 3.5rem; line-height: 1; }
+        
+        .track-card { display: flex; align-items: center; cursor: pointer; margin-bottom: 12px; }
+        .track-card.active { border: 1px solid rgba(255, 94, 0, 0.3); background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,94,0,0.02) 100%); }
+        .track-card.locked { opacity: 0.5; cursor: not-allowed; }
+        .track-number { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 500; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; border-radius: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); margin-right: 16px; }
+        .track-card.active .track-number { background: var(--accent-fire); border-color: var(--accent-fire); color: white; box-shadow: 0 0 15px var(--accent-fire-glow); }
+
+        .timeline { position: relative; padding-left: 24px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--border-glow) 0%, rgba(255,255,255,0) 100%); }
+        .phase { position: relative; margin-bottom: 40px; opacity: 0.5; transition: opacity 0.3s; }
+        .phase.active { opacity: 1; }
+        .phase-node { position: absolute; left: -28px; top: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--border-glow); box-shadow: 0 0 0 4px var(--bg-absolute); }
+        .phase.active .phase-node { background: var(--accent-fire); box-shadow: 0 0 0 4px rgba(255, 94, 0, 0.2), 0 0 0 8px var(--bg-absolute); }
+        .phase.water .phase-node { background: var(--accent-water); box-shadow: 0 0 0 4px rgba(0, 198, 255, 0.2), 0 0 0 8px var(--bg-absolute); }
+        .phase-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+        .phase-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+        
+        .reader-premium { margin-top: 16px; background: var(--bg-surface-elevated); border-radius: 16px; padding: 20px; font-size: 0.9rem; color: #d1d5db; max-height: 400px; overflow-y: auto; border: 1px solid var(--border-subtle); line-height: 1.7; }
+        .reader-premium p { margin-bottom: 16px; }
+        
+        .note-item { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+        
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; height: 90px; background: rgba(10, 10, 12, 0.8); backdrop-filter: blur(20px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; align-items: center; padding-bottom: 20px; z-index: 50; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: var(--text-tertiary); cursor: pointer; width: 33%; transition: color 0.3s; }
+        .nav-item.active { color: var(--text-primary); }
+        .nav-icon { font-size: 1.4rem; margin-bottom: 4px; }
+
+        .auth-overlay { position: absolute; inset: 0; z-index: 1000; background: var(--bg-absolute); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .auth-overlay.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
+        .pin-dots { display: flex; gap: 16px; margin-bottom: 40px; margin-top: 30px;}
+        .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-subtle); transition: all 0.2s; }
+        .dot.filled { background: var(--accent-fire); border-color: var(--accent-fire); box-shadow: 0 0 15px var(--accent-fire-glow); }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;}
+        .key { width: 70px; height: 70px; border-radius: 50%; background: var(--bg-surface-elevated); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-family: 'Outfit'; cursor: pointer; border: 1px solid var(--border-subtle); color: white; }
+        .key:active { transform: scale(0.9); background: var(--border-subtle); }
+
+        .badge-premium { display: inline-block; padding: 6px 12px; background: var(--accent-fire-glow); color: var(--accent-fire); border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 12px; border: 1px solid rgba(255,94,0,0.2); }
+
+        /* SOS Modal */
+        .sos-overlay { position: fixed; inset: 0; background: var(--bg-absolute); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; backdrop-filter: blur(20px); }
+        .sos-overlay.active { opacity: 1; pointer-events: auto; }
+        .sos-circle { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 70%); box-shadow: 0 0 60px var(--accent-water-glow); animation: breathe 8s ease-in-out infinite; }
+        @keyframes breathe { 0% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.8); opacity: 1; } 100% { transform: scale(1); opacity: 0.5; } }
+        .sos-text { margin-top: 80px; font-family: 'Outfit'; font-size: 1.3rem; font-weight: 300; text-align: center; max-width: 85%; line-height: 1.6; color: white; opacity: 0; transition: opacity 1s ease; }
+        .sos-text.visible { opacity: 1; }
+    
+/* KIT DE MENTORIA */
+.kit-view { overflow-y:auto; display:none; flex-direction:column; }
+.kit-view.active { display:flex; }
+.kit-scroll { flex:1; overflow-y:auto; padding:0 20px 120px; scrollbar-width:none; }
+.kit-scroll::-webkit-scrollbar { display:none; }
+.kit-sec-title { font-family:'Outfit';font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#F59E0B;margin:28px 0 12px;display:flex;align-items:center;gap:8px; }
+.kit-stat-grid { display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px; }
+.kit-stat { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px;text-align:center; }
+.kit-stat .val { font-family:'Outfit';font-size:1.5rem;font-weight:700;color:#F59E0B; }
+.kit-stat .lbl { font-size:.58rem;color:#8A8F98;margin-top:3px;text-transform:uppercase;letter-spacing:1px; }
+.kit-progress-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 16px;margin-bottom:8px; }
+.kit-bar-bg { height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:8px; }
+.kit-bar-fill { height:100%;background:linear-gradient(90deg,#F59E0B,#FF5E00);border-radius:3px;transition:width 1s ease; }
+.crisis-grid-mm { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px; }
+.crisis-btn-mm { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .2s; }
+.crisis-btn-mm:active { transform:scale(.97);background:rgba(255,255,255,.06); }
+.crisis-btn-mm .cbi { font-size:1.5rem;display:block;margin-bottom:6px; }
+.crisis-btn-mm .cbl { font-size:.7rem;color:#8A8F98;display:block;line-height:1.3; }
+#crisis-modal-mm { display:none;position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.98);padding:20px 24px 40px;overflow-y:auto; }
+#crisis-modal-mm.active { display:block; }
+.caso-card { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-left:3px solid #F59E0B;border-radius:16px;padding:16px;margin-bottom:12px;cursor:pointer;transition:all .2s; }
+.caso-card:active { transform:scale(.98); }
+.caso-card h4 { font-size:.9rem;color:#fff;margin-bottom:5px; }
+.caso-card p { font-size:.75rem;color:#8A8F98;line-height:1.5; }
+.caso-card .caso-tag { display:inline-block;margin-top:10px;padding:3px 10px;background:rgba(245,158,11,0.22);color:#F59E0B;border-radius:20px;font-size:.68rem;font-weight:600; }
+#sala-modal { display:none;position:fixed;inset:0;z-index:6000;background:rgba(0,0,0,.98);padding:20px 20px 60px;overflow-y:auto; }
+#sala-modal.active { display:block; }
+.opt-btn { width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px 16px;color:#fff;font-size:.85rem;line-height:1.5;font-family:'Inter';cursor:pointer;transition:all .2s;margin-bottom:10px; }
+.opt-btn:active { transform:scale(.99); }
+.mirror-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:20px;margin-bottom:12px; }
+
+</style>
+
+</head>
+<body>
+
+    <div class="app-container">
+        
+        <!-- PANTALLA DE AUTENTICACIÓN -->
+        <div id="auth-overlay" class="auth-overlay">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fire)" stroke-width="2" style="margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--accent-fire-glow));"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h2 style="font-family: 'Outfit'; font-size: 1.5rem; text-align: center;">Latina Leadership<br>Master Track</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Ingresa tu PIN ejecutivo de acceso.</p>
+            
+            <div class="pin-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            
+            <div class="keypad">
+                <div class="key" onclick="pressKey()">1</div><div class="key" onclick="pressKey()">2</div><div class="key" onclick="pressKey()">3</div>
+                <div class="key" onclick="pressKey()">4</div><div class="key" onclick="pressKey()">5</div><div class="key" onclick="pressKey()">6</div>
+                <div class="key" onclick="pressKey()">7</div><div class="key" onclick="pressKey()">8</div><div class="key" onclick="pressKey()">9</div>
+                <div></div><div class="key" onclick="pressKey()">0</div><div></div>
+            </div>
+        </div>
+
+        <header class="app-header">
+            <div class="header-greeting">
+                <h1>Hola, Mentora</h1>
+                <p>Tu evolución inspira a miles.</p>
+            </div>
+            <div class="profile-pic">M</div>
+        </header>
+
+        <main class="scrollable">
+            <!-- DASHBOARD -->
+
+      <!-- NEURO-READING MANIFESTO -->
+      <div class="card" style="background:linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,0,0,0.4)); border:1px solid var(--cyan); border-radius:16px; padding:20px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <div style="background:var(--cyan-glow); color:var(--cyan); padding:5px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;">🧠 TU ENTRENAMIENTO COGNITIVO</div>
+        </div>
+        <h3 style="font-family:'Outfit'; font-size:1.3rem; margin-bottom:8px; color:#fff;">La Meta: 600 Palabras Por Minuto</h3>
+        <p style="font-size:0.8rem; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+          Este programa es un gimnasio para tu cerebro. Al finalizar, tu meta es procesar información al doble de velocidad con retención profunda.
+        </p>
+        <ul style="font-size:0.75rem; color:var(--text-secondary); padding-left:15px; line-height:1.6; margin-bottom:0;">
+          <li><strong style="color:var(--cyan);">No subvocalices:</strong> Usa el botón de Lectura Biónica para guiar tus ojos rápidamente.</li>
+          <li><strong style="color:var(--gold);">Velocidad a Dinero:</strong> Cada sesión calcula tu velocidad. Fuerza tu vista un 20% más rápido hoy.</li>
+        </ul>
+      </div>
+
+            <div id="view-dashboard" class="view active">
+                <div class="ring-wrapper">
+                    <svg width="200" height="200" viewBox="0 0 200 200">
+                        <defs><linearGradient id="fire-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF4500" /><stop offset="100%" stop-color="#FF8C00" /></linearGradient></defs>
+                        <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
+                        <circle class="ring-progress" cx="100" cy="100" r="90"></circle>
+                    </svg>
+                    <div class="ring-content">
+                        <h2 class="text-gradient">B1</h2>
+                        <p>El Espejo y la Raíz</p>
+                    </div>
+                </div>
+
+                <div class="blocks-list" id="dashboard-list">
+                    <!-- Dynamic List Populated by JS -->
+                </div>
+                
+                <button class="btn-outline" style="width: 100%; margin-top: 24px; padding: 16px; border-color: rgba(255,255,255,0.1); color: var(--text-secondary); font-family: 'Outfit'; font-weight: 500; font-size: 0.95rem; display: flex; gap: 8px; justify-content: center; background: var(--bg-surface-elevated);" onclick="openSOS()">
+                    <span>🆘</span> Protocolo SOS: Regulación de Cortisol
+                </button>
+            </div>
+
+            <!-- SESIÓN -->
+            <div id="view-session" class="view">
+                <div class="session-hero">
+                    <div class="badge-premium" id="sesion-badge">Bloque 5 • Día X</div>
+                    <h2 class="display-font" id="sesion-title" style="font-size: 1.8rem; line-height: 1.1; margin-bottom: 24px;">Título de Sesión</h2>
+                </div>
+
+                <div class="timeline" id="sesion-timeline">
+                    <!-- Dynamic Phases Populated by JS -->
+                </div>
+            </div>
+
+            <!-- LIBRETA / PLAYBOOK -->
+            <div id="view-libreta" class="view">
+                <div class="session-hero">
+                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Táctico</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Guía elevada para transformar a la mujer latina ejecutiva.</p>
+                </div>
+                
+                <div id="playbook-content">
+                    <!-- Dynamic Playbook Populated by JS -->
+                </div>
+            </div>
+        
+<!-- KIT DE MENTORIA VIEW -->
+<div id="view-kit" class="view kit-view">
+  <div class="kit-scroll">
+    <div style="padding:20px 0 10px">
+      <h2 style="font-family:'Outfit';font-size:1.4rem;font-weight:700">Kit de Mentoría</h2>
+      <p style="color:#8A8F98;font-size:.82rem;margin-top:4px">Tus herramientas como mentora</p>
+    </div>
+
+    <!-- MI IMPACTO -->
+    <div class="kit-sec-title">📊 Mi Impacto</div>
+    <div class="kit-stat-grid">
+      <div class="kit-stat"><div class="val" id="km-dias">0</div><div class="lbl">Días activos</div></div>
+      <div class="kit-stat"><div class="val" id="km-streak">0</div><div class="lbl">Racha</div></div>
+      <div class="kit-stat"><div class="val" id="km-ppm">—</div><div class="lbl">Mejor PPM</div></div>
+    </div>
+    <div class="kit-progress-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.75rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px">Progreso del Bloque</span>
+        <span id="km-pct" style="font-size:.75rem;color:#F59E0B;font-weight:600">0%</span>
+      </div>
+      <div class="kit-bar-bg"><div id="km-bar" class="kit-bar-fill" style="width:0%"></div></div>
+    </div>
+    <div id="km-mirror-profile" class="mirror-wrap" style="display:none">
+      <div style="font-size:.68rem;color:#F59E0B;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tu estilo de mentoría</div>
+      <div id="km-profile-name" style="font-family:'Outfit';font-size:1.1rem;color:#fff;font-weight:600;margin-bottom:6px">—</div>
+      <div id="km-profile-desc" style="font-size:.8rem;color:#8A8F98;line-height:1.6">Completa 5 días para revelar tu perfil.</div>
+    </div>
+
+    <!-- COACH DE CRISIS -->
+    <div class="kit-sec-title">⚡ Coach de Crisis</div>
+    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Cuando la sesión se complica. Toca la situación.</p>
+    <div class="crisis-grid-mm">
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('no_avanza')"><span class="cbi">😶</span><span class="cbl">No avanza</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('llora')"><span class="cbi">😢</span><span class="cbl">Llora en sesión</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('resistencia')"><span class="cbi">🧱</span><span class="cbl">Resistencia</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('dependencia')"><span class="cbi">🔗</span><span class="cbl">Dependencia</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('limites')"><span class="cbi">⚠️</span><span class="cbl">Límite cruzado</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('estancada')"><span class="cbi">🔄</span><span class="cbl">Sesión vacía</span></div>
+    </div>
+    <div id="crisis-modal-mm">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:20px">
+        <h3 id="crisis-mm-title" style="font-family:'Outfit';font-size:1.1rem"></h3>
+        <button onclick="cerrarCrisisMM()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
+      </div>
+      <div id="crisis-mm-content"></div>
+    </div>
+
+    <!-- SALA DE CASOS -->
+    <div class="kit-sec-title">⚔️ Sala de Casos</div>
+    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Simulaciones de situaciones reales de mentoría.</p>
+    <div id="sala-casos-list">
+        <div class="caso-card" onclick="abrirCaso(0)">
+          <h4>Caso 1: El Poder que Incomoda</h4>
+          <p>Tu mentoreada acaba de recibir un ascenso y ahora tiene mas poder que su exjefa, que es tu...</p>
+          <span class="caso-tag">Disponible</span>
+        </div></div>
+    <div id="sala-modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:16px">
+        <h3 id="sala-title" style="font-family:'Outfit';font-size:1.1rem;max-width:85%"></h3>
+        <button onclick="cerrarSala()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
+      </div>
+      <div id="sala-content"></div>
+    </div>
+
+    <!-- ESPEJO DE LIDERAZGO -->
+    <div class="kit-sec-title">🔮 Espejo de Liderazgo</div>
+    <div class="caso-card" style="cursor:default">
+      <h4>Tu Arquitectura de Mentoría</h4>
+      <p>Se activa al completar 5 días del bloque. Revela tu estilo dominante, tus brechas como mentora y los patrones que estás replicando sin saberlo.</p>
+      <span id="espejo-status" class="caso-tag">🔒 Completa 5 días</span>
+    </div>
+  </div>
+</div>
+
+</main>
+
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('view-dashboard', this)"><div class="nav-icon">⚲</div><span class="nav-label">HOME</span></div>
+            <div class="nav-item" onclick="switchTab('view-session', this)"><div class="nav-icon">⚡</div><span class="nav-label">SESIÓN</span></div>
+            <div class="nav-item" onclick="switchTab('view-libreta', this)"><div class="nav-icon">▤</div><span class="nav-label">PLAYBOOK</span></div>
+            <div class="nav-item" onclick="switchTab('view-kit', this)"><div class="nav-icon">🛡️</div><span class="nav-label">MI KIT</span></div>
+  </nav>
+    </div>
+
+
+        <!-- PANTALLA SOS (Síndrome del Impostor) -->
+        <div id="sos-overlay" class="sos-overlay">
+            <h3 style="font-family: 'Outfit'; font-weight: 300; color: var(--accent-water); margin-bottom: 60px; letter-spacing: 4px; font-size: 0.9rem;">INHALA...</h3>
+            <div class="sos-circle"></div>
+            <p id="sos-affirmation" class="sos-text">No estás aquí por suerte. Estás aquí por tu luz, tu capacidad y tu resiliencia.</p>
+            <button class="btn-outline" style="margin-top: 80px; border-color: rgba(255,255,255,0.2); color: white; padding: 12px 24px;" onclick="closeSOS()">Mi frecuencia se ha elevado</button>
+        </div>
+
+    <script>
+        // LÓGICA SOS (Síndrome del Impostor - Regulación y Elevación de Frecuencia)
+        const affirmations = [
+            "No estás aquí por suerte. Estás aquí por tu inteligencia táctica y tu resiliencia.",
+            "Tus resultados hablan más fuerte que tu síndrome del impostor. Respira tu evidencia.",
+            "La incomodidad que sientes es neuroplasticidad en acción. Tu cerebro está expandiendo su capacidad. Sostenlo.",
+            "No necesitas saberlo todo ahora. Eres una estratega, tu trabajo es descubrir la respuesta, no tenerla memorizada.",
+            "Esa voz crítica no es la verdad, es solo el ego asustado. Tú eres la consciencia que observa al ego.",
+            "El espacio que ocupas te pertenece. Lo ganaste. Respira en él y expándete."
+        ];
+        let sosInterval;
+
+        function openSOS() {
+            document.getElementById('sos-overlay').classList.add('active');
+            let currentAff = 0;
+            const textEl = document.getElementById('sos-affirmation');
+            textEl.textContent = affirmations[currentAff];
+            textEl.classList.add('visible');
+            
+            sosInterval = setInterval(() => {
+                textEl.classList.remove('visible');
+                setTimeout(() => {
+                    currentAff = (currentAff + 1) % affirmations.length;
+                    textEl.textContent = affirmations[currentAff];
+                    textEl.classList.add('visible');
+                }, 1000);
+            }, 8000);
+        }
+
+        function closeSOS() {
+            document.getElementById('sos-overlay').classList.remove('active');
+            clearInterval(sosInterval);
+            document.getElementById('sos-affirmation').classList.remove('visible');
+        }
+
+        // --- DATA STRUCTURE (BLOQUE 5) ---
+        const daysData = [
+
+            {
+                id: 41,
+                badge: "Bloque 5 • Día 1",
+                title: "LA REALIDAD DEL PODER CORPORATIVO (JEFFREY PFEFFER)",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">EL MITO DE LA MERITOCRACIA Y EL ASCENSO EJECUTIVO</h3>
+                        <p>Una de las debilidades estratégicas más prevalentes entre mujeres ejecutivas en entornos técnicos (B2B, STEM, QHSE, finanzas) es la convicción inquebrantable de que el excelente desempeño técnico es el único requisito para el ascenso corporativo. Jeffrey Pfeffer, investigador de Stanford y autor de "Power: Why Some People Have It and Others Don't", documentó mediante décadas de análisis organizacional que la correlación estadística entre el desempeño laboral puro y el ascenso en la alta gerencia es sorprendentemente débil (a menudo inferior al 0.3 en regresiones múltiples).</p>
+                        <p>El desempeño operativo superior es lo que Pfeffer llama un "ticket de entrada": te califica para no ser despedida y mantener el puesto. Pero la promoción, la asignación de recursos presupuestarios y la supervivencia en los niveles de dirección dependen abrumadoramente del capital político, la visibilidad estratégica y la habilidad para influir en aquellos con poder de veto.</p>
+                        <p>Muchas mujeres internalizan el concepto de la política corporativa como una práctica "sucia", poco ética o manipuladora, y optan activamente por alejarse de ella ("yo vengo aquí a trabajar, no a hacer política"). Este alejamiento voluntario de la red de poder deja a sus departamentos desfinanciados y a sus propias carreras estancadas. Renunciar a la política no te exime de sus consecuencias; solo te deja a merced de quienes sí saben jugarla.</p>
+                        <p>Tu responsabilidad como mentora es desmitificar el poder. Debes enseñarle a tu mentoreada que el poder no es inherentemente malvado; es una herramienta amoral (como la electricidad) indispensable para escalar soluciones sistémicas. Si ella quiere que sus impecables procesos de seguridad o auditoría se implementen globalmente, necesitará aliados con presupuesto y capital de decisión. Y eso se logra mapeando lealtades, entendiendo las agendas ocultas de los VPs, y aprendiendo a intercambiar favores corporativos sin remordimientos.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> Según Pfeffer, ¿cuál es la diferencia entre el "desempeño laboral puro" y el "capital político" en relación con los ascensos?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué "evadir la política organizacional por considerarla sucia" es en realidad una abdicación de liderazgo que penaliza al equipo de esa directiva?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Aversión Política</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Revisa tu propio prejuicio: ¿Crees que el 'lobby' y la política son sucios? Si desprecias el poder, nunca tendrás influencia sobre él.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Fin de la Meritocracia Ingenua</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Declárate a ti misma: 'El trabajo duro sin visibilidad es agotamiento inútil'. Deja de esperar que tu trabajo hable por ti.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Postura de Jugadora</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Entra a la sesión hoy no como una figura maternal que protege a la mentoreada del 'sistema injusto', sino como la veterana que le enseña a hackear ese sistema.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Dejaremos de quejarnos de lo injusta que es la empresa. Mañana te enseño cómo se ganan los ascensos en la realidad, no en los manuales de RRHH."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Si ella insiste en que 'si trabaja lo suficientemente duro, los directores lo notarán eventualmente':</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Si la meritocracia pura fuera real, ¿por qué el mes pasado ascendieron a [Nombre de Ejecutivo Mediocre] en lugar de a ti, a pesar de que tus KPIs son superiores?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. Auditoría de Invisibilidad</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Oblígala a listar las 3 personas con más poder de decisión en su área. Luego, pídele que califique del 1 al 10 cuánto conocen esas personas los resultados de su trabajo de los últimos 6 meses.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Debe enviarle a su superior (o a un director) un correo conciso reportando la conclusión exitosa de un micro-proyecto, exclusivamente para ganar visibilidad.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 42,
+                badge: "Bloque 5 • Día 2",
+                title: "REDES OPERATIVAS VS ESTRATÉGICAS (HERMINIA IBARRA)",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">LA TRAMPA DE LA EXCELENCIA INVISIBLE</h3>
+                        <p>Herminia Ibarra (London Business School) establece en su extensa investigación sobre networking corporativo que las redes de contacto en las empresas se dividen en tres categorías: Operativas, Personales y Estratégicas.</p>
+                        <p>Las Redes Operativas son las personas con las que necesitas hablar para hacer tu trabajo diario (tu equipo, tus proveedores inmediatos, el departamento de sistemas o contabilidad adyacente). Las mujeres ejecutivas, por lo general, sobresalen construyendo redes operativas sólidas y leales.</p>
+                        <p>El estancamiento corporativo ocurre porque las mujeres tienden a sub-invertir crónica y masivamente en Redes Estratégicas. Una red estratégica está conformada por individuos (mentores formales e informales, pares de la industria, directivos de otras unidades de negocio y líderes del mercado) que operan *fuera* de tu ámbito de control directo. Estas personas no te ayudan a resolver el problema técnico de hoy; te ayudan a vislumbrar las macrotendencias del mañana, exponen tu marca personal ante los comités de sucesión, y proveen "cobertura aérea" (respaldo directivo) en momentos de crisis.</p>
+                        <p>Ibarra descubrió que las mujeres evitan el networking estratégico por dos razones: falta de tiempo (debido a la sobrecarga del "Esquema de Supermujer") y porque lo perciben como interesado o poco auténtico (incomodidad con la transaccionalidad).</p>
+                        <p>La mentora debe forzar a su mentoreada a levantar la cabeza del escritorio operativo. La instrucción directa debe ser: "Estar ocupada no es una métrica de éxito si los VP no saben de tu existencia. Vas a agendar un café semanal o una llamada mensual de 15 minutos con un director de otra división con el que no tienes relación operativa directa, únicamente para entender los desafíos de su área e identificar dónde tu departamento puede generar sinergias". Eso es construcción activa de capital estratégico.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Cuál es la diferencia fundamental, en propósito e impacto, entre una red operativa y una red estratégica?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué la alta excelencia técnica en la red operativa ("hacer mi trabajo perfectamente") se convierte en la mayor barrera para que las mujeres construyan redes estratégicas?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Redes</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">¿Con quién almuerzas? Si siempre comes con tu propio equipo u operaciones, estás invirtiendo el 100% de tu tiempo en Redes Operativas. Estás estancada.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Valor del Tiempo Estratégico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Acepta que invertir 30 minutos hablando con el VP de otra área sobre el mercado no es 'perder el tiempo', es invertir en tu seguro corporativo.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Filtro de Incomodidad</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Identifica a la persona de más alto nivel en la empresa a la que temes hablarle. Prepárate para empujar a tu mentoreada a hacer exactamente eso.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Tus resultados operativos son excelentes, pero eres invisible. Mañana vamos a mapear tu Red Estratégica."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Cuando ella argumente que no tiene tiempo para hacer 'networking' porque tiene demasiado trabajo operativo:</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Si te despidieran mañana, ¿quién en la sala del Directorio (que no sea tu jefe directo) pelearía y arriesgaría su propio capital político para mantenerte en la empresa?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. El Mapa de Aliados Inexistentes</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Dibuja un círculo. Pon el nombre de ella en el centro. Hazle dibujar sus contactos frecuentes. Muéstrale cómo su círculo está aislado de la toma de decisiones financieras y estratégicas macro de la empresa.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Agendar esta misma semana un café de 15 minutos (virtual o presencial) con un líder de nivel Gerencia o superior de una división completamente diferente a la suya.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 43,
+                badge: "Bloque 5 • Día 3",
+                title: "HOMBRES Y MUJERES DE LA CORPORACIÓN (ROSABETH MOSS KANTER)",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">LA DINÁMICA DE LA MINORÍA (TOKENISM) EN EL DIRECTORIO</h3>
+                        <p>Rosabeth Moss Kanter publicó en 1977 "Men and Women of the Corporation", un texto fundacional para la sociología organizacional de Harvard. Su investigación demostró que los comportamientos corporativos que frecuentemente se le atribuyen "a las mujeres" (como ser más conservadoras, evadir el riesgo, hiper-conciencia de la crítica) no son rasgos biológicos o de género, sino respuestas psicosociales predecibles al hecho estructural de ser una "minoría" numérica (un Token) en un grupo dominante (ej. la única ingeniera mujer en una división de 50 hombres).</p>
+                        <p>Kanter describió las tres leyes de la dinámica de minorías (Tokenism) que la mentoreada necesita conocer para no patologizar su propia experiencia:</p>
+                        <p>1. Alta Visibilidad (Rendimiento bajo microscopio): Como es la única mujer, sus errores y aciertos son desproporcionadamente memorables. Su fracaso no se atribuye a "María cometió un error", sino a "las mujeres no sirven para estas operaciones de campo". (Esto conecta biológicamente con la Amenaza del Estereotipo).</p>
+                        <p>2. Polarización: El grupo dominante (los hombres), al interactuar con el *Token*, exacerban su propia cultura para marcar diferencias implícitas (lenguaje exclusivo, salidas después del trabajo, alianzas de pasillo) dejando a la minoría profesionalmente aislada.</p>
+                        <p>3. Asimilación por Arquetipos: Para sobrevivir en el grupo, a la mujer se le presiona implícitamente a adoptar roles corporativos estereotipados limitantes: la Madre (cuidadora del equipo), la Mascota (animadora simpática pero sin autoridad), la Seductora (desestimando su valor técnico) o la Dama de Hierro (agresiva, despojándose de empatía para probar ser "uno más de los hombres").</p>
+                        <p>La mentora actúa como radar temprano. Su deber es decirle a la mentoreada: "Estás entrando en un comité de mayoría masculina. El aislamiento que vas a sentir no es porque seas defectuosa; es sociología estructural. No adoptes el arquetipo de la Madre (no organices los cumpleaños ni limpies la pizarra). Ocupa espacio físico, habla con volumen y asume el liderazgo técnico con total descaro".</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> Según Kanter, ¿por qué los rasgos de "evasión de riesgo" en las mujeres en juntas de mayoría masculina son respuestas psicosociales estructurales y no características innatas del género?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué adoptar el arquetipo de la "Madre del equipo" en un directorio masculino destruye la influencia táctica de la ejecutiva?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Tokenismo</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Piensa en las veces que has sido la única mujer en la sala. ¿Te asignaste subconscientemente el rol de la 'Dama de Hierro' sin emociones, o el de la 'Madre' que sirve el café?</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Radar Estructural</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Reconoce que el aislamiento que siente tu mentoreada en un comité técnico masculino no es debilidad psicológica de ella; es sociología matemática (minoría vs mayoría).</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Validación Categórica</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Prepárate para decirle las palabras mágicas hoy: 'No estás loca. El juego está diseñado para que sientas esto. Ahora te enseñaré a jugarlo.'</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"El aislamiento que sientes en juntas dominadas por hombres no está en tu cabeza, es matemático. Mañana te enseño a usarlo a tu favor."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Cuando ella exprese frustración por sentir que no encaja con 'el club de hombres' de la gerencia:</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "¿Qué poder pierdes sobre tu propio desempeño cuando intentas adoptar el arquetipo de 'ser uno más de los hombres' en lugar de usar tu diferencia como una ventaja de visibilidad absoluta?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. Desmantelando el Arquetipo</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Haz que identifique bajo cuál de los 4 arquetipos de Kanter (Madre, Mascota, Seductora, Dama de Hierro) la está encasillando la organización. Diseñen juntas una acción disruptiva para romper ese molde.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">En su próxima junta de mayoría masculina, tiene prohibido ofrecerse a organizar la logística, y debe interrumpir firmemente a quien intente silenciar su punto de vista técnico.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 44,
+                badge: "Bloque 5 • Día 4",
+                title: "MAPEO DE STAKEHOLDERS Y SOCIOGRAMAS",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">LA GEOGRAFÍA OCULTA DEL PODER CORPORATIVO</h3>
+                        <p>El organigrama oficial de la empresa (quién reporta a quién, recursos humanos, finanzas, presidencia) es la "estructura formal". Para las grandes decisiones corporativas —aprobación de fusiones, nominación de gerentes, recortes de personal— la estructura formal es mayoritariamente irrelevante. Las decisiones reales se procesan en la "estructura informal", una red invisible de lealtades de largo plazo, deudas de favores pasados, desconfianzas históricas e influencia implícita.</p>
+                        <p>El Mapeo de Stakeholders es la herramienta primaria de la política táctica. Antes de que tu mentoreada presente un proyecto disruptivo o compita por un ascenso, debes sentarte con ella y obligarla a dibujar un sociograma operativo de las personas con poder de veto.</p>
+                        <p>La matriz evalúa dos ejes: Interés en el proyecto (Alto/Bajo) y Poder de Influencia (Alto/Bajo).</p>
+                        <p>Las personas de Alto Poder / Alto Interés son los Promotores Clave. Tu mentoreada debe asegurar su lealtad antes del comité formal, mediante "lobby" pre-reunión.</p>
+                        <p>El punto ciego catastrófico de las mujeres corporativas novatas son las personas de Alto Poder / Bajo Interés (generalmente VPs o líderes de otras áreas que no están involucrados pero tienen derecho a voto). Si la ejecutiva ignora a estos individuos, basta con que uno de ellos levante una ceja escéptica durante la presentación para que el proyecto colapse.</p>
+                        <p>Enseñar a la mentoreada a leer la geografía política incluye identificar "Conectores Centrales" (quienes conocen a todos en la empresa), "Brokers de Información" (las asistentes, asesores legales o gerentes adjuntos que filtran la información hacia el poder) y "Bloqueadores Sistémicos".</p>
+                        <p>Tu lección clave es: Jamás lleves a votación una propuesta en una mesa de directores sin saber exactamente, con 24 horas de antelación, cómo va a votar cada uno de los presentes. La reunión formal de directorio es teatro corporativo; las negociaciones ocurren en los pasillos de antemano.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Cuál es la diferencia crítica entre la estructura del "organigrama oficial" y la "estructura informal" de una empresa corporativa B2B?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué intentar vender un proyecto por primera vez "durante la reunión oficial del comité" es un síntoma de ignorancia táctica política?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Ceguera Política</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">En tu último proyecto fallido, ¿quién fue la persona de 'Alto Poder / Bajo Interés' a la que ignoraste y que terminó saboteando tu presupuesto en la reunión final?</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. La Regla del Teatro</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Internaliza la ley de acero corporativa: El comité no es para tomar decisiones, es el teatro donde se escenifican las decisiones que tú ya negociaste en privado los días anteriores.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Mentalidad de Ajedrez</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Observa a tu mentoreada como una pieza clave. Hoy le vas a enseñar a no moverse sin ver tres jugadas por adelantado en el tablero organizacional.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Mañana dejaremos de improvisar. Trae tu proyecto más grande del trimestre; vamos a dibujar el mapa de quienes pueden destruirlo."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Cuando ella asuma que su plan será aprobado 'porque tiene lógica y los números tienen sentido':</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Si el éxito dependiera solo de la lógica, no habría empresas en quiebra. ¿A quién en ese comité le perjudica políticamente o le quita poder el hecho de que este proyecto tuyo sea un éxito rotundo?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. El Sociograma de Veto</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">En una pizarra o papel, haz que dibuje el cuadrante (Poder vs Interés) y coloque los nombres de los 5 directivos que votarán su proyecto. Identifiquen quién es el bloqueador clave.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Debe agendar una reunión '1 a 1' (Lobby previo) con el Stakeholder de mayor resistencia a su proyecto antes de la presentación oficial, para neutralizar el veto.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 45,
+                badge: "Bloque 5 • Día 5",
+                title: "LA PSICOLOGÍA DE LA INFLUENCIA ÉTICA (ROBERT CIALDINI)",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">LOS RESORTES COGNITIVOS DE LA PERSUASIÓN CORPORATIVA</h3>
+                        <p>Robert Cialdini, referente global en la ciencia de la persuasión, identificó los resortes universales que activan el comportamiento humano de manera predecible. En la mentoría corporativa, dominar la "Influencia Ética" (sin coerción, basándose en estructuras neurobiológicas de reciprocidad humana) es el arma más potente para liderar lateralmente.</p>
+                        <p>Dos de los principios de Cialdini son de particular urgencia para el desarrollo de la ejecutiva femenina: Reciprocidad y Autoridad.</p>
+                        <p>1. Reciprocidad: La regla sociológica humana dicta que nos sentimos en deuda de devolver favores. Las ejecutivas operativas suelen hacer favores sistemáticos a otros departamentos (arreglar reportes, cubrir turnos, resolver auditorías) bajo el sesgo de la Amabilidad o el arquetipo de la Madre (Día 43). El problema radica en que, tras hacer el favor, cuando el otro departamento agradece, la ejecutiva responde: "No fue nada, es mi trabajo".</p>
+                        <p>Cialdini demuestra que esa frase destruye la dinámica de influencia corporativa. Al decir "no fue nada", desactivas el principio biológico de reciprocidad. La mentora debe re-entrenar a su mentoreada para que responda: "De nada, sé que ustedes habrían hecho lo mismo por nuestro departamento si estuviéramos en aprietos". Esa simple línea sella el pacto de reciprocidad y acumula "capital político" cobrable en el futuro.</p>
+                        <p>2. Autoridad: El cerebro confía atajos hacia personas que proyectan símbolos de estatus y autoridad (ropa, tono de voz asertivo, títulos). En empresas dominadas por hombres, las mujeres frecuentemente erosionan su propia autoridad usando lenguaje tentativo ("Siento que...", "Tal vez podríamos...") o reduciendo su espacio físico en la silla.</p>
+                        <p>Entrenar la influencia de autoridad exige que la mentoreada presente datos sin moduladores de disculpa, mantenga pausas estratégicas (Día 18) y exponga sus credenciales o resultados tangibles en las primeras líneas de su correo o presentación, sin esperar que la "humildad" atraiga reconocimiento espontáneo.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Cuál es el error táctico que se comete cuando, tras ayudar profundamente a un área paralela, la ejecutiva responde "no es nada, es parte de mi trabajo"?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué la frase "Sé que ustedes habrían hecho lo mismo por nosotros" activa la Reciprocidad y almacena capital político?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Autoridad Erosionada</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">¿Cuántas veces hoy minimizaste un logro tuyo diciendo 'solo hago mi trabajo' o 'no me costó nada'? Date cuenta de cómo quemas tu propio capital político.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Valor de la Reciprocidad</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Recuerda que en el mundo B2B, los favores no son actos de caridad, son depósitos de influencia a largo plazo. Tienes que enseñar a cobrarlos.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Calibración Lingüística</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Corta toda falsa modestia de tu propio vocabulario hoy para poder ser el espejo impecable de influencia ética frente a ella.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Tu amabilidad operativa te está restando autoridad estratégica. Mañana te enseño a cobrar el capital político de los favores que haces."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Si ella siente culpa por insinuar que alguien de otro departamento le 'debe una' por haberlo ayudado en una crisis:</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "¿Quién te convenció de que reclamar el valor equitativo del tiempo y esfuerzo que invertiste en salvar a otra área es un acto de egoísmo y no un acto básico de justicia corporativa?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. El Guion de Cialdini</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Haz que repase la última vez que le hizo un favor operativo a otro departamento. Oblígala a practicar en voz alta la respuesta de influencia: 'De nada. Sé que ustedes harían lo mismo por nuestro departamento'.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">La próxima vez que alguien (par o superior) le agradezca por ir más allá de su deber, debe responder exactamente con el guion de reciprocidad. Nada de 'es mi trabajo'.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 46,
+                badge: "Bloque 5 • Día 6",
+                title: "MICROAGRESIONES Y EL IMPUESTO INVISIBLE",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">EL TRABAJO DE OFICINA NO REMUNERADO (OFFICE HOUSEWORK)</h3>
+                        <p>La barrera de progresión para la mentoreada muchas veces no es un techo de cristal monolítico, sino una marea asfixiante de "microagresiones" y expectativas corporativas asimétricas que se tragan su ancho de banda cognitivo y táctico. Harvard Business Review clasifica esto bajo el concepto de "Office Housework" (Trabajo Doméstico de Oficina) o el Impuesto Invisible.</p>
+                        <p>Las mujeres ejecutivas (incluyendo gerentes e ingenieras) tienen un 44% más de probabilidades de ser empujadas, directa o sutilmente, a realizar "trabajo de mantenimiento" que no impacta el negocio y no tiene valor promocional. Este trabajo incluye: organizar la logística de reuniones (pedir el almuerzo), tomar las minutas o apuntes oficiales de una reunión técnica en la que ellas deberían estar debatiendo, incorporar o entrenar a las nuevas contrataciones de menor nivel, y mediar en las disputas emocionales entre miembros de equipos ajenos.</p>
+                        <p>Este "Impuesto Invisible" castiga doblemente a la mujer. Si ella acepta realizar estas tareas bajo el "Sesgo de la Amabilidad", su tiempo estratégico disminuye, y el grupo dominante la clasifica subconscientemente en el arquetipo de "La Madre" (Kanter), reduciendo su autoridad directiva percibida. Si ella se niega rotundamente, sufre una "Penalización por Simpatía" (Likability Penalty): es tildada de arrogante o poco solidaria.</p>
+                        <p>La mentora experimentada provee la táctica del "Desvío Estratégico". Enseña a la mentoreada a no decir un "No" plano que active penalizaciones, sino a redirigir estructuralmente la carga.</p>
+                        <p>Táctica: Cuando en el comité general se lance la pregunta "¿Quién puede tomar las notas de hoy?", y las miradas se dirijan subconscientemente hacia tu mentoreada, ella debe estar lista con el desvío. "Yo tomé las notas en la reunión pasada. Para asegurar que todos practiquemos la síntesis de acuerdos operativos, sugiero que rotemos la responsabilidad semanalmente. Carlos, ¿puedes llevar las notas hoy?".</p>
+                        <p>Reclamar el ancho de banda cognitivo requiere tácticas de alto rendimiento político, negándose cortésmente a jugar un papel secundario en las reuniones donde se define el destino operativo de la empresa.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Qué es el "Office Housework" (Trabajo Doméstico de Oficina) según la categorización de Harvard Business Review?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué aceptar tomar voluntariamente las actas en las reuniones estratégicas reduce permanentemente el poder ejecutivo percibido de la mentoreada ante la junta?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Impuesto Invisible</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Revisa tu semana. ¿Cuántas horas invertiste ordenando logística, resolviendo dramas emocionales de colegas o tomando minutas, en lugar de optimizar tu P&L?</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Radar de Microagresiones</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Prepara tu mente para detectar cómo la organización empuja a tu mentoreada hacia el 'Office Housework'. Es tu deber detener este sabotaje sutil.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Cero Tolerancia a la Servidumbre Táctica</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Siéntate derecha. Vas a exigirle a tu mentoreada que suelte las tareas domésticas corporativas que la hacen sentir 'útil' pero la mantienen abajo.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Si sigues ofreciéndote a tomar las notas de la reunión, nunca serás quien dicte la estrategia de la reunión. Mañana cortamos el Impuesto Invisible."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Cuando ella justifique tomar notas u organizar la comida porque 'nadie más lo va a hacer bien' y 'solo toma un minuto':</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Mientras tú estás ocupada anotando impecablemente en un Excel lo que los demás deciden, ¿quién en esa mesa está utilizando su ancho de banda cognitivo para diseñar la siguiente jugada financiera de la empresa?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. Entrenamiento de Desvío</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Practiquen el desvío verbal. Lánzale la trampa: '¿Puedes organizar el retiro del equipo?'. Ella debe responder rápido: 'Esta vez le toca a X para fomentar su liderazgo organizativo'. Repítelo hasta que fluya sin culpa.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Durante toda la semana, tiene estrictamente prohibido ofrecerse como voluntaria para cualquier tarea logística o de mantenimiento de oficina en cualquier comité o reunión.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 47,
+                badge: "Bloque 5 • Día 7",
+                title: "FEYNMAN — INTEGRACIÓN DE REDES DE PODER Y POLÍTICA",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">SÍNTESIS COGNITIVA: EL TEATRO TÁCTICO DE LA CORPORACIÓN</h3>
+                        <p>Aplicamos la Técnica Feynman para ensamblar la arquitectura política. Las habilidades técnicas perfectas de tu mentoreada no la salvarán del estancamiento si sigue evadiendo el Poder Corporativo (Pfeffer, Día 41). Para salir de ahí, tiene que elevar la cabeza y dejar de invertir toda su energía en Redes Operativas seguras, forzando su exposición mediante networking en Redes Estratégicas (Ibarra, Día 42).</p>
+                        <p>El terreno político al que ingresará está plagado de la Dinámica de Minorías y arquetipos limitantes ("La Madre, la Mascota", Kanter, Día 43). Debe proteger su autoridad directiva rechazando con tácticas de Desvío el "Trabajo Doméstico de Oficina" o Impuesto Invisible que la corporación tratará de asignarle por inercia (Día 46).</p>
+                        <p>Mientras navega estas turbulencias, su éxito táctico depende de dominar el tablero antes de tirar los dados. Para cualquier proyecto crucial, debe trazar la Matriz de Stakeholders (Día 44), aliarse con los Brokers de Información y hacer el "lobby" previo (antes del comité). En este cabildeo aplicará activamente el principio de Reciprocidad ética (Cialdini, Día 45), usando su influencia lateral para asegurar los votos sin coerción.</p>
+                        <p>Esta no es teoría organizacional, es física de fluidos aplicada al poder humano. Explicar en voz alta, sin usar jerga corporativa compleja, cómo la matriz de influencia puede proteger el prestigio de una ingeniera brillante, demostrará si realmente dominas la diferencia entre ser una trabajadora dura y una arquitecta corporativa.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Cómo se relacionan estructuralmente los "Arquetipos de Minorías" de Kanter (Día 43) con el "Trabajo Doméstico de Oficina" o Impuesto Invisible (Día 46)?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué utilizar el principio de "Reciprocidad" de Cialdini con los Stakeholders de "Alto Poder / Bajo Interés" en las reuniones de "lobby" previas garantiza el éxito de un comité ejecutivo?</li>
+                                <li><strong>Aplicación:</strong> La integración de esta información en Feynman demuestra que el capital político es: a) Corrupción aceptada b) Estructuras matemáticas de influencia, sociogramas y neurobiología de relaciones c) El resultado de ser la más amable d) Una lotería</li>
+                                <li><strong>Conexión:</strong> Si tuvieras que enseñarle a tu hija de 18 años, recién ingresada a su primer trabajo corporativo, el por qué NO debe ofrecerse "voluntariamente a servir el café en la sala de juntas", ¿cómo le explicarías usando esta ciencia del poder? (Habla 90 segundos frente al espejo).
+___________________________________________________________________________</li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Integración Política</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">¿Puedes ver cómo el Impuesto Invisible (Día 46) se alimenta del Tokenismo (Día 43) y destruye la capacidad de armar Redes Estratégicas (Día 42)?</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Rol del Arquitecto Sistémico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Acepta que tu trabajo de hoy no es enseñar nada nuevo. Tu trabajo es no dejarla salir de la sesión hasta que ella pueda articular este mapa de poder sin titubear.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. El Látigo Compasivo</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Prepárate para interrumpirla. Si usa lenguaje genérico o excusas ('es que la cultura es así'), oblígala a bajar a tácticas comprobables.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Mañana unimos la teoría de redes y la influencia ética. Me demostrarás que entiendes el juego de poder lo suficiente para sobrevivir a él."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Si ella no logra conectar por qué hacer favores (sin usar el principio de reciprocidad de Cialdini) la condena a hacer 'Office Housework' de por vida:</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Si le resuelves los problemas operativos a otro departamento sin generar una deuda de reciprocidad política, ¿estás siendo una líder estratégica o simplemente te acabas de convertir en su asistente glorificada y gratuita?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. La Defensa del Tribunal</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Asume el rol del CEO en la simulación. Haz que te explique en 3 minutos exactos, sin jerga corporativa, por qué rechazar tareas administrativas en una junta dominada por hombres es una cuestión de supervivencia política, no de arrogancia.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Debe detectar un comportamiento de 'Tokenismo' o 'Impuesto Invisible' impuesto a OTRA compañera en la empresa, y ayudar a esa colega a desviarlo políticamente esta semana.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 48,
+                badge: "Bloque 5 • Día 8",
+                title: "LIDERAZGO SIN AUTORIDAD FORMAL",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">EL ARTE DE MOVER EL SISTEMA CUANDO NO CONTROLAS LA NÓMINA</h3>
+                        <p>La prueba máxima de competencia directiva en una estructura matricial (común en empresas de energía, auditoría técnica o ingeniería B2B) es la capacidad de la mentoreada de ejecutar proyectos globales utilizando recursos humanos sobre los cuales ella no tiene "Autoridad Formal" (es decir, ella no tiene el poder de contratar, despedir o fijar sus salarios).</p>
+                        <p>Cuando una mentoreada depende exclusivamente de la autoridad jerárquica para mover proyectos, se paraliza al enfrentarse a equipos transversales (ej. lograr que Finanzas y Legal prioricen su iniciativa operativa antes que otras).</p>
+                        <p>El liderazgo sin autoridad requiere la maestría de tres capitales de intercambio: Capital de Tarea, Capital de Posición y Capital Personal (Cohen & Bradford, Modelo de Influencia).</p>
+                        <p>1. Capital de Tarea: Consiste en ofrecer apoyo logístico, datos exclusivos o acelerar los procesos administrativos que alivian los dolores operativos directos del área de la cual necesitas un favor. "Si tu departamento agiliza esta revisión legal, mi equipo técnico asumirá la consolidación de los reportes de calidad que a tu equipo le toma todo el fin de semana armar."</p>
+                        <p>2. Capital de Posición: Implica usar el proyecto para darles exposición ejecutiva a los miembros clave del otro equipo frente a los Vicepresidentes o el CEO. "El nombre de tu líder operativo irá primero en los créditos del reporte trimestral de este proyecto ante la Junta Directiva."</p>
+                        <p>3. Capital Personal: Invocar la gratitud, la reciprocidad acumulada y la simpatía personal sincera (sin empalagos).</p>
+                        <p>La mentora debe entrenar a su pupila para que vea a cada departamento transversal no como "obstáculos burocráticos", sino como entidades soberanas con sus propios miedos, KPIs y ambiciones. Si la mentoreada no puede responder a la pregunta tácita "¿Qué ganan ellos con ayudarme a mí en lugar de hacer su propio trabajo?", no tiene una estrategia política válida.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> En el Modelo de Influencia de Cohen & Bradford, ¿qué significa el intercambio de "Capital de Posición"?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué operar exclusivamente bajo "Autoridad Jerárquica" (porque soy la jefa y punto) es altamente ineficaz en estructuras modernas matriciales B2B?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Capital de Intercambio</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Revisa tus propias herramientas. Cuando no puedes dar órdenes, ¿qué ofreces? ¿Capital de Tarea, Posición o Personal? Conoce tu inventario.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. Desactivación del Título</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Entiende que si ella depende de decir 'yo soy la gerente' para que las cosas pasen, su influencia real es cero. El título es lo que usas cuando falló la persuasión.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Calibración Transversal</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Piensa en el departamento más hostil de tu empresa. Prepárate para diseñar una estrategia de influencia sin autoridad dirigida exactamente hacia ellos.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Mañana dejaremos de quejarnos de que Finanzas o Legal no nos apoyan. Te enseñaré a mover áreas enteras sobre las que no tienes autoridad formal."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Cuando ella se queje de que los gerentes de otras áreas ignoran sus correos porque 'no le reportan a ella':</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Si aceptamos que ellos no tienen ninguna obligación jerárquica de leerte ni apoyarte, ¿qué moneda de intercambio (tiempo, recursos, visibilidad directiva) les has ofrecido a cambio de su lealtad táctica a tu proyecto?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. El Diseño del Trueque</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Haz que elija a un gerente lateral no colaborativo. Diseñen en conjunto una oferta de 'Capital de Tarea' o 'Capital de Posición' que apunte directamente a los KPIs o al dolor operativo de ese gerente, para forzar su cooperación.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Debe aplicar la oferta de intercambio diseñada con el gerente lateral difícil en las próximas 48 horas, logrando destrabar un proceso o recurso.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 49,
+                badge: "Bloque 5 • Día 9",
+                title: "LA MENTORA COMO CARTÓGRAFA POLÍTICA",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">REVELANDO EL MAPA NO ESCRITO</h3>
+                        <p>El trabajo técnico la ejecutiva lo aprenderá leyendo manuales, normativas ISO y asistiendo a maestrías. El funcionamiento de la estructura política formal lo aprenderá leyendo el manual de Recursos Humanos. Pero las reglas reales del juego de poder —el resentimiento que el VP de Operaciones le tiene al Director Financiero desde el proyecto fallido de 2023, la alianza inquebrantable entre Recursos Humanos y el sindicato técnico de campo, o el verdadero peso de la opinión del asistente ejecutivo del CEO— eso no está escrito en ninguna parte.</p>
+                        <p>La función más crítica, reservada, y casi secreta de una mentora de alto nivel es servir como "Cartógrafa Política". Tu labor es proveerle a tu mentoreada el mapa geográfico con las zonas minadas y las rutas seguras, explicándole las fallas tectónicas de la cultura de la empresa para evitar que se vuele a sí misma por ignorancia estratégica.</p>
+                        <p>Esto no es fomento del "chisme corporativo". Es supervivencia sistémica. Cuando tu mentoreada te presente un plan brillante para optimizar la logística, tu respuesta cartográfica debe ser: "Técnicamente, el plan es impecable. Políticamente, es un campo minado. Si presentas esto en la junta general sin antes consultar con el Director de Compras, él lo percibirá como un asalto a su territorio y usará su influencia, que es muy alta en gerencia general, para vetar tu presupuesto. Tienes que agendar una reunión 'off-the-record' con él primero y hacerlo sentir como el co-creador de tu proyecto".</p>
+                        <p>Esta intervención, propia del Candor Radical, puede asustar inicialmente a una ejecutiva inocente o purista que cree en el "solo importa el mérito". Tu mentoría despoja a la mentoreada de la ingenuidad operativa, reemplazándola con sofisticación táctica. Es tu experiencia histórica de fracasos y éxitos pasados empaquetada como inteligencia militar corporativa, puesta al servicio exclusivo del futuro de otra mujer.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Cuál es la diferencia entre fomentar el "chisme corporativo" y actuar como una "Cartógrafa Política" en el proceso de mentoría?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué una mentoreada brillante podría fracasar con un plan técnicamente perfecto si no se le ha entregado previamente el "mapa no escrito" de lealtades y resentimientos?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--accent-fire);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Secretos</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">¿Qué información crítica sobre 'quién odia a quién' o 'quién tiene el oído del CEO' no le has dicho a tu mentoreada por intentar ser 'profesional'?</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. El Compromiso Cartográfico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Acepta que retener el mapa de riesgos sociopolíticos de la empresa por mantener la 'diplomacia' es dejar a tu pupila caminar ciega por un campo minado.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. El Trazo Fino</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Revisa mentalmente el historial de fallas tectónicas de la empresa. Identifica la trampa política más peligrosa que se avecina en el departamento de ella. Esa será tu revelación de hoy.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Mañana cerramos la puerta, nadie escucha. Te voy a entregar el mapa político no escrito de esta empresa. Prepárate para la verdad operativa pura."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Si ella presenta una propuesta que va en contra de la agenda de un Vicepresidente muy silencioso pero muy poderoso:</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Tu proyecto es técnicamente impecable, pero dime una cosa: ¿Qué crees que va a hacer el Vicepresidente de [Área] cuando vea que tu propuesta le quita 20% de su presupuesto de control operativo?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. La Cartografía Brutal</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Revelación de información táctica asimétrica. Cuéntale a tu mentoreada un caso real y clasificado de la empresa donde un proyecto falló exclusivamente por un veto político no escrito. Explícale cómo las dinámicas informales mataron a la técnica.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Ninguna acción operativa hacia afuera. Su única tarea es trazar un mapa de alianzas ocultas de su propio equipo, basándose en la nueva inteligencia estratégica que le acabas de entregar.</p>
+                    </div>
+`
+            },
+
+            {
+                id: 50,
+                badge: "Bloque 5 • Día 10",
+                title: "CHECKPOINT BLOQUE 5 — MAPA POLÍTICO DE LA MENTOREADA",
+                readingHTML: `
+                        <h3 style="color: var(--accent-water); font-size: 1.1rem; margin-bottom: 12px;">LA AUDITORÍA DE INFLUENCIA: EL FIN DE LA INGENUIDAD CORPORATIVA</h3>
+                        <p>Has finalizado el Bloque 5. En el programa hemos transitado del mundo interior de la ejecutiva a la crudeza de la dinámica del poder global de la empresa. Ya estás calibrada para despojarte a ti y a tu protegida de la visión romántica y limitante de la meritocracia pura (Pfeffer), para entender que el liderazgo no ocurre en el vacío, ocurre en un sociograma vivo.</p>
+                        <p>La mentoría debe traducirse en protección táctica e impulso estratégico. En tu próxima sesión 1:1, deberás ejecutar el análisis geopolítico de la empresa aplicado a los objetivos de tu mentoreada.</p>
+                        <p>**PLANTILLA INVICTUS: MAPEO ESTRATÉGICO Y POLÍTICA 1:1**</p>
+                        <p>*(Cópialo y prepara las respuestas en tu Libreta Invictus)*</p>
+                        <p>1. **La Auditoría de Redes (Ibarra):** ¿Mi mentoreada invierte al menos el 15% de su tiempo construyendo "Redes Estratégicas", o está sofocada 100% en sus "Redes Operativas" gestionando micro-emergencias? ¿Cuál es el próximo paso para presentarla ante una figura estratégica esta semana?</p>
+                        <p>2. **El Impuesto Invisible (Kanter):** Observando sus interacciones pasadas, ¿la organización la está penalizando con Trabajo de Oficina No Remunerado (tomar notas, entrenar novatos, planificar logística)? ¿Cómo entrenaré su "Desvío Estratégico" en esta sesión?</p>
+                        <p>3. **El Escudo Táctico:** Para su próximo gran proyecto o meta del trimestre, ¿quién es el bloqueador de "Alto Poder" en la empresa que ella no está viendo venir por pura ingenuidad técnica?</p>
+                        <p>4. **Influencia sin Autoridad:** ¿A quién necesita convencer esta semana de un departamento paralelo sobre el cual no tiene poder? ¿Qué "Capital de Tarea" o "Capital de Posición" diseñaremos juntas para que ella pueda usarlo como moneda de intercambio?</p>
+                        <p>5. **Mi Cartografía:** Si el Director General le preguntara hoy a 3 personas en pasillos sobre mi mentoreada, ¿qué dirían de su marca política?</p>
+                        <p>Entrar a la sala de reuniones con este nivel de sofisticación garantiza que tu impacto durará décadas. Tú no solo le enseñas a operar sistemas y equipos; le estás enseñando las reglas maestras de cómo ganar el juego corporativo en el que ambas compiten.</p>
+
+                        <div class="recall-box" style="margin-top: 30px; background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px; border-left: 3px solid var(--accent-water);">
+                            <h4 style="color: white; margin-bottom: 15px; font-size: 1rem;">🔍 Recall Activo</h4>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; padding-left: 20px; display: flex; flex-direction: column; gap: 12px;">
+                                <li><strong>Literal:</strong> ¿Cuál es el propósito del punto "El Escudo Táctico" dentro de la plantilla Invictus de Mapeo Estratégico?</li>
+                                <li><strong>Inferencial:</strong> ¿Por qué la "ingenuidad corporativa" de la mentoreada no se soluciona únicamente con más maestrías técnicas o posgrados?</li>
+                                <li><strong>Aplicación:</strong> Diseña una prueba situacional que desafíe este conocimiento.</li>
+                                <li><strong>Conexión:</strong> </li>
+                            </ul>
+                        </div>
+
+                `,
+                playbook: `
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--success); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                    </div>
+                    
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de Crecimiento Sistémico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Mira a la mujer que tienes enfrente. En el Bloque 1 no sabía regular su cortisol. Hoy, entiende la diferencia entre Capital de Posición y Redes Estratégicas. Siente el impacto de tu trabajo.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. Cambio de Piel</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Prepárate para la última sesión de este formato. En el Bloque 6 pasaremos a Estrategia Pura. Hoy debes cerrar definitivamente la etapa de 'política y relaciones'.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #9370DB;">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. La Observación de Vuelo</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Tu objetivo hoy no es sostenerle la mano. Es hacerle preguntas directivas rápidas y verificar si su instinto de supervivencia corporativa ya opera en automático.</p>
+                    </div>
+
+                    <div style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--success); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                        PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;"><em>"Llegamos al Checkpoint 5. El entrenamiento político ha terminado. Mañana demostraremos si ya puedes navegar el poder sin mi mapa."</em></p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Para probar su capacidad de leer el terreno político por sí sola frente a un dilema futuro imaginario:</p>
+                        <div style="padding: 12px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-top: 10px; font-style: italic; color: #FFF;">
+                            "Si el próximo mes te promocionan a Directora y te das cuenta de que la persona de RRHH detesta tu estilo de liderazgo, sabiendo lo que sabes hoy de influencia ética, ¿cuál es tu jugada de la semana 1?"
+                        </div>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid var(--success);">
+                        <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. Evaluación de Resiliencia Política</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Usa la 'Plantilla Invictus'. Discutan la Matriz de Stakeholders que ella armó. Si identificas un error de lectura (alguien de alto poder que ella cree que no importa), corrígela con candor radical. Documenten el mapa final.</p>
+                    </div>
+
+                    <div class="note-item" style="border-left: 2px solid #FFD700; background: transparent;">
+                        <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">II. Asignación de Riesgo Táctico</h3>
+                        <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Desconexión operativa absoluta por 24 horas. Debe asimilar el peso del poder corporativo que ahora entiende antes de entrar al Bloque 6: Visión Sistémica y Estrategia.</p>
+                    </div>
+`
+            }
+        ];
+
+        let currentDayId = 1;
+
+        // AUTH LOGIC
+        let pinCount = 0;
+        function pressKey() {
+            const dots = document.querySelectorAll('.dot');
+            if (pinCount < 4) {
+                dots[pinCount].classList.add('filled');
+                pinCount++;
+                if (pinCount === 4) {
+                    setTimeout(() => {
+                        document.getElementById('auth-overlay').classList.add('hidden');
+                        renderDashboard();
+                        loadDay(1);
+                    }, 400);
+                }
+            }
+        }
+
+        // NAVIGATION LOGIC
+        function switchTab(viewId, navElement) {
+            document.querySelectorAll('.view').forEach(el => el.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            navElement.classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function renderDashboard() {
+            const list = document.getElementById('dashboard-list');
+            list.innerHTML = '';
+            
+            // Render Day 1 & 2
+            daysData.forEach(day => {
+                const card = document.createElement('div');
+                card.className = `glass-card track-card ${currentDayId === day.id ? 'active' : ''}`;
+                card.onclick = () => {
+                    loadDay(day.id);
+                    switchTab('view-session', document.querySelectorAll('.nav-item')[1]);
+                    // Update active state in list
+                    document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
+                    card.classList.add('active');
+                };
+                card.innerHTML = `
+                    <div class="track-number">${day.id}</div>
+                    <div>
+                        <h4 style="font-size: 0.95rem; color: white;">${day.title}</h4>
+                        <p style="font-size: 0.8rem; color: var(--accent-fire);">${day.desc || "Estrategia Avanzada"}</p>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+
+            // Render placeholders for day 3 to 10
+            for(let i = 3; i <= 10; i++) {
+                const card = document.createElement('div');
+                card.className = `glass-card track-card locked`;
+                card.innerHTML = `
+                    <div class="track-number" style="background: transparent; color: var(--text-tertiary);">${i}</div>
+                    <div>
+                        <h4 style="font-size: 0.95rem; color: var(--text-tertiary);">Siguiente Evolución</h4>
+                        <p style="font-size: 0.8rem; color: var(--text-tertiary);">Bloqueado</p>
+                    </div>
+                `;
+                list.appendChild(card);
+            }
+        }
+
+        function loadDay(id) {
+            currentDayId = id;
+            const data = daysData.find(d => d.id === id);
+            if(!data) return;
+
+            // Update Session Header
+            document.getElementById('sesion-badge').textContent = data.badge;
+            document.getElementById('sesion-title').textContent = data.title;
+
+            // Update Session Timeline
+            let recallHTML = '';
+            if (data.recall) {
+                data.recall.forEach((r, idx) => {
+                    recallHTML += `
+                        <div style="margin-bottom: 16px; background: rgba(255,94,0,0.05); border: 1px dashed rgba(255,94,0,0.3); padding: 16px; border-radius: 12px;">
+                            <span style="font-size: 0.75rem; color: var(--accent-fire); text-transform: uppercase;">${r.type}</span>
+                            <p style="font-size: 0.9rem; margin: 8px 0; color: white;">${r.q}</p>
+                            <textarea class="input-premium" placeholder="Escribe tu respuesta analítica..."></textarea>
+                        </div>
+                    `;
+                });
+            }
+
+            const timelineHTML = `
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4 style="color: var(--text-primary);">1. Ancla Cognitiva</h4><span class="phase-duration">1m</span></div>
+                    <p class="phase-desc">Preparación del estado fisiológico para el aprendizaje profundo.</p>
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4 style="color: var(--accent-fire);">2. Lectura Cronometrada</h4><span class="phase-duration" style="color:var(--accent-fire);">12m</span></div>
+                    
+                    <div id="lectura-timer-box" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 16px; margin-bottom: 16px; text-align: center;">
+                        <div id="ppm-timer-display" style="font-family: 'Outfit'; font-size: 2.2rem; color: var(--accent-fire); font-weight: bold; margin-bottom: 12px; font-variant-numeric: tabular-nums;">00:00</div>
+                        <button id="btn-iniciar-lectura" class="btn-outline" style="width: 100%; border-color: var(--accent-fire); color: white; background: rgba(255,94,0,0.1);" onclick="iniciarLecturaPPM()">▶ Iniciar Lectura Biónica</button>
+                        <button id="btn-terminar-lectura" class="btn-outline" style="width: 100%; border-color: var(--success); color: white; background: rgba(16,185,129,0.1); display: none;" onclick="terminarLecturaPPM()">⏹ Terminé de Leer</button>
+                    </div>
+
+                    <div id="reader-content-premium" class="reader-premium" style="display: none;">${data.readingHTML}</div>
+                </div>
+                
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>3. Síntesis Ejecutiva</h4><span class="phase-duration">1m</span></div>
+                    <p class="phase-desc">Destila el conocimiento complejo en principios simples.</p>
+                    <input type="text" class="input-premium" placeholder="Resume la teoría en 1 frase...">
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>4. Recall Activo</h4><span class="phase-duration">4m</span></div>
+                    <p class="phase-desc" style="margin-bottom: 16px;">Contesta para forzar la recuperación neurológica de los datos.</p>
+                    ${recallHTML}
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>5. Codificación Dual</h4><span class="phase-duration">2m</span></div>
+                    <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                    <p class="phase-desc" style="margin-top: 8px;">Dibuja un esquema conceptual de lo aprendido hoy para anclarlo visualmente.</p>
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
+                    <p class="phase-desc">Liga la información a tu cuerpo. Toca tu cabeza para la teoría, tus manos para la ejecución táctica.</p>
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
+                    <input type="text" class="input-premium" placeholder="Si este concepto fuera una herramienta física, sería...">
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>8. Zona de Riesgo (Práctica)</h4><span class="phase-duration">5m</span></div>
+                    <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                    <p class="phase-desc" style="margin-top: 8px;">Anota el primer paso táctico que darás HOY mismo para ejecutar esta teoría en tu trabajo.</p>
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
+                    <p class="phase-desc">Aplica cada 7 sesiones. Hoy descansa.</p>
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
+                    <p class="phase-desc">Escribe a mano tu mayor bloqueo cognitivo de hoy para ajustar tu estrategia mañana.</p>
+                </div>
+
+                <div class="phase active">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4>11. Ensayo Somático (Yo Futuro)</h4><span class="phase-duration">2m</span></div>
+                    <p class="phase-desc">Visualízate aplicando esto en la junta directiva más intimidante de este mes. Reclama el espacio.</p>
+                </div>
+
+                <div class="phase active water">
+                    <div class="phase-node"></div>
+                    <div class="phase-header"><h4 style="color:var(--accent-water);">12. Modo Sueño (Guia Theta)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
+                    <p class="phase-desc">Meditacion guiada de 6 minutos. Onda Theta 6Hz para consolidar el aprendizaje. Usa audifonos.</p>
+                    <button id="theta-btn-${data.id}" onclick="toggleTheta(${data.id})" style="margin-top:12px;width:100%;padding:12px;background:rgba(0,198,255,0.08);border:1px solid rgba(0,198,255,0.3);border-radius:12px;color:#00C6FF;font-family:'Outfit';font-size:.9rem;cursor:pointer;transition:all .3s">
+                        Iniciar Meditacion Guiada
+                    </button>
+                </div>
+            `;
+            document.getElementById('sesion-timeline').innerHTML = timelineHTML;
+
+            // Update Playbook
+            document.getElementById('playbook-content').innerHTML = data.playbook;
+        }
+
+    
+/* KIT DE MENTORIA v1 */
+(function(){
+  const CRISIS_DATA = [{"id": "no_avanza", "icon": "😶", "title": "Mi mentoreada no avanza", "steps": ["Define: es un problema de habilidad o de voluntad? Son soluciones distintas.", "Si es habilidad: redisena el ejercicio de riesgo tactico. Hazlo mas pequeno y concreto.", "Si es voluntad: preguntale directamente: 'En una escala del 1 al 10, que tan comprometida estas con este cambio?'", "Cualquier numero menor a 7: 'Que tendria que pasar para que sea un 10?' Escucha sin interrumpir."]}, {"id": "llora", "icon": "😢", "title": "Rompe en llanto en sesion", "steps": ["No la interrumpas. No busques el panuela. No digas 'no llores'. Sostenla con silencio.", "Despues de 60 segundos: 'Gracias por confiar en este espacio. Que necesitas ahora?'", "No conviertas la sesion en terapia. Si el llanto revela algo mas profundo, deriva a un profesional.", "Cierra con un pequeno acto de agencia: 'Dime una cosa que SI puedes controlar esta semana'."]}, {"id": "resistencia", "icon": "🧱", "title": "Resistencia y defensividad", "steps": ["No argumentes. La resistencia no se vence con logica, se disuelve con preguntas.", "Lanza: 'Entiendo que esto se siente injusto. Que tendria que ser verdad para que este feedback fuera valioso para ti?'", "Si sigue resistente: 'No tengo que convencerte. Toma lo que te sirve y deja lo que no. Que fue lo unico util de hoy?'", "Termina ahi. La sesion que produce una sola pepita de oro fue exitosa."]}, {"id": "dependencia", "icon": "🔗", "title": "Se esta volviendo dependiente", "steps": ["Detecta la senal: te llama fuera de sesion, te pide permiso para decidir, espera tu aprobacion.", "En la proxima sesion nombralo directo: 'Noto que buscas mi validacion antes de actuar. Que pasaria si actuaras sin pedirmela?'", "Redirige la pregunta hacia ella siempre: cuando te pregunte que hacer, responde '?Tu que crees?'", "Recuerda: tu éxito como mentora es hacerte innecesaria. Mide tu impacto en su autonomia."]}, {"id": "limites", "icon": "⚠️", "title": "Cruzo un limite", "steps": ["Nombra lo que ocurrio en el momento, no dias despues: 'Cuando dijiste X, senti que ese espacio cruzo el limite de nuestra relacion de mentoria.'", "Reafirma el marco: 'Esta relacion es de mentoria profesional. Eso significa...'", "Si cruzo un limite etico grave (confidencialidad, acoso): documenta y consulta con tu supervisor antes de la proxima sesion.", "No necesitas disculparte por tener limites. Los limites claros son el regalo mas grande que le puedes dar."]}, {"id": "estancada", "icon": "🔄", "title": "La sesion no llego a ningún lado", "steps": ["Acepta que no todas las sesiones producen avances visibles. Algunas siembran.", "Preguntate: di demasiados consejos? Hable mas del 40% del tiempo? Esas son senales de que la sesion fue tuya, no de ella.", "En la proxima sesion abre con: 'La ultima vez senti que no llegamos a nada profundo. Que crees que faltó?'", "Recalibra tu rol: tu trabajo no es resolver, es preguntar. Prepara 3 preguntas poderosas antes de la sesion."]}];
+  const CASOS_DATA = [{"title": "El Poder que Incomoda", "setup": "Tu mentoreada acaba de recibir un ascenso y ahora tiene mas poder que su exjefa, que es tu amiga personal. Tu amiga te llama molesta y te dice que tu mentoreada 'se le subio el poder a la cabeza'.", "options": [{"label": "Escucho a mi amiga con empatia pero no comparto información de mi mentoreada ni cambio mi coaching.", "correct": true, "concept": "Integridad de rol", "feedback": "Correcto. Puedes ser amiga y mentora sin mezclar los roles. Escuchar a tu amiga es valido. Dejar que esa conversacion modifique tu coaching es una violacion de confianza hacia tu mentoreada."}, {"label": "Le cuento a mi mentoreada lo que dijo mi amiga para que pueda defenderse.", "correct": false, "concept": "Triangulacion", "feedback": "Compartir con tu mentoreada lo que dijo terceros crea triangulacion y convierte la relacion de mentoria en un espacio de chisme organizacional."}, {"label": "Dejo de mentorear a esta persona para proteger mi amistad.", "correct": false, "concept": "Abandono por conveniencia", "feedback": "Abandonar a tu mentoreada porque su éxito incomoda a tu red es exactamente el tipo de traicion que el programa busca eliminar del ecosistema de liderazgo femenino."}, {"label": "Hablo con mi mentoreada sobre como gestionar mejor las percepciones de poder.", "correct": false, "concept": "Sesgo por información externa", "feedback": "Cambiar el tema de coaching basandote en lo que te dijo tu amiga — sin que tu mentoreada haya traido ese tema — es dejar que una fuente externa contamine el espacio de mentoria."}], "prompt": "Escribe que le diras a tu amiga para proteger la relacion de mentoria sin perder la amistad:"}];
+  const ACCENT = '#F59E0B';
+
+  window.renderKitMentoria = function() {
+    // Stats
+    let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
+    if (typeof daysData !== 'undefined') {
+      daysData.forEach(d => {
+        const key = 'mm_b5_d' + d.id;
+        const done = localStorage.getItem(key) === '1';
+        if (done) { diasActivos++; streak++; if (streak > maxStreak) maxStreak = streak; }
+        else { streak = 0; }
+        const ppm = parseInt(localStorage.getItem(key + '_ppm') || '0');
+        if (ppm > bestPpm) bestPpm = ppm;
+      });
+    }
+    const total = typeof daysData !== 'undefined' ? daysData.length : 1;
+    const pct = Math.round((diasActivos / total) * 100);
+
+    const el = id => document.getElementById(id);
+    if (el('km-dias')) el('km-dias').textContent = diasActivos;
+    if (el('km-streak')) el('km-streak').textContent = maxStreak;
+    if (el('km-ppm')) el('km-ppm').textContent = bestPpm || '—';
+    if (el('km-pct')) el('km-pct').textContent = pct + '%';
+    if (el('km-bar')) el('km-bar').style.width = pct + '%';
+
+    // Profile
+    if (diasActivos >= 5) {
+      const profiles = [
+        {n:'Mentora Socrática', d:'Preguntas poderosas sobre consejos. Genera autonomía profunda en sus mentoreadas.'},
+        {n:'Mentora Catalizadora', d:'Activa el potencial dormido. Transforma la ambivalencia en movimiento.'},
+        {n:'Mentora Espejo', d:'Refleja verdades difíciles con gracia. Sus mentoreadas se ven a sí mismas con claridad brutal.'},
+        {n:'Mentora Estratega', d:'Conecta el desarrollo personal con la visión organizacional. Piensa en sistemas.'},
+      ];
+      const p = profiles[diasActivos % profiles.length];
+      const wrap = el('km-mirror-profile');
+      if (wrap) { wrap.style.display = 'block'; }
+      if (el('km-profile-name')) el('km-profile-name').textContent = p.n;
+      if (el('km-profile-desc')) el('km-profile-desc').textContent = p.d;
+      const es = el('espejo-status');
+      if (es) { es.textContent = 'Perfil revelado'; es.style.background='rgba(16,185,129,.15)'; es.style.color='#10b981'; }
+    }
+  };
+
+  window.abrirCrisisMM = function(id) {
+    const data = CRISIS_DATA.find(c => c.id === id);
+    if (!data) return;
+    const m = document.getElementById('crisis-modal-mm');
+    const t = document.getElementById('crisis-mm-title');
+    const ct = document.getElementById('crisis-mm-content');
+    if (!m || !t || !ct) return;
+    t.textContent = data.icon + ' ' + data.title;
+    let html = '<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:40px">';
+    data.steps.forEach((s, i) => {
+      html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:flex-start">';
+      html += '<div style="min-width:28px;height:28px;border-radius:50%;background:' + ACCENT + ';display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;color:#fff;flex-shrink:0">' + (i+1) + '</div>';
+      html += '<p style="font-size:.85rem;color:#fff;line-height:1.6;margin-top:1px">' + s + '</p></div>';
+    });
+    html += '</div>';
+    ct.innerHTML = html;
+    m.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.cerrarCrisisMM = function() {
+    const m = document.getElementById('crisis-modal-mm');
+    if (m) m.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.abrirCaso = function(idx) {
+    const caso = CASOS_DATA[idx];
+    if (!caso) return;
+    const m = document.getElementById('sala-modal');
+    const t = document.getElementById('sala-title');
+    const ct = document.getElementById('sala-content');
+    if (!m || !t || !ct) return;
+    t.textContent = caso.title;
+    let html = '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:20px;font-size:.85rem;color:#ddd;line-height:1.7">' + caso.setup + '</div>';
+    html += '<div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">OPCIONES</div>';
+    html += '<div id="sala-opts">';
+    caso.options.forEach((opt, i) => {
+      html += '<button class="opt-btn" onclick="elegirOpcion(' + idx + ',' + i + ')">';
+      html += '<strong>' + ['A','B','C','D'][i] + '.</strong> ' + opt.label;
+      html += '</button>';
+    });
+    html += '</div>';
+    html += '<div id="sala-feedback" style="display:none;margin-top:20px"></div>';
+    html += '<div id="sala-prompt-wrap" style="display:none;margin-top:20px"><div style="font-size:.78rem;color:' + ACCENT + ';font-weight:600;margin-bottom:10px">' + (caso.prompt||'Tu reflexión:') + '</div><textarea id="sala-answer" style="width:100%;min-height:90px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-family:Inter;font-size:.85rem" placeholder="Escribe aquí..."></textarea><button onclick="guardarCaso(' + idx + ')" style="margin-top:12px;width:100%;padding:13px;background:linear-gradient(135deg,' + ACCENT + ',#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer">Guardar mi reflexión</button></div>';
+    ct.innerHTML = html;
+    m.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.elegirOpcion = function(casoIdx, optIdx) {
+    const caso = CASOS_DATA[casoIdx];
+    const opt = caso.options[optIdx];
+    document.querySelectorAll('.opt-btn').forEach((btn, i) => {
+      btn.style.borderColor = (i === optIdx) ? (opt.correct ? '#10b981' : '#ef4444') : 'rgba(255,255,255,.06)';
+      btn.style.opacity = (i === optIdx) ? '1' : '.4';
+    });
+    const fb = document.getElementById('sala-feedback');
+    const color = opt.correct ? '#10b981' : '#ef4444';
+    fb.style.display = 'block';
+    fb.innerHTML = '<div style="background:rgba(255,255,255,.03);border:1px solid ' + color + ';border-radius:14px;padding:16px"><div style="color:' + color + ';font-weight:600;margin-bottom:8px">' + (opt.correct ? '✓ ' : '✗ ') + opt.concept + '</div><p style="font-size:.83rem;color:#ddd;line-height:1.6">' + opt.feedback + '</p></div>';
+    document.getElementById('sala-prompt-wrap').style.display = 'block';
+  };
+
+  window.guardarCaso = function(idx) {
+    const ans = document.getElementById('sala-answer').value.trim();
+    if (!ans) return;
+    localStorage.setItem('mm_b5_caso_' + idx, ans);
+    window.cerrarSala();
+    window.renderKitMentoria();
+  };
+
+  window.cerrarSala = function() {
+    const m = document.getElementById('sala-modal');
+    if (m) m.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // Render on tab switch
+  const _origSwitch = window.switchTab;
+  window.switchTab = function(viewId, navEl) {
+    if (_origSwitch) _origSwitch(viewId, navEl);
+    if (viewId === 'view-kit') window.renderKitMentoria();
+  };
+
+})();
+
+
+/* THETA SCRIPTS DATA */
+window.THETA_SCRIPTS = {41: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza el poder que ya tienes. No el poder que esperas tener. El que ya existe hoy en tu posicion... en tus relaciones... en tu credibilidad ganada. La mayoria de las mujeres liderando subestiman sistematicamente el poder que ya tienen. Esa subestimacion las hace actuar como si pidieran permiso para cosas que ya son suyas. Siente tu poder actual en el cuerpo. No como arrogancia. Como claridad. Claridad sobre lo que puedes hacer hoy sin esperar a tener mas. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 42: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que puedes mapear tu red de influencia. Los circulos concentrales desde tu equipo inmediato hasta la organizacion extendida. Cada nodo de esa red es una persona cuya percepcion de ti tiene impacto en tu capacidad de mover cosas. Ahora visualiza como cuidas esa red. No de manera manipuladora. De manera generosa. La influencia sostenible se construye siendo la persona que da antes de pedir. Que facilita antes de protagonizar. Que hace que otros brillen y por eso... brilla sin tener que pedirlo. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 43: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza a tu mentoreada en una reunion donde su propuesta no esta siendo escuchada. No porque sea mala. Porque no tiene el contexto politico para presentarla de manera que llegue. Tu puedes ver ese contexto. El mapa de quien necesita sentirse incluido antes de que la idea pueda avanzar. El orden en que hay que construir los apoyos. La forma en que hay que enmarcar la propuesta para que cada stakeholder vea en ella su propio interes. Eso no es manipulacion. Es inteligencia politica. Y es una habilidad que se ensena. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 44: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que el poder formal y el poder real no son lo mismo. El poder formal es el organigrama. El poder real es quien mueve las cosas cuando el organigrama no alcanza. Tu mentoreada quizas tiene el titulo pero no el poder real. O tiene el poder real pero no el titulo. Tu trabajo es ayudarle a ver la diferencia... y a construir ambos de manera deliberada. El poder sin legitimidad no dura. La legitimidad sin poder no mueve. La combinacion de ambos es lo que produce liderazgo sostenible. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 45: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza el momento en que tu mentoreada tiene que decirle no a alguien con mas poder que ella. No un no pasivo que en realidad es un si aplazado. Un no claro con razon clara y alternativa ofrecida. Siente el coraje que eso requiere. Y el respeto que genera. Las personas que saben decir no con claridad son las que mas se respetan en las organizaciones porque se sabe que su si es real. Ayuda a tu mentoreada a construir esa capacidad. Primero contigo. Practicando el no en un espacio seguro. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 46: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que la influencia tiene una frecuencia. Y que esa frecuencia depende de con que intencion influyes. Cuando influyes desde el miedo al rechazo la frecuencia es baja y la gente lo siente aunque no pueda nombrarlo. Cuando influyes desde la conviccion de que lo que propones sirve al bien colectivo la frecuencia es alta y la gente responde aunque no sepa por que. Tu trabajo como mentora es ayudar a tu mentoreada a identificar desde donde influye. Y a elevar esa frecuencia. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 47: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza a tu mentoreada presentando una idea en una sala donde la mayoria no esta de acuerdo. En lugar de defenderse... hace preguntas. En lugar de argumentar... escucha con genuina curiosidad las objeciones. En lugar de ceder o atacar... construye puentes entre su propuesta y las preocupaciones reales de quienes se oponen. Eso es influencia de alto nivel. No convencer. Integrar. No ganar. Co-crear. Es mas lento que la fuerza. Y produce compromisos que duran. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 48: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que tu mentoreada tiene miedo de ser percibida como demasiado ambiciosa. Ese miedo la hace minimizar sus logros... pedir menos de lo que merece... deferir cuando deberia liderar. Tu trabajo es ayudarle a ver que la ambicion al servicio del impacto no es un defecto... es una responsabilidad. El mundo necesita que las mujeres que tienen capacidad la usen completamente. No para su propio beneficio exclusivo. Sino porque cuando lideran bien... los ecosistemas donde lideran mejoran. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 49: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza el momento en que tu mentoreada toma una decisión de poder. No una decisión que le piden tomar. Una que ella elige tomar porque ve que nadie mas la va a tomar. Ese momento de iniciativa es el momento donde el liderazgo real comienza. No en el cargo. No en el titulo. En la decisión de actuar cuando no te lo han pedido pero ves que es necesario. Tu trabajo es crear en ella la conviccion de que tiene el derecho y la responsabilidad de tomar esas decisiones. Antes de que alguien se lo pida. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 50: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Es el final del Bloque 5. Cincuenta dias construyendo una relacion mas madura con el poder. Visualiza la diferencia entre tu relacion con la influencia al inicio de este programa y ahora. No es que tengas mas poder externo. Es que tienes mas claridad sobre el que ya tenias y mas precision sobre como usarlo. Y eso... lo trasladas directamente a las mentoreadas que guias. Honra ese crecimiento. El poder usado con sabiduria es el recurso mas escaso del liderazgo latinoamericano. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela."};
+
+/* THETA TTS ENGINE */
+var thetaUtt = null;
+var thetaPlaying = false;
+
+window.toggleTheta = function(dayId) {
+    var btn = document.getElementById('theta-btn-' + dayId);
+    if (thetaPlaying) {
+        window.speechSynthesis.cancel();
+        thetaPlaying = false;
+        if (btn) { btn.textContent = 'Iniciar Meditacion Guiada'; btn.style.background = ''; }
+        return;
+    }
+    var scripts = window.THETA_SCRIPTS || {};
+    var script = scripts[dayId] || 'Respira profundo. Integra el aprendizaje de hoy.';
+    thetaUtt = new SpeechSynthesisUtterance(script);
+    thetaUtt.lang = 'es-ES';
+    thetaUtt.rate = 0.82;
+    thetaUtt.pitch = 1.0;
+    thetaUtt.volume = 1.0;
+    thetaUtt.onend = function() {
+        thetaPlaying = false;
+        if (btn) { btn.textContent = 'Iniciar Meditacion Guiada'; btn.style.background = ''; }
+    };
+    window.speechSynthesis.speak(thetaUtt);
+    thetaPlaying = true;
+    if (btn) { btn.textContent = 'Detener'; btn.style.background = 'rgba(0,198,255,0.15)'; }
+};
+
+</script>
+    <script>
+        // --- SIGMA COMPANION DATA ---
+        const SIGMA_DATA = {
+            41: { advice: "El poder personal no se otorga — se construye con decisiones diarias. Cada vez que honras tu palabra, tu poder crece. Cada vez que lo disculpas, disminuye.", prompt: "¿Qué palabra te diste a ti misma que no has honrado esta semana?" },
+            42: { advice: "La autoridad legítima no viene del título — viene de la competencia visible y la integridad consistente. Tu mentoreada te sigue porque confía, no porque debes.", prompt: "¿En qué área necesitas demostrar más competencia para fortalecer tu autoridad?" },
+            43: { advice: "El poder compartido multiplica. Cuando das crédito, cuando delegas con confianza, cuando reconoces el talento ajeno, tu poder no disminuye — se expande.", prompt: "¿A quién puedes darle más visibilidad esta semana sin que eso te reste?" },
+            44: { advice: "Los límites no son muros — son puentes con peaje. Sin límites claros, tu energía se drena en direcciones que no eligiste.", prompt: "¿Qué límite necesitas establecer esta semana para proteger tu energía de liderazgo?" },
+            45: { advice: "El cierre de bloque es un inventario de poder. No cuantas títulos tienes — cuentas cuántas decisiones difíciles tomaste con integridad.", prompt: "¿Qué decisión difícil tomaste recientemente que fortaleció tu poder personal?" },
+            46: { advice: "La influencia sin autoridad es el arte de mover personas que no te deben nada. Se construye con valor aportado, no con posición exigida.", prompt: "¿Qué valor específico puedes aportar esta semana a alguien que no te debe nada?" },
+            47: { advice: "El poder se pierde cuando se usa para controlar en lugar de para crear. Tu autoridad es una herramienta de construcción, no de coerción.", prompt: "¿Dónde estás usando tu autoridad para controlar en lugar de para liberar potencial?" },
+            48: { advice: "La presencia ejecutiva no es actuar — es estar. Tu cuerpo, tu voz, tu silencio comunican antes de que abras la boca.", prompt: "En tu próxima reunión, observa cómo tu presencia afecta la sala antes de hablar." },
+            49: { advice: "El poder real se mide en cuántas personas crecen bajo tu influencia. Si tu equipo no está más capaz que cuando llegó, tu poder es ilusión.", prompt: "¿Quién en tu esfera está más capaz hoy porque tú estuviste presente?" },
+            50: { advice: "Tu relación con el poder define tu liderazgo. No es bueno ni malo — es amplificador. Si eres generosa, amplifica tu generosidad. Si tienes miedo, amplifica tu miedo.", prompt: "Escribe una oración sobre tu relación actual con el poder y cómo ha evolucionado." },
+        };
+
+        function openSigma() {
+            const d = SIGMA_DATA[currentDayId] || { advice: "Sigma está contigo. Elige un día para recibir orientación.", prompt: "¿Qué te detiene hoy?" };
+            const m = document.getElementById('sigma-modal');
+            const c = document.getElementById('sigma-content');
+            c.innerHTML = `
+                <div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:16px">
+                    <div style="font-size:.72rem;color:${ACCENT};text-transform:uppercase;letter-spacing:1px;margin-bottom:8px">Consejo de Sigma — Día ${currentDayId}</div>
+                    <p style="font-size:.9rem;color:#fff;line-height:1.7;font-style:italic">"${d.advice}"</p>
+                </div>
+                <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px">Reflexión para hoy</div>
+                <div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:12px">
+                    <p style="font-size:.85rem;color:#ddd;line-height:1.5">${d.prompt}</p>
+                </div>
+                <textarea id="sigma-answer" style="width:100%;min-height:70px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-family:Inter;font-size:.85rem" placeholder="Anota tu reflexión aquí..."></textarea>
+                <button onclick="guardarSigma()" style="margin-top:12px;width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer">Guardar reflexión</button>
+            `;
+            m.classList.add('active');
+        }
+        function closeSigma() {
+            document.getElementById('sigma-modal').classList.remove('active');
+        }
+        function guardarSigma() {
+            const ans = document.getElementById('sigma-answer');
+            if (ans && ans.value.trim()) {
+                localStorage.setItem('mm_b5_sigma_' + currentDayId, ans.value.trim());
+            }
+            closeSigma();
+        }
+    </script>
+<!-- SIGMA COACH: Modal + Botón Flotante -->
+<style>
+    #sigma-modal { display:none; }
+    #sigma-modal.active { display:flex !important; flex-direction:column; }
+</style>
+<div id="sigma-modal" style="position:fixed;inset:0;z-index:7000;background:rgba(0,0,0,.95);padding:20px 20px 60px;overflow-y:auto">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:24px 0 16px">
+        <h3 style="font-family:Outfit;font-size:1.1rem;color:#fff">🧠 Coach Sigma</h3>
+        <button onclick="closeSigma()" style="background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer">×</button>
+    </div>
+    <div id="sigma-content"></div>
+</div>
+<button onclick="openSigma()" style="position:fixed;bottom:110px;right:16px;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#FF5E00,#FF8C00);border:none;box-shadow:0 8px 24px rgba(255,94,0,.35);display:flex;align-items:center;justify-content:center;font-size:1.6rem;cursor:pointer;z-index:3000;transition:transform .2s" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Coach Sigma">🧠</button>
+
+    <!-- Modal PPM -->
+    <div id="ppm-modal" style="display:none; position:fixed; inset:0; z-index:9000; background:rgba(0,0,0,0.95); flex-direction:column; align-items:center; justify-content:center; padding:20px; backdrop-filter: blur(10px);">
+        <h2 style="font-family:'Outfit'; font-size:2rem; color:var(--accent-fire); margin-bottom:10px;">¡Lectura Completada!</h2>
+        <div style="background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:24px; text-align:center; width:100%; max-width:350px;">
+            <p style="color:var(--text-secondary); font-size:0.9rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Tu Velocidad</p>
+            <div id="ppm-result" style="font-family:'Outfit'; font-size:3.5rem; color:#FFF; font-weight:700; line-height:1;">0</div>
+            <p style="color:var(--accent-water); font-size:1rem; font-weight:500; margin-top:5px;">Palabras por Minuto</p>
+            <p id="ppm-msg" style="color:var(--text-secondary); font-size:0.85rem; margin-top:15px; line-height:1.5;"></p>
+        </div>
+        <button class="btn-outline" style="margin-top:24px; width:100%; max-width:350px; background:linear-gradient(135deg, var(--accent-fire), #FF8C00); color:#FFF; border:none; padding:16px; font-size:1.1rem;" onclick="document.getElementById('ppm-modal').style.display='none'">Continuar Sesión</button>
+    </div>
+
+<script>
+// TIMER LOGIC FOR SPEED READING
+let lecturaStartTime = null;
+let lecturaInterval = null;
+
+function formatTime(secs) {
+    let m = Math.floor(secs / 60).toString().padStart(2, '0');
+    let s = (secs % 60).toString().padStart(2, '0');
+    return m + ":" + s;
+}
+
+function iniciarLecturaPPM() {
+    lecturaStartTime = Date.now();
+    document.getElementById('reader-content-premium').style.display = 'block';
+    document.getElementById('btn-iniciar-lectura').style.display = 'none';
+    document.getElementById('btn-terminar-lectura').style.display = 'block';
+    
+    lecturaInterval = setInterval(() => {
+        let elapsed = Math.floor((Date.now() - lecturaStartTime) / 1000);
+        document.getElementById('ppm-timer-display').innerText = formatTime(elapsed);
+    }, 1000);
+}
+
+function terminarLecturaPPM() {
+    clearInterval(lecturaInterval);
+    let elapsedMs = Date.now() - lecturaStartTime;
+    let elapsedMinutes = elapsedMs / 60000;
+    
+    // Estimate word count by extracting text from the reader content
+    let contentEl = document.getElementById('reader-content-premium');
+    let text = contentEl.innerText || contentEl.textContent;
+    let wordCount = text.trim().split(/\s+/).length;
+    
+    // Prevent division by zero or super fast clicks
+    if (elapsedMinutes < 0.1) elapsedMinutes = 0.1;
+    
+    let ppm = Math.round(wordCount / elapsedMinutes);
+    if (ppm > 1200) ppm = 1200; // Cap to realistic max
+    
+    // Save locally for stats (Kit de Mentoría uses km_ppm)
+    let key = 'mm_b' + window.location.pathname.match(/Bloque(\d+)/)[1] + '_d' + currentDayId + '_ppm';
+    localStorage.setItem(key, ppm.toString());
+    
+    // Render Modal
+    document.getElementById('ppm-result').innerText = ppm;
+    
+    let msg = "";
+    if (ppm < 150) msg = "Velocidad base. Evita subvocalizar (repetir palabras mentalmente).";
+    else if (ppm < 250) msg = "Velocidad promedio. Usa tu dedo o un puntero para guiar tu vista más rápido.";
+    else if (ppm < 400) msg = "¡Buena velocidad! Estás por encima del promedio. Sigue ampliando tu visión periférica.";
+    else if (ppm < 600) msg = "¡Nivel Ejecutivo! Excelente comprensión y velocidad.";
+    else msg = "¡Nivel Élite! Velocidad de lectura biónica alcanzada.";
+    
+    document.getElementById('ppm-msg').innerText = msg;
+    document.getElementById('ppm-modal').style.display = 'flex';
+    
+    // Hide timer controls to show completion
+    document.getElementById('btn-terminar-lectura').style.display = 'none';
+    document.getElementById('ppm-timer-display').style.color = 'var(--success)';
+}
+</script>
+
+    <!-- FOCUS Modal -->
+    <div id="focus-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(6,6,13,.98);padding:20px 24px 24px;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:10px">
+        <h3 id="focus-title" style="font-family:'Outfit';font-size:1.1rem;color:#FF6B00;">FOCUS</h3>
+        <button onclick="closeFocus()" style="background:transparent;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;width:40px;height:40px">×</button>
+      </div>
+      <div id="focus-content"></div>
+    </div>
+
+<script>
+const FOCUS_DATA = {
+  'auditoria': {
+    title: 'Auditoría de Disparadores',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">La distracción empieza desde adentro. Identifica qué sentimiento intentas evitar revisando tu celular o correo.</p>
+      <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:15px;">
+        <p style="color:#FF6B00;font-size:0.8rem;font-weight:bold;margin-bottom:8px;">¿Qué sentías justo antes de distraerte?</p>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <span class="f-tag" onclick="this.classList.toggle('active')">Aburrimiento</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Ansiedad</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Fatiga</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Estrés</span>
+          <span class="f-tag" onclick="this.classList.toggle('active')">Inseguridad</span>
+        </div>
+      </div>
+      <p style="color:#aaa;font-size:0.8rem;margin-bottom:10px;">Escribe el disparador para quitarle su poder cognitivo:</p>
+      <input type="text" placeholder="Ej: Me dio ansiedad enviar el reporte..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
+      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Registrar Disparador</button>
+      <style>.f-tag{background:rgba(255,255,255,0.1);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;} .f-tag.active{background:#FF6B00;}</style>
+    `
+  },
+  'pacto': {
+    title: 'Pacto de Identidad',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Los pactos pre-comprometen tus decisiones futuras para que sea más difícil distraerte.</p>
+      <div style="background:rgba(255,107,0,0.1);border:1px dashed #FF6B00;padding:15px;border-radius:12px;margin-bottom:15px;text-align:center;">
+        <p style="color:#FF6B00;font-size:1.2rem;font-family:'Outfit';font-weight:bold;font-style:italic;">"Soy una persona de enfoque inquebrantable"</p>
+        <p style="color:#aaa;font-size:0.75rem;margin-top:5px;">El sustantivo cambia tu comportamiento más que el verbo.</p>
+      </div>
+      <p style="color:#fff;font-size:0.8rem;margin-bottom:10px;">¿A qué tarea le dedicarás tu atención absoluta ahora?</p>
+      <input type="text" placeholder="Mi tarea es..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
+      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Sellar Pacto y Empezar</button>
+    `
+  },
+  'regla10': {
+    title: 'Regla de 10 Minutos',
+    html: `
+      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Cuando sientas el impulso incontrolable de distraerte, espera 10 minutos. Casi siempre el impulso desaparece como una ola.</p>
+      <div style="text-align:center;margin:30px 0;">
+        <div id="f-timer" style="font-size:4.5rem;font-family:'Outfit';color:#FF6B00;font-weight:bold;">10:00</div>
+      </div>
+      <button id="f-start-btn" onclick="startFocusTimer()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Surfear el Impulso (10m)</button>
+    `
+  }
+};
+
+let fInterval;
+function launchFocus(id) {
+  const data = FOCUS_DATA[id];
+  document.getElementById('focus-title').innerText = data.title;
+  document.getElementById('focus-content').innerHTML = data.html;
+  document.getElementById('focus-modal').style.display = 'block';
+  clearInterval(fInterval);
+}
+
+function closeFocus() {
+  document.getElementById('focus-modal').style.display = 'none';
+  clearInterval(fInterval);
+}
+
+function startFocusTimer() {
+  let btn = document.getElementById('f-start-btn');
+  btn.style.display = 'none';
+  let timeLeft = 600;
+  let timerDisplay = document.getElementById('f-timer');
+  
+  fInterval = setInterval(() => {
+    timeLeft--;
+    let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+    let s = (timeLeft % 60).toString().padStart(2, '0');
+    timerDisplay.innerText = m + ":" + s;
+    if(timeLeft <= 0) {
+      clearInterval(fInterval);
+      timerDisplay.innerText = "¡Listo!";
+      timerDisplay.style.color = "#10b981";
+    }
+  }, 1000);
+}
+
+// DYNAMIC INJECTION FOR MUJERES MENTORAS
+setTimeout(() => {
+  const focusHtml = `
+    <div id="focus-injected" class="kit-section-title" style="margin-top:24px;">🎯 FOCUS (Enfoque Profundo)</div>
+    <p style="font-size:.78rem;color:var(--text-secondary);margin-bottom:12px;margin-top:-6px">Técnicas científicas para blindar tu atención.</p>
+    <div class="crisis-grid crisis-grid-mm" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('auditoria')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">🔍</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Auditoría Triggers</span></div>
+      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('pacto')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">✍️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Pacto Identidad</span></div>
+      <div class="crisis-btn crisis-btn-mm" style="grid-column: 1 / -1; display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; cursor:pointer;" onclick="launchFocus('regla10')"><span class="cb-icon" style="margin:0; font-size:1.4rem;">⏱️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Regla 10 Minutos</span></div>
+    </div>
+  `;
+
+  if (typeof window.renderKitMentoria !== 'undefined') {
+    const origRender = window.renderKitMentoria;
+    window.renderKitMentoria = function() {
+      origRender();
+      setTimeout(() => {
+        const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
+        if (grid && !document.getElementById('focus-injected')) {
+           grid.insertAdjacentHTML('afterend', focusHtml);
+        }
+      }, 50);
+    };
+    
+    // Also inject if it's already active
+    if (document.getElementById('v-kit') && document.getElementById('v-kit').classList.contains('active')) {
+      const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
+      if (grid && !document.getElementById('focus-injected')) {
+         grid.insertAdjacentHTML('afterend', focusHtml);
+      }
+    }
+  } else {
+    // Fallback for files that use static HTML
+    const grid = document.querySelector('.crisis-grid');
+    if (grid && !document.getElementById('focus-injected')) {
+        grid.insertAdjacentHTML('afterend', focusHtml);
+    }
+  }
+}, 500);
+</script>
+
+</body>
+
+</html>
