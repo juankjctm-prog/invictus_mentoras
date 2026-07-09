@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
+<head>\n<script>window.onerror = function(msg, url, line, col, error) { alert("Error: " + msg + " (Line " + line + ")"); }; window.onunhandledrejection = function(e) { alert("Promise Error: " + (e.reason ? (e.reason.message || e.reason) : "Unknown Promise Error")); };</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Invictus Mind Premium - Master Plan</title>
+    <title>Invictus Mind Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        /* =========================================
+           1. DESIGN TOKENS (SISTEMA LINEAR/STRIPE/APPLE)
+           ========================================= */
         :root {
             --bg-absolute: #000000;
             --bg-surface: #0a0a0c;
@@ -23,6 +26,7 @@
             --accent-water-glow: rgba(0, 198, 255, 0.2);
             --gradient-water: linear-gradient(135deg, #00C6FF, #0072FF);
             --success: #10B981;
+            --success-bg: rgba(16, 185, 129, 0.1);
             --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -71,131 +75,175 @@
         .header-greeting p { font-size: 0.85rem; color: var(--text-secondary); }
         .profile-pic { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-weight: 600; }
 
-        .glass-card { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 20px; backdrop-filter: blur(12px); transition: transform 0.4s var(--ease-spring); }
-        
-        .btn-outline { background: transparent; border: 1px solid var(--border-glow); color: var(--text-primary); padding: 12px 16px; border-radius: 12px; font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all 0.2s var(--ease-spring); display: inline-flex; justify-content: center;}
+        .glass-card { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 24px; backdrop-filter: blur(16px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: transform 0.4s var(--ease-spring); }
+        .btn-premium { display: flex; justify-content: center; align-items: center; width: 100%; padding: 16px; border-radius: 16px; background: var(--text-primary); color: var(--bg-absolute); border: none; font-family: 'Outfit'; font-weight: 600; cursor: pointer; transition: all 0.3s var(--ease-spring); }
+        .btn-premium:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(255,255,255,0.1); }
+        .btn-premium:active { transform: scale(0.96); filter: brightness(0.9); }
+        .btn-premium.fire { background: var(--gradient-fire); color: white; box-shadow: 0 8px 16px var(--accent-fire-glow), inset 0 2px 4px rgba(255,255,255,0.3); border: 1px solid rgba(255,160,100,0.5); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+        .btn-premium.water { background: var(--gradient-water); color: white; box-shadow: 0 8px 16px var(--accent-water-glow), inset 0 2px 4px rgba(255,255,255,0.3); border: 1px solid rgba(100,200,255,0.5); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+        .btn-outline { background: rgba(255,255,255,0.03); border: 1px solid var(--border-glow); color: var(--text-primary); padding: 14px 20px; border-radius: 16px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s var(--ease-spring); display: inline-flex; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-1px); }
+        .btn-outline:active { transform: scale(0.97); }
         .btn-outline:hover { background: var(--bg-surface-hover); }
-        
+        .input-premium { width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; color: white; font-family: 'Inter'; font-size: 0.9rem; transition: all 0.3s; margin-bottom: 12px;}
+        .input-premium:focus { outline: none; border-color: rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.05); }
+
         .view { display: none; }
         .view.active { display: block; animation: fadeInView 0.5s var(--ease-spring) forwards; }
+        #view-conexion.active { display: flex !important; }
         @keyframes fadeInView { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-
         .stagger-1 { animation: slideUpFade 0.6s var(--ease-spring) 0.1s both; }
         .stagger-2 { animation: slideUpFade 0.6s var(--ease-spring) 0.2s both; }
+        .stagger-3 { animation: slideUpFade 0.6s var(--ease-spring) 0.3s both; }
+        .stagger-4 { animation: slideUpFade 0.6s var(--ease-spring) 0.4s both; }
         @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        .ring-wrapper { position: relative; width: 160px; height: 160px; display: flex; justify-content: center; align-items: center; margin: 10px auto 30px; }
+        .ring-wrapper { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; margin: 10px auto 40px; }
         .ring-bg, .ring-progress { fill: none; stroke-width: 4; stroke-linecap: round; }
         .ring-bg { stroke: var(--border-subtle); }
-        .ring-progress { stroke: url(#fire-grad); stroke-dasharray: 440; stroke-dashoffset: 220; transform: rotate(-90deg); transform-origin: 50% 50%; filter: drop-shadow(0 0 8px var(--accent-fire-glow)); }
+        .ring-progress { stroke: url(#fire-grad); stroke-dasharray: 565; stroke-dashoffset: 282; transform: rotate(-90deg); transform-origin: 50% 50%; filter: drop-shadow(0 0 8px var(--accent-fire-glow)); }
         .ring-content { position: absolute; text-align: center; }
-        .ring-content h2 { font-size: 2.5rem; line-height: 1; }
-        
+        .ring-content h2 { font-size: 3.5rem; line-height: 1; }
         .track-card { display: flex; align-items: center; cursor: pointer; margin-bottom: 12px; }
-        .track-card:hover { border-color: rgba(255, 255, 255, 0.2); }
-        .track-number { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 500; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; border-radius: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); margin-right: 16px; transition: all 0.3s; }
-        .track-card:hover .track-number { background: var(--accent-water); border-color: var(--accent-water); color: white; box-shadow: 0 0 15px var(--accent-water-glow); }
+        .track-card.active { border: 1px solid rgba(255, 94, 0, 0.3); background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,94,0,0.02) 100%); }
+        .track-number { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 500; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; border-radius: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); margin-right: 16px; }
+        .track-card.active .track-number { background: var(--accent-fire); border-color: var(--accent-fire); color: white; box-shadow: 0 0 15px var(--accent-fire-glow); }
 
+        .timeline { position: relative; padding-left: 24px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--border-glow) 0%, rgba(255,255,255,0) 100%); }
+        .phase { position: relative; margin-bottom: 48px; opacity: 0.5; transition: opacity 0.3s; }
+        .phase.active { opacity: 1; }
+        .phase.completed { opacity: 0.8; }
+        .phase-node { position: absolute; left: -28px; top: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--border-glow); box-shadow: 0 0 0 4px var(--bg-absolute); }
+        .phase.active .phase-node { background: var(--accent-fire); box-shadow: 0 0 0 4px rgba(255, 94, 0, 0.2), 0 0 0 8px var(--bg-absolute); }
+        .phase.completed .phase-node { background: var(--text-secondary); }
+        .phase-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+        .phase-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+        .reader-premium { margin-top: 20px; background: rgba(255,255,255,0.02); border-radius: 16px; padding: 24px; font-size: 0.95rem; color: var(--text-secondary); max-height: 320px; overflow-y: auto; border: 1px solid var(--border-subtle); line-height: 1.8; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); }
+        .reader-p { margin-bottom: 18px; }
+        
+        .audio-pill { display: flex; align-items: center; background: rgba(0, 198, 255, 0.05); border: 1px solid rgba(0, 198, 255, 0.1); border-radius: 100px; padding: 8px 16px 8px 8px; margin-top: 16px; width: fit-content; cursor: pointer; }
+        .play-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-water); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--accent-water-glow); margin-right: 12px; }
+        .play-icon { width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent var(--bg-absolute); margin-left: 3px; }
+        .play-circle.playing .play-icon { border-width: 10px; border-color: var(--bg-absolute); border-radius: 2px; width: 12px; height: 12px; margin-left: 0; background: var(--bg-absolute); }
+        .waveform { display: flex; gap: 3px; align-items: center; height: 20px; }
+        .bar { width: 3px; height: 20%; background: var(--accent-water); border-radius: 2px; opacity: 0.5; transition: height 0.2s;}
+        .audio-pill.active .bar { opacity: 1; animation: sound 0.8s infinite alternate; }
+        @keyframes sound { 0% { height: 20%; } 100% { height: 100%; } }
+
+        .note-item { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
+        
+        .bottom-nav { position: absolute; bottom: 0; width: 100%; height: 95px; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(24px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; align-items: center; padding: 10px 10px 25px; z-index: 50; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-tertiary); cursor: pointer; flex: 1; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding: 8px 0; border-radius: 12px; }
+        .nav-item:hover { color: var(--text-secondary); transform: translateY(-2px); }
+        .nav-item:active { transform: scale(0.95); }
+        .nav-item.active { color: var(--text-primary); background: rgba(255,255,255,0.06); }
+        .nav-icon { font-size: 1.5rem; margin-bottom: 4px; filter: grayscale(1); opacity: 0.6; transition: all 0.3s; }
+        .nav-item.active .nav-icon { filter: grayscale(0); opacity: 1; transform: scale(1.1); }
+        .nav-label { font-size: 0.7rem; font-weight: 500; font-family: 'Outfit'; letter-spacing: 0.5px; }
+
+        .auth-overlay { position: absolute; inset: 0; z-index: 1000; background: var(--bg-absolute); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .auth-overlay.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
+        .pin-dots { display: flex; gap: 16px; margin-bottom: 40px; margin-top: 30px;}
+        .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-subtle); transition: all 0.2s; }
+        .dot.filled { background: var(--accent-fire); border-color: var(--accent-fire); box-shadow: 0 0 15px var(--accent-fire-glow); }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;}
+        .key { width: 70px; height: 70px; border-radius: 50%; background: var(--bg-surface-elevated); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-family: 'Outfit'; cursor: pointer; border: 1px solid var(--border-subtle); color: white; }
+        .key:active { transform: scale(0.9); background: var(--border-subtle); }
+
+        /* SOS Modal */
         .sos-overlay { position: fixed; inset: 0; background: var(--bg-absolute); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; backdrop-filter: blur(20px); }
         .sos-overlay.active { opacity: 1; pointer-events: auto; }
         .sos-circle { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 70%); box-shadow: 0 0 60px var(--accent-water-glow); animation: breathe 8s ease-in-out infinite; }
         @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.6); opacity: 1; } }
         .sos-text { margin-top: 80px; font-family: 'Outfit'; font-size: 1.3rem; font-weight: 300; text-align: center; max-width: 85%; line-height: 1.6; color: white; opacity: 0; transition: opacity 1s ease; }
         .sos-text.visible { opacity: 1; }
+    
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .shake-error {
+            animation: shake 0.3s ease-in-out;
+        }
+        .dot.error { background: var(--accent-fire); box-shadow: 0 0 10px var(--accent-fire); }
+
+    
+        .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+        .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+    
     </style>
 </head>
 <body>
 
     <div class="app-container">
         
+        <!-- PANTALLA DE AUTENTICACIÓN -->
+        <div id="auth-overlay" class="auth-overlay">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fire)" stroke-width="2" style="margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--accent-fire-glow));"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <h2 style="font-family: 'Outfit'; font-size: 1.5rem;">Privacidad Ejecutiva</h2>
+            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Ingresa tu PIN de acceso.</p>
+            
+            <div class="pin-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+            
+            <div class="keypad">
+                <div class="key" onclick="pressKey('1')">1</div><div class="key" onclick="pressKey('2')">2</div><div class="key" onclick="pressKey('3')">3</div>
+                <div class="key" onclick="pressKey('4')">4</div><div class="key" onclick="pressKey('5')">5</div><div class="key" onclick="pressKey('6')">6</div>
+                <div class="key" onclick="pressKey('7')">7</div><div class="key" onclick="pressKey('8')">8</div><div class="key" onclick="pressKey('9')">9</div>
+                <div></div><div class="key" onclick="pressKey('0')">0</div><div></div>
+            </div>
+        </div>
+
         <header class="app-header">
             <div class="header-greeting">
                 <h1>Hola, Marjorie</h1>
-                <p>Master Track: Mujeres Mentoras</p>
+                <p>Tu transformación sistémica.</p>
             </div>
             <div class="profile-pic">M</div>
         </header>
 
         <main class="scrollable">
+            <!-- DASHBOARD -->
+
+      <!-- NEURO-READING MANIFESTO -->
+      <div class="card" style="background:linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,0,0,0.4)); border:1px solid var(--cyan); border-radius:16px; padding:20px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <div style="background:var(--cyan-glow); color:var(--cyan); padding:5px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;">🧠 TU ENTRENAMIENTO COGNITIVO</div>
+        </div>
+        <h3 style="font-family:'Outfit'; font-size:1.3rem; margin-bottom:8px; color:#fff;">La Meta: 600 Palabras Por Minuto</h3>
+        <p style="font-size:0.8rem; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+          Este programa es un gimnasio para tu cerebro. Al finalizar, tu meta es procesar información al doble de velocidad con retención profunda.
+        </p>
+        <ul style="font-size:0.75rem; color:var(--text-secondary); padding-left:15px; line-height:1.6; margin-bottom:0;">
+          <li><strong style="color:var(--cyan);">No subvocalices:</strong> Usa el botón de Lectura Biónica para guiar tus ojos rápidamente.</li>
+          <li><strong style="color:var(--gold);">Velocidad a Dinero:</strong> Cada sesión calcula tu velocidad. Fuerza tu vista un 20% más rápido hoy.</li>
+        </ul>
+      </div>
+
             <div id="view-dashboard" class="view active">
                 <div class="hero-progress stagger-1">
                     <div class="ring-wrapper">
-                        <svg width="160" height="160" viewBox="0 0 160 160">
+                        <svg width="200" height="200" viewBox="0 0 200 200">
                             <defs><linearGradient id="fire-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF4500" /><stop offset="100%" stop-color="#FF8C00" /></linearGradient></defs>
-                            <circle class="ring-bg" cx="80" cy="80" r="70"></circle>
-                            <circle class="ring-progress" cx="80" cy="80" r="70"></circle>
+                            <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
+                            <circle class="ring-progress" cx="100" cy="100" r="90"></circle>
                         </svg>
                         <div class="ring-content">
-                            <h2 class="text-gradient">78</h2>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días de Inmersión</p>
+                            <h2 class="text-gradient">41</h2>
+                            <p>Día de 78</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="blocks-list stagger-2">
-                    <h3 style="color: white; font-size: 1.1rem; margin-bottom: 16px; margin-top: 10px;">Módulos Premium</h3>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque1_Premium.html'">
+                    <div class="glass-card track-card active" onclick="switchTab('view-session', this)">
                         <div class="track-number">1</div>
                         <div>
-                            <h4 style="font-size: 0.95rem; color: white;">El Poder del Silencio</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 1-10 • Autoridad y Postura</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque2_Premium.html'">
-                        <div class="track-number">2</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Redes y Capital Social</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 11-20 • Entorno Ejecutivo</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque3_Premium.html'">
-                        <div class="track-number">3</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Carga Alostática</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 21-30 • Resiliencia Fisiológica</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque4_Premium.html'">
-                        <div class="track-number">4</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Síndrome del Impostor</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 31-40 • Ansiedad de Ejecución</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque5_Premium.html'">
-                        <div class="track-number">5</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Red de Poder y Política</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 41-50 • Estrategia B2B</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque6_Premium.html'">
-                        <div class="track-number">6</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Mentoring a Sponsorship</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 51-60 • Apuestas de Alto Riesgo</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque7_Premium.html'">
-                        <div class="track-number">7</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Visibilidad e Influencia</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 61-70 • Marca Personal</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card track-card" onclick="window.location.href='Bloque8_Premium.html'">
-                        <div class="track-number">8</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">Sostenibilidad Sistémica</h4>
-                            <p style="font-size: 0.8rem; color: var(--text-secondary);">Días 71-78 • El Legado Corporativo</p>
+                            <h4 style="font-size: 0.95rem; color: white;">La Identidad de Liderazgo</h4>
+                            <p style="font-size: 0.8rem; color: var(--accent-fire);">Pendiente: Día 1 - H. Ibarra</p>
                         </div>
                     </div>
                     
@@ -204,49 +252,513 @@
                     </button>
                 </div>
             </div>
+
+            <!-- SESIÓN -->
+            <div id="view-session" class="view">
+                <div class="session-hero stagger-1">
+                    <div class="badge-premium">Bloque 5 • Día 41</div>
+                    <h2 class="display-font" style="font-size: 1.8rem; line-height: 1.1;">La Realidad del Poder</h2>
+                </div>
+
+                <div class="timeline stagger-2">
+                    <!-- F1 -->
+                    <div class="phase completed">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>1. Ancla Cognitiva</h4><span class="phase-duration">2m</span></div>
+                        <p class="phase-desc"><strong>Respiración de Oxigenación (4 Ciclos):</strong> Inhala en 4s, retén en 8s, exhala en 16s. Máxima oxigenación linfática.</p>
+                    </div>
+
+                    <!-- F2 (TEXTO RESTAURADO COMPLETO) -->
+                    <div class="phase active">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4 style="color: var(--accent-fire);">2. Lectura Táctica</h4><span class="phase-duration" style="color:var(--accent-fire);">12m</span></div>
+                        <button class="btn-outline" id="btn-bionic" onclick="toggleBionic()" style="margin-top: 10px;">⚡ Lectura Biónica <span style="font-size:0.6rem;opacity:0.7;display:block;">(Entrena tu salto visual)</span></button>
+                        
+                        <div class="reader-premium" id="reader-content">
+                            <h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">La Identidad de Liderazgo — Lo que no te enseñaron</h4>
+                            <p class="reader-p">Herminia Ibarra, experta en liderazgo y comportamiento organizacional, estudió cómo las personas desarrollan una identidad de liderazgo y por qué muchas mujeres altamente capaces encuentran mayores obstáculos para avanzar profesionalmente. Uno de sus aportes más importantes es demostrar que el problema no es únicamente la falta de talento o experiencia. El verdadero desafío muchas veces está en la <strong>construcción de identidad</strong>.</p>
+                            
+                            <h5 style="color: var(--accent-fire); margin: 20px 0 8px; font-family: 'Outfit';">LA IDEA CENTRAL: ACTUAR PRIMERO</h5>
+                            <p class="reader-p">La teoría de Ibarra rompe una creencia tradicional: Las personas no desarrollan liderazgo primero en la mente. Lo desarrollan mediante la acción. Primero actuamos de manera diferente, luego cambiamos cómo nos percibimos, y finalmente transformamos nuestra identidad. Muchas mujeres esperan sentirse seguras o tener absoluta confianza antes de asumir retos más grandes. Sin embargo, la seguridad aparece <em>después</em> de la experiencia, no antes.</p>
+                            
+                            <h5 style="color: var(--accent-fire); margin: 20px 0 8px; font-family: 'Outfit';">IMPACTO DE LA FALTA DE IDENTIDAD</h5>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px; padding-left: 20px; line-height: 1.6;">
+                                <li style="margin-bottom: 8px;"><strong>Visibilidad reducida:</strong> Las mujeres trabajan intensamente pero minimizan su impacto y evitan exponerse. La invisibilidad limita enormemente el crecimiento.</li>
+                                <li style="margin-bottom: 8px;"><strong>Dudas ante oportunidades:</strong> Esperan cumplir el 100% de los requisitos, no porque tengan menos capacidad, sino porque no se sienten completamente autorizadas a ocupar ese espacio.</li>
+                                <li style="margin-bottom: 8px;"><strong>Síndrome del Impostor:</strong> Sienten constantemente que "no son suficientes" o "serán descubiertas", produciendo ansiedad, perfeccionismo extremo y miedo constante al error.</li>
+                                <li style="margin-bottom: 8px;"><strong>Carreras más pequeñas:</strong> Reducen sus aspiraciones y evitan espacios de poder, no porque no puedan, sino porque internamente todavía no se autorizan a ocupar espacios más grandes.</li>
+                                <li><strong>Redes limitadas:</strong> Priorizan el trabajo operativo sobre la construcción de redes estratégicas, lo cual afecta el patrocinio y la visibilidad.</li>
+                            </ul>
+                            
+                            <h5 style="color: var(--accent-fire); margin: 20px 0 8px; font-family: 'Outfit';">EL ROL TRANSFORMADOR DE LA MENTORA (TU AUTO-MAESTRÍA)</h5>
+                            <p class="reader-p">El impacto cultural en Latinoamérica intensifica estos sesgos, donde a las mujeres se les enseña a "ser humildes" y "no hablar demasiado fuerte". Por esto, estudios regionales (como INCAE) muestran que el 78% de las ejecutivas atribuyen su éxito a la suerte, redes o el momento oportuno, reflejando cómo la competencia femenina es sistemáticamente subevaluada.</p>
+                            <p class="reader-p">El mensaje más poderoso es este: La identidad de liderazgo no aparece esperando; se construye actuando. <strong>Pero aquí está la clave: tú, como mentora, no estás lista al 100% (nadie lo está).</strong> Tu primera misión no es ser perfecta, sino estar dispuesta a examinar y sanar tu propia identidad de liderazgo primero. No puedes liderar a otra mujer hacia un territorio de seguridad que no has conquistado tú misma. Al sanar tu propio síndrome del impostor, ganas la autoridad moral y la empatía profunda para ayudar a tu mentoreada a reconocer su propio poder. Construir tu identidad, construirá la de ella.</p>
+                        </div>
+                        
+                        <div id="ppm-box" style="display: none; margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 0.85rem;"></div>
+                        <button class="btn-premium fire" id="btn-timer" style="margin-top: 16px;" onclick="toggleTimer()">Iniciar Cronómetro Real</button>
+                    </div>
+
+                    <!-- F3 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>3. Síntesis Ejecutiva</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc">Como mentora, debes destilar conocimiento complejo en principios simples.</p>
+                        <input type="text" class="input-premium" placeholder="Resume la teoría de Ibarra en 1 frase para tu mentoreada...">
+                    </div>
+
+                    <!-- F4 (SCORING) -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
+                        <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo. Al iniciar el test, el texto de lectura desaparecerá permanentemente. No puedes regresar.</p>
+                        
+                        <div id="test-intro">
+                            <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
+                        </div>
+                        
+                        <div id="test-content" style="display: none; margin-top: 16px;">
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>1. Según la evidencia longitudinal de Herminia Ibarra, la identidad de liderazgo se consolida cuando:</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="0"> a) El individuo transforma su autoimagen primero mediante introspección.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="1"> b) El individuo ensaya comportamientos directivos y luego ajusta su autoimagen.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="0"> c) El individuo adquiere las competencias técnicas y la posición formal.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>2. ¿Cuál es el síntoma más claro de ocupar una posición formal pero carecer de identidad de liderazgo?</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q2" value="0"> a) Delegar demasiadas tareas operativas al equipo.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q2" value="0"> b) Mostrar exceso de autoritarismo y falta de empatía.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q2" value="1"> c) Requerir validación externa constante o regresar a un modo de ejecución individual bajo presión.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>3. Según el estudio de INCAE, el 78% de las ejecutivas atribuyen su éxito a:</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q3" value="1"> a) Suerte, red de contactos y estar en el momento oportuno.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q3" value="0"> b) Exceso de trabajo técnico y largas jornadas laborales.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q3" value="0"> c) Una superioridad estratégica frente a sus pares masculinos.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>4. Este patrón de atribución externa en las mujeres NO es un problema clínico de autoestima, sino el resultado predecible de:</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q4" value="0"> a) Una falta innata de agresividad biológica en el entorno corporativo.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q4" value="0"> b) El síndrome del impostor que afecta a todos los seres humanos por igual.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q4" value="1"> c) Operar durante años en entornos donde la competencia femenina es sistemáticamente subevaluada.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>5. ¿Por qué una mentora debe obligatoriamente examinar su propia identidad de liderazgo?</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q5" value="0"> a) Porque la empresa requiere una evaluación de desempeño para habilitarla como mentora.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q5" value="1"> b) Para no transmitir inconscientemente a su mentoreada los mismos patrones limitantes que ella porta.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q5" value="0"> c) Para poder presumir su impecable trayectoria frente a su mentoreada con total autoridad.</label>
+                            </div>
+
+                            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
+                        </div>
+                        <div id="recall-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px; border: 1px solid transparent;"></div>
+                    </div>
+
+                    <!-- F5 (ANALÓGICO: CUADERNO FÍSICO) -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
+                        <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Abre tu Cuaderno Invictus. Recuerda tu último gran ascenso o logro corporativo. Dibuja un gráfico de pastel. ¿Qué porcentaje le atribuiste internamente a la 'suerte/redes' y cuánto a tu 'competencia técnica'? Tacha ese gráfico y dibuja uno nuevo reclamando el 100% de la autoridad sobre tu trayectoria.</p>
+                        <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
+                    </div>
+
+                    <!-- F6 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc">La memoria espacial es la más fuerte. Usando el anclaje espacial, liga la información a tu cuerpo. Toca tu cabeza (mente racional) y visualiza la palabra 'Identidad'. Ahora toca tus manos (acción táctil) y visualiza el 'Comportamiento Directivo'. Recuerda: el cambio baja de la cabeza a las manos. El cuerpo recuerda lo que la mente olvida.</p>
+                    </div>
+
+                    <!-- F7 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc" style="margin-bottom: 8px;"><em>Base Científica: Transferir patrones entre dominios demuestra alta Inteligencia Fluida.</em></p>
+                        <input type="text" class="input-premium" placeholder="Si la Identidad es el músculo, actuar sin estar lista es...">
+                    </div>
+
+                    <!-- F8 (ANALÓGICO: CUADERNO FÍSICO) -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>8. Zona de Riesgo Identitario</h4><span class="phase-duration">5m</span></div>
+                        <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Identifica 1 decisión corporativa o conversación difícil que has estado posponiendo por sentirte "no lista". Escríbela en papel. Ahora, anota el primer paso táctico que darás HOY mismo para ejecutarla, actuando desde la líder que ya eres.</p>
+                        <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_2')">Marcar como Hecho a Mano</button>
+                    </div>
+
+                    <!-- F9 -->
+                    <div class="phase completed">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
+                        <p class="phase-desc">Aplica cada 7 sesiones. Hoy descansa.</p>
+                    </div>
+
+                    <!-- F10 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Evalúa cómo aprendiste hoy. ¿Qué concepto te costó más trabajo interiorizar? Abre tu Cuaderno Físico Invictus y escribe a mano tu mayor bloqueo cognitivo de hoy para ajustar tu estrategia mañana.</p>
+                        <button id="btn-analog-3" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_3')">Marcar como Hecho a Mano</button>
+                    </div>
+
+                    <!-- F11 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>11. Ensayo Somático (Estado del Ser)</h4><span class="phase-duration">2m</span></div>
+                        <p class="phase-desc">Tu cerebro subconsciente no distingue entre un evento real y uno vívidamente imaginado. Cierra los ojos. Visualízate en la junta directiva más intimidante de este mes. Observa tu postura. Siente la firmeza en tu voz al presentar. Reclama el espacio. Siente la certeza absoluta de tu competencia. Ancla esta emoción en tu pecho. Estás recableando tu red neuronal para el éxito AHORA.</p>
+                    </div>
+
+                    <!-- F12 (AUDIO ESPIRITUAL + TMR) -->
+                    <div class="phase active">
+                        <div class="phase-node" style="background: var(--accent-water); box-shadow: 0 0 0 4px rgba(0,198,255,0.2), 0 0 0 8px var(--bg-absolute);"></div>
+                        <div class="phase-header"><h4 style="color: var(--accent-water);">12. Modo Sueño (Consciencia y Paz)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
+                        <p class="phase-desc">Ponte audífonos. Esta fase durará 8 minutos. La onda Theta inducirá un sueño profundo, mientras que la voz te guiará para integrar el poder ejecutivo con la paz interior, la armonía y el amor, elevando la consciencia de tu entorno.</p>
+                        
+                        <div class="audio-pill" id="audio-pill" onclick="toggleAudio()">
+                            <div class="play-circle" id="play-circle"><div class="play-icon"></div></div>
+                            <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+                            <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Espiritual + Theta 6Hz</span>
+                        </div>
+                        
+                        <div id="subtitles-box" style="display:none; margin-top: 12px; padding: 16px; background: rgba(0,198,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; font-style: italic; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                            <!-- Subs appear here -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- LIBRETA (PLAYBOOK DE MENTORÍA 1-a-1) -->
+            <div id="view-libreta" class="view">
+                <div class="session-hero stagger-1">
+                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Táctico</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Preparación profunda de la Mentora y Guía de Sesión con la Mentoreada.</p>
+                </div>
+                
+                <div class="stagger-2" style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
+                </div>
+                <p class="stagger-2" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Antes de sentarte con tu mentoreada, debes asegurar tu propio estado de consciencia. Realiza estos 3 ejercicios en tu Cuaderno Invictus para sanar tu propia identidad primero.</p>
+
+                <div class="note-item stagger-3" style="border-left: 2px solid var(--accent-fire);">
+                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de tu Historia</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Escribe 3 momentos clave donde lograste resultados excepcionales pero internamente sentiste que fue "suerte" o "ayuda de otros". Resignifícalos ahora mismo asumiendo el 100% del crédito por tu visión y liderazgo.</p>
+                </div>
+
+                <div class="note-item stagger-3" style="border-left: 2px solid #FFD700;">
+                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. Confrontando a tu Impostor</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Identifica la voz crítica que más te frena hoy (Ej: "Aún no tengo la maestría necesaria para este cargo"). Escribe al lado la verdad objetiva basada en tus resultados históricos. Destruye la mentira antes de la sesión.</p>
+                </div>
+
+                <div class="note-item stagger-3" style="border-left: 2px solid #9370DB;">
+                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Compromiso de Acción Frontal</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Define 1 acción incómoda que ejecutarás esta misma semana (Ej: pedir presupuesto, liderar una junta). Al tomar acción a pesar del miedo, consolidas tu identidad y ganas autoridad moral para exigir lo mismo de ella.</p>
+                </div>
+
+                <div class="stagger-4" style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    PASO 2: GUÍA DE LA SESIÓN 1-A-1
+                </div>
+                <p class="stagger-4" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Ahora estás lista. Usa esta estructura de 60 minutos para generar una transformación real en la identidad de tu mentoreada.</p>
+
+                <div class="note-item stagger-4" style="border-left: 2px solid var(--bg-surface-elevated); background: transparent;">
+                    <h3 style="color: var(--accent-water); font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
+                    <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; font-style: italic; font-size: 0.85rem; color: var(--text-primary); line-height: 1.6;">
+                        "La trampa más grande es esperar a sentirte lista para liderar. La identidad de liderazgo no precede a la acción; la sigue. Empieza a tomar decisiones como la líder que eres. Reclama tu éxito en primera persona. Nos vemos mañana."
+                    </div>
+                </div>
+
+                <div class="note-item stagger-4" style="border-left: 2px solid var(--border-glow); background: transparent;">
+                    <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
+                    <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 20px; line-height: 1.7; margin-bottom: 0;">
+                        <li>¿En qué proyecto reciente sentiste que "tuviste suerte" en lugar de reconocer que fuiste competente?</li>
+                        <li>¿Sientes que necesitas el permiso implícito de tus pares para tomar decisiones que son técnicamente tuyas?</li>
+                        <li>¿Qué harías diferente esta semana si ya tuvieras la identidad de liderazgo totalmente consolidada?</li>
+                    </ul>
+                </div>
+
+                <div class="note-item stagger-4" style="border-left: 2px solid var(--success);">
+                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. Su Historia de Liderazgo</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Pide a tu mentoreada que comparta 3 momentos donde influyó o lideró, y cómo se sintió. <strong>Tu rol:</strong> Escuchar atentamente e intervenir para evitar que asigne su éxito a factores externos (suerte/equipo). Ayúdala a reclamar verbalmente el crédito.</p>
+                </div>
+
+                <div class="note-item stagger-4" style="border-left: 2px solid #FFD700;">
+                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">II. Auditoría del Lenguaje Interno</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">En una hoja dividida, haz que anote sus creencias limitantes actuales ("No soy suficiente..."). Trabajen juntas para tacharlas y escribir la reformulación objetiva. Comparte tu propio ejercicio (Paso 1) para crear un vínculo de confianza absoluta.</p>
+                </div>
+
+                <div class="note-item stagger-4" style="border-left: 2px solid #9370DB;">
+                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">III. Simulador de Acción Inmediata</h3>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">El cambio requiere acción. Definan 3 acciones pequeñas pero incómodas que ella tomará esta semana para <em>actuar</em> como líder (ej. opinar en la junta corporativa). Establezcan un pacto de rendición de cuentas (accountability) mutuo.</p>
+                </div>
+            </div>
         </main>
 
+        <!-- PANTALLA SOS (Síndrome del Impostor) -->
         <div id="sos-overlay" class="sos-overlay">
             <h3 style="font-family: 'Outfit'; font-weight: 300; color: var(--accent-water); margin-bottom: 60px; letter-spacing: 4px; font-size: 0.9rem;">INHALA...</h3>
             <div class="sos-circle"></div>
             <p id="sos-affirmation" class="sos-text">No estás aquí por suerte. Estás aquí por tu luz, tu capacidad y tu resiliencia.</p>
             <button class="btn-outline" style="margin-top: 80px; border-color: rgba(255,255,255,0.2); color: white; padding: 12px 24px;" onclick="closeSOS()">Mi frecuencia se ha elevado</button>
         </div>
+
+        
+        <!-- PANEL MI MENTADA -->
+        <div id="view-mentada" class="view" style="padding: 80px 20px 100px;">
+            <h2 style="font-family: 'Outfit'; font-weight: 300; letter-spacing: 2px;">PANEL DE MONITOREO</h2>
+            <div id="mentada-dashboard-content" style="margin-top: 30px;">
+                <!-- Rendered via JS -->
+            </div>
+        </div>
+    
+        
+        <!-- PANEL CONEXIÓN (FASE C) -->
+        <div id="view-conexion" class="view" style="padding: 80px 20px 100px; flex-direction: column; height: 100vh;">
+            <h2 id="conexion-title" style="font-family: 'Outfit'; font-weight: 300; letter-spacing: 2px;">CONEXIÓN</h2>
+            
+            <div id="conexion-agenda" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-top: 20px;">
+                <h3 style="font-size: 1rem; color: var(--accent-earth);">Próxima Sesión</h3>
+                <p id="conexion-session-status" style="font-size: 0.9rem; margin-top: 5px; color: #ddd;">Cargando calendario...</p>
+            </div>
+
+            <div id="chat-container" style="flex: 1; overflow-y: auto; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;">
+                <!-- Chat bubbles -->
+            </div>
+            
+            <div id="chat-input-area" style="display: flex; gap: 10px; margin-top: 20px;">
+                <input type="text" id="chat-input" placeholder="Escribe un mensaje..." style="flex: 1; background: rgba(255,255,255,0.1); border: none; padding: 15px; border-radius: 25px; color: white; font-family: 'Inter'; outline: none;">
+                <button onclick="sendChatMessage()" style="background: var(--accent-water); border: none; border-radius: 50%; width: 50px; height: 50px; color: var(--bg-absolute); font-size: 1.2rem; cursor: pointer;">➤</button>
+            </div>
+        </div>
+    
+        <nav class="bottom-nav">
+            <div class="nav-item active" onclick="switchTab('view-dashboard', this)"><div class="nav-icon">⚲</div><span class="nav-label">HOME</span></div>
+            <div class="nav-item" onclick="switchTab('view-session', this)"><div class="nav-icon">⚡</div><span class="nav-label">SESIÓN</span></div>
+            <div class="nav-item" onclick="switchTab('view-libreta', this)"><div class="nav-icon">▤</div><span class="nav-label">PLAYBOOK</span></div>
+            <div class="nav-item mentada-tab-btn" style="display:none;" onclick="switchTab('view-mentada', this)"><div class="nav-icon">👥</div><span class="nav-label">MI MENTADA</span></div>
+            <div class="nav-item conexion-tab-btn" onclick="switchTab('view-conexion', this)"><div class="nav-icon">💬</div><span class="nav-label">CONEXIÓN</span></div>
+        </nav>
     </div>
 
     <script>
-        const affirmations = [
-            "No estás aquí por suerte. Estás aquí por tu luz, tu capacidad y tu resiliencia.",
-            "El sistema intenta hacerte pequeña. Tu cuerpo acaba de reclamar el espacio que te pertenece.",
-            "La duda que sientes no es tuya; es un virus del sistema. Tu conocimiento técnico es letal y suficiente.",
-            "Nadie en esa sala tiene tu historia. Nadie tiene tu instinto estratégico. Confía en tu mapa.",
-            "Respira. Acabas de regular tu cortisol. Tu corteza prefrontal está nuevamente al mando. Eres imparable."
-        ];
-
-        let sosTimer;
-
-        function openSOS() {
-            const overlay = document.getElementById('sos-overlay');
-            const text = document.getElementById('sos-affirmation');
-            text.classList.remove('visible');
-            overlay.classList.add('active');
-            
-            text.innerText = affirmations[Math.floor(Math.random() * affirmations.length)];
-            
-            setTimeout(() => { text.classList.add('visible'); }, 1000);
-            
-            sosTimer = setInterval(() => {
-                text.classList.remove('visible');
-                setTimeout(() => {
-                    text.innerText = affirmations[Math.floor(Math.random() * affirmations.length)];
-                    text.classList.add('visible');
-                }, 1000);
-            }, 8000);
+        // LOAD PERSISTENT DATA ON INIT
+        window.onload = function() {
+            if(localStorage.getItem('invictus_recall_score')) {
+                let score = localStorage.getItem('invictus_recall_score');
+                let ppm = localStorage.getItem('invictus_recall_ppm');
+                document.getElementById('reader-content').style.display = 'none';
+                document.getElementById('btn-bionic').style.display = 'none';
+                document.getElementById('btn-timer').style.display = 'none';
+                document.getElementById('test-intro').style.display = 'none';
+                
+                const res = document.getElementById('recall-result');
+                res.style.display = 'block';
+                if(score == 100) {
+                    res.innerHTML = `<strong>🏆 Inteligencia Consolidada</strong><br>Velocidad: ${ppm} PPM<br>Comprensión: ${score}% (Perfecto)<br><span style="font-size:0.8rem; color:var(--bg-absolute);">Conexión sináptica recuperada de tu sesión anterior.</span>`;
+                    res.style.background = "var(--success)"; res.style.color = "var(--bg-absolute)";
+                } else {
+                    res.innerHTML = `<strong>⚠️ Retención Parcial Guardada</strong><br>Comprensión: ${score}%`;
+                    res.style.background = "rgba(255, 94, 0, 0.1)"; res.style.color = "var(--accent-fire)"; res.style.border = "1px solid var(--accent-fire)";
+                }
+            }
+            if(localStorage.getItem('invictus_analog_1') === 'true') { marcarHecho(document.getElementById('btn-analog-1')); }
+            if(localStorage.getItem('invictus_analog_2') === 'true') { marcarHecho(document.getElementById('btn-analog-2')); }
+            if(localStorage.getItem('invictus_analog_3') === 'true') { marcarHecho(document.getElementById('btn-analog-3')); }
         }
 
+
+
+        function switchTab(viewId, element) {
+            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+            document.getElementById(viewId).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+            if(element.classList.contains('track-card')) document.querySelectorAll('.nav-item')[1].classList.add('active');
+            else element.classList.add('active');
+        }
+
+        let isBionic = false, originalHTML = [];
+        function toggleBionic() {
+            const ps = document.querySelectorAll('.reader-p');
+            const btn = document.getElementById('btn-bionic');
+            if(!isBionic) {
+                ps.forEach((p, i) => {
+                    originalHTML[i] = p.innerHTML;
+                    let words = p.innerText.split(' ');
+                    p.innerHTML = words.map(w => {
+                        let len = Math.ceil(w.length / 2);
+                        if(w.length > 3) len = Math.ceil(w.length * 0.4);
+                        return `<b style="font-weight:700; color:#FFF;">${w.substring(0,len)}</b><span style="opacity:0.7;">${w.substring(len)}</span>`;
+                    }).join(' ');
+                });
+                isBionic = true; btn.innerHTML = '🧠 Bionic: ON'; btn.style.background = 'rgba(255,255,255,0.1)';
+            } else {
+                ps.forEach((p, i) => p.innerHTML = originalHTML[i]);
+                isBionic = false; btn.innerHTML = '⚡ Lectura Biónica'; btn.style.background = 'transparent';
+            }
+        }
+
+        let timer, secs = 0, isRunning = false;
+        function toggleTimer() {
+            const btn = document.getElementById('btn-timer');
+            const box = document.getElementById('ppm-box');
+            if(!isRunning) {
+                isRunning = true; secs = 0; box.style.display = 'none';
+                btn.classList.remove('fire'); btn.style.background = 'rgba(255,255,255,0.1)';
+                timer = setInterval(() => {
+                    secs++; let m = Math.floor(secs/60).toString().padStart(2,'0'); let s = (secs%60).toString().padStart(2,'0');
+                    btn.innerHTML = `⏱ Leyendo... ${m}:${s}`;
+                }, 1000);
+            } else {
+                clearInterval(timer); isRunning = false;
+                btn.innerHTML = 'Lectura Finalizada'; btn.style.pointerEvents = 'none'; btn.style.opacity = '0.5';
+                let ppm = Math.round((262 / (secs>0?secs:1)) * 60);
+                box.style.display = 'block';
+                box.innerHTML = `Velocidad Registrada: <strong>${ppm} PPM</strong>`;
+            }
+        }
+
+        function iniciarTest() {
+            document.getElementById('reader-content').style.display = 'none';
+            document.getElementById('btn-bionic').style.display = 'none';
+            document.getElementById('btn-timer').style.display = 'none';
+            document.getElementById('test-intro').style.display = 'none';
+            document.getElementById('test-content').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('test-content').offsetTop - 50, behavior: 'smooth' });
+        }
+
+        function evaluarRecall() {
+            let correctas = 0;
+            for(let i=1; i<=5; i++) {
+                const radios = document.getElementsByName('q' + i);
+                let selected = false;
+                for(let r of radios) {
+                    if(r.checked) {
+                        selected = true;
+                        if(r.value === "1") correctas++;
+                    }
+                }
+            }
+            let score = (correctas / 5) * 100;
+            let ppmText = document.getElementById('ppm-box').innerText;
+            let basePPM = ppmText.includes('PPM') ? ppmText.match(/\d+/)[0] : "Pendiente";
+            
+            localStorage.setItem('invictus_recall_score', score);
+            localStorage.setItem('invictus_recall_ppm', basePPM);
+            
+            const res = document.getElementById('recall-result');
+            res.style.display = 'block';
+            
+            if(score === 100) {
+                res.innerHTML = `<strong>🏆 Inteligencia Consolidada</strong><br>Velocidad: ${basePPM} PPM<br>Comprensión: ${score}% (Perfecto)<br><span style="font-size:0.8rem; color:var(--bg-absolute);">Conexión sináptica completada.</span>`;
+                res.style.background = "var(--success)"; res.style.color = "var(--bg-absolute)";
+            } else if (score >= 60) {
+                res.innerHTML = `<strong>⚠️ Retención Parcial</strong><br>Comprensión: ${score}%<br><span style="font-size:0.8rem; color:var(--text-secondary);">Fallaste en ${5 - correctas} pregunta(s). Revisa tus sesgos cognitivos.</span>`;
+                res.style.background = "rgba(255, 94, 0, 0.1)"; res.style.color = "var(--accent-fire)"; res.style.border = "1px solid var(--accent-fire)";
+            } else {
+                res.innerHTML = `<strong>🚨 Fuga Cognitiva</strong><br>Comprensión: ${score}%<br><span style="font-size:0.8rem; color:var(--text-secondary);">Tu atención divagó. Debes mejorar el enfoque mañana.</span>`;
+                res.style.background = "rgba(255, 69, 0, 0.2)"; res.style.color = "#FF4500"; res.style.border = "1px solid #FF4500";
+            }
+        }
+
+        let ctx, oscL, oscR, panL, panR, gain, isAudio = false, synth = window.speechSynthesis;
+        function toggleAudio() {
+            const pill = document.getElementById('audio-pill');
+            const circle = document.getElementById('play-circle');
+            const subs = document.getElementById('subtitles-box');
+            
+            if(!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+            
+            if(isAudio) {
+                gain.gain.setTargetAtTime(0, ctx.currentTime, 0.5);
+                setTimeout(() => { if(oscL) oscL.stop(); if(oscR) oscR.stop(); ctx.suspend(); }, 500);
+                if (synth.speaking) synth.cancel();
+                pill.classList.remove('active'); circle.classList.remove('playing');
+                subs.style.display = 'none';
+                isAudio = false;
+            } else {
+                if(ctx.state === 'suspended') ctx.resume();
+                oscL = ctx.createOscillator(); oscR = ctx.createOscillator();
+                oscL.type = 'sine'; oscR.type = 'sine'; oscL.frequency.value = 174; oscR.frequency.value = 180;
+                panL = ctx.createStereoPanner(); panR = ctx.createStereoPanner(); panL.pan.value = -1; panR.pan.value = 1;
+                gain = ctx.createGain(); gain.gain.value = 0;
+                oscL.connect(panL).connect(gain); oscR.connect(panR).connect(gain); gain.connect(ctx.destination);
+                oscL.start(); oscR.start(); gain.gain.setTargetAtTime(0.4, ctx.currentTime, 1);
+                
+                pill.classList.add('active'); circle.classList.add('playing');
+                subs.style.display = 'block'; 
+                isAudio = true;
+                
+                if (synth.speaking) synth.cancel();
+                
+                const msgText = "Respira profundo. Estás entrando en un estado de paz absoluta. La identidad de liderazgo no se espera; se ejerce. Empieza a tomar decisiones como la líder que ya eres, y tu mente terminará creyéndolo. Reclama tu éxito en primera persona. El síndrome del impostor se desvanece mientras tu neuroplasticidad graba tu verdadera autoridad. Duerme profundamente y despierta imparable.";
+                
+                subs.innerHTML = `<strong>[Voz Guiada]:</strong> ${msgText}`;
+
+                let utterance = new SpeechSynthesisUtterance(msgText);
+                utterance.lang = 'es-ES'; 
+                utterance.pitch = 0.6; // Deep, relaxing pitch
+                utterance.rate = 0.75; // Very slow and melodic pace
+                utterance.volume = 0.9;
+                
+                utterance.onerror = function(event) { console.warn("TTS Error: " + event.error); };
+                try { synth.speak(utterance); } catch(e) { console.error("Speech API falló: ", e); }
+
+                // Auto fade out after 8 minutes (480000 ms) for the mockup realism
+                setTimeout(() => {
+                    if(isAudio) toggleAudio();
+                }, 480000);
+            }
+        }
+
+        // LÓGICA SOS (Síndrome del Impostor - Regulación y Elevación de Frecuencia)
+        const affirmations = [
+            "En este momento, tu amígdala está generando cortisol. Respira. Es solo química, no es la realidad.",
+            "El síndrome del impostor es una ilusión evolutiva. Tu cerebro intenta protegerte. Asume el mando ejecutivo.",
+            "No estás aquí por suerte. La probabilidad de tus logros sin competencia técnica es cero. Reconoce los hechos.",
+            "La incomodidad que sientes es neuroplasticidad en acción. Tu cerebro está expandiendo su capacidad. Sostenlo.",
+            "Comienza a elevar tu frecuencia. Eres una líder probada. Las decisiones complejas son tu territorio natural.",
+            "Reclama tu espacio. El ecosistema necesita tu visión, tu rigor y tu autoridad para evolucionar.",
+            "Tu identidad de liderazgo ya está forjada en la acción. No necesitas validación externa. Tú eres la autoridad.",
+            "Siente tu poder ejecutivo fluir. Transforma la duda en acción. Eres imparable y profundamente capaz.",
+            "Estás lista. Tu estado del ser se ha recalibrado al nivel de Invictus. Aprieta el botón y ejecuta."
+        ];
+        let sosInterval;
+        
+        function marcarHecho(btn, key = null) {
+            btn.innerHTML = '✅ Hecho en el mundo físico'; 
+            btn.style.background = 'rgba(16,185,129,0.1)';
+            btn.style.color = 'var(--success)';
+            btn.style.borderColor = 'var(--success)';
+            if(key) localStorage.setItem(key, 'true');
+        }
+        
+        function openSOS() {
+            document.getElementById('sos-overlay').classList.add('active');
+            let idx = 0;
+            const textEl = document.getElementById('sos-affirmation');
+            textEl.innerText = affirmations[idx];
+            setTimeout(() => textEl.classList.add('visible'), 500);
+            
+            sosInterval = setInterval(() => {
+                textEl.classList.remove('visible');
+                setTimeout(() => {
+                    idx = (idx + 1) % affirmations.length;
+                    textEl.innerText = affirmations[idx];
+                    textEl.classList.add('visible');
+                }, 1000);
+            }, 8000); // Cambia de frase en perfecta sincronía con la respiración de 8s
+        }
+        
         function closeSOS() {
-            clearInterval(sosTimer);
             document.getElementById('sos-overlay').classList.remove('active');
+            clearInterval(sosInterval);
             document.getElementById('sos-affirmation').classList.remove('visible');
         }
     </script>
@@ -279,7 +791,24 @@ const FOCUS_DATA = {
       <p style="color:#aaa;font-size:0.8rem;margin-bottom:10px;">Escribe el disparador para quitarle su poder cognitivo:</p>
       <input type="text" placeholder="Ej: Me dio ansiedad enviar el reporte..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
       <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Registrar Disparador</button>
-      <style>.f-tag{background:rgba(255,255,255,0.1);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;} .f-tag.active{background:#FF6B00;}</style>
+      <style>.f-tag{background:rgba(255,255,255,0.1);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;} .f-tag.active{background:#FF6B00;}
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .shake-error {
+            animation: shake 0.3s ease-in-out;
+        }
+        .dot.error { background: var(--accent-fire); box-shadow: 0 0 10px var(--accent-fire); }
+
+    
+        .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+        .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
+        .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+    
+    </style>
     `
   },
   'pacto': {
@@ -381,5 +910,701 @@ setTimeout(() => {
 }, 500);
 </script>
 
+
+<script src="mujeresMentorasData.js"></script>
+<script src="mentadasData.js"></script>
+<script>
+// --- USER DATABASE MOCK ---
+const authUsers = [
+    { id: 'usr_01', pin: '012601', name: 'Mabel', fullName: 'Mabel Ibarra', role: 'Mentora' },
+    { id: 'usr_02', pin: '012602', name: 'Eliana', fullName: 'Eliana Villagómez', role: 'Mentora' },
+    { id: 'usr_03', pin: '012603', name: 'Mayra', fullName: 'Mayra Pujos', role: 'Mentora' },
+    { id: 'usr_04', pin: '012604', name: 'Marjorie', fullName: 'Marjorie Castro', role: 'Mentora' },
+    { id: 'usr_05', pin: '012605', name: 'Carla', fullName: 'Carla Godoy', role: 'Mentora' },
+    { id: 'usr_06', pin: '012606', name: 'Giovanna', fullName: 'Giovanna Coimbra', role: 'Mentora' },
+    { id: 'usr_07', pin: '022601', name: 'Stephany', fullName: 'Stephany Simbaña', role: 'Mentada' },
+    { id: 'usr_08', pin: '022602', name: 'Anahí', fullName: 'Anahí Freire', role: 'Mentada' },
+    { id: 'usr_09', pin: '022603', name: 'Noemí', fullName: 'Noemí Palacios', role: 'Mentada' },
+    { id: 'usr_10', pin: '022604', name: 'Lorena', fullName: 'Lorena Chávez', role: 'Mentada' },
+    { id: 'usr_11', pin: '022605', name: 'Lourdes', fullName: 'Lourdes Sánchez', role: 'Mentada' },
+    { id: 'usr_12', pin: '022606', name: 'Valentina', fullName: 'Valentina Pardo', role: 'Mentada' }
+];
+
+let currentUser = null;
+let currentPin = '';
+let pinCount = 0;
+
+// Remove the old dummy pressKey if it exists outside this block (wait, the old one was in the original HTML)
+// Actually, let's just redefine pressKey here to override it.
+
+
+function completePhase(phaseNum) {
+    if(!currentPhaseProgress[currentDay]) currentPhaseProgress[currentDay] = [];
+    if(!currentPhaseProgress[currentDay].includes(phaseNum)) {
+        currentPhaseProgress[currentDay].push(phaseNum);
+        
+        // Auto-complete day if phase 12 is done (or all 12 are done)
+        if(currentPhaseProgress[currentDay].length === 12 || phaseNum === 12) {
+            if(!completedDays.includes(currentDay)) completedDays.push(currentDay);
+        }
+        
+        saveProgress();
+    }
+}
+
+function updateVisualProgress() {
+    // 1. Overall Track Progress (Day X of 78)
+    const ringContent = document.querySelector('.ring-content h2');
+    const ringLabel = document.querySelector('.ring-content p');
+    if(ringContent) ringContent.innerText = currentDay;
+    if(ringLabel) ringLabel.innerText = "Día de 78";
+    
+    const ringProgress = document.querySelector('.ring-progress');
+    if(ringProgress) {
+        const total = 78;
+        const percentage = currentDay / total;
+        // Dasharray is 565. offset = 565 - (565 * percentage)
+        const offset = 565 - (565 * percentage);
+        ringProgress.style.strokeDashoffset = offset;
+    }
+    
+    // 2. Session Progress (Phases completed)
+    const phases = document.querySelectorAll('.timeline .phase');
+    const completedInSession = currentPhaseProgress[currentDay] || [];
+    
+    phases.forEach((phase, idx) => {
+        const phaseNum = idx + 1;
+        // Update styling
+        if(completedInSession.includes(phaseNum)) {
+            phase.classList.add('completed');
+            phase.classList.remove('active');
+        } else if (phaseNum === completedInSession.length + 1) {
+            phase.classList.add('active');
+            phase.classList.remove('completed');
+        } else {
+            phase.classList.remove('active');
+            phase.classList.remove('completed');
+        }
+    });
+}
+
+function renderComprensionLectora(data, container) {
+    if(!data.fase2_lectura.comprension) return;
+    const comp = data.fase2_lectura.comprension;
+    
+    let html = `
+    <div style="margin-top: 24px; padding: 16px; background: rgba(0, 198, 255, 0.05); border: 1px solid rgba(0, 198, 255, 0.2); border-radius: 12px;">
+        <h5 style="color: var(--accent-water); font-family: 'Outfit'; margin-bottom: 8px;">EXTRA: COMPRENSIÓN LECTORA</h5>
+        <p style="font-size: 0.9rem; color: white; margin-bottom: 12px;">${comp.q}</p>
+    `;
+    
+    comp.options.forEach((opt, idx) => {
+        html += `
+        <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary); cursor:pointer;">
+            <input type="radio" name="comprension" value="${idx}" onchange="checkComprension(${comp.answer}, this)"> ${opt}
+        </label>`;
+    });
+    
+    html += `<div id="comp-feedback" style="margin-top: 10px; font-weight:bold; font-size: 0.85rem;"></div></div>`;
+    
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    container.appendChild(div);
+}
+
+window.checkComprension = function(correctIdx, el) {
+    const feedback = document.getElementById('comp-feedback');
+    if(parseInt(el.value) === correctIdx) {
+        feedback.innerText = "✓ Respuesta correcta. Excelente comprensión táctica.";
+        feedback.style.color = "var(--success)";
+        completePhase(2); // Auto-complete phase 2
+    } else {
+        feedback.innerText = "✗ Incorrecto. Revisa el texto e intenta de nuevo.";
+        feedback.style.color = "var(--accent-fire)";
+    }
+}
+
+// Global func to mark manual phases done
+window.markPhaseDone = function(btn, phaseNum) {
+    btn.innerText = "✓ Completado";
+    btn.style.borderColor = "var(--success)";
+    btn.style.color = "var(--success)";
+    completePhase(phaseNum);
+}
+
+function loadMujeresMentorasDay(dayIndex) {
+    const data = window.activeTrackData.find(d => d.dia === dayIndex);
+    if (!data) return;
+
+    currentDay = dayIndex;
+    
+    // Update Header
+    const badge = document.querySelector('.session-hero .badge-premium');
+    if (badge) badge.innerText = `${data.bloque} • Día ${data.dia}`;
+    const title = document.querySelector('.session-hero .display-font');
+    if (title) title.innerText = data.titulo;
+
+    const phases = document.querySelectorAll('.timeline .phase');
+    
+    // Generate completion buttons for phases that require manual check
+    const manualPhases = [1, 5, 6, 7, 8, 9, 10, 11, 12];
+    
+    manualPhases.forEach(num => {
+        const p = phases[num-1];
+        // Clean previous buttons if day changed
+        const existingBtn = p.querySelector('.btn-done-phase');
+        if(existingBtn) existingBtn.remove();
+        
+        if(p) {
+            const btn = document.createElement('button');
+            btn.className = "btn-outline btn-done-phase";
+            btn.style = "width: 100%; margin-top: 12px; font-size: 0.8rem;";
+            
+            // If already done from loaded state, mark it visually
+            const completedInSession = currentPhaseProgress[currentDay] || [];
+            if(completedInSession.includes(num)) {
+                btn.innerText = "✓ Completado";
+                btn.style.borderColor = "var(--success)";
+                btn.style.color = "var(--success)";
+            } else {
+                btn.innerText = "Marcar Fase como Completada";
+            }
+            
+            btn.onclick = function() { window.markPhaseDone(this, num); };
+            p.appendChild(btn);
+        }
+    });
+
+    // F1: Ancla
+    if (phases[0]) {
+        const desc = phases[0].querySelector('.phase-desc');
+        if (desc) desc.innerHTML = `<strong>Respiración de Oxigenación:</strong> ${data.fase1_ancla}`;
+    }
+
+    // F2: Lectura + Comprension
+    if (phases[1]) {
+        const reader = document.getElementById('reader-content');
+        if (reader) {
+            let html = `<h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">${data.titulo}</h4>`;
+            data.fase2_lectura.texto.split('\n').forEach(p => {
+                if(p.trim()) html += `<p class="reader-p">${p}</p>`;
+            });
+            reader.innerHTML = html;
+            
+            // Clean old feedback
+            const existingComp = phases[1].querySelector('#comp-feedback');
+            if(existingComp) existingComp.parentElement.remove();
+            
+            renderComprensionLectora(data, phases[1]);
+        }
+    }
+
+    // F3: Vocabulario
+    if (phases[2]) {
+        const desc = phases[2].querySelector('.phase-desc');
+        if (desc) {
+            let html = `<strong>Vocabulario Activo:</strong><br>`;
+            if(data.fase3_vocabulario) {
+                data.fase3_vocabulario.forEach(v => {
+                    html += `<span style="color:var(--accent-fire)">${v.palabra}</span>: ${v.definicion}<br>`;
+                });
+            }
+            desc.innerHTML = html;
+        }
+    }
+
+    // F4: Recall
+    if (phases[3]) {
+        const testContent = document.getElementById('test-content');
+        if (testContent) {
+            let html = '';
+            data.fase4_recall.forEach((r, idx) => {
+                html += `
+                <div style="margin-bottom: 20px;" class="recall-q">
+                    <span style="font-size: 0.7rem; color: var(--accent-fire); text-transform: uppercase;">${r.type}</span>
+                    <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${idx+1}. ${r.q}</strong></p>
+                    <textarea class="input-premium" placeholder="Escribe tu respuesta analítica..."></textarea>
+                </div>
+                `;
+            });
+            html += `<button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 4)">📊 Terminar Evaluación y Avanzar</button>`;
+            testContent.innerHTML = html;
+        }
+    }
+
+    // Replace F5 to F11 texts
+    if (phases[4]) { const desc = phases[4].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase5_codificacion_dual; }
+    if (phases[5]) { const desc = phases[5].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase6_loci; }
+    if (phases[6]) { const desc = phases[6].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase7_analogia; }
+    if (phases[7]) { const desc = phases[7].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase8_ejercicio; }
+    if (phases[8]) { const desc = phases[8].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase9_feynman ? "Aplica la Técnica Feynman hoy." : "Aplica cada 7 sesiones. Hoy descansa."; }
+    if (phases[9]) { const desc = phases[9].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase10_metacognicion; }
+    if (phases[10]) { const desc = phases[10].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase11_ensayo; }
+
+    updateVisualProgress();
+}
+
+// Navigation UI to switch days
+function renderDaySwitcher() {
+    const list = document.querySelector('.blocks-list');
+    if(!list) return;
+    
+    let html = `<div style="margin-bottom: 24px; font-family:'Outfit'; font-size:1.1rem; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">Tu Progreso</div>`;
+    
+    // We render first 5 days for the pilot
+    for(let i=1; i<=10; i++) {
+        let isDone = completedDays.includes(i);
+        let isActive = currentDay === i;
+        
+        let isLocked = false;
+        if(!isDone && !isActive && i > currentDay) {
+            // Check if all previous days are done
+            for(let j=1; j<i; j++) {
+                if(!completedDays.includes(j)) {
+                    isLocked = true;
+                    break;
+                }
+            }
+        }
+        
+        html += `
+        <div class="glass-card track-card ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}" onclick="if(!${isLocked}) { loadMujeresMentorasDay(${i}); document.querySelector('.blocks-list').innerHTML=''; renderDaySwitcher();
+
+    if(currentUser.role === 'Mentora') {
+        const mentadaTab = document.querySelector('.mentada-tab-btn');
+        if(mentadaTab) mentadaTab.style.display = 'flex';
+    }
+     switchTab('view-session', this); }">
+            <div class="track-number">${i}</div>
+            <div>
+                <h4 style="font-size: 0.95rem; color: white;">Día ${i}</h4>
+                <p style="font-size: 0.8rem; color: var(--text-secondary);">${isDone ? '✓ Completado' : (isActive ? 'Activo' : 'Bloqueado')}</p>
+            </div>
+        </div>`;
+    }
+    
+    list.innerHTML = html;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    if (true) {
+        // Let's hook into the dashboard button so we can render the switcher
+        const oldSwitchTab = window.switchTab;
+        window.switchTab = function(viewId, el) {
+            if(oldSwitchTab) oldSwitchTab(viewId, el);
+            if(viewId === 'view-dashboard') {
+                renderDaySwitcher();
+
+    if(currentUser.role === 'Mentora') {
+        const mentadaTab = document.querySelector('.mentada-tab-btn');
+        if(mentadaTab) mentadaTab.style.display = 'flex';
+    }
+    
+            }
+        };
+    }
+    
+    // We remove the old static dummy pressKey and initialization.
+    // Initialization now only happens when a user types the correct PIN (initUserSession).
+});
+
+// Clean up original pressKey from the global scope if it exists as a script block
+// (The previous pressKey in the old code is effectively overridden because this script block is after it).
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+// --- SUPABASE CONFIG ---
+const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
+const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
+const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+// --- REFACTOR: AUTH & PROGRESS ---
+window.pressKey = async function(num) {
+    if(!num) num = ''; // fallback
+    if(pinCount < 6) {
+        currentPin += num;
+        document.querySelectorAll('.pin-dots .dot')[pinCount].classList.add('filled');
+        pinCount++;
+        
+        if(pinCount === 6) {
+            // Verify with Supabase
+            const { data: user, error } = await _supabase.from('mentoras_users').select('*').eq('pin', currentPin).single();
+            if(user) {
+                // Success
+                currentUser = user;
+                
+                // Update Header
+                const headerTitle = document.querySelector('.header-greeting h1');
+                const profilePic = document.querySelector('.profile-pic');
+                if(headerTitle) headerTitle.innerText = `Hola, ${user.name}`;
+                if(profilePic) profilePic.innerText = user.name.charAt(0);
+                
+                setTimeout(() => {
+                    document.getElementById('auth-overlay').classList.add('hidden');
+                    initUserSession(); // Load their specific data
+                }, 400);
+            } else {
+                // Error
+                const dotsContainer = document.querySelector('.pin-dots');
+                const dots = document.querySelectorAll('.pin-dots .dot');
+                dots.forEach(d => d.classList.add('error'));
+                dotsContainer.classList.add('shake-error');
+                
+                setTimeout(() => {
+                    dotsContainer.classList.remove('shake-error');
+                    dots.forEach(d => {
+                        d.classList.remove('filled');
+                        d.classList.remove('error');
+                    });
+                    currentPin = '';
+                    pinCount = 0;
+                }, 500);
+            }
+        }
+    }
+};
+
+async function initUserSession() {
+    if(!currentUser) return;
+    
+    window.activeTrackData = currentUser.role === 'Mentada' ? (typeof mentadasData !== 'undefined' ? mentadasData : []) : (typeof mujeresMentorasData !== 'undefined' ? mujeresMentorasData : []);
+    
+    // Fetch from Supabase
+    const { data, error } = await _supabase.from('mentoras_progress').select('*').eq('user_id', currentUser.id).single();
+    
+    if(data) {
+        currentDay = data.current_day || 1;
+        completedDays = data.completed_days || [];
+        currentPhaseProgress = data.phase_progress || {};
+        currentAnswers = data.answers || {};
+    } else {
+        currentDay = 1;
+        completedDays = [];
+        currentPhaseProgress = {};
+        currentAnswers = {};
+    }
+    
+    // Find highest incomplete day or 1
+    let target = 1;
+    while(completedDays.includes(target)) target++;
+    if(target > window.activeTrackData.length) target = window.activeTrackData.length;
+    
+    // Check if target day was manually overridden in currentDay
+    if(currentDay > target && completedDays.includes(currentDay-1)) target = currentDay;
+    
+    loadMujeresMentorasDay(target);
+    renderDaySwitcher();
+
+    if(currentUser.role === 'Mentora') {
+        const mentadaTab = document.querySelector('.mentada-tab-btn');
+        if(mentadaTab) mentadaTab.style.display = 'flex';
+    }
+    
+}
+
+async function saveProgress() {
+    if(!currentUser) return;
+    
+    // Optimistic UI Update
+    updateVisualProgress();
+    
+    // Persist to Supabase
+    await _supabase.from('mentoras_progress').upsert({
+        user_id: currentUser.id,
+        current_day: currentDay,
+        completed_days: completedDays,
+        phase_progress: currentPhaseProgress,
+        answers: currentAnswers,
+        updated_at: new Date().toISOString()
+    });
+}
+</script>
+
+
+<script>
+// --- FASE B: DASHBOARD Y RESPUESTAS ---
+async function loadMentadaDashboard() {
+    const content = document.getElementById('mentada-dashboard-content');
+    content.innerHTML = '<p style="color:#aaa;">Buscando conexión con tu mentada...</p>';
+    
+    // Get Mentada ID
+    const { data: mentadaUser } = await _supabase.from('mentoras_users').select('*').eq('assigned_mentor_id', currentUser.id).single();
+    if(!mentadaUser) {
+        content.innerHTML = '<p style="color:#aaa;">Aún no tienes una mentada asignada en el sistema.</p>';
+        return;
+    }
+    
+    // Get Mentada Progress
+    const { data: mentadaProgress } = await _supabase.from('mentoras_progress').select('*').eq('user_id', mentadaUser.id).single();
+    
+    let day = mentadaProgress ? mentadaProgress.current_day : 1;
+    let answers = mentadaProgress && mentadaProgress.answers ? mentadaProgress.answers : {};
+    
+    let html = `<div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 30px;">
+         <h3 style="margin-bottom: 5px; color: var(--accent-water); font-size:1.3rem;">${mentadaUser.name} ${mentadaUser.full_name.replace(mentadaUser.name, '').trim()}</h3>
+         <p style="font-size: 0.9rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">Día actual: ${day} de 78</p>
+    </div>`;
+    
+    html += `<h3 style="font-family: 'Outfit'; font-weight:300; letter-spacing:1px; margin-bottom:15px;">Respuestas y Reflexiones</h3>`;
+    html += `<div style="display:flex; flex-direction:column; gap:15px;">`;
+    
+    let hasAnswers = false;
+    for(let d in answers) {
+        if(answers[d].trim() !== '') {
+            hasAnswers = true;
+            html += `<div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                 <span style="color: var(--accent-earth); font-size: 0.8rem; text-transform: uppercase;">Día ${d}</span>
+                 <p style="margin-top: 10px; font-size: 0.95rem; line-height: 1.5; color: #ddd; white-space: pre-wrap;">${answers[d]}</p>
+            </div>`;
+        }
+    }
+    
+    if(!hasAnswers) {
+        html += `<p style="font-size: 0.9rem; color: #888;">Tu mentada aún no ha guardado respuestas de texto en el sistema.</p>`;
+    }
+    html += `</div>`;
+    content.innerHTML = html;
+}
+
+// Hook into switchTab
+const originalSwitchTab = switchTab;
+switchTab = function(viewId, element) {
+    originalSwitchTab(viewId, element);
+    if(viewId === 'view-mentada') {
+        loadMentadaDashboard();
+    }
+};
+</script>
+
+
+<script>
+// --- FASE C: CHAT Y CONEXIÓN ---
+let chatPartner = null;
+let realtimeSubscription = null;
+
+async function loadConexionTab() {
+    const chatContainer = document.getElementById('chat-container');
+    const title = document.getElementById('conexion-title');
+    
+    if(!currentUser) return;
+    
+    // 1. Identify Partner
+    if(currentUser.role === 'Mentora') {
+        const { data } = await _supabase.from('mentoras_users').select('*').eq('assigned_mentor_id', currentUser.id).single();
+        chatPartner = data;
+    } else {
+        const { data } = await _supabase.from('mentoras_users').select('*').eq('id', currentUser.assigned_mentor_id).single();
+        chatPartner = data;
+    }
+    
+    if(!chatPartner) {
+        chatContainer.innerHTML = '<p style="text-align:center; color:#888; margin-top:20px;">No tienes una pareja asignada para chatear.</p>';
+        document.getElementById('chat-input-area').style.display = 'none';
+        return;
+    }
+    
+    title.innerText = `CHAT CON ${chatPartner.name.toUpperCase()}`;
+    document.getElementById('chat-input-area').style.display = 'flex';
+    
+    // 2. Fetch Message History
+    const { data: messages } = await _supabase.from('mentoras_messages')
+        .select('*')
+        .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${chatPartner.id}),and(sender_id.eq.${chatPartner.id},receiver_id.eq.${currentUser.id})`)
+        .order('created_at', { ascending: true });
+        
+    renderChatMessages(messages || []);
+    
+    // 3. Set up Realtime WebSockets
+    if(realtimeSubscription) { _supabase.removeChannel(realtimeSubscription); }
+    
+    realtimeSubscription = _supabase.channel('public:mentoras_messages')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mentoras_messages' }, payload => {
+            const msg = payload.new;
+            if( (msg.sender_id === currentUser.id && msg.receiver_id === chatPartner.id) ||
+                (msg.sender_id === chatPartner.id && msg.receiver_id === currentUser.id) ) {
+                appendMessageToUI(msg);
+            }
+        })
+        .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'mentoras_messages' }, payload => {
+            const el = document.getElementById('msg-' + payload.old.id);
+            if(el) el.remove();
+        })
+        .subscribe();
+}
+
+function renderChatMessages(messages) {
+    const container = document.getElementById('chat-container');
+    container.innerHTML = '';
+    messages.forEach(msg => appendMessageToUI(msg));
+}
+
+function appendMessageToUI(msg) {
+    const container = document.getElementById('chat-container');
+    const div = document.createElement('div');
+    div.classList.add('chat-bubble');
+    div.id = 'msg-' + msg.id; // Assign ID
+    
+    if(msg.sender_id === currentUser.id) {
+        div.classList.add('chat-sent');
+        // Add delete button for own messages
+        div.innerHTML = `<span>${msg.content}</span> <span onclick="deleteMessage('${msg.id}')" style="font-size:0.8rem; cursor:pointer; opacity:0.6; margin-left:10px;" title="Borrar mensaje">🗑️</span>`;
+    } else {
+        div.classList.add('chat-received');
+        div.innerText = msg.content;
+    }
+    
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight; // Auto-scroll
+}
+
+async function deleteMessage(msgId) {
+    // Optimistic UI removal
+    const el = document.getElementById('msg-' + msgId);
+    if(el) el.remove();
+    
+    // Delete from Supabase
+    await _supabase.from('mentoras_messages').delete().eq('id', msgId);
+}
+
+async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const text = input.value.trim();
+    if(!text || !chatPartner) return;
+    
+    input.value = ''; // Clear immediately
+    
+    // Optimistic UI (handled by realtime event, but we could append here immediately to feel faster)
+    // For now, let the realtime socket append it so we ensure it reached the server.
+    
+    await _supabase.from('mentoras_messages').insert([{
+        sender_id: currentUser.id,
+        receiver_id: chatPartner.id,
+        content: text
+    }]);
+}
+
+// Support hitting Enter to send
+document.addEventListener('DOMContentLoaded', () => {
+    // Wait for elements to exist
+    setTimeout(() => {
+        const input = document.getElementById('chat-input');
+        if(input) {
+            input.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') sendChatMessage();
+            });
+        }
+    }, 1000);
+});
+
+// Hook into switchTab
+const originalSwitchTabC = switchTab;
+switchTab = function(viewId, element) {
+    originalSwitchTabC(viewId, element);
+    if(viewId === 'view-conexion') {
+        loadConexionTab();
+    }
+};
+</script>
+
+
+<script>
+// --- MODULO DE AGENDAMIENTO ---
+let currentSessionId = null;
+
+async function loadAgenda() {
+    if(!chatPartner || !currentUser) return;
+    const agendaStatus = document.getElementById('conexion-session-status');
+    
+    // Determine IDs based on role
+    let mentoraId = currentUser.role === 'Mentora' ? currentUser.id : chatPartner.id;
+    let mentadaId = currentUser.role === 'Mentada' ? currentUser.id : chatPartner.id;
+    
+    // Fetch latest active session
+    const { data: session } = await _supabase.from('mentoras_sessions')
+        .select('*')
+        .eq('mentora_id', mentoraId)
+        .eq('mentada_id', mentadaId)
+        .neq('status', 'Completada')
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single();
+        
+    if(!session) {
+        // Form to propose
+        agendaStatus.innerHTML = `
+            <div style="display:flex; gap:10px; align-items:center; margin-top:10px;">
+                <input type="datetime-local" id="agenda-date" style="background:rgba(255,255,255,0.1); border:none; padding:10px; color:white; border-radius:8px; font-family:'Inter'; font-size:0.9rem;">
+                <button onclick="proposeSession()" style="background:var(--accent-earth); color:var(--bg-absolute); border:none; padding:10px 15px; border-radius:8px; font-family:'Outfit'; font-weight:600; cursor:pointer;">Agendar</button>
+            </div>
+        `;
+        currentSessionId = null;
+    } else {
+        currentSessionId = session.id;
+        const dateObj = new Date(session.proposed_date);
+        const dateString = dateObj.toLocaleString('es-ES', { dateStyle: 'long', timeStyle: 'short' });
+        
+        if(session.status === 'Pendiente') {
+            agendaStatus.innerHTML = `
+                <div style="margin-top:10px;">
+                    <p style="color:#ddd; margin-bottom:10px;">Propuesta para: <strong>${dateString}</strong> (Pendiente)</p>
+                    <button onclick="updateSessionStatus('Confirmada')" style="background:var(--accent-water); color:var(--bg-absolute); border:none; padding:8px 15px; border-radius:6px; cursor:pointer; margin-right:10px;">Aceptar</button>
+                    <button onclick="updateSessionStatus('Cancelada')" style="background:transparent; color:#aaa; border:1px solid #555; padding:8px 15px; border-radius:6px; cursor:pointer;">Cancelar</button>
+                </div>
+            `;
+        } else if (session.status === 'Confirmada') {
+            agendaStatus.innerHTML = `
+                <div style="margin-top:10px;">
+                    <p style="color:var(--success); margin-bottom:10px;">✨ Confirmada para: <strong>${dateString}</strong></p>
+                    <button onclick="updateSessionStatus('Completada')" style="background:rgba(255,255,255,0.1); color:#fff; border:1px solid rgba(255,255,255,0.2); padding:8px 15px; border-radius:6px; cursor:pointer;">Marcar como Realizada</button>
+                </div>
+            `;
+        }
+    }
+}
+
+async function proposeSession() {
+    const input = document.getElementById('agenda-date');
+    if(!input || !input.value) return;
+    
+    let mentoraId = currentUser.role === 'Mentora' ? currentUser.id : chatPartner.id;
+    let mentadaId = currentUser.role === 'Mentada' ? currentUser.id : chatPartner.id;
+    
+    await _supabase.from('mentoras_sessions').insert([{
+        mentora_id: mentoraId,
+        mentada_id: mentadaId,
+        proposed_date: new Date(input.value).toISOString(),
+        status: 'Pendiente'
+    }]);
+    
+    // Auto-send a chat message
+    const dateStr = new Date(input.value).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' });
+    await _supabase.from('mentoras_messages').insert([{
+        sender_id: currentUser.id,
+        receiver_id: chatPartner.id,
+        content: `🗓️ He propuesto una nueva sesión para el ${dateStr}. Revisa tu calendario arriba.`
+    }]);
+    
+    loadAgenda();
+}
+
+async function updateSessionStatus(newStatus) {
+    if(!currentSessionId) return;
+    
+    if(newStatus === 'Cancelada') {
+        await _supabase.from('mentoras_sessions').delete().eq('id', currentSessionId);
+    } else {
+        await _supabase.from('mentoras_sessions').update({ status: newStatus }).eq('id', currentSessionId);
+    }
+    loadAgenda();
+}
+</script>
+
+
+<script>
+function showRealtimeNotification(msg) {
+    console.log("Notification: " + msg);
+    alert(msg);
+}
+</script>
 </body>
-</html>
