@@ -5,13 +5,13 @@ const mujeresMentorasData = [
     "titulo": "LA IDENTIDAD DE LIDERAZGO — LO QUE NO TE ENSEÑARON",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "Activa el cronómetro. Lee sin detenerte. No releas. Al terminar, anota los segundos y calcula: PPM = (1,560 ÷ segundos) × 60. Este es tu punto de partida.",
+      "texto": "El verdadero liderazgo no empieza cuando diriges a otros, sino cuando logras gobernarte a ti misma frente al caos. Durante años, la narrativa tradicional ha condicionado a las mujeres a liderar desde la complacencia, buscando consenso antes que impacto, y pidiendo permiso antes de tomar espacio. Esto crea el 'Síndrome de la Impostora', no porque seas incapaz, sino porque estás operando con un software caduco.\n\nPara quebrar el techo de cristal, primero debes destruir las barreras de titanio en tu propia mente. La asertividad no es agresión; es claridad. La ambición no es egoísmo; es visión. Cuando una mujer asume su poder sin pedir disculpas, reconfigura automáticamente las dinámicas de la sala. Este programa no está diseñado para enseñarte a encajar en el molde corporativo, sino para darte las herramientas tácticas que te permitirán forjar el tuyo propio.\n\nTu primera misión es auditar tus disculpas. A partir de hoy, elimina el 'perdón por la interrupción' o 'solo quería decir'. Reemplázalo por silencios tácticos y declaraciones firmes. Tu voz tiene peso. Empieza a usarla como tal.",
       "comprension": {
-        "q": "¿Cuál es la idea principal de este texto?",
+        "q": "¿Cuál es el objetivo principal de reprogramar tu identidad de liderazgo en este primer bloque?",
         "options": [
-          "Opción A (Incorrecta)",
-          "Opción B (Correcta)",
-          "Opción C (Incorrecta)"
+          "Aprender a delegar tareas operativas a mi equipo.",
+          "Destruir la falsa narrativa de insuficiencia y asumir el control de mis decisiones.",
+          "Memorizar técnicas de lectura rápida para leer más libros."
         ],
         "answer": 1
       }
@@ -25,19 +25,15 @@ const mujeresMentorasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Qué diferencia establece Ibarra entre identidad de liderazgo, habilidades de liderazgo y posición de liderazgo?"
+        "q": "¿Cuáles son las dos principales narrativas limitantes que menciona el texto sobre el liderazgo femenino?"
       },
       {
         "type": "Inferencial",
-        "q": "¿Por qué el estudio INCAE concluye que la atribución externa del éxito en mujeres líderes no es un problema de autoestima sino el resultado de condiciones organizacionales específicas?"
-      },
-      {
-        "type": "Opción múltiple",
-        "q": "Según Bandura, la autoeficacia es predictora del desempeño porque: a) Aumenta las habilidades técnicas de la persona b) La creencia en la propia capacidad supera en impacto a las habilidades objetivas c) Elimina el síndrome del impostor permanentemente d) Es innata y no se puede desarrollar"
+        "q": "Según lo leído, ¿por qué crees que el sistema tradicional penaliza la asertividad en las mujeres?"
       },
       {
         "type": "Conexión personal",
-        "q": "¿En qué decisión reciente de tu vida profesional atribuiste el resultado a un factor externo cuando en realidad fue producto de tu criterio? ¿Qué cambiaría si lo reclamaras en primera persona?"
+        "q": "Relata un momento reciente donde sentiste el Síndrome del Impostor. ¿Cómo lo replantearías hoy?"
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
