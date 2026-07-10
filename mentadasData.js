@@ -5,13 +5,13 @@ const mentadasData = [
     "titulo": "LA IDENTIDAD DE LIDERAZGO — LO QUE NO TE ENSEÑARON",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "Activa el cronómetro. Lee sin detenerte. No releas. Al terminar, anota los segundos y calcula: PPM = (1,560 ÷ segundos) × 60. Este es tu punto de partida.",
+      "texto": "En el mundo actual, el éxito no solo depende de tu capacidad intelectual, sino de tu resiliencia emocional. Como mentoreada, estás dando el primer paso hacia una transformación que exige valentía: la disposición a desaprender lo que creías saber sobre tus propios límites.\n\nA menudo, la sociedad nos enseña a ser perfectas antes de ser valientes. Esperamos estar 100% listas antes de levantar la mano, postular a un ascenso o iniciar un proyecto. Pero la verdadera innovación personal ocurre en la zona de incomodidad. El Síndrome del Impostor no es una señal de que no perteneces; es simplemente la prueba de que estás creciendo fuera de tu zona de confort.\n\nTu tarea en esta primera etapa es observar tus patrones de autocrítica. Cuando tu mente te diga \"no estoy lista\", traduce ese pensamiento a \"estoy aprendiendo cómo hacerlo\". El liderazgo personal comienza cuando dejas de pedirle permiso al miedo.",
       "comprension": {
-        "q": "¿Cuál es la idea principal de este texto?",
+        "q": "¿Qué significa realmente sentir el Síndrome del Impostor según el texto?",
         "options": [
-          "Opción A (Incorrecta)",
-          "Opción B (Correcta)",
-          "Opción C (Incorrecta)"
+          "Que eres incapaz de realizar la tarea asignada.",
+          "Que estás experimentando crecimiento y saliendo de tu zona de confort.",
+          "Que debes esperar a estar 100% lista antes de actuar."
         ],
         "answer": 1
       }
@@ -25,19 +25,15 @@ const mentadasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Qué diferencia establece Ibarra entre identidad de liderazgo, habilidades de liderazgo y posición de liderazgo?"
+        "q": "¿Qué nos enseña habitualmente la sociedad sobre actuar frente a oportunidades?"
       },
       {
         "type": "Inferencial",
-        "q": "¿Por qué el estudio INCAE concluye que la atribución externa del éxito en mujeres líderes no es un problema de autoestima sino el resultado de condiciones organizacionales específicas?"
-      },
-      {
-        "type": "Opción múltiple",
-        "q": "Según Bandura, la autoeficacia es predictora del desempeño porque: a) Aumenta las habilidades técnicas de la persona b) La creencia en la propia capacidad supera en impacto a las habilidades objetivas c) Elimina el síndrome del impostor permanentemente d) Es innata y no se puede desarrollar"
+        "q": "¿Por qué crees que cambiar el enfoque de 'perfección' a 'valentía' acelera el crecimiento profesional?"
       },
       {
         "type": "Conexión personal",
-        "q": "¿En qué decisión reciente de tu vida profesional dudaste de tu propia capacidad? ¿Qué cambiaría si empezaras a actuar con la identidad de la líder que ya eres?"
+        "q": "Identifica una oportunidad reciente en la que no participaste por esperar estar '100% lista'. ¿Qué harías diferente hoy?"
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
