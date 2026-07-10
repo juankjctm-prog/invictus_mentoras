@@ -435,68 +435,22 @@
             </div>
 
             <!-- LIBRETA (PLAYBOOK DE MENTORÍA 1-a-1) -->
-            <div id="view-libreta" class="view">
-                <div class="session-hero stagger-1">
-                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Táctico</h2>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Preparación profunda de la Mentora y Guía de Sesión con la Mentoreada.</p>
+            <!-- LIBRETA (PLAYBOOK DIGITAL) -->
+            <div id="view-libreta" class="view" style="padding-bottom:100px; padding-top:40px; height:100vh; overflow-y:auto;">
+                <div class="session-hero stagger-1" style="padding: 0 20px;">
+                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Digital</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Tu bitácora de auto-maestría y reflexiones de impacto.</p>
                 </div>
                 
-                <div class="stagger-2" style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-fire); margin-top: 20px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    PASO 1: TU PREPARACIÓN (AUTO-MAESTRÍA)
-                </div>
-                <p class="stagger-2" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Antes de sentarte con tu mentoreada, debes asegurar tu propio estado de consciencia. Realiza estos 3 ejercicios en tu Cuaderno Invictus para sanar tu propia identidad primero.</p>
-
-                <div class="note-item stagger-3" style="border-left: 2px solid var(--accent-fire);">
-                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">1. Auditoría de tu Historia</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Escribe 3 momentos clave donde lograste resultados excepcionales pero internamente sentiste que fue "suerte" o "ayuda de otros". Resignifícalos ahora mismo asumiendo el 100% del crédito por tu visión y liderazgo.</p>
+                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 15px; border-radius: 12px; margin: 20px; display:flex; flex-direction:column; gap:10px;">
+                    <span style="font-family:'Outfit'; font-weight:600; color:var(--text-secondary); font-size:0.9rem;">Seleccionar Día:</span>
+                    <select id="playbook-day-selector" onchange="loadPlaybookContent(this.value)" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-primary); padding: 12px; border-radius: 8px; font-family: 'Inter'; font-size: 1rem; width:100%; outline:none;">
+                        <!-- Options filled via JS -->
+                    </select>
                 </div>
 
-                <div class="note-item stagger-3" style="border-left: 2px solid #FFD700;">
-                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">2. Confrontando a tu Impostor</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Identifica la voz crítica que más te frena hoy (Ej: "Aún no tengo la maestría necesaria para este cargo"). Escribe al lado la verdad objetiva basada en tus resultados históricos. Destruye la mentira antes de la sesión.</p>
-                </div>
-
-                <div class="note-item stagger-3" style="border-left: 2px solid #9370DB;">
-                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">3. Compromiso de Acción Frontal</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Define 1 acción incómoda que ejecutarás esta misma semana (Ej: pedir presupuesto, liderar una junta). Al tomar acción a pesar del miedo, consolidas tu identidad y ganas autoridad moral para exigir lo mismo de ella.</p>
-                </div>
-
-                <div class="stagger-4" style="font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; text-transform: uppercase; color: var(--accent-water); margin-top: 40px; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                    PASO 2: GUÍA DE LA SESIÓN 1-A-1
-                </div>
-                <p class="stagger-4" style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.6;">Ahora estás lista. Usa esta estructura de 60 minutos para generar una transformación real en la identidad de tu mentoreada.</p>
-
-                <div class="note-item stagger-4" style="border-left: 2px solid var(--bg-surface-elevated); background: transparent;">
-                    <h3 style="color: var(--accent-water); font-size: 0.95rem; margin-bottom: 8px;">A. Ancla (WhatsApp 24h antes)</h3>
-                    <div style="background: rgba(255,255,255,0.05); padding: 12px; border-radius: 8px; font-style: italic; font-size: 0.85rem; color: var(--text-primary); line-height: 1.6;">
-                        "La trampa más grande es esperar a sentirte lista para liderar. La identidad de liderazgo no precede a la acción; la sigue. Empieza a tomar decisiones como la líder que eres. Reclama tu éxito en primera persona. Nos vemos mañana."
-                    </div>
-                </div>
-
-                <div class="note-item stagger-4" style="border-left: 2px solid var(--border-glow); background: transparent;">
-                    <h3 style="color: white; font-size: 0.95rem; margin-bottom: 8px;">B. Coaching Socrático (Profundo)</h3>
-                    <ul style="font-size: 0.85rem; color: var(--text-secondary); padding-left: 20px; line-height: 1.7; margin-bottom: 0;">
-                        <li>¿En qué proyecto reciente sentiste que "tuviste suerte" en lugar de reconocer que fuiste competente?</li>
-                        <li>¿Sientes que necesitas el permiso implícito de tus pares para tomar decisiones que son técnicamente tuyas?</li>
-                        <li>¿Qué harías diferente esta semana si ya tuvieras la identidad de liderazgo totalmente consolidada?</li>
-                    </ul>
-                </div>
-
-                <div class="note-item stagger-4" style="border-left: 2px solid var(--success);">
-                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">I. Su Historia de Liderazgo</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">Pide a tu mentoreada que comparta 3 momentos donde influyó o lideró, y cómo se sintió. <strong>Tu rol:</strong> Escuchar atentamente e intervenir para evitar que asigne su éxito a factores externos (suerte/equipo). Ayúdala a reclamar verbalmente el crédito.</p>
-                </div>
-
-                <div class="note-item stagger-4" style="border-left: 2px solid #FFD700;">
-                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">II. Auditoría del Lenguaje Interno</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">En una hoja dividida, haz que anote sus creencias limitantes actuales ("No soy suficiente..."). Trabajen juntas para tacharlas y escribir la reformulación objetiva. Comparte tu propio ejercicio (Paso 1) para crear un vínculo de confianza absoluta.</p>
-                </div>
-
-                <div class="note-item stagger-4" style="border-left: 2px solid #9370DB;">
-                    <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px;">III. Simulador de Acción Inmediata</h3>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6;">El cambio requiere acción. Definan 3 acciones pequeñas pero incómodas que ella tomará esta semana para <em>actuar</em> como líder (ej. opinar en la junta corporativa). Establezcan un pacto de rendición de cuentas (accountability) mutuo.</p>
+                <div id="playbook-content-area" style="padding: 0 20px;">
+                    <div style="text-align:center; padding: 40px 0; color: var(--text-tertiary);">Selecciona un día para ver o escribir tus apuntes...</div>
                 </div>
             </div>
         </main>
@@ -1605,6 +1559,119 @@ async function updateSessionStatus(newStatus) {
 function showRealtimeNotification(msg) {
     console.log("Notification: " + msg);
     alert(msg);
+}
+</script>
+
+<script>
+// --- PLAYBOOK LOGIC ---
+let playbookSaveTimeout = null;
+
+async function loadPlaybookDay(dayIndex) {
+    if(!currentUser) return;
+    const contentArea = document.getElementById('playbook-content-area');
+    
+    if(!dayIndex) {
+        contentArea.innerHTML = '<div style="text-align:center; padding: 40px 0; color: var(--text-tertiary);">Selecciona un día para ver o escribir tus apuntes...</div>';
+        return;
+    }
+    
+    contentArea.innerHTML = '<div style="text-align:center; padding: 40px 0; color: var(--text-tertiary);">Cargando tus apuntes...</div>';
+    
+    // Fetch existing notes for this day
+    const { data: notes, error } = await _supabase
+        .from('user_playbook_notes')
+        .select('*')
+        .eq('user_pin', currentUser.pin)
+        .eq('day_index', parseInt(dayIndex));
+        
+    let noteDict = {};
+    if(notes) {
+        notes.forEach(n => noteDict[n.note_type] = n.note_content || '');
+    }
+    
+    const renderTextarea = (type, placeholder, label, color) => `
+        <div style="background: rgba(255,255,255,0.03); border-left: 2px solid ${color}; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+            <h3 style="color: white; font-size: 1.05rem; margin-bottom: 8px; font-family:'Outfit';">${label}</h3>
+            <textarea 
+                data-note-type="${type}" 
+                data-day="${dayIndex}"
+                oninput="debouncedSavePlaybookNote(this)"
+                placeholder="${placeholder}"
+                style="width: 100%; height: 120px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; padding: 12px; border-radius: 8px; font-family: 'Inter'; font-size: 0.9rem; resize: vertical; outline: none; transition: border-color 0.3s;"
+                onfocus="this.style.borderColor='${color}'"
+                onblur="this.style.borderColor='rgba(255,255,255,0.1)'"
+            >${noteDict[type] || ''}</textarea>
+            <div class="save-status" id="status-${type}" style="font-size: 0.75rem; color: var(--text-tertiary); margin-top: 5px; text-align: right; min-height: 15px;"></div>
+        </div>
+    `;
+
+    contentArea.innerHTML = `
+        <h3 style="color: var(--accent-water); margin-bottom: 20px; font-family: 'Outfit'; font-weight: 300;">DÍA ${dayIndex}</h3>
+        ${renderTextarea('recall_activo', 'Tus reflexiones personales de la Fase 4 (Recall Activo)...', 'Recall Activo (Fase 4)', 'var(--accent-water)')}
+        ${renderTextarea('ejercicio_fase8', 'Tus apuntes tácticos, aprendizajes o tareas de la Fase 8...', 'Ejercicio Práctico (Fase 8)', '#FFD700')}
+        ${renderTextarea('reflexion_libre', 'Insights adicionales, ideas espontáneas o victorias del día...', 'Reflexión Libre', '#9370DB')}
+    `;
+}
+
+function debouncedSavePlaybookNote(textarea) {
+    const type = textarea.getAttribute('data-note-type');
+    const statusDiv = document.getElementById(`status-${type}`);
+    statusDiv.innerText = 'Guardando...';
+    
+    if(playbookSaveTimeout) clearTimeout(playbookSaveTimeout);
+    playbookSaveTimeout = setTimeout(() => {
+        savePlaybookNote(textarea.getAttribute('data-day'), type, textarea.value, statusDiv);
+    }, 1500); // 1.5 second debounce
+}
+
+async function savePlaybookNote(dayIndex, noteType, content, statusDiv) {
+    if(!currentUser) return;
+    
+    // Upsert note
+    const { error } = await _supabase
+        .from('user_playbook_notes')
+        .upsert({
+            user_pin: currentUser.pin,
+            day_index: parseInt(dayIndex),
+            note_type: noteType,
+            note_content: content
+        }, { onConflict: 'user_pin, day_index, note_type' });
+        
+    if(error) {
+        console.error("Error guardando nota:", error);
+        if(statusDiv) statusDiv.innerText = 'Error al guardar';
+    } else {
+        if(statusDiv) {
+            statusDiv.innerText = 'Guardado en la nube ✓';
+            setTimeout(() => { if(statusDiv.innerText.includes('✓')) statusDiv.innerText = ''; }, 3000);
+        }
+    }
+}
+
+// Hook into the tab switcher to populate the day selector
+const originalPlaybookSwitchTab = switchTab;
+switchTab = function(viewId, element) {
+    originalPlaybookSwitchTab(viewId, element);
+    if(viewId === 'view-libreta') {
+        populatePlaybookDays();
+    }
+};
+
+function populatePlaybookDays() {
+    const selector = document.getElementById('playbook-day-selector');
+    if(!selector || selector.options.length > 1) return; // already populated
+    
+    selector.innerHTML = '<option value="">-- Selecciona el Día --</option>';
+    // We populate 78 days
+    for(let i=1; i<=78; i++) {
+        selector.innerHTML += `<option value="${i}">Día ${i}</option>`;
+    }
+    
+    // Auto select the current active day from UI
+    if(window.currentDayIndex) {
+        selector.value = window.currentDayIndex;
+        loadPlaybookDay(window.currentDayIndex);
+    }
 }
 </script>
 </body>
