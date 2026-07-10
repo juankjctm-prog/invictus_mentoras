@@ -223,28 +223,37 @@
         </ul>
       </div>
 
+            
             <div id="view-dashboard" class="view active">
-                <div class="hero-progress stagger-1">
-                    <div class="ring-wrapper">
-                        <svg width="200" height="200" viewBox="0 0 200 200">
+                <div class="hero-progress stagger-1" style="display:flex; flex-direction:column; align-items:center;">
+                    <div class="ring-wrapper" style="position:relative; width:200px; height:200px;">
+                        <svg width="200" height="200" viewBox="0 0 200 200" style="transform: rotate(-90deg);">
                             <defs><linearGradient id="fire-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF4500" /><stop offset="100%" stop-color="#FF8C00" /></linearGradient></defs>
-                            <circle class="ring-bg" cx="100" cy="100" r="90"></circle>
-                            <circle class="ring-progress" cx="100" cy="100" r="90"></circle>
+                            <circle class="ring-bg" cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="12"></circle>
+                            <circle id="progress-ring-circle" class="ring-progress" cx="100" cy="100" r="90" fill="none" stroke="url(#fire-grad)" stroke-width="12" stroke-dasharray="565.48" stroke-dashoffset="565.48" style="transition: stroke-dashoffset 1s ease-in-out;"></circle>
                         </svg>
-                        <div class="ring-content">
-                            <h2 class="text-gradient">41</h2>
-                            <p>Día de 78</p>
+                        <div class="ring-content" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+                            <h2 id="dashboard-day-number" class="text-gradient" style="font-size:3rem; margin:0; line-height:1;">1</h2>
+                            <p style="margin:0; font-size:0.9rem; color:var(--text-secondary);">Día de 78</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="blocks-list stagger-2">
-                    <div class="glass-card track-card active" onclick="switchTab('view-session', this)">
-                        <div class="track-number">1</div>
-                        <div>
-                            <h4 style="font-size: 0.95rem; color: white;">La Identidad de Liderazgo</h4>
-                            <p style="font-size: 0.8rem; color: var(--accent-fire);">Pendiente: Día 1 - H. Ibarra</p>
-                        </div>
+                <div class="stagger-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
+                    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center; border:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:1.8rem; font-family:'Outfit'; color:var(--accent-water);" id="dash-ppm">0</div>
+                        <div style="font-size:0.7rem; color:var(--text-secondary);">Velocidad (PPM)</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center; border:1px solid rgba(255,255,255,0.1);">
+                        <div style="font-size:1.8rem; font-family:'Outfit'; color:var(--success);" id="dash-score">0%</div>
+                        <div style="font-size:0.7rem; color:var(--text-secondary);">Comprensión</div>
+                    </div>
+                </div>
+
+                <div class="blocks-list stagger-3" style="margin-top:30px;">
+                    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:15px;">Tu Roadmap (Bloques)</h3>
+                    <div id="roadmap-container" style="display:flex; flex-direction:column; gap:12px;">
+                        <!-- JS injected roadmap -->
                     </div>
                     
                     <button class="btn-outline" style="width: 100%; margin-top: 24px; padding: 16px; border-color: rgba(255,255,255,0.1); color: var(--text-secondary); font-family: 'Outfit'; font-weight: 500; font-size: 0.95rem; display: flex; gap: 8px; justify-content: center; background: var(--bg-surface-elevated);" onclick="openSOS()">
@@ -934,8 +943,18 @@ function completePhase(phaseNum) {
         currentPhaseProgress[currentDay].push(phaseNum);
         
         // Auto-complete day if phase 12 is done (or all 12 are done)
+        
+        // Auto-complete day if phase 12 is done (or all 12 are done)
         if(currentPhaseProgress[currentDay].length === 12 || phaseNum === 12) {
-            if(!completedDays.includes(currentDay)) completedDays.push(currentDay);
+            if(!completedDays.includes(currentDay)) {
+                completedDays.push(currentDay);
+                let score = localStorage.getItem('invictus_recall_score') || 0;
+                let ppm = localStorage.getItem('invictus_recall_ppm') || 0;
+                if (typeof saveDailyProgress === 'function') {
+                    saveDailyProgress(currentDay, parseInt(ppm), parseInt(score));
+                }
+            }
+
         }
         
         saveProgress();
@@ -1695,16 +1714,20 @@ switchTab = function(viewId, element) {
 
 function populatePlaybookDays() {
     const selector = document.getElementById('playbook-day-selector');
-    if(!selector || selector.options.length > 1) return; // already populated
-    
+    if(!selector) return;
     selector.innerHTML = '<option value="">-- Selecciona el Día --</option>';
-    // We populate 78 days
-    for(let i=1; i<=78; i++) {
-        selector.innerHTML += `<option value="${i}">Día ${i}</option>`;
+    
+    // Check maxUnlockedDay from dashboard
+    let maxDay = (typeof maxUnlockedDay !== 'undefined') ? maxUnlockedDay : 78;
+    
+    for(let i=1; i<=maxDay; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.innerText = `Día ${i}`;
+        selector.appendChild(opt);
     }
     
-    // Auto select the current active day from UI
-    if(window.currentDayIndex) {
+    if(window.currentDayIndex && window.currentDayIndex <= maxDay) {
         selector.value = window.currentDayIndex;
         loadPlaybookDay(window.currentDayIndex);
     }
