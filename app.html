@@ -143,7 +143,7 @@
         .nav-item.active .nav-icon { filter: grayscale(0); opacity: 1; transform: scale(1.1); }
         .nav-label { font-size: 0.7rem; font-weight: 500; font-family: 'Outfit'; letter-spacing: 0.5px; }
 
-        .auth-overlay { position: absolute; inset: 0; z-index: 1000; background: var(--bg-absolute); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, transform 0.5s ease; }
+        .auth-overlay { position: fixed; inset: 0; z-index: 9999; background: var(--bg-absolute); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, transform 0.5s ease; }
         .auth-overlay.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
         .pin-dots { display: flex; gap: 16px; margin-bottom: 40px; margin-top: 30px;}
         .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-subtle); transition: all 0.2s; }
