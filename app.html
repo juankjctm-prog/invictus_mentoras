@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="icon" type="image/png" href="favicon.png">
-    <title>Invictus Mind Premium</title>
+    <title>MindJump Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         /* =========================================
@@ -275,7 +275,13 @@
                     <div class="phase completed">
                         <div class="phase-node"></div>
                         <div class="phase-header"><h4>1. Ancla Cognitiva</h4><span class="phase-duration">2m</span></div>
-                        <p class="phase-desc"><strong>Respiración de Oxigenación (4 Ciclos):</strong> Inhala en 4s, retén en 8s, exhala en 16s. Máxima oxigenación linfática.</p>
+                        
+<div id="breathing-ui" style="text-align:center; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-subtle);">
+    <div id="b-circle" style="width: 100px; height: 100px; border-radius: 50%; background: var(--accent-water); margin: 0 auto; transition: all 1s linear; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; font-weight: bold; opacity: 0.8;"></div>
+    <p id="b-text" style="margin-top: 15px; font-weight: bold; color: white;">Ciclo 4-8-16. Oxigena tu cerebro.</p>
+    <button id="b-start-btn" class="btn-outline" style="margin-top: 15px; font-size: 0.8rem;" onclick="startBreathing()">Iniciar 2 Ciclos</button>
+</div>
+
                     </div>
 
                     <!-- F2 (TEXTO RESTAURADO COMPLETO) -->
@@ -373,7 +379,7 @@
                         <div class="phase-node"></div>
                         <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
                         <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
-                        <p class="phase-desc" style="margin-top: 8px;">Abre tu Cuaderno Invictus. Recuerda tu último gran ascenso o logro corporativo. Dibuja un gráfico de pastel. ¿Qué porcentaje le atribuiste internamente a la 'suerte/redes' y cuánto a tu 'competencia técnica'? Tacha ese gráfico y dibuja uno nuevo reclamando el 100% de la autoridad sobre tu trayectoria.</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Abre tu Libreta MindJump. Recuerda tu último gran ascenso o logro corporativo. Dibuja un gráfico de pastel. ¿Qué porcentaje le atribuiste internamente a la 'suerte/redes' y cuánto a tu 'competencia técnica'? Tacha ese gráfico y dibuja uno nuevo reclamando el 100% de la autoridad sobre tu trayectoria.</p>
                         <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
                     </div>
 
@@ -413,7 +419,7 @@
                         <div class="phase-node"></div>
                         <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
                         <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
-                        <p class="phase-desc" style="margin-top: 8px;">Evalúa cómo aprendiste hoy. ¿Qué concepto te costó más trabajo interiorizar? Abre tu Cuaderno Físico Invictus y escribe a mano tu mayor bloqueo cognitivo de hoy para ajustar tu estrategia mañana.</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Evalúa cómo aprendiste hoy. ¿Qué concepto te costó más trabajo interiorizar? Abre tu Libreta MindJump y escribe a mano tu mayor bloqueo cognitivo de hoy para ajustar tu estrategia mañana.</p>
                         <button id="btn-analog-3" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_3')">Marcar como Hecho a Mano</button>
                     </div>
 
@@ -475,7 +481,7 @@
                 <span style="font-size:1.5rem;">🧠</span>
                 <div>
                     <h3 style="font-family:'Outfit'; color:white; font-size:1.1rem; margin:0;">Sigma Coach</h3>
-                    <span style="font-size:0.7rem; color:var(--accent-water);">Asistente IA de Invictus</span>
+                    <span style="font-size:0.7rem; color:var(--accent-water);">Asistente IA de MindJump</span>
                 </div>
             </div>
             <button onclick="toggleSigmaChat()" style="background:transparent; border:none; color:white; font-size:1.5rem; cursor:pointer;">×</button>
@@ -604,7 +610,60 @@
             }
         }
 
-        let timer, secs = 0, isRunning = false;
+        
+function startBreathing() {
+    let circle = document.getElementById('b-circle');
+    let text = document.getElementById('b-text');
+    let btn = document.getElementById('b-start-btn');
+    btn.style.display = 'none';
+    let cycles = 2;
+    let currentCycle = 0;
+    
+    function runCycle() {
+        if(currentCycle >= cycles) {
+            text.innerText = "¡Oxigenación completa! Estás lista.";
+            circle.style.transform = "scale(1)";
+            circle.innerText = "✓";
+            btn.style.display = 'inline-block';
+            btn.innerText = "Rehacer Respiración";
+            
+            // Mark phase completed if not already done
+            window.markPhaseDone(null, 1);
+            showMotivationToast("¡Excelente preparación! Tu cerebro está oxigenado.");
+            return;
+        }
+        
+        currentCycle++;
+        // Inhale 4s
+        text.innerText = `Ciclo ${currentCycle}/2: INHALA (4s)`;
+        circle.style.transition = "transform 4s linear, opacity 4s linear";
+        circle.style.transform = "scale(1.5)";
+        circle.style.opacity = "1";
+        
+        setTimeout(() => {
+            // Hold 8s
+            text.innerText = `Ciclo ${currentCycle}/2: RETÉN (8s)`;
+            circle.style.transition = "transform 8s linear";
+            circle.style.transform = "scale(1.6)";
+            
+            setTimeout(() => {
+                // Exhale 16s
+                text.innerText = `Ciclo ${currentCycle}/2: EXHALA (16s)`;
+                circle.style.transition = "transform 16s linear, opacity 16s linear";
+                circle.style.transform = "scale(0.8)";
+                circle.style.opacity = "0.5";
+                
+                setTimeout(() => {
+                    runCycle();
+                }, 16000);
+            }, 8000);
+        }, 4000);
+    }
+    
+    runCycle();
+}
+
+let timer, secs = 0, isRunning = false;
         function toggleTimer() {
             const btn = document.getElementById('btn-timer');
             const box = document.getElementById('ppm-box');
