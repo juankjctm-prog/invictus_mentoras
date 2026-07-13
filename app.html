@@ -697,7 +697,9 @@ function toggleTimer() {
     } else {
         clearInterval(timer); isRunning = false;
         const basePPM = Math.round((currentDay === 1 ? 1560 : 1920) / (secs>0?secs:1) * 60);
-        btn.innerText = `PPM: ${basePPM} (Velocidad Registrada)`;
+        btn.innerText = `Velocidad: ${basePPM} PPM`;
+        btn.style.fontSize = '0.9rem';
+        btn.style.padding = '8px';
         btn.disabled = true;
         
         document.getElementById('re-read-prompt').style.display = 'block';
@@ -715,7 +717,7 @@ function resetTimer() {
 }
 
 function continueToComprension() {
-    document.getElementById('re-read-prompt').style.display = 'none';
+    document.getElementById('sticky-timer-wrapper').style.display = 'none';
     const basePPM = Math.round((currentDay === 1 ? 1560 : 1920) / (secs>0?secs:1) * 60);
     document.getElementById('comprension-block').style.display = 'block';
     showMotivationToast("Velocidad registrada. Ahora, pongamos a prueba tu retención.");
