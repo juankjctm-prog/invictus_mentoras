@@ -176,9 +176,32 @@
         .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
         .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
     
-    </style>
+    .input-premium { width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; color: white; font-family: 'Inter'; font-size: 0.9rem; transition: all 0.3s; margin-bottom: 12px; }
+.input-premium:focus { outline: none; border-color: rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.05); }
+/* KIT DE MENTORIA */
+.kit-view { overflow-y:auto; display:none; flex-direction:column; }
+.kit-view.active { display:flex; }
+.kit-scroll { flex:1; overflow-y:auto; padding:0 20px 120px; scrollbar-width:none; }
+.kit-sec-title { font-family:'Outfit';font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#FF5E00;margin:28px 0 12px;display:flex;align-items:center;gap:8px; }
+.kit-stat-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px; }
+.kit-stat { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px;text-align:center; }
+.kit-stat .val { font-family:'Outfit';font-size:1.5rem;font-weight:700;color:#FF5E00; }
+.kit-stat .lbl { font-size:.58rem;color:#8A8F98;margin-top:3px;text-transform:uppercase;letter-spacing:1px; }
+.kit-progress-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 16px;margin-bottom:8px; }
+.kit-bar-bg { height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:8px; }
+.kit-bar-fill { height:100%;background:linear-gradient(90deg,#FF5E00,#00C6FF);border-radius:3px;transition:width 1s ease; }
+.crisis-grid-mm { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px; }
+.crisis-btn-mm { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .2s; }
+.crisis-btn-mm:active { transform:scale(.97);background:rgba(255,255,255,.06); }
+.crisis-btn-mm .cbi { font-size:1.5rem;display:block;margin-bottom:6px; }
+.crisis-btn-mm .cbl { font-size:.7rem;color:#8A8F98;display:block;line-height:1.3; }
+.mirror-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:20px;margin-bottom:12px; }
+            select option { background-color: #1a1a1c; color: #fff; }
+        input, textarea, select { color-scheme: dark; }
+</style>
 </head>
 <body>
+<div id="version-tag" style="position:fixed; top:10px; left:10px; color:#FF5E00; z-index:9999; font-weight:bold; font-family:sans-serif;">v1.5 KIT FIX</div>
 
     <div class="app-container">
         
@@ -465,72 +488,167 @@
 
             <!-- LIBRETA (PLAYBOOK DE MENTORÍA 1-a-1) -->
             <!-- LIBRETA (PLAYBOOK DIGITAL) -->
-            <div id="view-libreta" class="view" style="padding-bottom:100px; padding-top:40px; height:100vh; overflow-y:auto;">
-                <div class="session-hero stagger-1" style="padding: 0 20px;">
-                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Digital</h2>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Tu bitácora de auto-maestría y reflexiones de impacto.</p>
-                </div>
-                
-                <div style="background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle); padding: 15px; border-radius: 12px; margin: 20px; display:flex; flex-direction:column; gap:10px;">
-                    <span style="font-family:'Outfit'; font-weight:600; color:var(--text-secondary); font-size:0.9rem;">Seleccionar Día:</span>
-                    <select id="playbook-day-selector" onchange="loadPlaybookContent(this.value)" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-primary); padding: 12px; border-radius: 8px; font-family: 'Inter'; font-size: 1rem; width:100%; outline:none;">
-                        <!-- Options filled via JS -->
-                    </select>
+            <div id="view-libreta" class="view">
+                <div class="session-hero">
+                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Táctico</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Guía elevada para transformar a la mujer latina ejecutiva.</p>
                 </div>
 
-                <div id="playbook-content-area" style="padding: 0 20px;">
-                    <div style="text-align:center; padding: 40px 0; color: var(--text-tertiary);">Selecciona un día para ver o escribir tus apuntes...</div>
+                <!-- MI MENTOREADA: relación, objetivos y seguimiento -->
+                <div id="mentee-panel" style="margin-bottom: 28px;">
+                    <div class="kit-sec-title" style="margin-top:0;">🎯 Mi Mentoreada</div>
+                    <input id="mp-name" class="input-premium" placeholder="Nombre de tu mentoreada" style="margin-bottom:14px;" oninput="guardarMenteeName()">
+
+                    <div class="kit-stat-grid" style="grid-template-columns:1fr 1fr 1fr;">
+                        <div class="kit-stat"><div class="val" id="mp-goals-count" style="font-size:1.3rem;">0</div><div class="lbl">Objetivos activos</div></div>
+                        <div class="kit-stat"><div class="val" id="mp-next-session" style="font-size:1rem;">—</div><div class="lbl">Próxima sesión</div></div>
+                        <div class="kit-stat"><div class="val" id="mp-compromisos-count" style="font-size:1.3rem;">0</div><div class="lbl">Compromisos abiertos</div></div>
+                    </div>
+
+                    <div class="crisis-grid-mm" style="margin-top:14px;">
+                        <div class="crisis-btn-mm" onclick="abrirMentee('goals')"><span class="cbi">🎯</span><span class="cbl">Objetivos SMART</span></div>
+                        <div class="crisis-btn-mm" onclick="abrirMentee('calendar')"><span class="cbi">📅</span><span class="cbl">Calendario</span></div>
+                        <div class="crisis-btn-mm" onclick="abrirMentee('bitacora')"><span class="cbi">📓</span><span class="cbl">Bitácora</span></div>
+                        <div class="crisis-btn-mm" onclick="abrirMentee('compromisos')"><span class="cbi">✅</span><span class="cbl">Compromisos</span></div>
+                    </div>
+                </div>
+
+                <div class="kit-sec-title">📋 Guía Táctica del Día</div>
+                <div id="playbook-content">
+                    <!-- Dynamic Playbook Populated by JS -->
                 </div>
             </div>
-        
-    <!-- SIGMA COACH FAB & MODAL -->
-    <div id="sigma-fab" onclick="toggleSigmaChat()" style="position:fixed; bottom:110px; right:20px; width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg, #111, #222); border:2px solid var(--accent-water); display:flex; justify-content:center; align-items:center; cursor:pointer; z-index:9000; box-shadow:0 0 20px rgba(0, 229, 255, 0.4); transition:transform 0.3s;">
-        <span style="font-size:2rem;">🧠</span>
+
+            <!-- MODAL MI MENTOREADA -->
+            <div id="mentee-modal" style="display:none;position:fixed;inset:0;z-index:6500;background:rgba(0,0,0,.98);padding:20px 20px 60px;overflow-y:auto;">
+                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:20px">
+                    <h3 id="mentee-modal-title" style="font-family:'Outfit';font-size:1.1rem"></h3>
+                    <button onclick="cerrarMentee()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
+                </div>
+                <div id="mentee-modal-content"></div>
+            </div>
+
+<!-- KIT DE MENTORIA VIEW -->
+<div id="view-kit" class="view kit-view">
+  <div class="kit-scroll">
+    <div style="padding:20px 0 10px">
+      <h2 style="font-family:'Outfit';font-size:1.4rem;font-weight:700">Kit de Mentoría</h2>
+      <p style="color:#8A8F98;font-size:.82rem;margin-top:4px">Tus herramientas como mentora</p>
     </div>
 
-    <div id="sigma-modal" style="position:fixed; bottom:180px; right:20px; width:350px; max-width:calc(100vw - 40px); height:500px; max-height:60vh; background:rgba(10,10,12,0.95); backdrop-filter:blur(20px); border:1px solid var(--accent-water); border-radius:16px; display:flex; flex-direction:column; z-index:9000; opacity:0; pointer-events:none; transform:translateY(20px); transition:all 0.3s ease; overflow:hidden; box-shadow:0 10px 40px rgba(0,0,0,0.8);">
-        <div style="padding:15px 20px; border-bottom:1px solid rgba(0, 229, 255, 0.2); display:flex; justify-content:space-between; align-items:center; background:linear-gradient(90deg, rgba(0,229,255,0.1), transparent);">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <span style="font-size:1.5rem;">🧠</span>
-                <div>
-                    <h3 style="font-family:'Outfit'; color:white; font-size:1.1rem; margin:0;">Sigma Coach</h3>
-                    <span style="font-size:0.7rem; color:var(--accent-water);">Asistente IA de MindJump</span>
-                </div>
-            </div>
-            <button onclick="toggleSigmaChat()" style="background:transparent; border:none; color:white; font-size:1.5rem; cursor:pointer;">×</button>
-        </div>
-        
-        <div id="sigma-chat-history" style="flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:15px;">
-            <div class="sigma-msg received">
-                Hola, soy Sigma. Estoy aquí para acompañarte en tu transformación hacia el liderazgo. ¿En qué bloque o fase tienes dudas hoy?
-            </div>
-        </div>
-        
-        <div style="padding:15px; border-top:1px solid rgba(255,255,255,0.1); display:flex; gap:10px;">
-            <input type="text" id="sigma-input" placeholder="Pregúntale a Sigma..." onkeypress="if(event.key === 'Enter') sendSigmaMessage()" style="flex:1; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); border-radius:20px; padding:10px 15px; color:white; font-family:'Inter'; outline:none;">
-            <button onclick="sendSigmaMessage()" style="background:var(--accent-water); color:black; border:none; width:40px; height:40px; border-radius:50%; cursor:pointer; display:flex; justify-content:center; align-items:center; font-size:1.2rem;">➤</button>
-        </div>
+    <!-- MI IMPACTO -->
+    <div class="kit-sec-title">📊 Mi Impacto</div>
+    <div class="kit-stat-grid">
+      <div class="kit-stat"><div class="val" id="km-dias">0</div><div class="lbl">Días activos</div></div>
+      <div class="kit-stat"><div class="val" id="km-streak">0</div><div class="lbl">Racha</div></div>
+      <div class="kit-stat"><div class="val" id="km-ppm">—</div><div class="lbl">Mejor PPM</div></div>
+      <div class="kit-stat"><div class="val" id="km-comp">—</div><div class="lbl">Comprensión prom.</div></div>
     </div>
-    <style>
-        .sigma-msg { max-width:85%; padding:12px 16px; border-radius:12px; font-size:0.9rem; line-height:1.4; word-wrap:break-word; font-family:'Inter'; }
-        .sigma-msg.sent { align-self:flex-end; background:rgba(255,255,255,0.1); color:white; border-bottom-right-radius:2px; }
-        .sigma-msg.received { align-self:flex-start; background:rgba(0,229,255,0.1); color:white; border:1px solid rgba(0,229,255,0.3); border-bottom-left-radius:2px; box-shadow:0 0 10px rgba(0,229,255,0.1); }
-        .sigma-thinking { align-self:flex-start; color:var(--accent-water); font-size:0.8rem; font-style:italic; display:none; margin-left:10px; }
-    </style>
+    <div class="kit-progress-wrap">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:.75rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px">Progreso del Bloque</span>
+        <span id="km-pct" style="font-size:.75rem;color:#FF5E00;font-weight:600">0%</span>
+      </div>
+      <div class="kit-bar-bg"><div id="km-bar" class="kit-bar-fill" style="width:0%"></div></div>
+    </div>
+    <div id="km-mirror-profile" class="mirror-wrap" style="display:none">
+      <div style="font-size:.68rem;color:#FF5E00;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tu estilo de mentoría</div>
+      <div id="km-profile-name" style="font-family:'Outfit';font-size:1.1rem;color:#fff;font-weight:600;margin-bottom:6px">—</div>
+      <div id="km-profile-desc" style="font-size:.8rem;color:#8A8F98;line-height:1.6">Completa 5 días para revelar tu perfil.</div>
+    </div>
 
+    <!-- COACH DE CRISIS -->
+    <div class="kit-sec-title">⚡ Coach de Crisis</div>
+    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Cuando la sesión se complica. Toca la situación.</p>
+    <div class="crisis-grid-mm">
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('no_avanza')"><span class="cbi">😶</span><span class="cbl">No avanza</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('llora')"><span class="cbi">😢</span><span class="cbl">Llora en sesión</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('resistencia')"><span class="cbi">🧱</span><span class="cbl">Resistencia</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('dependencia')"><span class="cbi">🔗</span><span class="cbl">Dependencia</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('limites')"><span class="cbi">⚠️</span><span class="cbl">Límite cruzado</span></div>
+      <div class="crisis-btn-mm" onclick="abrirCrisisMM('estancada')"><span class="cbi">🔄</span><span class="cbl">Sesión vacía</span></div>
+    </div>
+    <div id="crisis-modal-mm">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:20px">
+        <h3 id="crisis-mm-title" style="font-family:'Outfit';font-size:1.1rem"></h3>
+        <button onclick="cerrarCrisisMM()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
+      </div>
+      <div id="crisis-mm-content"></div>
+    </div>
+
+    <!-- SALA DE CASOS -->
+    <div class="kit-sec-title">⚔️ Sala de Casos</div>
+    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Simulaciones de situaciones reales de mentoría.</p>
+    <div id="sala-casos-list">
+        <div class="caso-card" onclick="abrirCaso(0)">
+          <h4>Caso 1: La Primera Sesion que Falla</h4>
+          <p>Tu mentoreada llega a la primera sesion con los brazos cruzados, monosilabica. Cuando le p...</p>
+          <span class="caso-tag">Disponible</span>
+        </div>
+        <div class="caso-card" onclick="abrirCaso(1)">
+          <h4>Caso 2: El Éxito Inesperado</h4>
+          <p>Tu mentoreada acaba de recibir una promocion grande. Te lo cuenta por WhatsApp: 'Lo logre!...</p>
+          <span class="caso-tag">Disponible</span>
+        </div></div>
+    <div id="sala-modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:16px">
+        <h3 id="sala-title" style="font-family:'Outfit';font-size:1.1rem;max-width:85%"></h3>
+        <button onclick="cerrarSala()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
+      </div>
+      <div id="sala-content"></div>
+    </div>
+
+    <!-- ESPEJO DE LIDERAZGO -->
+    <div class="kit-sec-title">🔮 Espejo de Liderazgo</div>
+    <div class="caso-card" style="cursor:default">
+      <h4>Tu Arquitectura de Mentoría</h4>
+      <p>Se activa al completar 5 días del bloque. Revela tu estilo dominante, tus brechas como mentora y los patrones que estás replicando sin saberlo.</p>
+      <span id="espejo-status" class="caso-tag">🔒 Completa 5 días</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- BIBLIOTECA MUNDIAL VIEW -->
+<div id="view-library" class="view kit-view" style="display:none; flex-direction:column; height: 100%;">
+    <div class="kit-scroll" style="padding-bottom: 120px;">
+        <div style="padding:20px 0 10px">
+            <h2 style="font-family:'Outfit';font-size:1.4rem;font-weight:700">Biblioteca Mundial</h2>
+            <p style="color:#8A8F98;font-size:.82rem;margin-top:4px">Recursos y evidencia científica del programa</p>
+        </div>
+        
+        <!-- IA Classifier Simulator -->
+        <div class="sim-box" style="margin-top: 10px;">
+            <h4 style="font-family:'Outfit'; color:white; margin-bottom:8px; display:flex; align-items:center; gap:8px; font-size: 0.95rem;">
+                <span>🧠</span> Clasificador de Recursos IA
+            </h4>
+            <p style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.4;">
+                Pega el título, resumen o link de un nuevo recurso y la IA lo categorizará y etiquetará automáticamente.
+            </p>
+            <input type="text" id="sim-input" placeholder="Ej: Libro: Radical Candor de Kim Scott..." style="margin-bottom:8px; width: 100%; box-sizing: border-box; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); color: #fff; font-family: 'Inter';">
+            <button class="btn-premium fire" onclick="simularClasificacion()" style="padding: 12px; font-size:0.85rem; border-radius:10px; width: 100%; font-family:'Outfit'; font-weight:600; cursor:pointer;">Clasificar mediante IA</button>
+            <div id="sim-loading" style="display:none; text-align:center; margin-top:12px;">
+                <p style="font-size:0.8rem; color:var(--accent-water); animation: pulse 1s infinite alternate;">🧬 Analizando texto y mapeando con Invictus Mind...</p>
+            </div>
+        </div>
+
+        <!-- Search & Filters -->
+        <div class="library-header" style="margin-top: 20px;">
+            <div class="search-box">
+                <span style="margin-right:8px; color:var(--text-secondary);">🔍</span>
+                <input type="text" id="library-search" class="search-input" placeholder="Buscar en la biblioteca..." oninput="filtrarBiblioteca()">
+            </div>
+            <div class="filters-scroll" id="filters-scroll"></div>
+        </div>
+
+        <!-- Resources List -->
+        <div class="library-list" id="library-list" style="margin-top: 15px;"></div>
+    </div>
+</div>
 </main>
 
-        <!-- PANTALLA SOS (Síndrome del Impostor) -->
-        <div id="sos-overlay" class="sos-overlay">
-            <h3 style="font-family: 'Outfit'; font-weight: 300; color: var(--accent-water); margin-bottom: 60px; letter-spacing: 4px; font-size: 0.9rem;">INHALA...</h3>
-            <div class="sos-circle"></div>
-            <p id="sos-affirmation" class="sos-text">No estás aquí por suerte. Estás aquí por tu luz, tu capacidad y tu resiliencia.</p>
-            <button class="btn-outline" style="margin-top: 80px; border-color: rgba(255,255,255,0.2); color: white; padding: 12px 24px;" onclick="closeSOS()">Mi frecuencia se ha elevado</button>
-        </div>
-
         
-        <!-- PANEL MI MENTADA -->
-        <div id="view-mentada" class="view" style="padding: 80px 20px 100px;">
+            <div id="view-mentada" class="view" style="padding: 80px 20px 100px;">
             <h2 style="font-family: 'Outfit'; font-weight: 300; letter-spacing: 2px;">PANEL DE MONITOREO</h2>
             <div id="mentada-dashboard-content" style="margin-top: 30px;">
                 <!-- Rendered via JS -->
@@ -561,8 +679,9 @@
             <div class="nav-item active" onclick="switchTab('view-dashboard', this)"><div class="nav-icon">⚲</div><span class="nav-label">HOME</span></div>
             <div class="nav-item" onclick="switchTab('view-session', this)"><div class="nav-icon">⚡</div><span class="nav-label">SESIÓN</span></div>
             <div class="nav-item" onclick="switchTab('view-libreta', this)"><div class="nav-icon">▤</div><span class="nav-label">PLAYBOOK</span></div>
+            <div class="nav-item" onclick="switchTab('view-kit', this)"><div class="nav-icon">🛡️</div><span class="nav-label">MI KIT</span></div>
             <div class="nav-item mentada-tab-btn" style="display:none;" onclick="switchTab('view-mentada', this)"><div class="nav-icon">👥</div><span class="nav-label">MI MENTADA</span></div>
-            <div class="nav-item conexion-tab-btn" onclick="switchTab('view-conexion', this)"><div class="nav-icon">💬</div><span class="nav-label">CONEXIÓN</span></div>
+            <div class="nav-item conexion-tab-btn" onclick="switchTab('view-conexion', this)"><div class="nav-icon">🌐</div><span class="nav-label">CONEXIÓN</span></div>
         </nav>
     </div>
 
@@ -595,6 +714,11 @@
 
 
         function switchTab(viewId, element) {
+
+        if (viewId === 'view-kit' && typeof window.updateKitStats === 'function') {
+            window.updateKitStats();
+        }
+    
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(viewId).classList.add('active');
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
@@ -770,651 +894,84 @@ function continueToComprension() {
         }
 
         let ctx, oscL, oscR, panL, panR, gain, isAudio = false, synth = window.speechSynthesis;
+        let currentVoiceAudio = null;
+        let mp3Audio = null;
+
         function toggleAudio() {
             const pill = document.getElementById('audio-pill');
             const circle = document.getElementById('play-circle');
-            const subs = document.getElementById('subtitles-box');
+            const icon = circle.querySelector('.play-icon');
             
-            if(!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
-            
-            if(isAudio) {
-                gain.gain.setTargetAtTime(0, ctx.currentTime, 0.5);
-                setTimeout(() => { if(oscL) oscL.stop(); if(oscR) oscR.stop(); ctx.suspend(); }, 500);
-                if (synth.speaking) synth.cancel();
-                pill.classList.remove('active'); circle.classList.remove('playing');
-                subs.style.display = 'none';
+            if (isAudio) {
+                // Stop audio
+                if (ctx) ctx.close();
+                synth.cancel();
+                if (mp3Audio) {
+                    mp3Audio.pause();
+                    mp3Audio.currentTime = 0;
+                }
                 isAudio = false;
-            } else {
-                if(ctx.state === 'suspended') ctx.resume();
+                pill.classList.remove('active');
+                icon.style.borderLeft = "10px solid #fff";
+                icon.style.borderRight = "none";
+                icon.style.width = "0";
+                icon.style.height = "0";
+                icon.style.borderTop = "7px solid transparent";
+                icon.style.borderBottom = "7px solid transparent";
+                return;
+            }
+
+            // Start Audio
+            isAudio = true;
+            pill.classList.add('active');
+            icon.style.borderLeft = "4px solid #fff";
+            icon.style.borderRight = "4px solid #fff";
+            icon.style.borderTop = "none";
+            icon.style.borderBottom = "none";
+            icon.style.width = "12px";
+            icon.style.height = "14px";
+            
+            let msgText = "Respira profundo. Estás entrando en un estado de paz absoluta. La identidad de liderazgo no se espera; se ejerce. Empieza a tomar decisiones como la líder que ya eres, y tu mente terminará creyéndolo. Reclama tu éxito en primera persona. El síndrome del impostor se desvanece mientras tu neuroplasticidad graba tu verdadera autoridad. Duerme profundamente y despierta imparable.";
+                
+                if (window.activeTrackData) {
+                    const d = window.activeTrackData.find(x => x.dia === currentDay);
+                    if (d && d.fase12_sueno && d.fase12_sueno.resumen) {
+                        msgText = d.fase12_sueno.resumen + " " + d.fase12_sueno.conceptos + " " + d.fase12_sueno.afirmacion;
+                    }
+                }
+
+            // Intentar cargar MP3 primero
+            mp3Audio = new Audio(`audios/dia_${currentDay}.mp3`);
+            mp3Audio.play().catch(err => {
+                // Fallback a SpeechSynthesis si no existe el MP3
+                console.log("No MP3 found, falling back to TTS", err);
+                const utterance = new SpeechSynthesisUtterance(msgText);
+                utterance.lang = 'es-ES';
+                utterance.pitch = 0.9;
+                utterance.rate = 0.9;
+                utterance.onend = () => { if(isAudio) toggleAudio(); };
+                
+                // Theta Binaural
+                ctx = new (window.AudioContext || window.webkitAudioContext)();
                 oscL = ctx.createOscillator(); oscR = ctx.createOscillator();
-                oscL.type = 'sine'; oscR.type = 'sine'; oscL.frequency.value = 174; oscR.frequency.value = 180;
-                panL = ctx.createStereoPanner(); panR = ctx.createStereoPanner(); panL.pan.value = -1; panR.pan.value = 1;
-                gain = ctx.createGain(); gain.gain.value = 0;
-                oscL.connect(panL).connect(gain); oscR.connect(panR).connect(gain); gain.connect(ctx.destination);
-                oscL.start(); oscR.start(); gain.gain.setTargetAtTime(0.4, ctx.currentTime, 1);
+                panL = ctx.createStereoPanner(); panR = ctx.createStereoPanner();
+                gain = ctx.createGain();
                 
-                pill.classList.add('active'); circle.classList.add('playing');
-                subs.style.display = 'block'; 
-                isAudio = true;
+                oscL.frequency.value = 136.1; oscR.frequency.value = 142.1;
+                panL.pan.value = -1; panR.pan.value = 1;
+                gain.gain.value = 0.05;
                 
-                if (synth.speaking) synth.cancel();
+                oscL.connect(panL); panL.connect(gain);
+                oscR.connect(panR); panR.connect(gain);
+                gain.connect(ctx.destination);
                 
-                const msgText = "Respira profundo. Estás entrando en un estado de paz absoluta. La identidad de liderazgo no se espera; se ejerce. Empieza a tomar decisiones como la líder que ya eres, y tu mente terminará creyéndolo. Reclama tu éxito en primera persona. El síndrome del impostor se desvanece mientras tu neuroplasticidad graba tu verdadera autoridad. Duerme profundamente y despierta imparable.";
-                
-                subs.innerHTML = `<strong>[Voz Guiada]:</strong> ${msgText}`;
-
-                let utterance = new SpeechSynthesisUtterance(msgText);
-                utterance.lang = 'es-ES'; 
-                utterance.pitch = 0.6; // Deep, relaxing pitch
-                utterance.rate = 0.75; // Very slow and melodic pace
-                utterance.volume = 0.9;
-                
-                utterance.onerror = function(event) { console.warn("TTS Error: " + event.error); };
-                try { synth.speak(utterance); } catch(e) { console.error("Speech API falló: ", e); }
-
-                // Auto fade out after 8 minutes (480000 ms) for the mockup realism
-                setTimeout(() => {
-                    if(isAudio) toggleAudio();
-                }, 480000);
-            }
-        }
-
-        // LÓGICA SOS (Síndrome del Impostor - Regulación y Elevación de Frecuencia)
-        const affirmations = [
-            "En este momento, tu amígdala está generando cortisol. Respira. Es solo química, no es la realidad.",
-            "El síndrome del impostor es una ilusión evolutiva. Tu cerebro intenta protegerte. Asume el mando ejecutivo.",
-            "No estás aquí por suerte. La probabilidad de tus logros sin competencia técnica es cero. Reconoce los hechos.",
-            "La incomodidad que sientes es neuroplasticidad en acción. Tu cerebro está expandiendo su capacidad. Sostenlo.",
-            "Comienza a elevar tu frecuencia. Eres una líder probada. Las decisiones complejas son tu territorio natural.",
-            "Reclama tu espacio. El ecosistema necesita tu visión, tu rigor y tu autoridad para evolucionar.",
-            "Tu identidad de liderazgo ya está forjada en la acción. No necesitas validación externa. Tú eres la autoridad.",
-            "Siente tu poder ejecutivo fluir. Transforma la duda en acción. Eres imparable y profundamente capaz.",
-            "Estás lista. Tu estado del ser se ha recalibrado al nivel de Invictus. Aprieta el botón y ejecuta."
-        ];
-        let sosInterval;
-        
-        function marcarHecho(btn, key = null) {
-            btn.innerHTML = '✅ Hecho en el mundo físico'; 
-            btn.style.background = 'rgba(16,185,129,0.1)';
-            btn.style.color = 'var(--success)';
-            btn.style.borderColor = 'var(--success)';
-            if(key) localStorage.setItem(key, 'true');
-        }
-        
-        function openSOS() {
-            document.getElementById('sos-overlay').classList.add('active');
-            let idx = 0;
-            const textEl = document.getElementById('sos-affirmation');
-            textEl.innerText = affirmations[idx];
-            setTimeout(() => textEl.classList.add('visible'), 500);
-            
-            sosInterval = setInterval(() => {
-                textEl.classList.remove('visible');
-                setTimeout(() => {
-                    idx = (idx + 1) % affirmations.length;
-                    textEl.innerText = affirmations[idx];
-                    textEl.classList.add('visible');
-                }, 1000);
-            }, 8000); // Cambia de frase en perfecta sincronía con la respiración de 8s
-        }
-        
-        function closeSOS() {
-            document.getElementById('sos-overlay').classList.remove('active');
-            clearInterval(sosInterval);
-            document.getElementById('sos-affirmation').classList.remove('visible');
-        }
-    </script>
-
-    <!-- FOCUS Modal -->
-    <div id="focus-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(6,6,13,.98);padding:20px 24px 24px;overflow-y:auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:10px">
-        <h3 id="focus-title" style="font-family:'Outfit';font-size:1.1rem;color:#FF6B00;">FOCUS</h3>
-        <button onclick="closeFocus()" style="background:transparent;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;width:40px;height:40px">×</button>
-      </div>
-      <div id="focus-content"></div>
-    </div>
-
-<script>
-const FOCUS_DATA = {
-  'auditoria': {
-    title: 'Auditoría de Disparadores',
-    html: `
-      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">La distracción empieza desde adentro. Identifica qué sentimiento intentas evitar revisando tu celular o correo.</p>
-      <div style="background:rgba(255,255,255,0.05);padding:15px;border-radius:12px;margin-bottom:15px;">
-        <p style="color:#FF6B00;font-size:0.8rem;font-weight:bold;margin-bottom:8px;">¿Qué sentías justo antes de distraerte?</p>
-        <div style="display:flex;flex-wrap:wrap;gap:8px;">
-          <span class="f-tag" onclick="this.classList.toggle('active')">Aburrimiento</span>
-          <span class="f-tag" onclick="this.classList.toggle('active')">Ansiedad</span>
-          <span class="f-tag" onclick="this.classList.toggle('active')">Fatiga</span>
-          <span class="f-tag" onclick="this.classList.toggle('active')">Estrés</span>
-          <span class="f-tag" onclick="this.classList.toggle('active')">Inseguridad</span>
-        </div>
-      </div>
-      <p style="color:#aaa;font-size:0.8rem;margin-bottom:10px;">Escribe el disparador para quitarle su poder cognitivo:</p>
-      <input type="text" placeholder="Ej: Me dio ansiedad enviar el reporte..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
-      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Registrar Disparador</button>
-      <style>.f-tag{background:rgba(255,255,255,0.1);color:#fff;padding:6px 12px;border-radius:20px;font-size:0.75rem;cursor:pointer;transition:all 0.2s;} .f-tag.active{background:#FF6B00;}
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-        .shake-error {
-            animation: shake 0.3s ease-in-out;
-        }
-        .dot.error { background: var(--accent-fire); box-shadow: 0 0 10px var(--accent-fire); }
-
-    
-        .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
-        .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
-        .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
-    
-    </style>
-    `
-  },
-  'pacto': {
-    title: 'Pacto de Identidad',
-    html: `
-      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Los pactos pre-comprometen tus decisiones futuras para que sea más difícil distraerte.</p>
-      <div style="background:rgba(255,107,0,0.1);border:1px dashed #FF6B00;padding:15px;border-radius:12px;margin-bottom:15px;text-align:center;">
-        <p style="color:#FF6B00;font-size:1.2rem;font-family:'Outfit';font-weight:bold;font-style:italic;">"Soy una persona de enfoque inquebrantable"</p>
-        <p style="color:#aaa;font-size:0.75rem;margin-top:5px;">El sustantivo cambia tu comportamiento más que el verbo.</p>
-      </div>
-      <p style="color:#fff;font-size:0.8rem;margin-bottom:10px;">¿A qué tarea le dedicarás tu atención absoluta ahora?</p>
-      <input type="text" placeholder="Mi tarea es..." style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:#fff;font-family:'Inter';margin-bottom:15px;">
-      <button onclick="closeFocus()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Sellar Pacto y Empezar</button>
-    `
-  },
-  'regla10': {
-    title: 'Regla de 10 Minutos',
-    html: `
-      <p style="color:#fff;font-size:0.9rem;margin-bottom:15px;line-height:1.5;">Cuando sientas el impulso incontrolable de distraerte, espera 10 minutos. Casi siempre el impulso desaparece como una ola.</p>
-      <div style="text-align:center;margin:30px 0;">
-        <div id="f-timer" style="font-size:4.5rem;font-family:'Outfit';color:#FF6B00;font-weight:bold;">10:00</div>
-      </div>
-      <button id="f-start-btn" onclick="startFocusTimer()" style="width:100%;padding:14px;background:linear-gradient(135deg, #FF6B00, #FF8C00);color:#fff;font-weight:bold;border-radius:8px;border:none;cursor:pointer;">Surfear el Impulso (10m)</button>
-    `
-  }
-};
-
-let fInterval;
-function launchFocus(id) {
-  const data = FOCUS_DATA[id];
-  document.getElementById('focus-title').innerText = data.title;
-  document.getElementById('focus-content').innerHTML = data.html;
-  document.getElementById('focus-modal').style.display = 'block';
-  clearInterval(fInterval);
-}
-
-function closeFocus() {
-  document.getElementById('focus-modal').style.display = 'none';
-  clearInterval(fInterval);
-}
-
-function startFocusTimer() {
-  let btn = document.getElementById('f-start-btn');
-  btn.style.display = 'none';
-  let timeLeft = 600;
-  let timerDisplay = document.getElementById('f-timer');
-  
-  fInterval = setInterval(() => {
-    timeLeft--;
-    let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-    let s = (timeLeft % 60).toString().padStart(2, '0');
-    timerDisplay.innerText = m + ":" + s;
-    if(timeLeft <= 0) {
-      clearInterval(fInterval);
-      timerDisplay.innerText = "¡Listo!";
-      timerDisplay.style.color = "#10b981";
-    }
-  }, 1000);
-}
-
-// DYNAMIC INJECTION FOR MUJERES MENTORAS
-setTimeout(() => {
-  const focusHtml = `
-    <div id="focus-injected" class="kit-section-title" style="margin-top:24px;">🎯 FOCUS (Enfoque Profundo)</div>
-    <p style="font-size:.78rem;color:var(--text-secondary);margin-bottom:12px;margin-top:-6px">Técnicas científicas para blindar tu atención.</p>
-    <div class="crisis-grid crisis-grid-mm" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('auditoria')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">🔍</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Auditoría Triggers</span></div>
-      <div class="crisis-btn crisis-btn-mm" style="background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; text-align:center; cursor:pointer;" onclick="launchFocus('pacto')"><span class="cb-icon" style="display:block; font-size:1.8rem; margin-bottom:8px;">✍️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Pacto Identidad</span></div>
-      <div class="crisis-btn crisis-btn-mm" style="grid-column: 1 / -1; display:flex; align-items:center; justify-content:center; gap:8px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); border-radius:12px; padding:16px; cursor:pointer;" onclick="launchFocus('regla10')"><span class="cb-icon" style="margin:0; font-size:1.4rem;">⏱️</span><span class="cb-label" style="color:#FFF; font-size:0.85rem; font-family:'Outfit';">Regla 10 Minutos</span></div>
-    </div>
-  `;
-
-  if (typeof window.renderKitMentoria !== 'undefined') {
-    const origRender = window.renderKitMentoria;
-    window.renderKitMentoria = function() {
-      origRender();
-      setTimeout(() => {
-        const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
-        if (grid && !document.getElementById('focus-injected')) {
-           grid.insertAdjacentHTML('afterend', focusHtml);
-        }
-      }, 50);
-    };
-    
-    // Also inject if it's already active
-    if (document.getElementById('v-kit') && document.getElementById('v-kit').classList.contains('active')) {
-      const grid = document.querySelector('.crisis-grid') || document.querySelector('.crisis-grid-mm');
-      if (grid && !document.getElementById('focus-injected')) {
-         grid.insertAdjacentHTML('afterend', focusHtml);
-      }
-    }
-  } else {
-    // Fallback for files that use static HTML
-    const grid = document.querySelector('.crisis-grid');
-    if (grid && !document.getElementById('focus-injected')) {
-        grid.insertAdjacentHTML('afterend', focusHtml);
-    }
-  }
-}, 500);
-</script>
-
-
-<script src="mujeresMentorasData.js?v=20"></script>
-<script src="mentadasData.js?v=20"></script>
-<script>
-// --- USER DATABASE MOCK ---
-const authUsers = [
-    { id: 'usr_01', pin: '012601', name: 'Mabel', fullName: 'Mabel Ibarra', role: 'Mentora' },
-    { id: 'usr_02', pin: '012602', name: 'Eliana', fullName: 'Eliana Villagómez', role: 'Mentora' },
-    { id: 'usr_03', pin: '012603', name: 'Mayra', fullName: 'Mayra Pujos', role: 'Mentora' },
-    { id: 'usr_04', pin: '012604', name: 'Marjorie', fullName: 'Marjorie Castro', role: 'Mentora' },
-    { id: 'usr_05', pin: '012605', name: 'Carla', fullName: 'Carla Godoy', role: 'Mentora' },
-    { id: 'usr_06', pin: '012606', name: 'Giovanna', fullName: 'Giovanna Coimbra', role: 'Mentora' },
-    { id: 'usr_07', pin: '022601', name: 'Stephany', fullName: 'Stephany Simbaña', role: 'Mentada' },
-    { id: 'usr_08', pin: '022602', name: 'Anahí', fullName: 'Anahí Freire', role: 'Mentada' },
-    { id: 'usr_09', pin: '022603', name: 'Noemí', fullName: 'Noemí Palacios', role: 'Mentada' },
-    { id: 'usr_10', pin: '022604', name: 'Lorena', fullName: 'Lorena Chávez', role: 'Mentada' },
-    { id: 'usr_11', pin: '022605', name: 'Lourdes', fullName: 'Lourdes Sánchez', role: 'Mentada' },
-    { id: 'usr_12', pin: '022606', name: 'Valentina', fullName: 'Valentina Pardo', role: 'Mentada' }
-];
-
-let currentUser = null;
-let currentPin = '';
-let pinCount = 0;
-
-// Remove the old dummy pressKey if it exists outside this block (wait, the old one was in the original HTML)
-// Actually, let's just redefine pressKey here to override it.
-
-
-function completePhase(phaseNum) {
-    if(!currentPhaseProgress[currentDay]) currentPhaseProgress[currentDay] = [];
-    if(!currentPhaseProgress[currentDay].includes(phaseNum)) {
-        currentPhaseProgress[currentDay].push(phaseNum);
-        
-        // Auto-complete day if phase 12 is done (or all 12 are done)
-        
-        // Auto-complete day if phase 12 is done (or all 12 are done)
-        if(currentPhaseProgress[currentDay].length === 12 || phaseNum === 12) {
-            if(!completedDays.includes(currentDay)) {
-                completedDays.push(currentDay);
-                let score = localStorage.getItem('invictus_recall_score') || 0;
-                let ppm = localStorage.getItem('invictus_recall_ppm') || 0;
-                if (typeof saveDailyProgress === 'function') {
-                    saveDailyProgress(currentDay, parseInt(ppm), parseInt(score));
-                }
-            }
-
-        }
-        
-        saveProgress();
-    }
-}
-
-function updateVisualProgress() {
-    // 1. Overall Track Progress (Day X of 78)
-    const ringContent = document.querySelector('.ring-content h2');
-    const ringLabel = document.querySelector('.ring-content p');
-    if(ringContent) ringContent.innerText = currentDay;
-    if(ringLabel) ringLabel.innerText = "Día de 78";
-    
-    const ringProgress = document.querySelector('.ring-progress');
-    if(ringProgress) {
-        const total = 78;
-        const percentage = currentDay / total;
-        // Dasharray is 565. offset = 565 - (565 * percentage)
-        const offset = 565 - (565 * percentage);
-        ringProgress.style.strokeDashoffset = offset;
-    }
-    
-    // 2. Session Progress (Phases completed)
-    const phases = document.querySelectorAll('.timeline .phase');
-    const completedInSession = currentPhaseProgress[currentDay] || [];
-    
-    phases.forEach((phase, idx) => {
-        const phaseNum = idx + 1;
-        // Update styling
-        if(completedInSession.includes(phaseNum)) {
-            phase.classList.add('completed');
-            phase.classList.remove('active');
-        } else if (phaseNum === completedInSession.length + 1) {
-            phase.classList.add('active');
-            phase.classList.remove('completed');
-        } else {
-            phase.classList.remove('active');
-            phase.classList.remove('completed');
-        }
-    });
-}
-
-window.checkComprension = function(qIdx, correctIdx, btnIdx, btnElement) {
-    if(btnIdx === correctIdx) {
-        btnElement.style.background = "linear-gradient(45deg, #10b981, #059669)";
-        btnElement.style.color = "white";
-        btnElement.style.borderColor = "var(--success)";
-        btnElement.innerText += " ✓ Correcto";
-        
-        let allCorrect = true;
-        document.querySelectorAll('.comp-question').forEach(q => {
-            if(!q.querySelector('button[style*="#10b981"]')) allCorrect = false;
-        });
-        if(allCorrect) {
-            completePhase(2);
-            showMotivationToast("¡Comprensión táctica perfecta! Fase 2 completada.");
-        }
-    } else {
-        btnElement.style.background = "rgba(239, 68, 68, 0.2)";
-        btnElement.style.borderColor = "var(--accent-fire)";
-        btnElement.innerText += " ✗ Incorrecto";
-    }
-    
-    // Disable siblings
-    const siblings = btnElement.parentElement.querySelectorAll('button');
-    siblings.forEach(s => s.disabled = true);
-};
-
-function renderComprensionLectora(data, container) {
-    if(!data.fase2_lectura.comprension) return;
-    
-    let compData = Array.isArray(data.fase2_lectura.comprension) ? data.fase2_lectura.comprension : [data.fase2_lectura.comprension];
-    
-    let html = `
-    <div id="comprension-block" style="display: none; margin-top: 24px; padding: 16px; background: rgba(0, 198, 255, 0.05); border: 1px solid rgba(0, 198, 255, 0.2); border-radius: 12px;">
-        <h5 style="color: var(--accent-water); font-family: 'Outfit'; margin-bottom: 12px;">EVALUACIÓN DE COMPRENSIÓN</h5>
-    `;
-    
-    compData.forEach((comp, qIdx) => {
-        html += `<div class="comp-question" style="margin-bottom: 20px;">
-            <p style="font-size: 0.95rem; color: white; margin-bottom: 12px;"><strong>Pregunta ${qIdx + 1}:</strong> ${comp.q}</p>
-            <div style="display: flex; flex-direction: column; gap: 8px;">`;
-            
-        comp.options.forEach((opt, optIdx) => {
-            html += `<button class="btn-outline" style="text-align: left; font-size: 0.85rem; padding: 10px;" onclick="checkComprension(${qIdx}, ${comp.answer}, ${optIdx}, this)">${opt}</button>`;
-        });
-        
-        html += `</div></div>`;
-    });
-    
-    html += `</div>`;
-    
-    const div = document.createElement('div');
-    div.innerHTML = html;
-    container.appendChild(div);
-}
-
-// Global func to mark manual phases done
-window.markPhaseDone = function(btn, phaseNum) {
-    btn.innerText = "✓ Completado";
-    btn.style.borderColor = "var(--success)";
-    btn.style.color = "var(--success)";
-    completePhase(phaseNum);
-}
-
-function loadMujeresMentorasDay(dayIndex) {
-    const data = window.activeTrackData.find(d => d.dia === dayIndex);
-    if (!data) return;
-
-    currentDay = dayIndex;
-    
-    // Update Header
-    const badge = document.querySelector('.session-hero .badge-premium');
-    if (badge) badge.innerText = `${data.bloque} • Día ${data.dia}`;
-    const title = document.querySelector('.session-hero .display-font');
-    if (title) title.innerText = data.titulo;
-
-    const phases = document.querySelectorAll('.timeline .phase');
-    
-    // Generate completion buttons for phases that require manual check
-    const manualPhases = [1, 5, 6, 7, 8, 9, 10, 11, 12];
-    
-    manualPhases.forEach(num => {
-        const p = phases[num-1];
-        // Clean previous buttons if day changed
-        const existingBtn = p.querySelector('.btn-done-phase');
-        if(existingBtn) existingBtn.remove();
-        
-        if(p) {
-            const btn = document.createElement('button');
-            btn.className = "btn-outline btn-done-phase";
-            btn.style = "width: 100%; margin-top: 12px; font-size: 0.8rem;";
-            
-            // If already done from loaded state, mark it visually
-            const completedInSession = currentPhaseProgress[currentDay] || [];
-            if(completedInSession.includes(num)) {
-                btn.innerText = "✓ Completado";
-                btn.style.borderColor = "var(--success)";
-                btn.style.color = "var(--success)";
-            } else {
-                btn.innerText = "Marcar Fase como Completada";
-            }
-            
-            btn.onclick = function() { window.markPhaseDone(this, num); };
-            p.appendChild(btn);
-        }
-    });
-
-    // F1: Ancla
-    if (phases[0]) {
-        const desc = phases[0].querySelector('.phase-desc');
-        if (desc) desc.innerHTML = `<strong>Respiración de Oxigenación:</strong> ${data.fase1_ancla}`;
-    }
-
-    // F2: Lectura + Comprension
-    if (phases[1]) {
-        const reader = document.getElementById('reader-content');
-        if (reader) {
-            let html = `<h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">${data.titulo}</h4>`;
-            data.fase2_lectura.texto.split('\n').forEach(p => {
-                if(p.trim()) html += `<p class="reader-p">${p}</p>`;
+                oscL.start(); oscR.start();
+                synth.speak(utterance);
             });
-            reader.innerHTML = html;
-            
-            // Clean old feedback
-            const existingComp = phases[1].querySelector('#comp-feedback');
-            if(existingComp) existingComp.parentElement.remove();
-            
-            renderComprensionLectora(data, phases[1]);
-        }
-    }
-
-    // F3: Vocabulario
-    if (phases[2]) {
-        const vocabContainer = document.getElementById('f3-vocab-container');
-        const input = document.getElementById('f3-input');
-        const saveBtn = document.getElementById('f3-save-btn');
-        const desc = phases[2].querySelector('.phase-desc');
-        
-        // Reset state
-        if(input) { input.value = ''; input.disabled = false; }
-        if(saveBtn) { 
-            saveBtn.innerText = '💾 Guardar Síntesis'; 
-            saveBtn.style.color = ''; 
-            saveBtn.style.borderColor = ''; 
-        }
-        if(desc) {
-            desc.style.display = 'block'; // Make sure instructions are visible
+            mp3Audio.onended = () => { if(isAudio) toggleAudio(); };
         }
 
-        if (vocabContainer) {
-            if(data.fase3_vocabulario && data.fase3_vocabulario.length > 0 && data.fase3_vocabulario[0].palabra !== "Concepto Clave") {
-                let html = `<strong style="color:white;">Vocabulario Activo:</strong><br>`;
-                data.fase3_vocabulario.forEach(v => {
-                    html += `<span style="color:var(--accent-fire)">${v.palabra}</span>: ${v.definicion}<br>`;
-                });
-                vocabContainer.innerHTML = html;
-                vocabContainer.style.display = 'block';
-            } else {
-                vocabContainer.style.display = 'none'; // Hide if it's the default placeholder
-            }
-        }
-    }
-
-    // F4: Recall
-    if (phases[3]) {
-        const testContent = document.getElementById('test-content');
-        if (testContent) {
-            let html = '';
-            data.fase4_recall.forEach((r, idx) => {
-                html += `
-                <div style="margin-bottom: 20px;" class="recall-q">
-                    <span style="font-size: 0.7rem; color: var(--accent-fire); text-transform: uppercase;">${r.type}</span>
-                    <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${idx+1}. ${r.q}</strong></p>
-                    <textarea class="input-premium" placeholder="Escribe tu respuesta analítica..."></textarea>
-                </div>
-                `;
-            });
-            html += `<button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 4)">📊 Terminar Evaluación y Avanzar</button>`;
-            testContent.innerHTML = html;
-        }
-    }
-
-    // Replace F5 to F11 texts
-    if (phases[4]) { const desc = phases[4].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase5_codificacion_dual; }
-    if (phases[5]) { const desc = phases[5].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase6_loci; }
-    if (phases[6]) { const desc = phases[6].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase7_analogia; }
-    if (phases[7]) { const desc = phases[7].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase8_ejercicio; }
-    if (phases[8]) { const desc = phases[8].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase9_feynman ? "Aplica la Técnica Feynman hoy." : "Aplica cada 7 sesiones. Hoy descansa."; }
-    if (phases[9]) { const desc = phases[9].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase10_metacognicion; }
-    if (phases[10]) { const desc = phases[10].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase11_ensayo; }
-
-    updateVisualProgress();
-}
-
-// Navigation UI to switch days
-function renderDaySwitcher() {
-    const list = document.querySelector('.blocks-list');
-    if(!list) return;
-    
-    let html = `<div style="margin-bottom: 24px; font-family:'Outfit'; font-size:1.1rem; border-bottom:1px solid var(--border-subtle); padding-bottom:10px;">Tu Progreso</div>`;
-    
-    // We render first 5 days for the pilot
-    for(let i=1; i<=10; i++) {
-        let isDone = completedDays.includes(i);
-        let isActive = currentDay === i;
-        
-        let isLocked = false;
-        if(!isDone && !isActive && i > currentDay) {
-            // Check if all previous days are done
-            for(let j=1; j<i; j++) {
-                if(!completedDays.includes(j)) {
-                    isLocked = true;
-                    break;
-                }
-            }
-        }
-        
-        html += `
-        <div class="glass-card track-card ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}" onclick="if(!${isLocked}) { loadMujeresMentorasDay(${i}); document.querySelector('.blocks-list').innerHTML=''; renderDaySwitcher();
-
-    if(currentUser.role === 'Mentora') {
-        const mentadaTab = document.querySelector('.mentada-tab-btn');
-        if(mentadaTab) mentadaTab.style.display = 'flex';
-    }
-     switchTab('view-session', this); }">
-            <div class="track-number">${i}</div>
-            <div>
-                <h4 style="font-size: 0.95rem; color: white;">Día ${i}</h4>
-                <p style="font-size: 0.8rem; color: var(--text-secondary);">${isDone ? '✓ Completado' : (isActive ? 'Activo' : 'Bloqueado')}</p>
-            </div>
-        </div>`;
-    }
-    
-    list.innerHTML = html;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-    if (true) {
-        // Let's hook into the dashboard button so we can render the switcher
-        const oldSwitchTab = window.switchTab;
-        window.switchTab = function(viewId, el) {
-            if(oldSwitchTab) oldSwitchTab(viewId, el);
-            if(viewId === 'view-dashboard') {
-                renderDaySwitcher();
-
-    if(currentUser.role === 'Mentora') {
-        const mentadaTab = document.querySelector('.mentada-tab-btn');
-        if(mentadaTab) mentadaTab.style.display = 'flex';
-    }
-    
-            }
-        };
-    }
-    
-    // We remove the old static dummy pressKey and initialization.
-    // Initialization now only happens when a user types the correct PIN (initUserSession).
-});
-
-// Clean up original pressKey from the global scope if it exists as a script block
-// (The previous pressKey in the old code is effectively overridden because this script block is after it).
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<script>
-// --- SUPABASE CONFIG ---
-const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
-const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
-const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
-
-// --- REFACTOR: AUTH & PROGRESS ---
-window.pressKey = async function(num) {
-    if(!num) num = ''; // fallback
-    if(pinCount < 6) {
-        currentPin += num;
-        document.querySelectorAll('.pin-dots .dot')[pinCount].classList.add('filled');
-        pinCount++;
-        
-        if(pinCount === 6) {
-            // Verify with Supabase
-            const { data: user, error } = await _supabase.from('mentoras_users').select('*').eq('pin', currentPin).single();
-            if(user) {
-                // Success
-                currentUser = user;
-                
-                // Update Header
-                const headerTitle = document.querySelector('.header-greeting h1');
-                const profilePic = document.querySelector('.profile-pic');
-                if(headerTitle) headerTitle.innerText = `Hola, ${user.name}`;
-                if(profilePic) profilePic.innerText = user.name.charAt(0);
-                
-                setTimeout(() => {
-                    document.getElementById('auth-overlay').classList.add('hidden');
-                    initUserSession(); // Load their specific data
-                }, 400);
-            } else {
-                // Error
-                const dotsContainer = document.querySelector('.pin-dots');
-                const dots = document.querySelectorAll('.pin-dots .dot');
-                dots.forEach(d => d.classList.add('error'));
-                dotsContainer.classList.add('shake-error');
-                
-                setTimeout(() => {
-                    dotsContainer.classList.remove('shake-error');
-                    dots.forEach(d => {
-                        d.classList.remove('filled');
-                        d.classList.remove('error');
-                    });
-                    currentPin = '';
-                    pinCount = 0;
-                }, 500);
-            }
-        }
-    }
-};
-
-async function initUserSession() {
+        function initUserSession() {
     if(!currentUser) return;
     
     window.activeTrackData = currentUser.role === 'Mentada' ? (typeof mentadasData !== 'undefined' ? mentadasData : []) : (typeof mujeresMentorasData !== 'undefined' ? mujeresMentorasData : []);
@@ -1956,4 +1513,963 @@ function getSigmaResponse(userText) {
 }
 </script>
 
+
+<script>
+// --- PLAYBOOK & KIT SYNC (Supabase: user_mentee_tracking) ---
+let currentTracking = {
+    mentee_name: '',
+    objetivos: [],
+    compromisos: [],
+    toolkit: {}
+};
+
+async function loadMenteeTracking() {
+    if (!currentUser) return;
+    try {
+        const { data, error } = await _supabase
+            .from('user_mentee_tracking')
+            .select('*')
+            .eq('user_pin', currentUser.pin)
+            .single();
+            
+        if (data) {
+            currentTracking = {
+                mentee_name: data.mentee_name || '',
+                objetivos: data.objetivos || [],
+                compromisos: data.compromisos || [],
+                toolkit: data.toolkit || {}
+            };
+            renderPlaybookUI();
+            renderKitUI();
+        } else if (error && error.code === 'PGRST116') {
+            // Not found, insert new record
+            await _supabase.from('user_mentee_tracking').insert([{
+                user_pin: currentUser.pin,
+                mentee_name: '',
+                objetivos: [],
+                compromisos: [],
+                toolkit: {}
+            }]);
+        }
+    } catch(e) {
+        console.error("Error loadMenteeTracking:", e);
+    }
+}
+
+async function saveMenteeTracking() {
+    if (!currentUser) return;
+    try {
+        const { error } = await _supabase
+            .from('user_mentee_tracking')
+            .update({
+                mentee_name: currentTracking.mentee_name,
+                objetivos: currentTracking.objetivos,
+                compromisos: currentTracking.compromisos,
+                toolkit: currentTracking.toolkit
+            })
+            .eq('user_pin', currentUser.pin);
+            
+        if (error) console.error("Error saveMenteeTracking:", error);
+    } catch(e) {
+        console.error(e);
+    }
+}
+
+// --- PLAYBOOK UI BINDINGS ---
+function guardarMenteeName() {
+    const el = document.getElementById('mp-name');
+    if (el) {
+        currentTracking.mentee_name = el.value;
+        saveMenteeTracking();
+    }
+}
+
+function renderPlaybookUI() {
+    const nameEl = document.getElementById('mp-name');
+    if (nameEl) nameEl.value = currentTracking.mentee_name;
+    
+    // Render Goals
+    const goalsContainer = document.getElementById('mp-goals-list');
+    if (goalsContainer) {
+        goalsContainer.innerHTML = currentTracking.objetivos.map((obj, i) => `
+            <div class="mp-item">
+                <input type="checkbox" onchange="toggleObjetivo(${i})" ${obj.done ? 'checked' : ''}>
+                <span style="text-decoration: ${obj.done ? 'line-through' : 'none'}; opacity: ${obj.done ? '0.5' : '1'}">${obj.text}</span>
+            </div>
+        `).join('') || '<div style="color:var(--text-dim);font-size:0.85rem;">No hay objetivos registrados.</div>';
+    }
+    const goalsCount = document.getElementById('mp-goals-count');
+    if(goalsCount) goalsCount.innerText = currentTracking.objetivos.filter(o => o.done).length + '/' + currentTracking.objetivos.length;
+
+    // Render Commitments
+    const commitsContainer = document.getElementById('mp-commits-list');
+    if (commitsContainer) {
+        commitsContainer.innerHTML = currentTracking.compromisos.map((com, i) => `
+            <div class="mp-item">
+                <input type="checkbox" onchange="toggleCompromiso(${i})" ${com.done ? 'checked' : ''}>
+                <span style="text-decoration: ${com.done ? 'line-through' : 'none'}; opacity: ${com.done ? '0.5' : '1'}">${com.text}</span>
+            </div>
+        `).join('') || '<div style="color:var(--text-dim);font-size:0.85rem;">No hay compromisos registrados.</div>';
+    }
+    const commitCount = document.getElementById('mp-commit-count');
+    if(commitCount) commitCount.innerText = currentTracking.compromisos.filter(c => c.done).length + '/' + currentTracking.compromisos.length;
+}
+
+window.addObjetivo = function() {
+    const text = prompt("Nuevo objetivo para la mentoreada:");
+    if (text && text.trim()) {
+        currentTracking.objetivos.push({ text: text.trim(), done: false });
+        renderPlaybookUI();
+        saveMenteeTracking();
+    }
+}
+
+window.toggleObjetivo = function(i) {
+    currentTracking.objetivos[i].done = !currentTracking.objetivos[i].done;
+    renderPlaybookUI();
+    saveMenteeTracking();
+}
+
+window.addCompromiso = function() {
+    const text = prompt("Nuevo compromiso de la sesión:");
+    if (text && text.trim()) {
+        currentTracking.compromisos.push({ text: text.trim(), done: false });
+        renderPlaybookUI();
+        saveMenteeTracking();
+    }
+}
+
+window.toggleCompromiso = function(i) {
+    currentTracking.compromisos[i].done = !currentTracking.compromisos[i].done;
+    renderPlaybookUI();
+    saveMenteeTracking();
+}
+
+// --- MI KIT UI BINDINGS ---
+function renderKitUI() {
+    // Populate textarea inputs if they exist with toolkit data
+    document.querySelectorAll('.kit-view textarea').forEach(ta => {
+        if (ta.id && currentTracking.toolkit[ta.id]) {
+            ta.value = currentTracking.toolkit[ta.id];
+        }
+    });
+}
+
+function guardarKit(id) {
+    const el = document.getElementById(id);
+    if (el) {
+        currentTracking.toolkit[id] = el.value;
+        saveMenteeTracking();
+    }
+}
+
+// Hook into initUserSession
+const oldInit = window.initUserSession;
+window.initUserSession = function() {
+    if(oldInit) oldInit();
+    loadMenteeTracking();
+};
+
+
+
+// --- INJECTED KIT PROTOCOL LOGIC ---
+const CRISIS_DATA = [{"id": "no_avanza", "icon": "😶", "title": "Mi mentoreada no avanza", "steps": ["Define: es un problema de habilidad o de voluntad? Son soluciones distintas.", "Si es habilidad: redisena el ejercicio de riesgo tactico. Hazlo mas pequeno y concreto.", "Si es voluntad: preguntale directamente: 'En una escala del 1 al 10, que tan comprometida estas con este cambio?'", "Cualquier numero menor a 7: 'Que tendria que pasar para que sea un 10?' Escucha sin interrumpir."]}, {"id": "llora", "icon": "😢", "title": "Rompe en llanto en sesion", "steps": ["No la interrumpas. No busques el panuela. No digas 'no llores'. Sostenla con silencio.", "Despues de 60 segundos: 'Gracias por confiar en este espacio. Que necesitas ahora?'", "No conviertas la sesion en terapia. Si el llanto revela algo mas profundo, deriva a un profesional.", "Cierra con un pequeno acto de agencia: 'Dime una cosa que SI puedes controlar esta semana'."]}, {"id": "resistencia", "icon": "🧱", "title": "Resistencia y defensividad", "steps": ["No argumentes. La resistencia no se vence con logica, se disuelve con preguntas.", "Lanza: 'Entiendo que esto se siente injusto. Que tendria que ser verdad para que este feedback fuera valioso para ti?'", "Si sigue resistente: 'No tengo que convencerte. Toma lo que te sirve y deja lo que no. Que fue lo unico util de hoy?'", "Termina ahi. La sesion que produce una sola pepita de oro fue exitosa."]}, {"id": "dependencia", "icon": "🔗", "title": "Se esta volviendo dependiente", "steps": ["Detecta la senal: te llama fuera de sesion, te pide permiso para decidir, espera tu aprobacion.", "En la proxima sesion nombralo directo: 'Noto que buscas mi validacion antes de actuar. Que pasaria si actuaras sin pedirmela?'", "Redirige la pregunta hacia ella siempre: cuando te pregunte que hacer, responde '?Tu que crees?'", "Recuerda: tu éxito como mentora es hacerte innecesaria. Mide tu impacto en su autonomia."]}, {"id": "limites", "icon": "⚠️", "title": "Cruzo un limite", "steps": ["Nombra lo que ocurrio en el momento, no dias despues: 'Cuando dijiste X, senti que ese espacio cruzo el limite de nuestra relacion de mentoria.'", "Reafirma el marco: 'Esta relacion es de mentoria profesional. Eso significa...'", "Si cruzo un limite etico grave (confidencialidad, acoso): documenta y consulta con tu supervisor antes de la proxima sesion.", "No necesitas disculparte por tener limites. Los limites claros son el regalo mas grande que le puedes dar."]}, {"id": "estancada", "icon": "🔄", "title": "La sesion no llego a ningún lado", "steps": ["Acepta que no todas las sesiones producen avances visibles. Algunas siembran.", "Preguntate: di demasiados consejos? Hable mas del 40% del tiempo? Esas son senales de que la sesion fue tuya, no de ella.", "En la proxima sesion abre con: 'La ultima vez senti que no llegamos a nada profundo. Que crees que faltó?'", "Recalibra tu rol: tu trabajo no es resolver, es preguntar. Prepara 3 preguntas poderosas antes de la sesion."]}];
+
+window.abrirCrisisMM = function(id) {
+    const data = CRISIS_DATA.find(c => c.id === id);
+    if (!data) return;
+    const m = document.getElementById('crisis-modal-mm');
+    const t = document.getElementById('crisis-mm-title');
+    const ct = document.getElementById('crisis-mm-content');
+    if (!m || !t || !ct) return;
+    t.textContent = data.icon + ' ' + data.title;
+    let html = '<div style="display:flex;flex-direction:column;gap:14px;margin-bottom:40px">';
+    data.steps.forEach((s, i) => {
+      html += '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:flex-start">';
+      html += '<div style="min-width:28px;height:28px;border-radius:50%;background:' + ACCENT + ';display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;color:#fff;flex-shrink:0">' + (i+1) + '</div>';
+      html += '<p style="font-size:.85rem;color:#fff;line-height:1.6;margin-top:1px">' + s + '</p></div>';
+    });
+    html += '</div>';
+    ct.innerHTML = html;
+    m.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.cerrarCrisisMM = function() {
+    const m = document.getElementById('crisis-modal-mm');
+    if (m) m.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.abrirCaso = function(idx) {
+    const caso = CASOS_DATA[idx];
+    if (!caso) return;
+    const m = document.getElementById('sala-modal');
+    const t = document.getElementById('sala-title');
+    const ct = document.getElementById('sala-content');
+    if (!m || !t || !ct) return;
+    t.textContent = caso.title;
+    let html = '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:20px;font-size:.85rem;color:#ddd;line-height:1.7">' + caso.setup + '</div>';
+    html += '<div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">OPCIONES</div>';
+    html += '<div id="sala-opts">';
+    caso.options.forEach((opt, i) => {
+      html += '<button class="opt-btn" onclick="elegirOpcion(' + idx + ',' + i + ')">';
+      html += '<strong>' + ['A','B','C','D'][i] + '.</strong> ' + opt.label;
+      html += '</button>';
+    });
+    html += '</div>';
+    html += '<div id="sala-feedback" style="display:none;margin-top:20px"></div>';
+    html += '<div id="sala-prompt-wrap" style="display:none;margin-top:20px"><div style="font-size:.78rem;color:' + ACCENT + ';font-weight:600;margin-bottom:10px">' + (caso.prompt||'Tu reflexión:') + '</div><textarea id="sala-answer" style="width:100%;min-height:90px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-family:Inter;font-size:.85rem" placeholder="Escribe aquí..."></textarea><button onclick="guardarCaso(' + idx + ')" style="margin-top:12px;width:100%;padding:13px;background:linear-gradient(135deg,' + ACCENT + ',#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer">Guardar mi reflexión</button></div>';
+    ct.innerHTML = html;
+    m.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.elegirOpcion = function(casoIdx, optIdx) {
+    const caso = CASOS_DATA[casoIdx];
+    const opt = caso.options[optIdx];
+    document.querySelectorAll('.opt-btn').forEach((btn, i) => {
+      btn.style.borderColor = (i === optIdx) ? (opt.correct ? '#10b981' : '#ef4444') : 'rgba(255,255,255,.06)';
+      btn.style.opacity = (i === optIdx) ? '1' : '.4';
+    });
+    const fb = document.getElementById('sala-feedback');
+    const color = opt.correct ? '#10b981' : '#ef4444';
+    fb.style.display = 'block';
+    fb.innerHTML = '<div style="background:rgba(255,255,255,.03);border:1px solid ' + color + ';border-radius:14px;padding:16px"><div style="color:' + color + ';font-weight:600;margin-bottom:8px">' + (opt.correct ? '✓ ' : '✗ ') + opt.concept + '</div><p style="font-size:.83rem;color:#ddd;line-height:1.6">' + opt.feedback + '</p></div>';
+    document.getElementById('sala-prompt-wrap').style.display = 'block';
+  };
+
+  window.guardarCaso = function(idx) {
+    const ans = document.getElementById('sala-answer').value.trim();
+    if (!ans) return;
+    localStorage.setItem('mm_b1_caso_' + idx, ans);
+    window.cerrarSala();
+    window.renderKitMentoria();
+  };
+
+  window.cerrarSala = function() {
+    const m = document.getElementById('sala-modal');
+    if (m) m.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // Render on tab switch
+  const _origSwitch = window.switchTab;
+  window.switchTab = function(viewId, navEl) {
+    if (_origSwitch) _origSwitch(viewId, navEl);
+    if (viewId === 'view-kit') window.renderKitMentoria();
+    if (viewId === 'view-libreta' && typeof window.renderMenteePanel === 'function') window.renderMenteePanel();
+  };
+
+})();
+
+/* MI MENTOREADA — Objetivos SMART, Calendario, Bitácora, Compromisos (MVP) */
+/* Llaves globales (no prefijadas por bloque) para que persistan entre los 8 archivos Bloque_Premium.html */
+(function(){
+  const K = {
+    name: 'invictus_pair_mentee_name',
+    goals: 'invictus_pair_goals',
+    calendar: 'invictus_pair_calendar',
+    bitacora: 'invictus_pair_bitacora',
+    compromisos: 'invictus_pair_compromisos'
+  };
+  const ACCENT2 = '#FF5E00';
+
+  function getArr(key) {
+    try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; }
+  }
+  function setArr(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+  function newId() { return 'id' + Date.now() + Math.floor(Math.random()*1000); }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso + 'T00:00:00');
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
+  }
+
+  window.guardarMenteeName = function() {
+    const el = document.getElementById('mp-name');
+    if (el) localStorage.setItem(K.name, el.value);
+  };
+
+  window.renderMenteePanel = function() {
+    const nameEl = document.getElementById('mp-name');
+    if (nameEl) nameEl.value = localStorage.getItem(K.name) || '';
+
+    const goals = getArr(K.goals);
+    const activeGoals = goals.filter(g => g.status !== 'logrado' && g.status !== 'pausado');
+    const goalsCountEl = document.getElementById('mp-goals-count');
+    if (goalsCountEl) goalsCountEl.textContent = activeGoals.length;
+
+    const cal = getArr(K.calendar).filter(c => !c.done).sort((a,b) => (a.date||'').localeCompare(b.date||''));
+    const nextEl = document.getElementById('mp-next-session');
+    if (nextEl) nextEl.textContent = cal.length ? fmtDate(cal[0].date) : '—';
+
+    const comp = getArr(K.compromisos).filter(c => !c.done);
+    const compEl = document.getElementById('mp-compromisos-count');
+    if (compEl) compEl.textContent = comp.length;
+  };
+
+  window.cerrarMentee = function() {
+    document.getElementById('mentee-modal').style.display = 'none';
+  };
+
+  window.abrirMentee = function(section) {
+    const titles = { goals: '🎯 Objetivos SMART', calendar: '📅 Calendario de Sesiones', bitacora: '📓 Bitácora', compromisos: '✅ Compromisos y Seguimiento' };
+    document.getElementById('mentee-modal-title').textContent = titles[section] || '';
+    renderSection(section);
+    document.getElementById('mentee-modal').style.display = 'block';
+  };
+
+  function renderSection(section) {
+    const ct = document.getElementById('mentee-modal-content');
+    if (section === 'goals') ct.innerHTML = goalsHTML();
+    else if (section === 'calendar') ct.innerHTML = calendarHTML();
+    else if (section === 'bitacora') ct.innerHTML = bitacoraHTML();
+    else if (section === 'compromisos') ct.innerHTML = compromisosHTML();
+  }
+
+  function itemCard(inner, extraStyle) {
+    return '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px;' + (extraStyle||'') + '">' + inner + '</div>';
+  }
+
+  // --- OBJETIVOS SMART ---
+  function goalsHTML() {
+    const goals = getArr(K.goals);
+    let list = goals.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">Todavía no hay objetivos. Define el primero abajo — específico, medible y con fecha.</p>';
+    goals.slice().reverse().forEach(g => {
+      const doneStyle = g.status === 'logrado' ? 'opacity:.5;text-decoration:line-through;' : '';
+      list += itemCard(
+        '<p style="color:#fff;font-size:.9rem;' + doneStyle + '">' + g.text + '</p>' +
+        '<p style="color:' + ACCENT2 + ';font-size:.75rem;margin-top:6px;">Meta: ' + g.metric + ' · Fecha: ' + fmtDate(g.date) + '</p>' +
+        '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        (g.status !== 'logrado' ? '<button onclick="marcarGoalLogrado(\'' + g.id + '\')" style="flex:1;background:rgba(16,185,129,.15);color:#10b981;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">✓ Logrado</button>' : '') +
+        '<button onclick="eliminarGoal(\'' + g.id + '\')" style="flex:1;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">Eliminar</button>' +
+        '</div>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Nuevo objetivo SMART</div>
+        <input id="goal-text" placeholder="¿Qué quiere lograr? (Específico)" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <input id="goal-metric" placeholder="¿Cómo se mide el éxito? (Medible)" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <input id="goal-date" type="date" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <button onclick="agregarGoal()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Guardar objetivo</button>
+      </div>`;
+    return list;
+  }
+  window.agregarGoal = function() {
+    const text = document.getElementById('goal-text').value.trim();
+    const metric = document.getElementById('goal-metric').value.trim();
+    const date = document.getElementById('goal-date').value;
+    if (!text) return;
+    const goals = getArr(K.goals);
+    goals.push({ id: newId(), text: text, metric: metric || 'Sin definir', date: date, status: 'activo' });
+    setArr(K.goals, goals);
+    renderSection('goals');
+    window.renderMenteePanel();
+  };
+  window.marcarGoalLogrado = function(id) {
+    const goals = getArr(K.goals);
+    const g = goals.find(x => x.id === id);
+    if (g) g.status = 'logrado';
+    setArr(K.goals, goals);
+    renderSection('goals');
+    window.renderMenteePanel();
+  };
+  window.eliminarGoal = function(id) {
+    setArr(K.goals, getArr(K.goals).filter(x => x.id !== id));
+    renderSection('goals');
+    window.renderMenteePanel();
+  };
+
+  // --- CALENDARIO ---
+  function calendarHTML() {
+    const cal = getArr(K.calendar).slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
+    let list = cal.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">No hay sesiones agendadas todavía.</p>';
+    cal.forEach(c => {
+      const doneStyle = c.done ? 'opacity:.5;text-decoration:line-through;' : '';
+      list += itemCard(
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+        '<div><p style="color:#fff;font-size:.9rem;' + doneStyle + '">' + fmtDate(c.date) + ' — ' + (c.note || 'Sesión de mentoría') + '</p></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        (!c.done ? '<button onclick="marcarSesionHecha(\'' + c.id + '\')" style="flex:1;background:rgba(16,185,129,.15);color:#10b981;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">✓ Realizada</button>' : '') +
+        '<button onclick="eliminarSesion(\'' + c.id + '\')" style="flex:1;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">Eliminar</button>' +
+        '</div>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Agendar sesión</div>
+        <input id="cal-date" type="date" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <input id="cal-note" placeholder="Tema o nota (opcional)" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <button onclick="agregarSesion()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Agendar</button>
+      </div>`;
+    return list;
+  }
+  window.agregarSesion = function() {
+    const date = document.getElementById('cal-date').value;
+    const note = document.getElementById('cal-note').value.trim();
+    if (!date) return;
+    const cal = getArr(K.calendar);
+    cal.push({ id: newId(), date: date, note: note, done: false });
+    setArr(K.calendar, cal);
+    renderSection('calendar');
+    window.renderMenteePanel();
+  };
+  window.marcarSesionHecha = function(id) {
+    const cal = getArr(K.calendar);
+    const c = cal.find(x => x.id === id);
+    if (c) c.done = true;
+    setArr(K.calendar, cal);
+    renderSection('calendar');
+    window.renderMenteePanel();
+  };
+  window.eliminarSesion = function(id) {
+    setArr(K.calendar, getArr(K.calendar).filter(x => x.id !== id));
+    renderSection('calendar');
+    window.renderMenteePanel();
+  };
+
+  // --- BITÁCORA ---
+  function bitacoraHTML() {
+    const log = getArr(K.bitacora).slice().reverse();
+    let list = log.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">Sin entradas todavía. Registra lo que pasó en tu última sesión.</p>';
+    log.forEach(b => {
+      list += itemCard(
+        '<p style="color:' + ACCENT2 + ';font-size:.72rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">' + fmtDate(b.date) + '</p>' +
+        '<p style="color:#ddd;font-size:.85rem;line-height:1.6;">' + b.text + '</p>' +
+        '<button onclick="eliminarBitacora(\'' + b.id + '\')" style="margin-top:10px;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:6px 10px;font-size:.72rem;cursor:pointer;">Eliminar</button>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Nueva entrada (hoy)</div>
+        <textarea id="bit-text" placeholder="¿Qué pasó en la sesión? ¿Qué notaste?" style="width:100%;min-height:90px;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;"></textarea>
+        <button onclick="agregarBitacora()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Guardar en bitácora</button>
+      </div>`;
+    return list;
+  }
+  window.agregarBitacora = function() {
+    const text = document.getElementById('bit-text').value.trim();
+    if (!text) return;
+    const log = getArr(K.bitacora);
+    const today = new Date().toISOString().slice(0,10);
+    log.push({ id: newId(), date: today, text: text });
+    setArr(K.bitacora, log);
+    renderSection('bitacora');
+  };
+  window.eliminarBitacora = function(id) {
+    setArr(K.bitacora, getArr(K.bitacora).filter(x => x.id !== id));
+    renderSection('bitacora');
+  };
+
+  // --- COMPROMISOS Y SEGUIMIENTO ---
+  function compromisosHTML() {
+    const comp = getArr(K.compromisos).slice().reverse();
+    let list = comp.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">Sin compromisos registrados todavía.</p>';
+    comp.forEach(c => {
+      const doneStyle = c.done ? 'opacity:.5;text-decoration:line-through;' : '';
+      const ownerTag = c.owner === 'mentora' ? 'Tuyo (mentora)' : 'De ella (mentoreada)';
+      list += itemCard(
+        '<p style="color:#fff;font-size:.9rem;' + doneStyle + '">' + c.text + '</p>' +
+        '<p style="color:' + ACCENT2 + ';font-size:.72rem;margin-top:6px;">' + ownerTag + (c.date ? (' · Vence: ' + fmtDate(c.date)) : '') + '</p>' +
+        '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        (!c.done ? '<button onclick="marcarCompromisoHecho(\'' + c.id + '\')" style="flex:1;background:rgba(16,185,129,.15);color:#10b981;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">✓ Cumplido</button>' : '') +
+        '<button onclick="eliminarCompromiso(\'' + c.id + '\')" style="flex:1;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">Eliminar</button>' +
+        '</div>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Nuevo compromiso</div>
+        <input id="comp-text" placeholder="¿Qué se comprometió a hacer?" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <select id="comp-owner" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+          <option value="mentoreada">De la mentoreada</option>
+          <option value="mentora">Tuyo (mentora)</option>
+        </select>
+        <input id="comp-date" type="date" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <button onclick="agregarCompromiso()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Guardar compromiso</button>
+      </div>`;
+    return list;
+  }
+  window.agregarCompromiso = function() {
+    const text = document.getElementById('comp-text').value.trim();
+    const owner = document.getElementById('comp-owner').value;
+    const date = document.getElementById('comp-date').value;
+    if (!text) return;
+    const comp = getArr(K.compromisos);
+    comp.push({ id: newId(), text: text, owner: owner, date: date, done: false });
+    setArr(K.compromisos, comp);
+    renderSection('compromisos');
+    window.renderMenteePanel();
+  };
+  window.marcarCompromisoHecho = function(id) {
+    const comp = getArr(K.compromisos);
+    const c = comp.find(x => x.id === id);
+    if (c) c.done = true;
+    setArr(K.compromisos, comp);
+    renderSection('compromisos');
+    window.renderMenteePanel();
+  };
+  window.eliminarCompromiso = function(id) {
+    setArr(K.compromisos, getArr(K.compromisos).filter(x => x.id !== id));
+    renderSection('compromisos');
+    window.renderMenteePanel();
+  };
+
+})();
+
+
+/* THETA SCRIPTS DATA */
+window.THETA_SCRIPTS = {1: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza a la mujer que eras cuando recibiste tu primer cargo de liderazgo... Como se veia? Como se movia? Ahora visualiza a la mujer que eres hoy. Nota la distancia entre ellas... esa distancia es tu identidad construida... no heredada, no prestada... construida. Ahora preguntate: en tu proxima sesion con tu mentoreada... ¿desde cual de estas dos mujeres vas a hablar? La que esperaba permiso... o la que ya sabe que el permiso era suyo desde el principio. Siente como tu columna se alarga. Tu voz se asienta. Tu presencia ocupa el espacio completo que te corresponde. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 2: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que puedes ver tu propia biologia... millones de celulas que no son un destino fijo sino una conversacion constante con tu entorno. Cada vez que decides actuar como lider antes de sentirte lista... esas celulas reciben una instruccion nueva. Cada vez que pones en cuestion una creencia limitante... la expresion genetica cambia. Visualiza ahora a tu mentoreada. Ella lleva en su biologia patrones de mujeres que no tuvieron voz. Tu presencia como mentora le da a esas celulas una instruccion diferente: el poder es posible. El liderazgo es tuyo. No estas solo cambiando su carrera. Estas modificando su linea biologica. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 3: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza la voz critica que mas te visita antes de una sesion difícil. No la pelees. Solo observala como si fuera un personaje pequeno que grita desde lejos... Sus palabras llegan pero no tienen poder sobre tu cuerpo. Tu respiras. Tu permaneces. Ahora visualiza a tu mentoreada... ella tiene su propia voz critica que grita mas fuerte que la tuya. Cuando tu aprendas a observar la tuya sin obedecer... ensenandole como se hace. No con palabras. Con tu presencia. Siente ese regalo que le estas dando cada vez que eliges no obedecer al miedo. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 4: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Cierra los ojos y recuerda una decisión que tomaste donde no tenias toda la información pero actuaste de todos modos... y funciono. Siente eso en el cuerpo. Eso es autoeficacia. Eso es lo que Bandura llamo la creencia en tu propia capacidad de ejecutar lo necesario. Ahora imagina a tu mentoreada frente a esa misma situacion... paralizada... esperando tener mas datos mas certeza mas permiso. Tu trabajo no es darle los datos. Es ayudarle a recordar su propia evidencia. Tres momentos donde ella también actuo sin certeza... y también funciono. Prepara esas preguntas ahora en tu mente. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 5: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza una red de mujeres latinas liderando con poder real... no el poder del permiso sino el poder de la competencia reconocida. Cada una de ellas tiene una mentora que en algun momento dijo: te veo. Eres capaz. Actua ahora. Tu eres esa mentora. Siente el peso y el privilegio de ese rol. No eres solo una guia profesional. Eres un punto de inflexion en la cadena de liderazgo femenino latinoamericano. Lo que tu hagas hoy en esta sesion... se multiplica en generaciones. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 6: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza el momento justo antes de que comience tu proxima sesion de mentoria. Estas sola... un minuto antes de que ella entre. Que esta pasando en tu cuerpo? Si sientes tension... respirala. Si sientes impaciencia... sueltala. Si sientes el impulso de tener ya preparado el consejo perfecto... dejalo ir. Tu trabajo hoy no es impresionarla. Es escucharla con una calidad de atención que ella raramente ha experimentado. Una atención tan completa que ella se sienta vista. Y cuando alguien se siente vista de verdad... algo en ella se mueve. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 7: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que puedes ver todas las negociaciones que tendras esta semana antes de que ocurran. En cada una de ellas... eres alguien que conoce su valor antes de entrar al cuarto. No porque tengas mas titulos. Sino porque has hecho el trabajo interno de saber exactamente que traes a la mesa. Ahora visualiza a tu mentoreada haciendo lo mismo... entrando a su siguiente negociacion sabiendo su valor. Tu la preparaste. Le mostraste que negociar no es pedir... es intercambiar valor con valor. Siente el orgullo silencioso de quien entrena lideres de verdad. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 8: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza un grafico de datos que parece contradecir lo que tu intuicion dice. La mayoria de las personas en esa sala creen el grafico sin cuestionarlo. Tu no. Tu has aprendido a hacer la pregunta que nadie hace: de donde viene este dato? Quien lo recogio? Que no esta siendo medido aquí? Ahora imagina a tu mentoreada en esa misma sala... haciendo esa misma pregunta... con la confianza de quien sabe que el pensamiento critico no es arrogancia. Es responsabilidad. Tu le diste esa herramienta. Esa pregunta que ella hace hoy... tiene tu nombre aunque nadie lo sepa. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 9: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza tu cuerpo como un sistema complejo... no solo un vehiculo para tu mente. Tu ritmo cardiaco cambia cuando entras en conversaciones de alto riesgo. Tu respiracion se acorta cuando sientes que tu competencia esta siendo cuestionada. Tu postura se comprime cuando el ambiente es hostil. Ahora visualiza aprender a leer esas senales antes de que dominen tu comportamiento. Un latido acelerado que te dice: esto importa. Una respiracion corta que te dice: percibo amenaza. Un cuerpo que comprime que te dice: necesito mas espacio. Eres una lider que escucha su cuerpo. Y eso te hace imparable. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 10: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Es el final del Bloque 1. Diez dias de mirarte. De examinar tu historia. De construir las bases de una mentora que opera desde valores en lugar de desde patrones automaticos. Visualiza ahora a la version de ti que comenzo este bloque... y a la version que lo termina. No es la misma mujer. Esta mujer sabe mas sobre si misma. Tiene mas vocabulario para lo que antes eran solo sensaciones sin nombre. Y eso... lo traslada directamente a la calidad de sus sesiones. Honra el trabajo que hiciste. Respira tu propia evolucion. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela."};
+
+/* THETA TTS ENGINE */
+var thetaUtt = null;
+var thetaPlaying = false;
+
+window.toggleTheta = function(dayId) {
+    var btn = document.getElementById('theta-btn-' + dayId);
+    if (thetaPlaying) {
+        window.speechSynthesis.cancel();
+        thetaPlaying = false;
+        if (btn) { btn.textContent = 'Iniciar Meditacion Guiada'; btn.style.background = ''; }
+        return;
+    }
+    var scripts = window.THETA_SCRIPTS || {};
+    var script = scripts[dayId] || 'Respira profundo. Integra el aprendizaje de hoy.';
+    thetaUtt = new SpeechSynthesisUtterance(script);
+    thetaUtt.lang = 'es-ES';
+    thetaUtt.rate = 0.82;
+    thetaUtt.pitch = 1.0;
+    thetaUtt.volume = 1.0;
+    thetaUtt.onend = function() {
+        thetaPlaying = false;
+        if (btn) { btn.textContent = 'Iniciar Meditacion Guiada'; btn.style.background = ''; }
+    };
+    window.speechSynthesis.speak(thetaUtt);
+    thetaPlaying = true;
+    if (btn) { btn.textContent = 'Detener'; btn.style.background = 'rgba(0,198,255,0.15)'; }
+};
+
+window.cerrarCrisisMM = function() {
+    const m = document.getElementById('crisis-modal-mm');
+    if (m) m.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  window.abrirCaso = function(idx) {
+    const caso = CASOS_DATA[idx];
+    if (!caso) return;
+    const m = document.getElementById('sala-modal');
+    const t = document.getElementById('sala-title');
+    const ct = document.getElementById('sala-content');
+    if (!m || !t || !ct) return;
+    t.textContent = caso.title;
+    let html = '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:20px;font-size:.85rem;color:#ddd;line-height:1.7">' + caso.setup + '</div>';
+    html += '<div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">OPCIONES</div>';
+    html += '<div id="sala-opts">';
+    caso.options.forEach((opt, i) => {
+      html += '<button class="opt-btn" onclick="elegirOpcion(' + idx + ',' + i + ')">';
+      html += '<strong>' + ['A','B','C','D'][i] + '.</strong> ' + opt.label;
+      html += '</button>';
+    });
+    html += '</div>';
+    html += '<div id="sala-feedback" style="display:none;margin-top:20px"></div>';
+    html += '<div id="sala-prompt-wrap" style="display:none;margin-top:20px"><div style="font-size:.78rem;color:' + ACCENT + ';font-weight:600;margin-bottom:10px">' + (caso.prompt||'Tu reflexión:') + '</div><textarea id="sala-answer" style="width:100%;min-height:90px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-family:Inter;font-size:.85rem" placeholder="Escribe aquí..."></textarea><button onclick="guardarCaso(' + idx + ')" style="margin-top:12px;width:100%;padding:13px;background:linear-gradient(135deg,' + ACCENT + ',#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer">Guardar mi reflexión</button></div>';
+    ct.innerHTML = html;
+    m.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.elegirOpcion = function(casoIdx, optIdx) {
+    const caso = CASOS_DATA[casoIdx];
+    const opt = caso.options[optIdx];
+    document.querySelectorAll('.opt-btn').forEach((btn, i) => {
+      btn.style.borderColor = (i === optIdx) ? (opt.correct ? '#10b981' : '#ef4444') : 'rgba(255,255,255,.06)';
+      btn.style.opacity = (i === optIdx) ? '1' : '.4';
+    });
+    const fb = document.getElementById('sala-feedback');
+    const color = opt.correct ? '#10b981' : '#ef4444';
+    fb.style.display = 'block';
+    fb.innerHTML = '<div style="background:rgba(255,255,255,.03);border:1px solid ' + color + ';border-radius:14px;padding:16px"><div style="color:' + color + ';font-weight:600;margin-bottom:8px">' + (opt.correct ? '✓ ' : '✗ ') + opt.concept + '</div><p style="font-size:.83rem;color:#ddd;line-height:1.6">' + opt.feedback + '</p></div>';
+    document.getElementById('sala-prompt-wrap').style.display = 'block';
+  };
+
+  window.guardarCaso = function(idx) {
+    const ans = document.getElementById('sala-answer').value.trim();
+    if (!ans) return;
+    localStorage.setItem('mm_b1_caso_' + idx, ans);
+    window.cerrarSala();
+    window.renderKitMentoria();
+  };
+
+  window.cerrarSala = function() {
+    const m = document.getElementById('sala-modal');
+    if (m) m.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  // Render on tab switch
+  const _origSwitch = window.switchTab;
+  window.switchTab = function(viewId, navEl) {
+    if (_origSwitch) _origSwitch(viewId, navEl);
+    if (viewId === 'view-kit') window.renderKitMentoria();
+    if (viewId === 'view-libreta' && typeof window.renderMenteePanel === 'function') window.renderMenteePanel();
+  };
+
+})();
+
+/* MI MENTOREADA — Objetivos SMART, Calendario, Bitácora, Compromisos (MVP) */
+/* Llaves globales (no prefijadas por bloque) para que persistan entre los 8 archivos Bloque_Premium.html */
+(function(){
+  const K = {
+    name: 'invictus_pair_mentee_name',
+    goals: 'invictus_pair_goals',
+    calendar: 'invictus_pair_calendar',
+    bitacora: 'invictus_pair_bitacora',
+    compromisos: 'invictus_pair_compromisos'
+  };
+  const ACCENT2 = '#FF5E00';
+
+  function getArr(key) {
+    try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; }
+  }
+  function setArr(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+  function newId() { return 'id' + Date.now() + Math.floor(Math.random()*1000); }
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    const d = new Date(iso + 'T00:00:00');
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
+  }
+
+  window.guardarMenteeName = function() {
+    const el = document.getElementById('mp-name');
+    if (el) localStorage.setItem(K.name, el.value);
+  };
+
+  window.renderMenteePanel = function() {
+    const nameEl = document.getElementById('mp-name');
+    if (nameEl) nameEl.value = localStorage.getItem(K.name) || '';
+
+    const goals = getArr(K.goals);
+    const activeGoals = goals.filter(g => g.status !== 'logrado' && g.status !== 'pausado');
+    const goalsCountEl = document.getElementById('mp-goals-count');
+    if (goalsCountEl) goalsCountEl.textContent = activeGoals.length;
+
+    const cal = getArr(K.calendar).filter(c => !c.done).sort((a,b) => (a.date||'').localeCompare(b.date||''));
+    const nextEl = document.getElementById('mp-next-session');
+    if (nextEl) nextEl.textContent = cal.length ? fmtDate(cal[0].date) : '—';
+
+    const comp = getArr(K.compromisos).filter(c => !c.done);
+    const compEl = document.getElementById('mp-compromisos-count');
+    if (compEl) compEl.textContent = comp.length;
+  };
+
+  window.cerrarMentee = function() {
+    document.getElementById('mentee-modal').style.display = 'none';
+  };
+
+  window.abrirMentee = function(section) {
+    const titles = { goals: '🎯 Objetivos SMART', calendar: '📅 Calendario de Sesiones', bitacora: '📓 Bitácora', compromisos: '✅ Compromisos y Seguimiento' };
+    document.getElementById('mentee-modal-title').textContent = titles[section] || '';
+    renderSection(section);
+    document.getElementById('mentee-modal').style.display = 'block';
+  };
+
+  function renderSection(section) {
+    const ct = document.getElementById('mentee-modal-content');
+    if (section === 'goals') ct.innerHTML = goalsHTML();
+    else if (section === 'calendar') ct.innerHTML = calendarHTML();
+    else if (section === 'bitacora') ct.innerHTML = bitacoraHTML();
+    else if (section === 'compromisos') ct.innerHTML = compromisosHTML();
+  }
+
+  function itemCard(inner, extraStyle) {
+    return '<div style="background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:14px;margin-bottom:10px;' + (extraStyle||'') + '">' + inner + '</div>';
+  }
+
+  // --- OBJETIVOS SMART ---
+  function goalsHTML() {
+    const goals = getArr(K.goals);
+    let list = goals.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">Todavía no hay objetivos. Define el primero abajo — específico, medible y con fecha.</p>';
+    goals.slice().reverse().forEach(g => {
+      const doneStyle = g.status === 'logrado' ? 'opacity:.5;text-decoration:line-through;' : '';
+      list += itemCard(
+        '<p style="color:#fff;font-size:.9rem;' + doneStyle + '">' + g.text + '</p>' +
+        '<p style="color:' + ACCENT2 + ';font-size:.75rem;margin-top:6px;">Meta: ' + g.metric + ' · Fecha: ' + fmtDate(g.date) + '</p>' +
+        '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        (g.status !== 'logrado' ? '<button onclick="marcarGoalLogrado(\'' + g.id + '\')" style="flex:1;background:rgba(16,185,129,.15);color:#10b981;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">✓ Logrado</button>' : '') +
+        '<button onclick="eliminarGoal(\'' + g.id + '\')" style="flex:1;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">Eliminar</button>' +
+        '</div>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Nuevo objetivo SMART</div>
+        <input id="goal-text" placeholder="¿Qué quiere lograr? (Específico)" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <input id="goal-metric" placeholder="¿Cómo se mide el éxito? (Medible)" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <input id="goal-date" type="date" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <button onclick="agregarGoal()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Guardar objetivo</button>
+      </div>`;
+    return list;
+  }
+  window.agregarGoal = function() {
+    const text = document.getElementById('goal-text').value.trim();
+    const metric = document.getElementById('goal-metric').value.trim();
+    const date = document.getElementById('goal-date').value;
+    if (!text) return;
+    const goals = getArr(K.goals);
+    goals.push({ id: newId(), text: text, metric: metric || 'Sin definir', date: date, status: 'activo' });
+    setArr(K.goals, goals);
+    renderSection('goals');
+    window.renderMenteePanel();
+  };
+  window.marcarGoalLogrado = function(id) {
+    const goals = getArr(K.goals);
+    const g = goals.find(x => x.id === id);
+    if (g) g.status = 'logrado';
+    setArr(K.goals, goals);
+    renderSection('goals');
+    window.renderMenteePanel();
+  };
+  window.eliminarGoal = function(id) {
+    setArr(K.goals, getArr(K.goals).filter(x => x.id !== id));
+    renderSection('goals');
+    window.renderMenteePanel();
+  };
+
+  // --- CALENDARIO ---
+  function calendarHTML() {
+    const cal = getArr(K.calendar).slice().sort((a,b) => (a.date||'').localeCompare(b.date||''));
+    let list = cal.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">No hay sesiones agendadas todavía.</p>';
+    cal.forEach(c => {
+      const doneStyle = c.done ? 'opacity:.5;text-decoration:line-through;' : '';
+      list += itemCard(
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;">' +
+        '<div><p style="color:#fff;font-size:.9rem;' + doneStyle + '">' + fmtDate(c.date) + ' — ' + (c.note || 'Sesión de mentoría') + '</p></div>' +
+        '</div>' +
+        '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        (!c.done ? '<button onclick="marcarSesionHecha(\'' + c.id + '\')" style="flex:1;background:rgba(16,185,129,.15);color:#10b981;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">✓ Realizada</button>' : '') +
+        '<button onclick="eliminarSesion(\'' + c.id + '\')" style="flex:1;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">Eliminar</button>' +
+        '</div>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Agendar sesión</div>
+        <input id="cal-date" type="date" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <input id="cal-note" placeholder="Tema o nota (opcional)" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <button onclick="agregarSesion()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Agendar</button>
+      </div>`;
+    return list;
+  }
+  window.agregarSesion = function() {
+    const date = document.getElementById('cal-date').value;
+    const note = document.getElementById('cal-note').value.trim();
+    if (!date) return;
+    const cal = getArr(K.calendar);
+    cal.push({ id: newId(), date: date, note: note, done: false });
+    setArr(K.calendar, cal);
+    renderSection('calendar');
+    window.renderMenteePanel();
+  };
+  window.marcarSesionHecha = function(id) {
+    const cal = getArr(K.calendar);
+    const c = cal.find(x => x.id === id);
+    if (c) c.done = true;
+    setArr(K.calendar, cal);
+    renderSection('calendar');
+    window.renderMenteePanel();
+  };
+  window.eliminarSesion = function(id) {
+    setArr(K.calendar, getArr(K.calendar).filter(x => x.id !== id));
+    renderSection('calendar');
+    window.renderMenteePanel();
+  };
+
+  // --- BITÁCORA ---
+  function bitacoraHTML() {
+    const log = getArr(K.bitacora).slice().reverse();
+    let list = log.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">Sin entradas todavía. Registra lo que pasó en tu última sesión.</p>';
+    log.forEach(b => {
+      list += itemCard(
+        '<p style="color:' + ACCENT2 + ';font-size:.72rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">' + fmtDate(b.date) + '</p>' +
+        '<p style="color:#ddd;font-size:.85rem;line-height:1.6;">' + b.text + '</p>' +
+        '<button onclick="eliminarBitacora(\'' + b.id + '\')" style="margin-top:10px;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:6px 10px;font-size:.72rem;cursor:pointer;">Eliminar</button>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Nueva entrada (hoy)</div>
+        <textarea id="bit-text" placeholder="¿Qué pasó en la sesión? ¿Qué notaste?" style="width:100%;min-height:90px;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;"></textarea>
+        <button onclick="agregarBitacora()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Guardar en bitácora</button>
+      </div>`;
+    return list;
+  }
+  window.agregarBitacora = function() {
+    const text = document.getElementById('bit-text').value.trim();
+    if (!text) return;
+    const log = getArr(K.bitacora);
+    const today = new Date().toISOString().slice(0,10);
+    log.push({ id: newId(), date: today, text: text });
+    setArr(K.bitacora, log);
+    renderSection('bitacora');
+  };
+  window.eliminarBitacora = function(id) {
+    setArr(K.bitacora, getArr(K.bitacora).filter(x => x.id !== id));
+    renderSection('bitacora');
+  };
+
+  // --- COMPROMISOS Y SEGUIMIENTO ---
+  function compromisosHTML() {
+    const comp = getArr(K.compromisos).slice().reverse();
+    let list = comp.length ? '' : '<p style="color:#8A8F98;font-size:.85rem;margin-bottom:16px;">Sin compromisos registrados todavía.</p>';
+    comp.forEach(c => {
+      const doneStyle = c.done ? 'opacity:.5;text-decoration:line-through;' : '';
+      const ownerTag = c.owner === 'mentora' ? 'Tuyo (mentora)' : 'De ella (mentoreada)';
+      list += itemCard(
+        '<p style="color:#fff;font-size:.9rem;' + doneStyle + '">' + c.text + '</p>' +
+        '<p style="color:' + ACCENT2 + ';font-size:.72rem;margin-top:6px;">' + ownerTag + (c.date ? (' · Vence: ' + fmtDate(c.date)) : '') + '</p>' +
+        '<div style="display:flex;gap:8px;margin-top:10px;">' +
+        (!c.done ? '<button onclick="marcarCompromisoHecho(\'' + c.id + '\')" style="flex:1;background:rgba(16,185,129,.15);color:#10b981;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">✓ Cumplido</button>' : '') +
+        '<button onclick="eliminarCompromiso(\'' + c.id + '\')" style="flex:1;background:rgba(255,255,255,.05);color:#8A8F98;border:none;border-radius:8px;padding:8px;font-size:.78rem;cursor:pointer;">Eliminar</button>' +
+        '</div>'
+      );
+    });
+    list += `
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid rgba(255,255,255,.08);">
+        <div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;">Nuevo compromiso</div>
+        <input id="comp-text" placeholder="¿Qué se comprometió a hacer?" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <select id="comp-owner" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+          <option value="mentoreada">De la mentoreada</option>
+          <option value="mentora">Tuyo (mentora)</option>
+        </select>
+        <input id="comp-date" type="date" style="width:100%;padding:12px;border-radius:8px;background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);color:#fff;margin-bottom:10px;font-family:Inter;">
+        <button onclick="agregarCompromiso()" style="width:100%;padding:13px;background:linear-gradient(135deg,${ACCENT2},#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer;">Guardar compromiso</button>
+      </div>`;
+    return list;
+  }
+  window.agregarCompromiso = function() {
+    const text = document.getElementById('comp-text').value.trim();
+    const owner = document.getElementById('comp-owner').value;
+    const date = document.getElementById('comp-date').value;
+    if (!text) return;
+    const comp = getArr(K.compromisos);
+    comp.push({ id: newId(), text: text, owner: owner, date: date, done: false });
+    setArr(K.compromisos, comp);
+    renderSection('compromisos');
+    window.renderMenteePanel();
+  };
+  window.marcarCompromisoHecho = function(id) {
+    const comp = getArr(K.compromisos);
+    const c = comp.find(x => x.id === id);
+    if (c) c.done = true;
+    setArr(K.compromisos, comp);
+    renderSection('compromisos');
+    window.renderMenteePanel();
+  };
+  window.eliminarCompromiso = function(id) {
+    setArr(K.compromisos, getArr(K.compromisos).filter(x => x.id !== id));
+    renderSection('compromisos');
+    window.renderMenteePanel();
+  };
+
+})();
+
+
+/* THETA SCRIPTS DATA */
+window.THETA_SCRIPTS = {1: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza a la mujer que eras cuando recibiste tu primer cargo de liderazgo... Como se veia? Como se movia? Ahora visualiza a la mujer que eres hoy. Nota la distancia entre ellas... esa distancia es tu identidad construida... no heredada, no prestada... construida. Ahora preguntate: en tu proxima sesion con tu mentoreada... ¿desde cual de estas dos mujeres vas a hablar? La que esperaba permiso... o la que ya sabe que el permiso era suyo desde el principio. Siente como tu columna se alarga. Tu voz se asienta. Tu presencia ocupa el espacio completo que te corresponde. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 2: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que puedes ver tu propia biologia... millones de celulas que no son un destino fijo sino una conversacion constante con tu entorno. Cada vez que decides actuar como lider antes de sentirte lista... esas celulas reciben una instruccion nueva. Cada vez que pones en cuestion una creencia limitante... la expresion genetica cambia. Visualiza ahora a tu mentoreada. Ella lleva en su biologia patrones de mujeres que no tuvieron voz. Tu presencia como mentora le da a esas celulas una instruccion diferente: el poder es posible. El liderazgo es tuyo. No estas solo cambiando su carrera. Estas modificando su linea biologica. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 3: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza la voz critica que mas te visita antes de una sesion difícil. No la pelees. Solo observala como si fuera un personaje pequeno que grita desde lejos... Sus palabras llegan pero no tienen poder sobre tu cuerpo. Tu respiras. Tu permaneces. Ahora visualiza a tu mentoreada... ella tiene su propia voz critica que grita mas fuerte que la tuya. Cuando tu aprendas a observar la tuya sin obedecer... ensenandole como se hace. No con palabras. Con tu presencia. Siente ese regalo que le estas dando cada vez que eliges no obedecer al miedo. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 4: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Cierra los ojos y recuerda una decisión que tomaste donde no tenias toda la información pero actuaste de todos modos... y funciono. Siente eso en el cuerpo. Eso es autoeficacia. Eso es lo que Bandura llamo la creencia en tu propia capacidad de ejecutar lo necesario. Ahora imagina a tu mentoreada frente a esa misma situacion... paralizada... esperando tener mas datos mas certeza mas permiso. Tu trabajo no es darle los datos. Es ayudarle a recordar su propia evidencia. Tres momentos donde ella también actuo sin certeza... y también funciono. Prepara esas preguntas ahora en tu mente. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 5: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza una red de mujeres latinas liderando con poder real... no el poder del permiso sino el poder de la competencia reconocida. Cada una de ellas tiene una mentora que en algun momento dijo: te veo. Eres capaz. Actua ahora. Tu eres esa mentora. Siente el peso y el privilegio de ese rol. No eres solo una guia profesional. Eres un punto de inflexion en la cadena de liderazgo femenino latinoamericano. Lo que tu hagas hoy en esta sesion... se multiplica en generaciones. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 6: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza el momento justo antes de que comience tu proxima sesion de mentoria. Estas sola... un minuto antes de que ella entre. Que esta pasando en tu cuerpo? Si sientes tension... respirala. Si sientes impaciencia... sueltala. Si sientes el impulso de tener ya preparado el consejo perfecto... dejalo ir. Tu trabajo hoy no es impresionarla. Es escucharla con una calidad de atención que ella raramente ha experimentado. Una atención tan completa que ella se sienta vista. Y cuando alguien se siente vista de verdad... algo en ella se mueve. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 7: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Imagina que puedes ver todas las negociaciones que tendras esta semana antes de que ocurran. En cada una de ellas... eres alguien que conoce su valor antes de entrar al cuarto. No porque tengas mas titulos. Sino porque has hecho el trabajo interno de saber exactamente que traes a la mesa. Ahora visualiza a tu mentoreada haciendo lo mismo... entrando a su siguiente negociacion sabiendo su valor. Tu la preparaste. Le mostraste que negociar no es pedir... es intercambiar valor con valor. Siente el orgullo silencioso de quien entrena lideres de verdad. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 8: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza un grafico de datos que parece contradecir lo que tu intuicion dice. La mayoria de las personas en esa sala creen el grafico sin cuestionarlo. Tu no. Tu has aprendido a hacer la pregunta que nadie hace: de donde viene este dato? Quien lo recogio? Que no esta siendo medido aquí? Ahora imagina a tu mentoreada en esa misma sala... haciendo esa misma pregunta... con la confianza de quien sabe que el pensamiento critico no es arrogancia. Es responsabilidad. Tu le diste esa herramienta. Esa pregunta que ella hace hoy... tiene tu nombre aunque nadie lo sepa. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 9: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Visualiza tu cuerpo como un sistema complejo... no solo un vehiculo para tu mente. Tu ritmo cardiaco cambia cuando entras en conversaciones de alto riesgo. Tu respiracion se acorta cuando sientes que tu competencia esta siendo cuestionada. Tu postura se comprime cuando el ambiente es hostil. Ahora visualiza aprender a leer esas senales antes de que dominen tu comportamiento. Un latido acelerado que te dice: esto importa. Una respiracion corta que te dice: percibo amenaza. Un cuerpo que comprime que te dice: necesito mas espacio. Eres una lider que escucha su cuerpo. Y eso te hace imparable. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela.", 10: "Cierra los ojos. Permite que tu cuerpo encuentre una posicion comoda... Inhala lentamente por la nariz contando hasta cuatro... Sostén el aire... uno, dos, tres, cuatro... y exhala lentamente por la boca... soltando cualquier tension del día. Otra vez. Inhala... dos, tres, cuatro... sostén... y exhala... Bien. Con cada respiracion tu sistema nervioso entra en un estado mas receptivo. Tus hombros se relajan. Tu mandibula se suelta. Tus manos se abren. Estas entrando en un estado de frecuencia theta donde el aprendizaje se convierte en identidad. Es el final del Bloque 1. Diez dias de mirarte. De examinar tu historia. De construir las bases de una mentora que opera desde valores en lugar de desde patrones automaticos. Visualiza ahora a la version de ti que comenzo este bloque... y a la version que lo termina. No es la misma mujer. Esta mujer sabe mas sobre si misma. Tiene mas vocabulario para lo que antes eran solo sensaciones sin nombre. Y eso... lo traslada directamente a la calidad de sus sesiones. Honra el trabajo que hiciste. Respira tu propia evolucion. Ahora lleva una mano a tu corazon. Siente tu propio latido. Este es el pulso de una lider que eligio crecer hoy. Todo lo que exploraste en esta sesion no esta solo en tu mente... esta grabado en tu biologia. En tus celulas. En tu forma de estar en el mundo manana. Cuando estes lista, comienza a mover los dedos lentamente... luego las manos... abre los ojos con suavidad... y lleva contigo el estado de quien ya es la lider que este programa revela."};
+
+/* THETA TTS ENGINE */
+var thetaUtt = null;
+var thetaPlaying = false;
+
+window.toggleTheta = function(dayId) {
+    var btn = document.getElementById('theta-btn-' + dayId);
+    if (thetaPlaying) {
+        window.speechSynthesis.cancel();
+        thetaPlaying = false;
+        if (btn) { btn.textContent = 'Iniciar Meditacion Guiada'; btn.style.background = ''; }
+        return;
+    }
+    var scripts = window.THETA_SCRIPTS || {};
+    var script = scripts[dayId] || 'Respira profundo. Integra el aprendizaje de hoy.';
+    thetaUtt = new SpeechSynthesisUtterance(script);
+    thetaUtt.lang = 'es-ES';
+    thetaUtt.rate = 0.82;
+    thetaUtt.pitch = 1.0;
+    thetaUtt.volume = 1.0;
+    thetaUtt.onend = function() {
+        thetaPlaying = false;
+        if (btn) { btn.textContent = 'Iniciar Meditacion Guiada'; btn.style.background = ''; }
+    };
+    window.speechSynthesis.speak(thetaUtt);
+    thetaPlaying = true;
+    if (btn) { btn.textContent = 'Detener'; btn.style.background = 'rgba(0,198,255,0.15)'; }
+};
+
+
+window.updateKitStats = function() {
+    let diasActivos = 0;
+    let maxStreak = 0;
+    let currentStreak = 0;
+    let bestPpm = 0;
+    let scoreSum = 0;
+    let scoreCount = 0;
+
+    const dataArr = window.mujeresMentorasData || [];
+    const total = dataArr.length > 0 ? dataArr.length : 1;
+
+    for (let d of dataArr) {
+        if (progresoLocal[d.dia] && progresoLocal[d.dia].completado) {
+            diasActivos++;
+            currentStreak++;
+            if (currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            if (progresoLocal[d.dia].ppm && progresoLocal[d.dia].ppm > bestPpm) {
+                bestPpm = progresoLocal[d.dia].ppm;
+            }
+            if (progresoLocal[d.dia].comprension) {
+                scoreSum += progresoLocal[d.dia].comprension;
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0;
+        }
+    }
+
+    const pct = Math.round((diasActivos / total) * 100);
+    const avgComp = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : null;
+
+    const el = id => document.getElementById(id);
+    if (el('km-dias')) el('km-dias').textContent = diasActivos;
+    if (el('km-streak')) el('km-streak').textContent = maxStreak;
+    if (el('km-ppm')) el('km-ppm').textContent = bestPpm || '0';
+    if (el('km-comp')) el('km-comp').textContent = avgComp !== null ? (avgComp + '%') : '0%';
+    if (el('km-pct')) el('km-pct').textContent = pct + '%';
+    if (el('km-bar')) el('km-bar').style.width = pct + '%';
+
+    // Profile
+    if (diasActivos >= 5) {
+        const profiles = [
+            {n:'Mentora Socrática', d:'Preguntas poderosas sobre consejos. Genera autonomía profunda en sus mentoreadas.'},
+            {n:'Mentora Catalizadora', d:'Activa el potencial dormido. Transforma la ambivalencia en movimiento.'},
+            {n:'Mentora Espejo', d:'Refleja verdades difíciles con gracia. Sus mentoreadas se ven a sí mismas con claridad brutal.'},
+            {n:'Mentora Estratega', d:'Conecta el desarrollo personal con la visión organizacional. Piensa en sistemas.'},
+        ];
+        const p = profiles[diasActivos % profiles.length];
+        const wrap = el('km-mirror-profile');
+        if (wrap) { wrap.style.display = 'block'; }
+        if (el('km-profile-name')) el('km-profile-name').textContent = p.n;
+        if (el('km-profile-desc')) el('km-profile-desc').textContent = p.d;
+    }
+};
+
+// -----------------------------------
+
+</script>
 </body>
+
