@@ -971,7 +971,7 @@ function continueToComprension() {
             mp3Audio.onended = () => { if(isAudio) toggleAudio(); };
         }
 
-        function initUserSession() {
+        async function initUserSession() {
     if(!currentUser) return;
     
     window.activeTrackData = currentUser.role === 'Mentada' ? (typeof mentadasData !== 'undefined' ? mentadasData : []) : (typeof mujeresMentorasData !== 'undefined' ? mujeresMentorasData : []);
