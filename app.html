@@ -690,7 +690,7 @@
         let currentPin = '';
         let pinCount = 0;
 
-        function pressKey(num) {
+        async function pressKey(num) {
             if(!num) num = '';
             const dots = document.querySelectorAll('.pin-dots .dot');
             const dotsContainer = document.querySelector('.pin-dots');
@@ -701,28 +701,46 @@
                 pinCount++;
                 
                 if (pinCount === dots.length) {
-                    // MOCK AUTHENTICATION SUCCESS
-                    // Asignamos un usuario por defecto para que la app pueda iniciar
-                    currentUser = { 
-                        id: 'usr_01', 
-                        pin: currentPin, 
-                        name: 'Marjorie', 
-                        role: 'Mentora' 
-                    };
-                    
-                    const headerTitle = document.querySelector('.header-greeting h1');
-                    const profilePic = document.querySelector('.profile-pic');
-                    if(headerTitle) headerTitle.innerText = `Hola, ${currentUser.name}`;
-                    if(profilePic) profilePic.innerText = currentUser.name.charAt(0);
-                    
-                    setTimeout(() => {
-                        const overlay = document.getElementById('auth-overlay');
-                        if(overlay) overlay.classList.add('hidden');
-                        
-                        if(typeof initUserSession === 'function') {
-                            initUserSession();
+                    try {
+                        const { data, error } = await _supabase
+                            .from('mentoras_users')
+                            .select('*')
+                            .eq('pin', currentPin)
+                            .single();
+                            
+                        if (data && !error) {
+                            currentUser = data;
+                            
+                            const headerTitle = document.querySelector('.header-greeting h1');
+                            const profilePic = document.querySelector('.profile-pic');
+                            if(headerTitle) headerTitle.innerText = `Hola, ${currentUser.name || 'Mentora'}`;
+                            if(profilePic && currentUser.name) profilePic.innerText = currentUser.name.charAt(0);
+                            
+                            setTimeout(() => {
+                                const overlay = document.getElementById('auth-overlay');
+                                if(overlay) overlay.classList.add('hidden');
+                                
+                                if(typeof initUserSession === 'function') {
+                                    initUserSession();
+                                }
+                            }, 400);
+                        } else {
+                            throw new Error("Invalid PIN");
                         }
-                    }, 400);
+                    } catch(err) {
+                        dots.forEach(d => d.classList.add('error'));
+                        if (dotsContainer) dotsContainer.classList.add('shake-error');
+                        
+                        setTimeout(() => {
+                            if (dotsContainer) dotsContainer.classList.remove('shake-error');
+                            dots.forEach(d => {
+                                d.classList.remove('filled');
+                                d.classList.remove('error');
+                            });
+                            currentPin = '';
+                            pinCount = 0;
+                        }, 500);
+                    }
                 }
             }
         }
