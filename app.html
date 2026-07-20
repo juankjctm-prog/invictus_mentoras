@@ -685,6 +685,14 @@
         </nav>
     </div>
 
+    <!-- SUPABASE INIT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
+        const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
+    
     <script>
         let currentUser = null;
         let currentPin = '';
