@@ -686,6 +686,47 @@
     </div>
 
     <script>
+        let currentUser = null;
+        let currentPin = '';
+        let pinCount = 0;
+
+        function pressKey(num) {
+            if(!num) num = '';
+            const dots = document.querySelectorAll('.pin-dots .dot');
+            const dotsContainer = document.querySelector('.pin-dots');
+            
+            if (pinCount < dots.length) {
+                currentPin += num;
+                dots[pinCount].classList.add('filled');
+                pinCount++;
+                
+                if (pinCount === dots.length) {
+                    // MOCK AUTHENTICATION SUCCESS
+                    // Asignamos un usuario por defecto para que la app pueda iniciar
+                    currentUser = { 
+                        id: 'usr_01', 
+                        pin: currentPin, 
+                        name: 'Marjorie', 
+                        role: 'Mentora' 
+                    };
+                    
+                    const headerTitle = document.querySelector('.header-greeting h1');
+                    const profilePic = document.querySelector('.profile-pic');
+                    if(headerTitle) headerTitle.innerText = `Hola, ${currentUser.name}`;
+                    if(profilePic) profilePic.innerText = currentUser.name.charAt(0);
+                    
+                    setTimeout(() => {
+                        const overlay = document.getElementById('auth-overlay');
+                        if(overlay) overlay.classList.add('hidden');
+                        
+                        if(typeof initUserSession === 'function') {
+                            initUserSession();
+                        }
+                    }, 400);
+                }
+            }
+        }
+
         // LOAD PERSISTENT DATA ON INIT
         window.onload = function() {
             if(localStorage.getItem('invictus_recall_score')) {
