@@ -5,34 +5,57 @@ const mentadasData = [
     "titulo": "LA IDENTIDAD DE LIDERAZGO — LO QUE NO TE ENSEÑARON",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60. Compara con tu PPM del Día 1.\nINTEGRACIÓN DEL BLOQUE 1: LA RAÍZ COMO CONDICIÓN PREVIA DE LA MENTORÍA EFECTIVA\nEl Bloque 1 de Mujeres Mentoras está construido sobre una premisa que es contraintuitiva para quienes esperan que un programa de desarrollo de habilidades comience por las habilidades. La premisa es esta: las habilidades de mentoría — escuchar con presencia, hacer preguntas que abren el pensamiento, dar feedback que construye, acompañar sin resolver, crear seguridad psicológica — son insuficientes si quien las ejecuta opera desde patrones automáticos que no ha examinado. El know-how sin autoconocimiento produce mentoría técnicamente correcta pero relacionalmente vacía.\nLos diez días anteriores construyeron la condición previa. La identidad de liderazgo — la respuesta interna a '¿soy el tipo de persona que lidera?' — establece desde qué lugar la mentora opera con su mentoreada: desde la certeza de que tiene algo valioso que ofrecer, o desde la compensación de la inseguridad a través del control o de la sobreexplicación. La epigenética y el trauma intergeneracional — la biología de las creencias instaladas antes de tener capacidad de elegirlas — proveen el marco para entender por qué los patrones son tan persistentes y por qué el cambio requiere algo más que decisión consciente. El síndrome del impostor — sus cinco arquetipos, sus mecanismos cognitivos, su relación con la amenaza del estereotipo — identifica el obstáculo interno más prevalente en el liderazgo femenino latinoamericano y los puntos exactos donde interfiere con la mentoría efectiva.\nLa escritura expresiva como herramienta de procesamiento — el hallazgo de Pennebaker de que externalizar en palabras lo que se carga produce efectos biológicos medibles — introdujo el primer instrumento de práctica personal que el programa usa consistentemente: la Libreta Invictus Mind como espacio de reflexión escrita entre sesiones. El perdón como proceso estratégico — el Modelo de Enright con sus cuatro fases y su distinción entre perdón interpersonal, autoperdón y perdón sistémico — abordó la segunda carga más frecuente en líderes con trayectorias de largo plazo: los resentimientos activos que consumen energía disponible para la relación de mentoría. La seguridad psicológica — el concepto de Edmondson validado por el Proyecto Aristóteles de Google y por los estudios de BCG sobre retención de talento femenino — definió el resultado que la mentora necesita producir en cada sesión como condición de posibilidad del aprendizaje real.\nLa neuroplasticidad deliberada — la evidencia de Merzenich, Richard Davidson y Pascual-Leone de que el cerebro adulto modifica su estructura en respuesta a la práctica consistente, incluyendo la práctica mental — proveyó el fundamento científico del Ensayo del Yo Futuro: la práctica diaria de visualizar con detalle y emoción la mentora que este programa construye no es motivación inspiracional sino entrenamiento neural fundado en evidencia. Y la Técnica Feynman — reconstruida a partir de la práctica de Feynman y fundamentada en la investigación de Roediger, Karpicke y Brown sobre aprendizaje efectivo — instaló el mecanismo de verificación de comprensión real que el programa usa cada siete sesiones.\nEl propósito del Bloque 1 no era producir una mentora terminada. Era producir una mentora consciente. Alguien que sabe desde qué lugar opera, que ha identificado los patrones que pueden interferir con su práctica, que ha hecho el inventario honesto de lo que carga y de lo que necesita soltar, y que tiene el marco conceptual para entender por qué la mentoría funciona cuando funciona y por qué falla cuando falla.\nLa investigación de Kegan y Lahey en Immunity to Change, publicada en 2009 por Harvard Business Review Press, describe lo que denominan compromisos contradictorios — los obstáculos ocultos que impiden el cambio incluso cuando la persona tiene intención genuina y habilidades suficientes. Su metodología de desarrollo de liderazgo comienza exactamente donde comenzó este bloque: con el examen de los supuestos más profundos que gobiernan el comportamiento automático. Kegan y Lahey encontraron que los líderes que identifican sus compromisos contradictorios y los examinan de manera sistemática producen cambios de comportamiento más duraderos que los que trabajan directamente sobre las habilidades sin ese examen previo.\nEl diseño de este bloque refleja esa evidencia. Los diez días de autoexamen — de identidad, creencias, patrones heredados, impostor, cargas no procesadas y neuroplasticidad — no son preliminares al programa real. Son el programa real. Los bloques siguientes construyen encima de esta raíz: la escucha, el feedback, la comunicación, el manejo del síndrome del impostor de la mentoreada, la red de poder, el patrocinio, el legado. Esas habilidades son ejecutables por cualquier persona con suficiente tiempo de práctica. Lo que las convierte en mentoría transformadora — en lugar de en simple transferencia de competencias — es exactamente lo que construyó el Bloque 1.\nLa investigación de Clutterbuck, Megginson y Bajer sobre práctica reflexiva en mentores — publicada en 2016 como estudio comparativo de programas de desarrollo de mentores en 14 países — encontró que los programas que incluían trabajo sistemático de autoconocimiento de la mentora producían significativamente mejores outcomes en las mentoreadas, medidos por progresión de carrera, satisfacción en la relación de mentoría y duración del programa, que los programas que se enfocaban exclusivamente en técnicas de mentoría. La conclusión de los autores es directa: la calidad del trabajo interno de la mentora es el predictor más robusto de la calidad de los resultados para la mentoreada.\nEl Checkpoint del Bloque 1 no es un examen. Es un inventario de estado: qué cambió desde el Día 1, qué todavía necesita trabajo, qué está más claro y qué sigue siendo borroso. Este inventario es la base desde la que el Bloque 2 arranca. Y es también el primer ejemplo de la práctica metacognitiva que el programa instala a lo largo de los ocho bloques: la capacidad de observar el propio proceso de desarrollo con el mismo rigor con que la mentora observará el proceso de desarrollo de su mentoreada.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60. Compara con tu PPM del Día 1.\nLA IDENTIDAD PROFESIONAL: POR QUÉ SE CONSTRUYE ACTUANDO, NO ESPERANDO\n\nHoy es tu Día 1. No llegas aquí a aprender a ser alguien distinta —\nllegas a reconocer a la líder que ya se está formando en ti, sesión a\nsesión. Estos setenta y ocho días son para abrirte a ver las\noportunidades que ya puedes tomar, aportar lo que ya sabes sin esperar\npermiso, y dejar de posponer a la profesional que estás destinada a ser.\n\nEn 1999, Herminia Ibarra —entonces profesora en INSEAD y más tarde en la\nLondon Business School— publicó en Administrative Science Quarterly un\nestudio hoy clásico sobre profesionales en transición de carrera,\ntitulado \"Provisional Selves: Experimenting with Image and Identity in\nProfessional Adaptation\". Su hallazgo central desafiaba la intuición\ndominante: no esperamos a sentirnos \"la persona que queremos ser\" para\nluego actuar como tal. Ocurre al revés. Probamos comportamientos nuevos\n—lo que Ibarra llama \"yos provisionales\"— en situaciones concretas,\nobservamos qué funciona, recibimos retroalimentación del entorno, y solo\nentonces la identidad se actualiza para incorporar esa experiencia. La\nacción no es la consecuencia del cambio de identidad. Es su causa.\n\nEste hallazgo tiene una implicación directa para ti al comenzar un\nproceso de mentoría. Es común llegar a la primera sesión con la\nsensación de que todavía no eres \"suficientemente profesional\" para\nestar ahí, de que tu mentora tiene un nivel de experiencia que tú no\nalcanzas, y de que primero necesitas sentir seguridad antes de participar\nplenamente. La investigación de Ibarra sugiere lo contrario: la\nseguridad no es un prerrequisito para empezar, es un resultado de haber\nempezado. Las personas que esperan sentirse listas esperan\nindefinidamente. Las que actúan —hacen la pregunta incómoda, comparten\nla idea sin pulir, piden la retroalimentación honesta— y luego ajustan\nsu autoimagen en función de esa experiencia son las que consolidan una\nidentidad profesional sólida.\n\nIbarra, en su libro posterior \"Act Like a Leader, Think Like a Leader\"\n(2015), formaliza este principio con el concepto de \"outsight\"\n(perspectiva externa) frente al de \"insight\" (perspectiva interna). El\nmodelo tradicional de desarrollo asume que primero hay que mirar hacia\nadentro —reflexionar, entender tus valores, tu propósito— y que después\nllega el cambio de comportamiento. Ibarra demuestra con datos\nlongitudinales que el orden más efectivo suele ser el opuesto: primero\nse actúa distinto —se prueban nuevas conductas, nuevos contextos, nuevas\nconversaciones— y esa experiencia externa genera el insight que la sola\nintrospección no puede producir. No puedes pensar tu camino hacia una\nnueva identidad profesional. Tienes que actuarlo.\n\nLa investigación identifica tres mecanismos concretos por los que se\nconstruye esta identidad. El primero es la observación activa de\nreferentes: personas —tu mentora entre ellas— cuyo estilo profesional\nestudias conscientemente, no para copiarlo, sino para extraer principios\nque puedas adaptar a tu propio estilo. El segundo es el ensayo de\ncomportamientos nuevos en contextos de bajo riesgo: exactamente lo que\nuna relación de mentoría bien usada te ofrece —un espacio donde puedes\nprobar cómo suena tu voz cuando defiendes una idea, sin que el costo de\nequivocarte sea alto. El tercero, el más subestimado, es la narración\nretrospectiva en primera persona: la capacidad de contarte a ti misma,\ncon lenguaje de agencia, los momentos donde efectivamente actuaste con\ncriterio propio. No \"las cosas salieron bien\" sino \"yo decidí X porque\nvi Y\".\n\nEste último mecanismo es, con frecuencia, el más débil en mujeres\njóvenes que inician su trayectoria profesional. El patrón de atribuir\nlos resultados propios a factores externos —suerte, ayuda de otros,\ncasualidad— no es un rasgo de personalidad ni un problema de autoestima\nen sentido clínico. Es un hábito narrativo aprendido, y como todo\nhábito, se puede modificar con práctica deliberada. Cada vez que cuentas\nun logro tuyo usando lenguaje pasivo o atribuyéndolo a la suerte,\nrefuerzas el patrón. Cada vez que lo cuentas reclamando la decisión que\ntomaste, refuerzas el patrón contrario.\n\nBandura complementa este marco desde una perspectiva distinta pero\nconvergente. Su teoría de autoeficacia, desarrollada desde 1977 en\nPsychological Review y extendida durante tres décadas, muestra que la\ncreencia en la propia capacidad de ejecutar una conducta específica\npredice el desempeño en esa conducta de forma más consistente que las\nhabilidades objetivas medidas de manera aislada. Y esa creencia se\nconstruye, ante todo, mediante experiencias de dominio: momentos\nconcretos donde ejecutaste algo con éxito. Cada sesión de mentoría en la\nque participas activamente —preguntas, propones, ejecutas un\ncompromiso— es una experiencia de dominio en construcción. No necesitas\nla autoeficacia completa antes de empezar. La autoeficacia es, en gran\nmedida, lo que este proceso te va a dar, si te permites actuar antes de\nsentirte del todo lista.\n\nEso es lo que arranca hoy: no una versión mejorada de ti a la que hay\nque llegar en el futuro, sino la que ya puedes empezar a ejercer, una\ndecisión a la vez. Tu mentora no va a construir ese camino por ti — va a\ncaminarlo contigo, mientras tú misma reclamas el espacio que ya te\ncorresponde.",
       "comprension": [
         {
-          "q": "Según el texto original de Herminia Ibarra, ¿cómo se logra la transformación genuina en la identidad de liderazgo?",
+          "q": "Según la investigación de Herminia Ibarra sobre \"yos provisionales\", ¿qué precede a qué en la construcción de una nueva identidad profesional?",
           "options": [
-            "Sintiéndote líder antes de empezar a actuar como líder.",
-            "Actuando primero de manera diferente y ajustando tu autoimagen basada en esa experiencia.",
-            "Memorizando técnicas avanzadas de comunicación asertiva."
+            "El cambio interno de identidad siempre precede a la acción",
+            "La acción y la experimentación con nuevos comportamientos preceden al cambio de identidad, no al revés",
+            "La identidad y la acción cambian exactamente al mismo tiempo, sin relación causal",
+            "No existe relación entre identidad y comportamiento"
           ],
           "answer": 1
         },
         {
-          "q": "Según el estudio de INCAE de 2022 mencionado en el texto, ¿a qué factor atribuía el 78% de las mujeres su ascenso?",
+          "q": "¿Cuál de estos NO es uno de los mecanismos que Ibarra describe para construir una identidad profesional nueva?",
           "options": [
-            "A su competencia propia y alto nivel de inteligencia.",
-            "A factores externos como la suerte, redes de contactos o momento oportuno.",
-            "A la discriminación positiva de las empresas multinacionales."
+            "Observar referentes y extraer principios transferibles",
+            "Ensayar comportamientos nuevos en contextos de bajo riesgo",
+            "Narrar tus propias experiencias en primera persona, con lenguaje de agencia",
+            "Esperar a sentir plena seguridad interna antes de intentar algo nuevo"
+          ],
+          "answer": 3
+        },
+        {
+          "q": "Según la teoría de autoeficacia de Albert Bandura, ¿qué predice mejor el desempeño futuro?",
+          "options": [
+            "Las habilidades técnicas objetivas, medidas de forma aislada",
+            "La creencia en la propia capacidad de ejecutar una conducta específica, más que la habilidad objetiva por sí sola",
+            "La cantidad de diplomas obtenidos",
+            "La opinión de terceros sobre la persona"
           ],
           "answer": 1
         },
         {
-          "q": "¿Qué sucede en el peor de los casos cuando una mentora que no ha examinado su propia identidad de liderazgo intenta acompañar a una mentoreada?",
+          "q": "¿Qué son las \"experiencias de dominio\" en la teoría de Bandura?",
           "options": [
-            "Transmite exitosamente sus competencias técnicas y su experiencia.",
-            "Simplemente pierde el tiempo de ambas sin mayores consecuencias.",
-            "Replica inconscientemente los mismos límites y patrones que la mentoreada ya tiene."
+            "Momentos donde alguien más resuelve el problema por ti",
+            "Situaciones donde ejecutas con éxito la conducta en cuestión, lo cual fortalece tu autoeficacia",
+            "Certificaciones académicas formales",
+            "Un tipo de meditación"
           ],
-          "answer": 2
+          "answer": 1
+        },
+        {
+          "q": "Según el texto, ¿por qué el rol de mentoreada no requiere \"sentirse lista\" antes de comprometerse a fondo con el proceso?",
+          "options": [
+            "Porque sentirse lista es irrelevante para cualquier proceso humano",
+            "Porque, según la evidencia de Ibarra, la identidad de \"profesional en crecimiento\" se consolida a través de la acción dentro de la mentoría, no antes de ella",
+            "Porque la mentoría no requiere ningún compromiso activo",
+            "Porque el sentimiento de estar lista aparece siempre antes de la primera sesión"
+          ],
+          "answer": 1
         }
       ]
     },
@@ -45,15 +68,23 @@ const mentadasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Cuáles son las dos principales narrativas limitantes que menciona el texto sobre el liderazgo femenino?"
+        "q": "¿Qué relación de causalidad establece Ibarra entre acción e identidad, y en qué se diferencia del modelo intuitivo que la mayoría asume?",
+        "respuesta_modelo": "El modelo intuitivo asume que primero cambia la identidad interna (sentirse distinta) y después cambia el comportamiento. Ibarra demuestra lo contrario con datos longitudinales: primero se prueban comportamientos nuevos (\"yos provisionales\") en situaciones concretas, se recibe retroalimentación del entorno, y solo entonces la identidad se actualiza para incorporar esa experiencia. La acción no es consecuencia del cambio de identidad — es su causa."
       },
       {
         "type": "Inferencial",
-        "q": "Según lo leído, ¿por qué crees que el sistema tradicional penaliza la asertividad en las mujeres?"
+        "q": "¿Por qué el hábito narrativo de atribuir tus logros a la suerte o a otros no es un problema de autoestima sino un patrón aprendido y modificable?",
+        "respuesta_modelo": "Porque es una narración, no un rasgo fijo de personalidad ni un diagnóstico clínico — es la forma en que alguien aprendió a contar sus propios resultados, generalmente reforzada durante años. Como todo hábito aprendido, se puede modificar con práctica deliberada: cada vez que se cuenta un logro con lenguaje pasivo o atribuido a la suerte se refuerza el patrón; cada vez que se cuenta reclamando la decisión tomada, se refuerza el patrón contrario."
       },
       {
-        "type": "Conexión personal",
-        "q": "Relata un momento reciente donde sentiste el Síndrome del Impostor. ¿Cómo lo replantearías hoy?"
+        "type": "Opción múltiple",
+        "q": "Según Bandura, la autoeficacia es predictora del desempeño porque: a) Sustituye por completo a las habilidades técnicas b) La creencia en la propia capacidad supera en impacto a las habilidades objetivas medidas de forma aislada ✅ CORRECTA c) Es innata y no se puede desarrollar d) Solo aplica a tareas físicas",
+        "respuesta_modelo": ""
+      },
+      {
+        "type": "Conexión personal — sin respuesta única",
+        "q": "¿En qué momento de tu vida profesional reciente atribuiste un resultado a un factor externo cuando en realidad fue producto de tu propio criterio? ¿Qué cambiaría si lo contaras en primera persona?",
+        "respuesta_modelo": "es una pregunta de reflexión personal, no tiene respuesta correcta única. El objetivo es que la mentoreada identifique un logro propio que minimizó (\"tuve suerte\", \"me ayudaron\") y practique contarlo con lenguaje de agencia (\"yo decidí\", \"yo ejecuté\"). Es el mismo patrón que trabaja su mentora sobre sí misma en su propio Día 1 — el punto de encuentro entre ambas empieza aquí."
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
@@ -64,9 +95,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué te genera más miedo de asumir tu identidad de liderazgo?",
     "fase11_ensayo": "Obsérvate a ti misma tomando una decisión compleja con absoluta certeza y presencia ejecutiva.",
     "fase12_sueno": {
-      "afirmacion1": "Soy la protagonista de mi trayectoria profesional.",
-      "afirmacion2": "Reclamo mis logros sin culpa ni justificación.",
-      "afirmacion3": "Mi voz ejecutiva es firme y necesaria."
+      "resumen": "Ibarra: la identidad de liderazgo se construye actuando, no esperando sentirse lista (2 min)",
+      "conceptos": "identidad de liderazgo, autoeficacia (Bandura), atribución externa del éxito (3 min)",
+      "afirmacion": "\"Soy una líder que se examina. Lo que veo, lo puedo transformar.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de agua de río andino — Yakumama fluyendo (2 min)\n\n------------------------------"
     }
   },
   {
@@ -75,34 +107,57 @@ const mentadasData = [
     "titulo": "EPIGENÉTICA Y CREENCIAS — LA BIOLOGÍA DE LOS LÍMITES",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,680 ÷ segundos) × 60.\nEPIGENÉTICA Y COMPORTAMIENTO: CUANDO LA BIOLOGÍA EXPLICA LO QUE LA PSICOLOGÍA NOMBRA\nLa epigenética es el campo de la biología molecular que estudia cómo el entorno modifica la expresión de los genes sin alterar la secuencia del ADN. Durante décadas, el dogma dominante en biología era que el genoma era un destino fijo: la secuencia de ADN heredada de los padres determinaba las características del organismo de manera irreversible. La epigenética demostró que ese modelo es incompleto. Los genes no son interruptores en posición fija — son reguladores de expresión que responden a señales del entorno celular y del entorno social de manera continua y, en muchos casos, reversible.\nEl Dr. Bruce Lipton, biólogo celular formado en la Universidad de Virginia y con investigación en el departamento de anatomía de la Escuela de Medicina de Stanford, fue uno de los primeros científicos en extender los principios de la epigenética desde el nivel celular hasta el nivel comportamental. Su argumento central, publicado en Biology of Belief en 2005 y respaldado por investigación experimental con cultivos de células musculares, es que las células responden a señales del entorno con la misma precisión con que responden a instrucciones genéticas. La membrana celular, que actúa como receptor de señales ambientales, puede modificar la expresión genética en función de la información que recibe. En términos funcionales: el entorno habla y los genes escuchan.\nLas implicaciones para el comportamiento humano emergen cuando este principio se aplica al desarrollo del sistema nervioso en los primeros años de vida. Entre el período prenatal y aproximadamente los siete años de edad, el cerebro humano opera predominantemente en estados de ondas cerebrales theta (4-8 Hz) y delta (0.5-4 Hz). Estos estados son equivalentes funcionales al estado hipnótico: la capacidad de filtro crítico del córtex prefrontal, que en adultos permite evaluar la información antes de aceptarla o rechazarla, no está completamente operativa. El cerebro del niño pequeño absorbe información del entorno con mínimo filtrado. Las interacciones repetidas con cuidadores, las reacciones emocionales observadas, los mensajes verbales y no verbales recibidos se imprimen en el sistema nervioso como patrones de respuesta automática que Lipton denomina programas subconscientes.\nLa investigación de Lipton estima que entre el 95% y el 99% del comportamiento adulto está gobernado por estos programas subconscientes — patrones aprendidos antes de tener capacidad de evaluación consciente — y que apenas el 1-5% del comportamiento es producto de decisiones conscientes deliberadas. Si esta estimación es correcta, sus consecuencias para el desarrollo profesional y el liderazgo son enormes. La persona que experimenta el síndrome del impostor, que tiende a la sobreprotección en lugar de al desarrollo de su equipo, que evita el conflicto constructivo o que no puede reclamar sus logros en primera persona no está tomando esas decisiones conscientemente. Está ejecutando programas instalados décadas antes.\nUn aspecto crítico del modelo de Lipton, frecuentemente malinterpretado en su recepción popular, es que estos programas no son patologías ni defectos. Son adaptaciones funcionales. El cerebro del niño aprende a operar de una manera específica porque esa manera fue, en el contexto en que se aprendió, la respuesta más eficiente disponible para asegurar apego, seguridad y pertinencia. El problema no es que el programa fuera mal diseñado para ese contexto original. El problema es que se ejecuta automáticamente en contextos radicalmente distintos, décadas después, donde ya no produce los resultados que produjo al principio.\nLa Rachel Yehuda del Departamento de Psiquiatría del Hospital Mount Sinai de Nueva York ha investigado extensivamente la transmisión intergeneracional de respuestas al estrés a través de mecanismos epigenéticos. Su trabajo con hijos e hijos de hijos de supervivientes del Holocausto demostró que modificaciones en los patrones de regulación del cortisol — la hormona central en la respuesta al estrés — se transmiten biológicamente a generaciones que no experimentaron el trauma original. Los marcadores epigenéticos del estrés crónico aparecen en los descendientes aunque su historia personal no los justifique. Estudios posteriores de Yehuda con mujeres embarazadas expuestas al ataque del 11 de septiembre confirmaron que el impacto del trauma materno en los niveles de cortisol de los bebés es medible al momento del nacimiento.\nLa extensión del trabajo de Yehuda al contexto latinoamericano es relevante para este programa. Las mujeres profesionales latinoamericanas de hoy son, en muchos casos, la primera o segunda generación de sus familias en acceder a educación universitaria y posiciones de liderazgo organizacional. Sus madres y abuelas operaron en contextos de acceso muy restringido al poder económico e institucional, con mandatos culturales explícitos sobre los límites del rol femenino. La biología de las creencias de Lipton y la epigenética del estrés de Yehuda, tomadas juntas, sugieren que parte del peso que las mujeres líderes latinoamericanas sienten cuando asumen responsabilidades de liderazgo no es solo psicológico — puede tener correlatos biológicos transmitidos generacionalmente.\nEl punto de Yehuda que resulta decisivo desde la perspectiva de este programa es el de la reversibilidad. Los cambios epigenéticos producidos por el estrés y el trauma no son permanentes en el sentido convencional del término. Son modificaciones en la expresión génica — en los marcadores que regulan qué genes se expresan y cuándo — y esos marcadores responden a intervenciones. La psicoterapia, la meditación, el ejercicio sostenido, los cambios en las condiciones del entorno y — esto es central para la mentoría — las relaciones de desarrollo de alta calidad producen cambios epigenéticos medibles. El cerebro de la mentoreada que experimenta consistentemente seguridad psicológica, validación de su competencia y desafío dentro de sus posibilidades de desarrollo no está solo cambiando su perspectiva cognitiva. Está modificando su biología.\nPara la mentora, la implicación práctica es la siguiente: cuando produces una relación de mentoría que funciona — cuando la mentoreada experimenta seguridad para ser honesta sobre sus dudas, validación genuina de sus fortalezas y desafíos calibrados a su capacidad — estás haciendo algo más profundo que transferir conocimiento. Estás contribuyendo a modificar los patrones de respuesta que la mentoreada lleva grabados desde mucho antes de conocerte. Eso requiere, en primer lugar, que la mentora haya examinado sus propios programas. No para haberlos eliminado — eso no es posible — sino para saber cuándo están operando de manera que interfiere con la relación de mentoría.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,680 ÷ segundos) × 60.\nEPIGENÉTICA Y CREENCIAS: DE DÓNDE VIENE LO QUE CREES SOBRE TU PROPIA\nCAPACIDAD\n\nAyer reconociste que no necesitas sentirte lista para actuar. Hoy vas a\nver por qué cuesta tanto creerlo: hay creencias sobre tu propia\ncapacidad que instalaste mucho antes de poder cuestionarlas, y que no\ntienen por qué seguir dictando lo que haces a partir de hoy.\n\nLa epigenética es el campo de la biología que estudia cómo el entorno\nmodifica la expresión de los genes sin alterar la secuencia del ADN.\nDurante décadas, el supuesto dominante era que el genoma heredado\ndeterminaba de forma fija las características de una persona. La\nepigenética mostró que ese modelo estaba incompleto: los genes no son\ninterruptores fijos, son reguladores de expresión que responden de\nmanera continua —y en muchos casos reversible— a señales del entorno.\n\nLa evidencia experimental más citada de este fenómeno en mamíferos\nproviene del laboratorio de Michael Meaney y Moshe Szyf en la\nUniversidad McGill. En una serie de estudios publicados entre 2004 y\n2009, entre ellos el influyente artículo de Nature Neuroscience de 2004,\ndemostraron que crías de rata que recibían mayor cuidado materno —más\nlamido y acicalado en los primeros días de vida— desarrollaban un patrón\nde metilación distinto en el gen del receptor de glucocorticoides, lo\nque se traducía en una respuesta al estrés más regulada en la vida\nadulta. Nada cambió en la secuencia del ADN. Lo que cambió fue qué genes\nse expresaban y con qué intensidad, en función de la calidad del\nvínculo temprano.\n\nEl biólogo celular Bruce Lipton, en su libro de divulgación \"La Biología\nde la Creencia\" (2005), extendió estas ideas al terreno del\ncomportamiento humano, proponiendo que buena parte de nuestros patrones\nadultos de respuesta están \"instalados\" en la primera infancia a través\nde la observación del entorno. Es importante ser precisos aquí: el\nmecanismo biológico de base —que el entorno modula la expresión\ngénica— tiene respaldo experimental sólido, como el trabajo de Meaney y\nSzyf. Pero las formulaciones más amplias de Lipton sobre estados de\nconciencia infantil no cuentan con el mismo nivel de evidencia\nexperimental directa y deben tomarse como una hipótesis divulgativa, no\ncomo un hallazgo establecido. La ciencia rigurosa y la buena narrativa\nno siempre son la misma cosa, y vale la pena distinguirlas.\n\nLo que sí está bien establecido, con décadas de investigación\npsicológica controlada, es el trabajo de Carol Dweck, profesora en\nStanford, sobre las \"teorías implícitas de la inteligencia\" o\nmentalidades (mindsets). Dweck y su equipo demostraron consistentemente\nque las personas sostienen, muchas veces sin ser conscientes de ello,\nuna de dos creencias sobre su propia capacidad: la mentalidad fija, que\nasume que la inteligencia y el talento son rasgos estáticos con los que\nnaces o no naces, y la mentalidad de crecimiento, que asume que la\ncapacidad se desarrolla mediante esfuerzo, estrategia y retroalimentación.\nEstas creencias no son solo una opinión abstracta: predicen de forma\nmedible cómo una persona responde al error, si persiste ante la\ndificultad, y si busca o evita la retroalimentación honesta.\n\nLa pregunta relevante para ti no es si naciste con una mentalidad fija o\nde crecimiento —nadie nace con ninguna de las dos, se aprenden— sino de\ndónde la aprendiste. Las creencias sobre tu propia capacidad que\nsostienes hoy, incluidas las que te dicen \"esto no es para mí\" o \"otras\npersonas son naturalmente mejores en esto que yo\", casi nunca fueron\nelegidas conscientemente. Se instalaron a través de comentarios\nrepetidos de figuras de autoridad, comparaciones familiares, o la\nausencia de espacios donde pudieras fallar sin costo. Eso no las hace\nverdaderas. Las hace aprendidas, y lo aprendido puede actualizarse.\n\nAquí es donde converge la epigenética con la psicología del aprendizaje:\nambos campos, desde ángulos distintos, muestran que el entorno actual\n—no solo el pasado— sigue teniendo poder de modificación. Una relación\nde mentoría de calidad, donde experimentas de forma sostenida que el\nerror es información y no condena, que tu esfuerzo es reconocido y no\nsolo tu resultado, es exactamente el tipo de entorno que, según la\nevidencia de ambos campos, tiene capacidad de actualizar patrones\nantiguos. No se trata de \"pensar positivo\". Se trata de exponerte\ndeliberadamente, sesión tras sesión, a evidencia que contradiga la\ncreencia limitante que heredaste.\n\nEste es tu Día 2: no se trata de que dejes de sentir la duda, se trata\nde dejar de tratarla como un veredicto sobre lo que eres capaz de hacer.\nLa duda es un dato viejo. Tú decides si sigue siendo válido.",
       "comprension": [
         {
-          "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
+          "q": "Según el estudio de Michael Meaney y Moshe Szyf (McGill University, Nature Neuroscience 2004) con crías de rata, ¿qué produjo cambios medibles en la expresión del gen del receptor de glucocorticoides?",
           "options": [
-            "Los patrones y sesgos estructurales son imposibles de modificar.",
-            "Nuestras creencias, entorno y acciones pueden transformar nuestra estructura neurobiológica y resultados corporativos.",
-            "El liderazgo efectivo depende únicamente de la competencia técnica."
+            "La dieta de la madre durante el embarazo",
+            "La cantidad de cuidado materno (lamido y acicalado) recibido en los primeros días de vida, sin cambio en la secuencia del ADN",
+            "Una mutación genética espontánea",
+            "El tamaño de la camada"
           ],
           "answer": 1
         },
         {
-          "q": "¿Cómo se traduce este concepto en tu práctica de liderazgo activo?",
+          "q": "Según Carol Dweck, ¿cuál es la diferencia central entre una mentalidad fija y una mentalidad de crecimiento respecto a la capacidad propia?",
           "options": [
-            "Manteniendo la neutralidad pasiva.",
-            "Implementándolo proactivamente en conversaciones difíciles.",
-            "Esperando que el equipo lo deduzca por sí mismo."
+            "No hay diferencia real, es solo semántica",
+            "La mentalidad fija cree que la capacidad es un rasgo estático; la mentalidad de crecimiento cree que la capacidad se desarrolla con esfuerzo y estrategia",
+            "La mentalidad de crecimiento significa creer que todo es fácil",
+            "La mentalidad fija es exclusiva de personas con bajo rendimiento"
           ],
           "answer": 1
         },
         {
-          "q": "El objetivo principal de interiorizar esta información es:",
+          "q": "¿Qué significa que un cambio epigenético sea \"reversible\", según el texto?",
           "options": [
-            "Acumular teoría académica.",
-            "Minimizar la responsabilidad de la mentoreada.",
-            "Desarrollar agencia y combatir la inseguridad estructural."
+            "Que desaparece solo con el paso del tiempo, sin ninguna intervención",
+            "Que los marcadores que regulan la expresión de un gen pueden modificarse en respuesta a nuevas condiciones del entorno, incluyendo relaciones de desarrollo de calidad",
+            "Que nunca puede repetirse en otra generación",
+            "Que solo aplica a plantas, no a mamíferos"
           ],
-          "answer": 2
+          "answer": 1
+        },
+        {
+          "q": "¿Por qué el texto distingue entre las afirmaciones de Bruce Lipton en \"Biology of Belief\" y la evidencia de Meaney/Szyf?",
+          "options": [
+            "Porque son exactamente la misma evidencia con otro nombre",
+            "Porque Lipton popularizó la idea de que el entorno influye en la expresión génica, pero sus formulaciones más amplias no tienen el mismo respaldo experimental riguroso que estudios como el de Meaney y Szyf",
+            "Porque Lipton nunca mencionó la epigenética",
+            "Porque Meaney y Szyf niegan por completo la epigenética"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Según el texto, una creencia limitante sobre tu propia capacidad heredada en la infancia es mejor entendida como:",
+          "options": [
+            "Una verdad objetiva sobre tus límites reales",
+            "Una adaptación aprendida en un contexto específico que puede actualizarse conscientemente hoy",
+            "Un rasgo genético fijo e inmodificable",
+            "Una debilidad de carácter"
+          ],
+          "answer": 1
         }
       ]
     },
@@ -115,19 +170,23 @@ const mentadasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Por qué Lipton afirma que los programas subconscientes instalados en la infancia no son patologías sino adaptaciones funcionales?"
+        "q": "¿Qué encontraron Meaney y Szyf en su estudio con crías de rata, y qué NO cambió en el experimento?",
+        "respuesta_modelo": "Encontraron que las crías que recibían más cuidado materno (lamido y acicalado) en los primeros días de vida desarrollaban un patrón de metilación distinto en el gen del receptor de glucocorticoides, con una respuesta al estrés más regulada en la vida adulta. Lo que NO cambió fue la secuencia del ADN — cambió únicamente qué genes se expresaban y con qué intensidad."
       },
       {
         "type": "Inferencial",
-        "q": "¿Qué implicación específica tiene el trabajo de Yehuda sobre transmisión intergeneracional del estrés para las mujeres líderes latinoamericanas de primera generación?"
+        "q": "¿Por qué el texto distingue entre el rigor del estudio de Meaney/Szyf y las formulaciones más amplias de Bruce Lipton?",
+        "respuesta_modelo": "Porque no todo lo que suena científico tiene el mismo nivel de evidencia. Meaney y Szyf publicaron un estudio experimental controlado y replicado en una revista revisada por pares. Lipton, en cambio, popularizó la idea correcta de que el entorno influye en la expresión génica, pero extendió esa idea a afirmaciones sobre estados de conciencia infantil que no cuentan con el mismo respaldo experimental directo — son una hipótesis divulgativa, no un hallazgo establecido. Distinguirlo importa porque afecta cuánto peso darle a cada afirmación."
       },
       {
-        "type": "Opción múltiple",
-        "q": "Según Lipton, el cerebro del niño entre 0 y 7 años absorbe información con mínimo filtrado porque: a) Tiene menor inteligencia que el adulto b) El córtex prefrontal con función de filtro crítico no está completamente operativo c) Los genes no están activos en esa etapa d) La epigenética aún no funciona antes de los 7 años"
+        "type": "Aplicación",
+        "q": "Según Dweck, la mentalidad de crecimiento predice: a) Que todo resulta fácil siempre b) Mayor persistencia ante la dificultad y mayor apertura a la retroalimentación honesta ✅ CORRECTA c) Mayor talento innato d) Menor capacidad de aprendizaje",
+        "respuesta_modelo": ""
       },
       {
-        "type": "Conexión personal",
-        "q": "¿Qué patrón de respuesta automática reconoces en ti que te frena en reuniones importantes? ¿Cómo podrías desactivarlo hoy?"
+        "type": "Conexión personal — sin respuesta única",
+        "q": "¿Qué creencia sobre tu propia capacidad reconoces en ti que probablemente no elegiste conscientemente? ¿De quién o de dónde crees que la aprendiste?",
+        "respuesta_modelo": "reflexión personal sin respuesta única. El objetivo es que la mentoreada identifique el origen social de una creencia limitante (una figura de autoridad, una comparación familiar, la ausencia de espacios seguros para fallar) para poder tratarla como \"evidencia vencida\" en vez de como un límite real."
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
@@ -138,9 +197,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Dónde sientes físicamente la resistencia cuando tienes que defender una idea tuya?",
     "fase11_ensayo": "Obsérvate a ti misma entrando a una sala de alto nivel y sintiéndote biológicamente segura.",
     "fase12_sueno": {
-      "afirmacion1": "Mis patrones pasados no definen mi capacidad ejecutiva futura.",
-      "afirmacion2": "Transformo mi estrés en poder de acción.",
-      "afirmacion3": "Estoy construyendo una nueva biología de éxito."
+      "resumen": "Lipton y Yehuda: la biología no es el destino — los marcadores epigenéticos responden a relaciones de desarrollo de alta calidad (2 min)",
+      "conceptos": "epigenética, ondas Theta, reversibilidad epigenética (3 min)",
+      "afirmacion": "\"Lo que absorbí antes de los 7 años no define quién soy hoy. Mi biología responde a lo que elijo.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de lluvia andina suave — agua renovando la tierra (2 min)\n\n------------------------------"
     }
   },
   {
@@ -149,34 +209,57 @@ const mentadasData = [
     "titulo": "TRAUMA INTERGENERACIONAL — LO QUE HEREDASTE SIN SABERLO",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,776 ÷ segundos) × 60.\nTRANSMISIÓN INTERGENERACIONAL DEL TRAUMA: MECANISMOS, EVIDENCIA Y REVERSIBILIDAD\nLa investigación de la Dra. Rachel Yehuda en el Departamento de Psiquiatría del Hospital Mount Sinai de Nueva York representa uno de los avances más significativos en la comprensión de cómo el trauma psicológico produce efectos biológicos medibles que se transmiten a generaciones posteriores. Su programa de investigación, iniciado en los años noventa con estudios sobre supervivientes del Holocausto y sus hijos, estableció la evidencia experimental de un fenómeno que la psicología clínica había observado descriptivamente durante décadas sin poder explicar mecanísticamente: los patrones de respuesta al estrés de los hijos de sobrevivientes de trauma masivo se parecen a los de sus padres, no porque los hijos hayan vivido el mismo trauma, sino porque la exposición al trauma altera marcadores epigenéticos que se transmiten a la descendencia.\nEl mecanismo central involucra modificaciones en el eje hipotálamo-hipofisario-suprarrenal, que es el sistema fisiológico que regula la respuesta al estrés. En personas con trastorno de estrés postraumático, este sistema muestra niveles de cortisol paradójicamente bajos — no elevados como sería esperar en una respuesta de estrés activa — porque el sistema de regulación se ha sensibilizado al punto de que pequeños estímulos activan respuestas de gran magnitud. Yehuda y su equipo encontraron que los hijos adultos de supervivientes del Holocausto mostraban los mismos patrones alterados de regulación del cortisol que sus padres, a pesar de no haber experimentado el trauma original. El gen NR3C1, que codifica receptores de glucocorticoides y regula la sensibilidad del sistema al cortisol, mostraba modificaciones epigenéticas idénticas en padres e hijos.\nEl estudio de 2015 de Yehuda publicado en Biological Psychiatry, que examinó a 32 pares de padres supervivientes del Holocausto y sus hijos adultos, comparados con controles demográficamente similares sin historia de trauma parental, encontró que las modificaciones epigenéticas en el gen FKBP5 — otro regulador clave de la respuesta al estrés — eran consistentes entre padres e hijos de la muestra de supervivientes, pero no en los controles. Este fue el primer estudio en demostrar con rigor estadístico que el trauma produce modificaciones epigenéticas transmisibles a través de la línea germinal en seres humanos.\nLas implicaciones de este hallazgo para contextos de trauma colectivo latinoamericano son significativas. Las poblaciones de América Latina han experimentado en el siglo veinte múltiples formas de trauma masivo: dictaduras militares con desaparición forzada, conflictos armados internos con desplazamiento masivo, violencia política y criminal sostenida, y crisis económicas con pérdida abrupta de condiciones de vida. Las investigaciones de Marianne Sack en Colombia, de Elizabeth Lira en Chile y de Carlos Beristain en Guatemala documentan patrones de trauma comunitario con características similares a las descritas por Yehuda en sus poblaciones de estudio: hipervigilancia, evitación del conflicto, dificultad para confiar en instituciones y en figuras de autoridad, y patrones de comunicación que priorizan la supervivencia relacional sobre la autenticidad.\nPara las mujeres profesionales latinoamericanas, este contexto añade una capa específica. El mandato histórico de invisibilidad femenina en el espacio público y organizacional — la expectativa de que la mujer no ocupe demasiado espacio, no hable demasiado fuerte, no aspire demasiado alto — no es solo una construcción cultural abstracta. Es, en muchos casos, una respuesta adaptativa a condiciones históricas donde la visibilidad femenina tenía consecuencias reales. Las mujeres que callaban, que cedían, que no reclamaban, que hacían el trabajo sin acreditar la autoría, lo hacían frecuentemente porque el costo de no hacerlo era alto. Esa respuesta adaptativa, repetida generación tras generación y potencialmente marcada epigenéticamente, puede estar operando en mujeres líderes contemporáneas que no tienen conciencia de su origen.\nEl punto donde el trabajo de Yehuda converge de manera directa con la práctica de la mentoría es el de la reversibilidad. En una revisión de 2019 publicada en Nature Reviews Neuroscience, Yehuda y Lehrner documentaron que intervenciones terapéuticas — específicamente la terapia de exposición prolongada y la terapia cognitivo-conductual centrada en el trauma — producen cambios medibles en los marcadores epigenéticos asociados al trauma. La modificación epigenética producida por el trauma no es un destino irreversible sino una adaptación que responde a condiciones del entorno, incluyendo las condiciones de la relación terapéutica.\nLa extensión de este principio a la relación de mentoría requiere precisión. La mentoría no es terapia y la mentora no es terapeuta. La confusión entre estos roles produce daño. Lo que la investigación de Yehuda sugiere para la mentoría es más específico: una relación de mentoría que produce consistentemente seguridad psicológica, validación genuina de la competencia y experiencias de éxito en contextos de desafío calibrado está creando condiciones de entorno que, según la evidencia epigenética disponible, son capaces de modificar los marcadores de respuesta al estrés. No de la misma manera ni con la misma profundidad que una intervención terapéutica especializada. Pero sí de manera significativa para el desarrollo profesional.\nPara la mentora, el aprendizaje práctico de este cuerpo de investigación tiene dos vertientes. La primera es genealógica: entender qué patrones de respuesta al estrés y al poder lleva en su propio sistema, cuáles vienen de su historia personal y cuáles pueden tener raíces más antiguas en la historia de las mujeres de su línea. No para patologizar esos patrones ni para hacer un análisis clínico que excede su rol, sino para no transmitirlos en automático. La segunda es metodológica: entender que las condiciones relacionales de la mentoría tienen efectos que van más allá de la transferencia de conocimiento técnico. Crear seguridad psicológica para la mentoreada no es solo buena práctica — es, literalmente, crear las condiciones biológicas para el aprendizaje.\nEl neurocientífico Joseph LeDoux, de la Universidad de Nueva York, cuya investigación sobre el procesamiento emocional del miedo en la amígdala es referencia en el campo, describe el aprendizaje emocional como un proceso de escritura sobre escritura anterior — no de borrado y reescritura limpia. Los circuitos del miedo aprendido no se eliminan; se inhiben por nuevos circuitos de aprendizaje que compiten con ellos. La mentora que entiende este principio no espera que la mentoreada deje de tener miedo antes de avanzar. Trabaja con ella para construir circuitos de confianza y competencia que compitan con los circuitos del miedo que la detienen.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,776 ÷ segundos) × 60.\nTRANSMISIÓN INTERGENERACIONAL: LO QUE CARGAS SIN HABERLO ELEGIDO\n\nAyer aprendiste a tratar la duda como un dato viejo, no como un\nveredicto. Hoy vas un poco más atrás: algunas de tus alertas frente a la\nautoridad ni siquiera nacieron contigo. Aprender a distinguirlas es\nparte de despertar a la profesional que ya puedes ser, sin arrastrar\nalarmas que no son tuyas.\n\nLa investigación de la Dra. Rachel Yehuda, del Departamento de\nPsiquiatría del Hospital Mount Sinai de Nueva York, es una de las líneas\nmás citadas sobre cómo el trauma psicológico puede dejar huellas\nbiológicas medibles que se observan en generaciones posteriores. Su\ntrabajo con supervivientes del Holocausto y sus hijos, iniciado en los\naños noventa, mostró que los patrones de regulación del cortisol —la\nhormona central en la respuesta al estrés— de los hijos adultos de\nsupervivientes se parecían a los de sus padres, sin que los hijos\nhubieran vivido el evento traumático original.\n\nEl estudio de 2016 de Yehuda, publicado en Biological Psychiatry,\nexaminó específicamente el gen FKBP5, un regulador clave del eje del\nestrés, en 32 supervivientes del Holocausto y 22 de sus hijos adultos,\ncomparados con controles sin esa historia familiar. Encontró\npatrones de metilación de ese gen consistentes entre padres e hijos en\nel grupo de supervivientes, pero no en los controles. Es importante ser\nhonestos sobre el alcance de este tipo de hallazgo: se trata de una\nmuestra pequeña, el campo de la epigenética transgeneracional en humanos\ntodavía está en desarrollo, y estudios de este tipo requieren\nreplicación antes de considerarse concluyentes de forma definitiva. Lo\nque sí es sólido, y no depende de este estudio específico, es el\nprincipio general: el entorno de crecimiento —incluido el estrés que\natravesaron quienes te formaron— puede dejar huellas medibles en cómo tu\npropio sistema regula el estrés hoy.\n\nEl neurocientífico Joseph LeDoux, de la Universidad de Nueva York, cuya\ninvestigación sobre el circuito del miedo en la amígdala es referencia\nobligada en el campo, aporta un principio complementario y muy bien\nestablecido experimentalmente: cuando un miedo aprendido se \"extingue\"\nmediante exposición segura repetida, el circuito original no se borra.\nLo que ocurre es que se construye un nuevo circuito de inhibición que\ncompite con el original y, con suficiente repetición, gana más terreno.\nLa consecuencia práctica es que no tienes que \"eliminar\" un miedo o una\nreacción automática para funcionar de otra manera. Tienes que construir,\ncon repetición deliberada, el circuito alternativo que compita con el\nviejo.\n\nEstos dos cuerpos de investigación —la transmisión epigenética del\nestrés y la neurociencia de la extinción del miedo— ayudan a entender un\npatrón muy común en mujeres jóvenes que inician una relación de\nmentoría: la hipervigilancia frente a figuras de autoridad. Si creciste\nen un entorno donde el acceso al poder o a los recursos era limitado,\ninestable o condicionado, es razonable que tu sistema nervioso haya\naprendido a tratar a las figuras de autoridad con cautela extrema,\nincluso cuando la autoridad presente —tu mentora, en este caso— no\nrepresenta ningún riesgo real. Ese patrón no es una falla de carácter.\nEs una adaptación que en algún momento fue funcional.\n\nEste patrón puede manifestarse de formas muy concretas dentro de la\nmentoría: costarte pedir ayuda porque pedir se siente como exponer una\ndebilidad; anticipar crítica donde no la hay; suavizar tus opiniones\nfrente a tu mentora aunque discrepes genuinamente; o sentir que tienes\nque \"demostrar\" constantemente que mereces el espacio. Ninguno de estos\ncomportamientos es irracional dado tu historia. Pero tampoco son\ninevitables en el presente. Son, siguiendo a LeDoux, circuitos que se\npueden inhibir construyendo evidencia nueva, sesión tras sesión: pedir\nalgo pequeño y ver que la relación no se rompe; decir \"no entendí\" y ver\nque no hay castigo; discrepar una vez, con cuidado, y observar qué pasa\nrealmente.\n\nEl punto central de este día no es diagnosticarte ni patologizar tu\nhistoria. Es darte un marco para distinguir entre una señal real (esta\npersona específica, en esta situación específica, no es de confianza) y\nun eco de un patrón antiguo (cualquier figura de autoridad activa en mí\nuna alerta que no tiene que ver con ella). Aprender a hacer esa\ndistinción, sesión tras sesión, es parte central del trabajo de este\nbloque.\n\nEsto es lo que se despierta hoy: la capacidad de preguntarte, cada vez\nque dudes en actuar frente a alguien con autoridad, si lo que sientes es\nuna señal real o un eco antiguo. Esa pregunta, sola, ya es una forma de\nliderazgo.",
       "comprension": [
         {
-          "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
+          "q": "En el estudio de Rachel Yehuda (Biological Psychiatry, 2016) con supervivientes del Holocausto y sus hijos, ¿qué se encontró en el gen FKBP5?",
           "options": [
-            "Los patrones y sesgos estructurales son imposibles de modificar.",
-            "Nuestras creencias, entorno y acciones pueden transformar nuestra estructura neurobiológica y resultados corporativos.",
-            "El liderazgo efectivo depende únicamente de la competencia técnica."
+            "Una mutación idéntica en la secuencia de ADN entre padres e hijos",
+            "Modificaciones epigenéticas (metilación) asociadas a la regulación del estrés, presentes tanto en los padres supervivientes como en sus hijos adultos, sin que estos vivieran el trauma original",
+            "Ningún efecto medible",
+            "Efectos solo detectables en la tercera generación"
           ],
           "answer": 1
         },
         {
-          "q": "¿Cómo se traduce este concepto en tu práctica de liderazgo activo?",
+          "q": "¿Por qué el texto señala que este tipo de hallazgos requiere cautela interpretativa?",
           "options": [
-            "Manteniendo la neutralidad pasiva.",
-            "Implementándolo proactivamente en conversaciones difíciles.",
-            "Esperando que el equipo lo deduzca por sí mismo."
+            "Porque nunca se han publicado en revistas científicas",
+            "Porque se trata de muestras pequeñas y el campo de la epigenética transgeneracional en humanos todavía está en desarrollo, con hallazgos que requieren replicación",
+            "Porque los autores se retractaron del estudio",
+            "Porque no existe ningún consenso sobre la epigenética en general"
           ],
           "answer": 1
         },
         {
-          "q": "El objetivo principal de interiorizar esta información es:",
+          "q": "Según Joseph LeDoux, cuando se \"extingue\" un miedo aprendido mediante exposición segura repetida, ¿qué ocurre exactamente?",
           "options": [
-            "Acumular teoría académica.",
-            "Minimizar la responsabilidad de la mentoreada.",
-            "Desarrollar agencia y combatir la inseguridad estructural."
+            "El circuito de miedo original se borra por completo del cerebro",
+            "Se forma un nuevo circuito de inhibición que compite con el circuito de miedo original, sin eliminarlo del todo",
+            "El miedo desaparece instantáneamente sin ningún proceso",
+            "El cerebro deja de poder sentir miedo en general"
           ],
-          "answer": 2
+          "answer": 1
+        },
+        {
+          "q": "¿Qué patrón menciona el texto como frecuente en personas que crecieron en entornos con inestabilidad o desigualdad de acceso al poder, en relación a figuras de autoridad?",
+          "options": [
+            "Ninguna alteración medible en su comportamiento",
+            "Hipervigilancia y dificultad para confiar plenamente en figuras de autoridad, incluso cuando la autoridad actual no representa ningún riesgo real",
+            "Una tendencia automática a liderar sin ningún miedo",
+            "Un desinterés total por el desarrollo profesional"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "Según el texto, ¿cuál es la implicación práctica de este cuerpo de investigación para tu relación con tu mentora?",
+          "options": [
+            "Que la relación de mentoría no tiene ningún efecto biológico",
+            "Que una relación de mentoría que ofrece consistentemente seguridad y validación puede contribuir a modificar patrones de respuesta al estrés que llevas desde antes de conocerla",
+            "Que debes evitar cualquier figura de autoridad de forma permanente",
+            "Que el trauma transgeneracional es completamente irreversible"
+          ],
+          "answer": 1
         }
       ]
     },
@@ -189,19 +272,23 @@ const mentadasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Cuál fue la contribución específica del estudio de Yehuda de 2015 publicado en Biological Psychiatry?"
+        "q": "¿Qué encontró específicamente el estudio de Yehuda de 2016 en el gen FKBP5, y por qué el texto pide cautela al interpretarlo?",
+        "respuesta_modelo": "Encontró patrones de metilación del gen FKBP5 consistentes entre los supervivientes del Holocausto y sus hijos adultos, pero no en los controles sin esa historia familiar. El texto pide cautela porque la muestra es pequeña (32 supervivientes, 22 hijos) y el campo de la epigenética transgeneracional en humanos todavía está en desarrollo — hallazgos así requieren replicación antes de considerarse concluyentes de forma definitiva."
       },
       {
         "type": "Inferencial",
-        "q": "¿Por qué Yehuda y Lehrner distinguen entre transmisión epigenética del trauma y 'destino irreversible'? ¿Qué evidencia sustentan para afirmar la reversibilidad?"
+        "q": "¿Por qué la hipervigilancia frente a la autoridad no es una \"falla de carácter\" según el marco de Yehuda y LeDoux combinado?",
+        "respuesta_modelo": "Porque, combinando ambos marcos, ese patrón puede tener dos orígenes legítimos: uno biológico/heredado (Yehuda) y uno aprendido por repetición en el propio sistema nervioso frente a condiciones reales de riesgo (LeDoux). En ambos casos fue, en su momento, una adaptación funcional — no una debilidad de personalidad — que respondió a un entorno donde el riesgo era real. El hecho de que siga activa hoy, frente a alguien que no representa ese riesgo, no la convierte en un defecto de carácter: la convierte en un circuito que se puede actualizar con evidencia nueva."
       },
       {
-        "type": "Opción múltiple",
-        "q": "Según LeDoux, los circuitos del miedo aprendido: a) Se borran completamente con el tratamiento correcto b) Se inhiben por nuevos circuitos que compiten con ellos pero no desaparecen c) Son permanentes e inmodificables d) Solo afectan el comportamiento si son conscientes"
+        "type": "Aplicación",
+        "q": "Según LeDoux, cuando un miedo aprendido se extingue mediante exposición segura repetida: a) El circuito original se borra por completo b) Se construye un nuevo circuito de inhibición que compite con el original, sin eliminarlo ✅ CORRECTA c) El cerebro pierde la capacidad de sentir miedo d) No ocurre ningún cambio medible",
+        "respuesta_modelo": ""
       },
       {
-        "type": "Conexión personal",
-        "q": "¿Qué patrón de respuesta al estrés o al poder reconoces en ti que pueda tener raíces anteriores a tu propia historia? ¿Lo ves también en tu madre o en otras mujeres de tu línea?"
+        "type": "Conexión personal — sin respuesta única",
+        "q": "¿Qué patrón de respuesta ante la autoridad o ante pedir ayuda reconoces en ti que pueda tener raíces anteriores a tu propia historia directa? ¿Lo ves también en tu madre o en otras mujeres de tu entorno cercano?",
+        "respuesta_modelo": "reflexión personal sin respuesta única. Ayuda a la mentoreada a distinguir, en su relación específica con su mentora, cuándo una reacción de cautela es información real sobre esa relación y cuándo es un eco que no tiene que ver con ella."
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
@@ -212,9 +299,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Yehuda: el trauma intergeneracional tiene base biológica — y es reversible con las condiciones de entorno correctas (2 min)",
+      "conceptos": "eje hipotálamo-hipofisario-suprarrenal, marcadores epigenéticos del trauma, inhibición latente (LeDoux) (3 min)",
+      "afirmacion": "\"Lo que heredé no es un destino. Es el punto de partida de mi transformación consciente.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de viento suave en la sierra andina — aire renovando (2 min)\n\n------------------------------"
     }
   },
   {
@@ -223,34 +311,57 @@ const mentadasData = [
     "titulo": "EL SÍNDROME DEL IMPOSTOR — ANATOMÍA CIENTÍFICA COMPLETA",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,860 ÷ segundos) × 60.\nEL SÍNDROME DEL IMPOSTOR: MECANISMOS COGNITIVOS, DIFERENCIALES POR GÉNERO Y APLICACIONES A ENTORNOS STEM LATINOAMERICANOS\nEn 1978, las psicólogas clínicas Pauline Rose Clance y Suzanne Imes publicaron en la revista Psychotherapy: Theory, Research and Practice un artículo que introdujo el término 'fenómeno del impostor' para describir un patrón psicológico observado en su trabajo con más de 150 mujeres altamente exitosas. El fenómeno se caracteriza por la incapacidad persistente de internalizar el propio éxito y el miedo permanente de ser 'descubierta' como fraude, a pesar de evidencia externa objetiva de competencia. En su formulación original, Clance e Imes lo describieron como específico de mujeres de alto rendimiento. Investigaciones posteriores — incluyendo la revisión de 1993 de Clance con Harvey — demostraron que el fenómeno afecta a hombres con prevalencia comparable, aunque sus manifestaciones y mecanismos de manejo difieren por género.\nLos metaanálisis más recientes, incluyendo el de Bravata y colaboradores publicado en JAMA Internal Medicine en 2020, que analizó 62 estudios con más de 14,000 participantes, estiman la prevalencia en el 9-82% de la población general, con variaciones significativas según el contexto profesional, el grupo demográfico y la definición operacional utilizada. En poblaciones de profesionales en campos de alta competencia —medicina, ingeniería, investigación científica, liderazgo organizacional— las estimaciones consistentemente superan el 60%, y en mujeres en entornos masculinizados como STEM e ingeniería petrolera, el 70-80%.\nLa psicóloga Valerie Young, en su investigación de más de dos décadas con poblaciones de profesionales en transición, identificó cinco patrones fenomenológicamente distintos dentro del síndrome del impostor, que denominó arquetipos de competencia. La Perfeccionista mide su competencia por sus estándares internos de ejecución — que son invariablemente más altos que cualquier resultado alcanzado — y experimenta fracaso ante cualquier resultado que no alcanza el 100% de lo que concibió como ideal. La Experta mide su competencia por la cantidad de conocimiento acumulado — y nunca siente que sabe suficiente para actuar con autoridad, especialmente en campos donde el conocimiento se actualiza rápidamente como ingeniería y gestión de proyectos. La Solista mide su competencia por la autonomía de ejecución — pedir ayuda es evidencia de incompetencia — y la confusión entre autosuficiencia y excelencia produce sobrecarga y aislamiento. El Genio Natural mide su competencia por la velocidad y fluidez del aprendizaje — si algo requiere esfuerzo significativo, concluye que carece de aptitud natural — y evita sistemáticamente los desafíos que podrían confirmar esa conclusión. La Superhumana compensa la sensación de fraude con cantidad de trabajo — su valor se mide en horas invertidas, no en resultados estratégicos, y el agotamiento se convierte en la única evidencia disponible de que merece el espacio que ocupa.\nDesde la perspectiva cognitiva, el síndrome del impostor opera a través de lo que Aaron Beck y Albert Ellis denominaron distorsiones cognitivas sistemáticas — patrones habituales de procesamiento de información que producen conclusiones sesgadas. Las más relevantes en el contexto del impostor son el filtro mental selectivo (la tendencia a recordar con nitidez los errores y los fracasos, y a desestimar o minimizar los éxitos), la personalización de los fallos y la despersonalización de los logros (lo que salió mal es por mí; lo que salió bien fue porque otros me ayudaron o porque el contexto fue favorable), y la inferencia arbitraria (concluir que será descubierta como fraude sin evidencia que lo sostenga). Estos sesgos no son independientes — se refuerzan mutuamente y producen un sistema cerrado de creencias que es resistente a la evidencia contraria.\nLa amenaza del estereotipo, descrita por Claude Steele de la Universidad de Stanford en 1995 y ampliamente replicada en investigaciones subsecuentes, es un mecanismo específico que amplifica el síndrome del impostor en grupos con estereotipos negativos asociados a su desempeño en dominios específicos. Cuando una persona pertenece a un grupo social estigmatizado en un dominio de competencia — mujeres en matemáticas, personas de origen latinoamericano en entornos corporativos anglosajones, profesionales de primera generación en entornos de clase alta — el simple conocimiento del estereotipo negativo es suficiente para degradar el rendimiento en pruebas de ese dominio. El mecanismo es cognitivo y fisiológico: la amenaza del estereotipo activa respuestas de ansiedad que consumen capacidad de memoria de trabajo, reduciendo los recursos cognitivos disponibles para la tarea.\nPara las mujeres ingenieras y líderes técnicas latinoamericanas, la amenaza del estereotipo opera en múltiples dimensiones simultáneas: la del género en STEM, la del origen regional en contextos corporativos internacionales, y en muchos casos la de clase social en entornos donde el acceso a posiciones de liderazgo ha sido históricamente restringido a determinados grupos. Cada una de estas dimensiones activa mecanismos de vigilancia cognitiva que consumen recursos de procesamiento y producen deterioro del rendimiento precisamente en los momentos de mayor visibilidad y mayor evaluación — cuando el impostor es más activo.\nEl trabajo de Steele identificó también los moderadores de la amenaza del estereotipo — las condiciones que reducen su impacto. Entre ellos, la intervención de reafirmación de valores (escribir sobre valores personales importantes antes de una evaluación) y la reducción de la identificación con el dominio amenazado muestran efectos consistentes. Pero el moderador más robusto y con mayores efectos de tamaño es la pertenencia: la percepción de que uno encaja en el entorno, de que hay personas similares que han tenido éxito en ese dominio, de que el espacio es genuinamente para uno. La mentoría es uno de los mecanismos más directos de producción de pertenencia disponibles en entornos organizacionales.\nLas consecuencias organizacionales del síndrome del impostor no son solo individuales. Hewlett, Marshall y Sherbin, en su investigación para el Center for Talent Innovation sobre el talento femenino en organizaciones, documentaron que el patrón de atribución externa del éxito — característica central del impostor — produce invisibilidad organizacional que se traduce directamente en menores tasas de consideración para promociones. Las mujeres con impostor activo tienden a no postularse a posiciones para las que están calificadas, a no reclamar la autoría de sus contribuciones en reuniones, a formular sus ideas con lenguaje tentativo que las hace aparecer menos seguras de lo que están, y a evitar proyectos de alta visibilidad que podrían exponerlas a evaluación. El resultado es una brecha de visibilidad que no refleja una brecha de competencia pero produce los mismos efectos en la trayectoria de carrera.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,860 ÷ segundos) × 60.\nEL SÍNDROME DEL IMPOSTOR: POR QUÉ SE INTENSIFICA JUSTO CUANDO EMPIEZAS A\nCRECER\n\nAyer empezaste a distinguir un eco antiguo de un riesgo real. Hoy vas a\nponerle nombre a algo que probablemente ya sentiste muchas veces sin\nsaber que tiene una explicación estudiada: el síndrome del impostor.\nNombrarlo es parte de despertar a la certeza de que tu duda no es\ninformación sobre tu capacidad real.\n\nEn 1978, las psicólogas clínicas Pauline Rose Clance y Suzanne Imes\npublicaron en Psychotherapy: Theory, Research and Practice un artículo\nque introdujo el término \"fenómeno del impostor\", a partir de su trabajo\nclínico con más de 150 mujeres de alto rendimiento. El fenómeno describe\nla incapacidad persistente de internalizar el propio éxito y el miedo\nconstante a ser \"descubierta\" como un fraude, a pesar de evidencia\nexterna objetiva de competencia. Investigaciones posteriores —incluyendo\nla revisión de Clance con Harvey en 1993— mostraron que afecta también a\nhombres, aunque con manifestaciones distintas.\n\nEl metaanálisis de Bravata y colaboradores, publicado en JAMA Internal\nMedicine en 2020 y basado en 62 estudios con más de 14.000 participantes,\nestimó que la prevalencia varía enormemente —entre 9% y 82%— según el\ncontexto profesional y la definición operacional usada. En poblaciones\nde alto desempeño académico o profesional, las cifras consistentemente\nsuperan el 60%. Un dato clave para ti: el fenómeno no es más frecuente\nen quienes tienen menos logros. Es frecuente, precisamente, en quienes\nestán rodeadas de evidencia constante de exigencia y comparación —como\nsuele ocurrir al empezar una relación de mentoría con alguien con más\ntrayectoria que tú.\n\nLa psicóloga Valerie Young, en su investigación con profesionales en\ntransición documentada en \"The Secret Thoughts of Successful Women\"\n(2011), identificó cinco patrones distintos dentro del síndrome del\nimpostor. La Perfeccionista mide su competencia por estándares internos\nsiempre más altos que cualquier resultado alcanzado. La Experta nunca\nsiente que sabe suficiente para hablar con autoridad. La Solista\nconfunde pedir ayuda con incompetencia, y por eso se aísla justo cuando\nmás apoyo necesita —un patrón especialmente relevante si te cuesta usar\nactivamente a tu mentora como recurso. El Genio Natural concluye que si\nalgo requiere esfuerzo visible, es porque no tiene aptitud para eso. La\nSuperhumana compensa la sensación de fraude acumulando horas de trabajo\nen lugar de resultados estratégicos.\n\nUn mecanismo poco mencionado pero directamente relevante para tu\nsituación es la teoría de la comparación social, formulada por Leon\nFestinger en 1954 y ampliamente confirmada desde entonces. Festinger\npropuso que las personas evalúan su propia capacidad, en ausencia de\nestándares objetivos claros, comparándose con otras personas cercanas.\nEstar en una relación de mentoría cercana con alguien que tiene más\nexperiencia, más seguridad aparente y más trayectoria que tú es,\nestructuralmente, un escenario de comparación social intensa. No es\ncasualidad que el síndrome del impostor tienda a activarse con más\nfuerza precisamente en esos primeros meses de una mentoría, cuando el\ncontraste es más visible. Reconocer este mecanismo no lo elimina, pero\nsí te permite nombrarlo por lo que es: una distorsión de comparación,\nno un diagnóstico preciso de tu capacidad real.\n\nLa amenaza del estereotipo, descrita por Claude Steele en 1995 y\nreplicada en investigaciones posteriores (con algunas revisiones sobre\nel tamaño real del efecto en metaanálisis más recientes), añade otra\ncapa. Cuando perteneces a un grupo con un estereotipo negativo asociado\na un dominio —mujeres jóvenes en campos donde predominan perfiles con\nmás años de trayectoria, por ejemplo— el simple conocimiento de ese\nestereotipo puede consumir recursos cognitivos y afectar tu desempeño en\nel momento de mayor visibilidad. El hallazgo más útil de Steele para ti\nes el del moderador más robusto: la pertenencia. La percepción de que\nencajas, de que hay personas parecidas a ti que han tenido éxito en ese\nespacio, y de que el lugar también es tuyo, reduce sistemáticamente el\nimpacto de la amenaza. Una mentoría bien construida es, entre otras\ncosas, un mecanismo directo de producción de pertenencia.\n\nNinguno de estos marcos te pide que dejes de sentir el impostor. Te\npiden que lo reconozcas como un fenómeno estudiado, predecible y no\nexclusivo tuyo, con mecanismos identificables —comparación social,\namenaza del estereotipo, patrones de atribución— que puedes nombrar en\nel momento en que aparecen, en lugar de tomarlos como verdad sobre tu\ncapacidad real.\n\nHay un hallazgo más reciente, de Basima Tewfik, profesora del MIT Sloan\nSchool of Management, que vale la pena que conozcas porque cambia el\nmarco. Su estudio de 2022 en Academy of Management Journal —uno de los\nmás leídos de esa revista ese año— encontró que las personas con\npensamientos de impostor más frecuentes en el trabajo suelen ser\nevaluadas por otros como más efectivas interpersonalmente, no menos. La\nexplicación de Tewfik es que el impostor te vuelve más atenta al otro\n—escuchas más, te preparas más, cuidas más cómo aterriza lo que dices— y\nesa atención se percibe como una fortaleza relacional real. Esto no\nsignifica que el impostor sea deseable o que no haya que trabajarlo.\nSignifica que no tienes que esperar a eliminarlo por completo para\nconfiar en que ya estás siendo efectiva: puedes sentir la duda y, al\nmismo tiempo, estar generando el tipo de atención al otro que hace que\nla gente confíe en ti.\n\nEsto es lo que se despierta hoy: la posibilidad de sentir la duda del\nimpostor y, al mismo tiempo, seguir actuando como la profesional que ya\neres, sin esperar a que la duda desaparezca primero.",
       "comprension": [
         {
-          "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
+          "q": "¿Quiénes acuñaron el término \"fenómeno del impostor\" en 1978 y en qué población lo observaron inicialmente?",
           "options": [
-            "Los patrones y sesgos estructurales son imposibles de modificar.",
-            "Nuestras creencias, entorno y acciones pueden transformar nuestra estructura neurobiológica y resultados corporativos.",
-            "El liderazgo efectivo depende únicamente de la competencia técnica."
+            "Clance e Imes, en un grupo de más de 150 mujeres de alto rendimiento",
+            "Bandura y Dweck, en estudiantes universitarios",
+            "Steele y Aronson, en personas mayores",
+            "Edmondson, en equipos de enfermería"
+          ],
+          "answer": 0
+        },
+        {
+          "q": "Según el metaanálisis de Bravata y colaboradores (JAMA Internal Medicine, 2020), ¿qué se observó sobre la prevalencia del síndrome del impostor?",
+          "options": [
+            "Es un fenómeno raro, presente en menos del 5% de la población",
+            "Las estimaciones varían ampliamente (9% a 82%) según el contexto y la definición usada, siendo más altas en profesiones de alta competencia",
+            "Afecta exclusivamente a mujeres",
+            "No existe evidencia de que sea medible"
           ],
           "answer": 1
         },
         {
-          "q": "¿Cómo se traduce este concepto en tu práctica de liderazgo activo?",
+          "q": "Según Valerie Young, ¿qué caracteriza al arquetipo de la \"Solista\"?",
           "options": [
-            "Manteniendo la neutralidad pasiva.",
-            "Implementándolo proactivamente en conversaciones difíciles.",
-            "Esperando que el equipo lo deduzca por sí mismo."
+            "Mide su competencia por la velocidad con la que aprende cosas nuevas",
+            "Mide su competencia por la autonomía de ejecución — pedir ayuda se siente como evidencia de incompetencia",
+            "Solo se siente competente si trabaja en equipo",
+            "Mide su competencia por la cantidad de horas trabajadas"
           ],
           "answer": 1
         },
         {
-          "q": "El objetivo principal de interiorizar esta información es:",
+          "q": "¿Qué plantea la teoría de comparación social de Leon Festinger (1954) en relación al síndrome del impostor en un contexto de mentoría?",
           "options": [
-            "Acumular teoría académica.",
-            "Minimizar la responsabilidad de la mentoreada.",
-            "Desarrollar agencia y combatir la inseguridad estructural."
+            "Que las personas no se comparan nunca con nadie",
+            "Que las personas evalúan su propia capacidad comparándose con otras, y estar cerca de alguien percibido como muy competente (como una mentora) puede intensificar la sensación de insuficiencia por contraste",
+            "Que la comparación social es siempre positiva y nunca genera ansiedad",
+            "Que solo ocurre comparación social entre desconocidos"
           ],
-          "answer": 2
+          "answer": 1
+        },
+        {
+          "q": "Según Claude Steele, ¿cuál es el moderador más robusto de la amenaza del estereotipo?",
+          "options": [
+            "Tener más años de estudio formal",
+            "La pertenencia — la percepción de que encajas en el entorno y de que el espacio también es tuyo",
+            "Ignorar por completo el estereotipo",
+            "Evitar cualquier situación de evaluación"
+          ],
+          "answer": 1
         }
       ]
     },
@@ -263,19 +374,23 @@ const mentadasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Cuál es la diferencia técnica entre el arquetipo de la Perfeccionista y el arquetipo de la Experta según Valerie Young?"
+        "q": "¿Qué encontró el metaanálisis de Bravata de 2020 sobre la prevalencia del síndrome del impostor?",
+        "respuesta_modelo": "Que la prevalencia varía enormemente —entre 9% y 82% según el estudio, el contexto profesional y la definición usada— y que en poblaciones de alto desempeño académico o profesional las cifras consistentemente superan el 60%. El punto clave: no es un fenómeno de quienes logran poco, sino de quienes están rodeadas de exigencia y comparación constante."
       },
       {
         "type": "Inferencial",
-        "q": "¿Por qué la amenaza del estereotipo es especialmente relevante para mujeres ingenieras latinoamericanas que operan en entornos internacionales? ¿Cuántas dimensiones de amenaza simultáneas pueden estar activas?"
+        "q": "¿Por qué, según la teoría de comparación social de Festinger, es esperable que el síndrome del impostor se intensifique justo al empezar una relación de mentoría?",
+        "respuesta_modelo": "Porque, en ausencia de estándares objetivos claros, las personas evalúan su propia capacidad comparándose con quienes tienen cerca. Una relación de mentoría pone a la mentoreada en contacto cercano y constante con alguien con más experiencia y trayectoria aparente — un escenario estructural de comparación social intensa. Por eso el impostor se activa más en los primeros meses: el contraste es más visible en ese momento, no porque la mentoreada sea menos capaz."
       },
       {
-        "type": "Opción múltiple",
-        "q": "Según la investigación de Steele, el moderador más robusto de la amenaza del estereotipo es: a) La reafirmación de valores personales antes de la evaluación b) La pertenencia — percepción de encajar en el entorno y de que el espacio es para uno c) La reducción de la identificación con el dominio amenazado d) El acceso a mayor entrenamiento técnico"
+        "type": "Aplicación",
+        "q": "Según Valerie Young, el arquetipo de la Solista mide su competencia por: a) La velocidad de aprendizaje b) La autonomía de ejecución, donde pedir ayuda se siente como incompetencia ✅ CORRECTA c) Las horas trabajadas d) La cantidad de diplomas",
+        "respuesta_modelo": ""
       },
       {
-        "type": "Conexión personal",
-        "q": "¿Cuál de los cinco arquetipos de Valerie Young reconoces como tu patrón dominante? Describe una situación específica de los últimos 60 días donde lo viste operar con claridad."
+        "type": "Conexión personal — sin respuesta única",
+        "q": "¿Cuál de los cinco arquetipos de Valerie Young reconoces como tu patrón dominante dentro de tu relación con tu mentora? Describe una situación concreta reciente donde lo viste operar.",
+        "respuesta_modelo": "reflexión personal sin respuesta única. Sirve para que la mentoreada identifique su arquetipo específicamente dentro de la relación de mentoría (no en abstracto), y lo pueda nombrar en voz alta con su mentora en la próxima sesión."
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
@@ -286,9 +401,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Clance, Imes y Valerie Young: el síndrome del impostor no es falta de capacidad — es un patrón de atribución que se puede identificar y modificar (2 min)",
+      "conceptos": "arquetipos de competencia (Young), amenaza del estereotipo (Steele), sesgo de atribución asimétrico (3 min)",
+      "afirmacion": "\"Mis logros son míos. No espero que el impostor desaparezca — aprendo a actuar a pesar de él.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de fuego crepitando — Nina transformando (2 min)\n\n------------------------------"
     }
   },
   {
@@ -297,34 +413,57 @@ const mentadasData = [
     "titulo": "LA ESCRITURA COMO HERRAMIENTA DE PROCESAMIENTO — PENNEBAKER Y LA CIENCIA DEL SOLTAR",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "Cronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60. Primer día en alcanzar 1,920 palabras — nótalo.",
+      "texto": "LA ESCRITURA EXPRESIVA: UNA HERRAMIENTA PARA PROCESAR LO QUE UNA SESIÓN\nDE MENTORÍA REMUEVE\n\nAyer descubriste que puedes sentir la duda del impostor y seguir\nactuando. Hoy vas a despertar una herramienta simple para no cargar lo\nque las sesiones remueven: ponerlo en palabras antes de que se acumule.\n\nJames Pennebaker, psicólogo de la Universidad de Texas en Austin,\npublicó en 1986 junto a Sandra Beall un estudio en el Journal of\nAbnormal Psychology que dio origen a una de las líneas de investigación\nmás replicadas en psicología de la salud: el protocolo de escritura\nexpresiva. El diseño era simple: pedir a los participantes que\nescribieran, durante 15 a 20 minutos al día, por 3 a 4 días\nconsecutivos, sobre sus pensamientos y sentimientos más profundos\nrelacionados con una experiencia difícil —sin preocuparse por la\ngramática ni la estructura. El grupo control escribía sobre temas\nneutros, sin carga emocional. Los resultados mostraron mejoras medibles\nen indicadores de salud física y psicológica en el grupo de escritura\nexpresiva.\n\nEl mecanismo que Pennebaker propuso para explicar este efecto se conoce\ncomo la teoría de la inhibición. Contener de forma activa y sostenida\npensamientos y emociones no procesados sobre una experiencia\nsignificativa requiere un trabajo fisiológico constante —una especie de\n\"trabajo de mantenimiento\" del sistema nervioso—, y ese esfuerzo\nfunciona como una forma de estrés crónico de bajo grado. La escritura,\nal obligarte a poner en palabras lo que hasta entonces era una masa\ndifusa de sensación, reduce esa carga de inhibición porque convierte lo\nno procesado en algo organizado y nombrado.\n\nUn metaanálisis posterior de Joanne Frattaroli, publicado en\nPsychological Bulletin en 2006 y que integró más de 140 estudios\nexperimentales, confirmó que el efecto de la escritura expresiva es\nreal pero modesto en magnitud —pequeño a moderado, dependiendo de cómo\nse implemente la técnica y de la población estudiada—. Esto es\nimportante decirlo con precisión: la escritura expresiva no es una\nintervención milagrosa ni sustituye apoyo profesional cuando se\nnecesita. Es una herramienta de bajo costo y alta accesibilidad con\nevidencia consistente, no una panacea.\n\nLa aplicación de este marco a tu proceso de mentoría es directa. Una\nsesión de mentoría —especialmente cuando toca temas de identidad,\ncompetencia o comparación como los de este bloque— frecuentemente\nremueve más de lo que alcanzas a procesar en el momento. Hay una\nreacción emocional que no llegas a nombrar en voz alta frente a tu\nmentora, ya sea porque no hay tiempo, porque no te sientes cómoda\ntodavía, o porque ni tú misma la tienes clara mientras ocurre la\nsesión. Esa reacción no procesada no desaparece sola. Queda ahí,\nconsumiendo atención de fondo, hasta que se le da alguna forma.\n\nLa diferencia entre escribir sobre esto y simplemente comentarlo\nverbalmente con alguien es más relevante de lo que parece. Pennebaker\nobservó que la escritura obliga a un proceso cognitivo distinto: para\nponer una experiencia difusa en palabras escritas necesitas\norganizarla, secuenciarla, encontrarle una estructura narrativa. Ese\nproceso de estructuración —no solo la expresión en sí— es parte de lo\nque produce el efecto. Hablar espontáneamente puede desahogar, pero no\nsiempre exige el mismo nivel de organización cognitiva que escribir sin\neditar durante quince minutos seguidos.\n\nLa práctica concreta que te propone este día es simple: después de\ncada sesión con tu mentora, antes de que pase mucho tiempo, dedica 10 a\n15 minutos a escribir sin editar sobre lo que la sesión te removió —no\nun resumen de lo que se dijo, sino lo que sentiste y no dijiste. Esa\nescritura no es para compartir necesariamente con tu mentora. Es tu\nbitácora, y su función principal es contigo misma.\n\nEsto es lo que se despierta hoy: la costumbre de no dejar que lo que\nsientes y no dices se quede atrapado. Escribirlo es, literalmente,\ndejar de cargarlo sola.",
       "comprension": [
         {
-          "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
+          "q": "¿Qué protocolo específico usó James Pennebaker en sus estudios originales (Pennebaker & Beall, 1986)?",
           "options": [
-            "Los patrones y sesgos estructurales son imposibles de modificar.",
-            "Nuestras creencias, entorno y acciones pueden transformar nuestra estructura neurobiológica y resultados corporativos.",
-            "El liderazgo efectivo depende únicamente de la competencia técnica."
+            "Escribir una novela completa durante un año",
+            "Escribir sobre pensamientos y sentimientos más profundos relacionados con una experiencia difícil, durante 15-20 minutos al día, por 3-4 días consecutivos",
+            "Leer en voz alta textos de otros autores",
+            "Escribir únicamente sobre eventos positivos"
           ],
           "answer": 1
         },
         {
-          "q": "¿Cómo se traduce este concepto en tu práctica de liderazgo activo?",
+          "q": "Según la \"teoría de la inhibición\" de Pennebaker, ¿por qué contener activamente pensamientos y emociones sobre una experiencia difícil tiene un costo?",
           "options": [
-            "Manteniendo la neutralidad pasiva.",
-            "Implementándolo proactivamente en conversaciones difíciles.",
-            "Esperando que el equipo lo deduzca por sí mismo."
+            "Porque no tiene ningún costo medible",
+            "Porque el esfuerzo fisiológico sostenido de inhibir es una forma de estrés crónico de bajo grado que consume recursos del cuerpo",
+            "Porque libera automáticamente hormonas de felicidad",
+            "Porque mejora la memoria a largo plazo"
           ],
           "answer": 1
         },
         {
-          "q": "El objetivo principal de interiorizar esta información es:",
+          "q": "El metaanálisis de Frattaroli (2006, Psychological Bulletin) sobre escritura expresiva encontró efectos:",
           "options": [
-            "Acumular teoría académica.",
-            "Minimizar la responsabilidad de la mentoreada.",
-            "Desarrollar agencia y combatir la inseguridad estructural."
+            "Nulos en todos los casos",
+            "Pequeños a moderados mejorando distintos indicadores de bienestar, con variación según cómo se implemente la técnica",
+            "Negativos y perjudiciales para la salud",
+            "Exclusivamente en poblaciones clínicas graves"
           ],
-          "answer": 2
+          "answer": 1
+        },
+        {
+          "q": "Según el texto, ¿qué tipo de contenido es especialmente útil escribir después de una sesión de mentoría según el marco de Pennebaker?",
+          "options": [
+            "Solo los datos objetivos de lo que se dijo en la sesión",
+            "Lo que no dijiste en voz alta durante la sesión — la reacción emocional cruda que no compartiste con tu mentora",
+            "Una lista de tareas pendientes exclusivamente",
+            "Un resumen técnico sin ninguna referencia emocional"
+          ],
+          "answer": 1
+        },
+        {
+          "q": "¿Qué distingue a la escritura expresiva de simplemente \"desahogarse\" verbalmente con alguien más, según la investigación de Pennebaker?",
+          "options": [
+            "No hay ninguna diferencia entre ambas",
+            "La escritura obliga a organizar y estructurar la experiencia en lenguaje, un proceso cognitivo que el desahogo verbal espontáneo no siempre requiere",
+            "Desahogarse verbalmente es siempre superior",
+            "La escritura solo funciona si se hace en voz alta"
+          ],
+          "answer": 1
         }
       ]
     },
@@ -337,19 +476,23 @@ const mentadasData = [
     "fase4_recall": [
       {
         "type": "Literal",
-        "q": "¿Cuál fue el hallazgo principal del estudio original de Pennebaker de 1986 en términos de visitas médicas y marcadores inmunológicos?"
+        "q": "¿Cuál fue el protocolo exacto usado por Pennebaker y Beall en su estudio original de 1986?",
+        "respuesta_modelo": "Pedir a los participantes que escribieran, sin preocuparse por gramática ni estructura, sobre sus pensamientos y sentimientos más profundos relacionados con una experiencia difícil, durante 15 a 20 minutos al día, por 3 a 4 días consecutivos. El grupo control escribía sobre temas neutros."
       },
       {
         "type": "Inferencial",
-        "q": "¿Por qué el análisis LIWC de Pennebaker concluye que lo que predice la mejora en salud no es cuánto dolor expresa el texto sino cuánta comprensión construye el escritor?"
+        "q": "Según la teoría de la inhibición, ¿por qué contener una experiencia sin procesarla tiene un costo fisiológico medible?",
+        "respuesta_modelo": "Porque mantener activamente reprimidos pensamientos y emociones no procesados requiere un esfuerzo fisiológico sostenido —una especie de \"trabajo de mantenimiento\" del sistema nervioso— que funciona como estrés crónico de bajo grado. Escribir libera esa carga al convertir lo difuso en algo organizado y nombrado, reduciendo el esfuerzo de seguir conteniéndolo."
       },
       {
-        "type": "Opción múltiple",
-        "q": "Según Di Stefano et al. (Administrative Science Quarterly 2016), dedicar 15 minutos al final de la jornada a reflexión escrita produjo: a) Mayor motivación pero no cambio en rendimiento b) 22.8% de mejora en rendimiento en evaluaciones estandarizadas c) Reducción del estrés pero sin efecto en productividad d) Mejora solo en trabajadores con alta experiencia previa"
+        "type": "Aplicación",
+        "q": "Según el metaanálisis de Frattaroli (2006), el efecto de la escritura expresiva es: a) Nulo en todos los estudios b) Pequeño a moderado, dependiendo de la implementación ✅ CORRECTA c) Siempre negativo d) Solo medible en poblaciones clínicas severas",
+        "respuesta_modelo": ""
       },
       {
-        "type": "Conexión personal",
-        "q": "¿Qué estás cargando actualmente en tu vida profesional — una decisión pendiente, un conflicto sin resolver, un resultado que no has aceptado — que nunca has puesto en palabras? No tienes que escribirlo aquí. Solo nómbralo para ti misma."
+        "type": "Conexión personal — sin respuesta única",
+        "q": "¿Qué reacción emocional de tu última sesión de mentoría no llegaste a nombrar en voz alta?",
+        "respuesta_modelo": "reflexión personal, sin respuesta única. Ejercicio de práctica directa del protocolo Pennebaker, no solo teoría."
       }
     ],
     "fase5_codificacion_dual": "Visualiza el concepto principal del día de hoy como una imagen clara en tu mente.",
@@ -360,9 +503,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Pennebaker: la escritura expresiva produce efectos biológicos medibles — inmunológicos y fisiológicos — al reducir la carga de inhibición activa (2 min)",
+      "conceptos": "hipótesis de inhibición, hipótesis de elaboración cognitiva, palabras de insight y causales (LIWC) (3 min)",
+      "afirmacion": "\"Lo que pongo en palabras sale de mi cuerpo. Soy más libre cuando soy más honesta.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de río andino — Yakumama limpiando con agua clara (2 min)\n\n------------------------------"
     }
   },
   {
@@ -371,7 +515,7 @@ const mentadasData = [
     "titulo": "EL PERDÓN COMO DECISIÓN ESTRATÉGICA — MODELO DE PROCESO DE ENRIGHT",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60.\nEL PERDÓN COMO PROCESO PSICOLÓGICO: MODELO DE ENRIGHT, MECANISMOS Y EVIDENCIA CLÍNICA\nLa investigación científica sobre el perdón como proceso psicológico medible y con efectos en salud se consolidó durante los años noventa, liderada por Robert D. Enright, psicólogo del desarrollo en la Universidad de Wisconsin-Madison, y por Everett Worthington Jr. de la Virginia Commonwealth University. Antes de este período, el perdón había sido objeto de estudio principalmente en contextos teológicos y filosóficos; su estudio psicológico riguroso requería primero definir qué es el perdón con suficiente precisión operacional como para estudiarlo experimentalmente.\nEnright y Fitzgibbons, en su libro Forgiveness Therapy publicado en 2000 y revisado en 2015, definen el perdón como la decisión de ofrecer bondad, respeto, generosidad y amor a quien hizo daño, a pesar del daño causado. Esta definición tiene tres características que la distinguen de conceptualizaciones cotidianas del perdón. Primero, el perdón es incondicional — no depende de que el ofensor reconozca el daño, se disculpe o cambie. Segundo, el perdón no implica necesariamente reconciliación, restablecimiento de la relación o eliminación de las consecuencias justas de las acciones del ofensor. Tercero, el perdón es un proceso con etapas discernibles, no un evento único.\nEl Modelo de Proceso del Perdón de Enright, desarrollado a partir de más de cuarenta años de investigación clínica y validado en ensayos controlados con poblaciones diversas, identifica cuatro fases y aproximadamente veinte unidades de trabajo. La Fase de Descubrimiento involucra el reconocimiento completo de la herida — no minimizarla ni dramatizarla — incluyendo la ira, el dolor, la vergüenza o la confusión que produjo, y el examen de cómo esa herida ha afectado la vida, las decisiones y las relaciones desde que ocurrió. La Fase de Decisión involucra el reconocimiento de que mantener el resentimiento tiene un costo mayor para quien lo mantiene que para quien lo causó, y la decisión consciente de explorar el perdón no como rendición sino como estrategia de liberación propia. La Fase de Trabajo involucra el intento activo de desarrollar empatía hacia el ofensor — no para justificarlo sino para comprender qué condiciones produjeron su comportamiento — y la práctica de ofrecer mentalmente bondad a quien causó el daño. La Fase de Profundización involucra la integración de la experiencia — encontrar significado en el sufrimiento, reconocer la propia vulnerabilidad y necesidad de perdón, y el crecimiento que emerge de haber atravesado el proceso.\nLos ensayos clínicos de Enright con diversas poblaciones muestran efectos consistentes del proceso de perdón sobre ansiedad, depresión, esperanza y autoestima. Un estudio seminal con mujeres sobrevivientes de incesto, publicado en Journal of Consulting and Clinical Psychology en 1993, demostró reducciones significativas en ansiedad y depresión, y aumentos en esperanza, en comparación con el grupo de control. Estudios posteriores de Freedman y Enright con supervivientes de abuso emocional, y de Al-Mabuk con adolescentes que habían perdonado a sus padres, replicaron los efectos en poblaciones distintas.\nWorthington desarrolló un modelo alternativo denominado REACH que ha sido también extensamente validado. El modelo REACH identifica cinco pasos: Recordar el daño de manera objetiva, Empatizar con el ofensor, Ofrecer el perdón como regalo altruista, Comprometerse públicamente con el perdón y Mantener el perdón cuando los pensamientos del daño regresan. La investigación de Worthington muestra que el perdón comprometido — donde la persona articula explícitamente la decisión de perdonar — produce efectos de mayor magnitud que el perdón basado solo en reencuadre cognitivo de la experiencia.\nPara las mujeres profesionales, el perdón que más frecuentemente necesita trabajo no es el perdón a una persona específica sino a lo que Enright llama sistemas o estructuras. El sistema que no reconoció la competencia. La organización que promovió a alguien menos calificado. La cultura que impuso estándares dobles. El entorno formativo que transmitió mensajes limitantes sobre el potencial femenino. Este tipo de perdón es más difícil porque el ofensor no es una persona específica sino un patrón distribuido, y porque la injusticia sistémica a veces es real — no percibida, real. El perdón sistémico no requiere negar la injusticia. Requiere decidir que la energía invertida en el resentimiento ya no sirve al desarrollo y puede redirigirse.\nKristin Neff, cuya investigación sobre la autocompasión ha sido referencia en este bloque, y Frederick en 2003 documentaron que el perdón a uno mismo — la incapacidad de internalizar errores propios como fuente de información sin convertirlos en evidencia de incompetencia fundamental — es para muchas personas más difícil que el perdón interpersonal. El perfeccionista que cometió un error importante en un proyecto de alta visibilidad, la solista que pidió ayuda y lo interpreta como fracaso, la experta que tomó una decisión con información incompleta y se responsabiliza del resultado como si hubiera tenido información que no tenía — todos estos patrones producen una deuda de autoperdón que consume energía disponible para el liderazgo.\nLa implicación para la mentoría es directa. Una mentora que lleva resentimientos activos hacia su organización, hacia personas que la hirieron en su trayectoria o hacia el sistema en sentido amplio, opera con una carga que interfiere con su capacidad de estar presente para la mentoreada. No porque sus resentimientos sean injustificados — pueden ser absolutamente justificados — sino porque el resentimiento activo consume recursos cognitivos y emocionales que la mentoría requiere. El perdón que trabaja este programa no es la obligación de olvidar ni de justificar. Es la decisión de recuperar la energía propia de la custodia de la herida.\nLa investigación de Toussaint, Worthington y Williams en 2015, revisando más de 800 estudios sobre perdón publicados hasta esa fecha, concluye que el perdón está consistentemente asociado con menores niveles de ansiedad, depresión, ira y síntomas físicos relacionados con el estrés, y con mayores niveles de bienestar subjetivo, satisfacción con la vida y calidad de las relaciones interpersonales. Los efectos son más marcados en perdón decidido — donde la persona ha tomado una decisión consciente — que en perdón experimental — donde solo se ha modificado el afecto negativo hacia el ofensor. Y los efectos son mantenidos en seguimientos a largo plazo, lo que sugiere que los cambios producidos por el proceso de perdón son durable.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60.\nEL PERDÓN COMO ESTRATEGIA COGNITIVA: LIBERAR RECURSOS PARA TU PROPIO\nCRECIMIENTO\n\nAyer despertaste la costumbre de nombrar lo que sientes en vez de\ncargarlo en silencio. Hoy vas a despertar algo más específico: la\nposibilidad de soltar el juicio que te sigues aplicando por errores que\nya pasaron.\n\nRobert Enright, profesor de psicología educativa en la Universidad de\nWisconsin-Madison y fundador del International Forgiveness Institute,\ndesarrolló durante más de tres décadas un modelo de proceso del perdón,\ndescrito en \"Forgiveness Is a Choice\" (2001), con cuatro fases:\ndescubrimiento, decisión, trabajo y profundización.\n\nUn metaanálisis de 2014 de Nathaniel Wade y colaboradores, publicado en\nJournal of Consulting and Clinical Psychology, encontró que las\nintervenciones estructuradas de perdón producen reducciones\nestadísticamente significativas en enojo, ansiedad y depresión,\ncomparadas con no intervención.\n\nExiste una línea de investigación específica sobre el autoperdón,\ndesarrollada por Julie Juola Hall y Frank Fincham en su artículo de\n2005 \"Self-Forgiveness: The Stepchild of Forgiveness Research\" (Journal\nof Social and Clinical Psychology). Muestran que perdonarte a ti misma\ninvolucra procesos algo distintos a perdonar a otra persona: trata con\ntu propia relación contigo misma y tu capacidad de sostener un juicio\njusto sobre tus propios errores.\n\nEn un proceso de mentoría es habitual acumular motivos de autocrítica:\nla vez que no defendiste tu punto de vista, la comparación con\ncompañeras \"más avanzadas\". Sostener ese peso consume recursos\natencionales reales — los mismos que necesitas para aprender\nactivamente de tu mentora.\n\nPerdonar no significa olvidar ni justificar una conducta que causó daño\nreal. El aprendizaje se conserva; lo que se suelta es la carga\nemocional que ya no aporta información nueva.\n\nEl ejercicio de hoy no te pide sentir perdón de inmediato. Te pide\nidentificar con precisión qué necesitas perdonarte, y dar el primer\npaso: nombrarlo con honestidad, sin minimizarlo ni exagerarlo.\n\nEsto es lo que se despierta hoy: la posibilidad de conservar la lección\nde un error sin seguir pagando la cuota diaria del juicio sobre ti\nmisma.",
       "comprension": [
         {
           "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
@@ -434,9 +578,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Enright: el perdón como proceso estructurado produce efectos medibles en ansiedad, depresión y bienestar — más marcados cuando es una decisión consciente (2 min)",
+      "conceptos": "Modelo de Proceso del Perdón (Enright), perdón sistémico, perdón comprometido REACH (Worthington) (3 min)",
+      "afirmacion": "\"Perdonar es el acto de poder más silencioso que existe. Lo hago por mí.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de agua y fuego simultáneos — Yakumama y Nina, limpieza y transformación (2 min)\n\n------------------------------"
     }
   },
   {
@@ -445,7 +590,7 @@ const mentadasData = [
     "titulo": "FEYNMAN — INTEGRACIÓN DE LOS DÍAS 1-6",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "Cronómetro activo. Lee sin detenerte. PPM = (1,800 ÷ segundos) × 60.",
+      "texto": "LA TÉCNICA FEYNMAN: SI NO LO PUEDES EXPLICAR SIMPLE, TODAVÍA NO LO SABES\n\nAyer despertaste la posibilidad de soltar el juicio sobre errores\npasados. Hoy no vas a despertar un tema nuevo — vas a comprobar qué de\nlo que llevas seis días leyendo ya despertó de verdad en ti, y qué\ntodavía es solo información que reconoces pero no dominas.\n\nRichard Feynman, físico ganador del Premio Nobel, es la fuente de una\ntécnica de estudio: explicar un concepto con el lenguaje más simple\nposible, como si se lo enseñaras a alguien sin conocimiento previo.\nCuando usas jerga, es fácil dar por sentado que entendiste; cuando\ntraduces a lenguaje cotidiano, cualquier hueco se hace visible.\n\nEsta intuición tiene respaldo formal: el \"efecto protégé\", estudiado\npor Bargh y Schul (1980) en Journal of Educational Psychology, muestra\nque prepararte para enseñar un contenido —incluso sin llegar a\nenseñarlo— mejora tu comprensión y retención, más que estudiarlo solo\npara ti misma.\n\nEsta misma idea tiene nombre en el mundo de la comunicación\nprofesional. Chip Heath, profesor emérito en la Stanford Graduate\nSchool of Business, y su hermano Dan Heath, mostraron en Made to Stick\n(2007) que las ideas que se recuerdan y mueven a la acción comparten\nseis rasgos: simples, inesperadas, concretas, creíbles, emocionales, y\ncontadas como historia. Practicar esto hoy no es solo para consolidar\nlo que aprendiste. Es la misma habilidad que vas a necesitar la próxima\nvez que tengas que explicar tu propuesta, tu logro o tu idea a alguien\ncon poder de decisión.\n\nHoy es el día de aplicar esto a los seis días anteriores: tu identidad\nprofesional se construye actuando, no esperando (Ibarra, Bandura); las\ncreencias sobre tu capacidad muchas veces fueron heredadas (epigenética,\nDweck); tus patrones con la autoridad tienen una historia que se puede\nactualizar (Yehuda, LeDoux); el síndrome del impostor se intensifica de\nforma predecible cerca de alguien con más trayectoria (Clance, Young,\nFestinger, Steele); escribir reduce la carga de lo no procesado\n(Pennebaker); y perdonarte libera recursos cognitivos (Enright, Hall y\nFincham).\n\nLa escritura expresiva del Día 5 te permite nombrar qué te pesa; el\nperdón del Día 6 decide soltar la carga una vez nombrada. Una sin la\notra queda incompleta.\n\nSi te quedas trabada explicando algo, no es un fracaso — es exactamente\nla información que la técnica Feynman está diseñada para revelar.\n\nEsto es lo que se despierta hoy: la diferencia entre haber leído algo y\nhaberlo hecho tuyo.",
       "comprension": [
         {
           "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
@@ -508,9 +653,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Feynman: la comprensión real se verifica en la capacidad de explicar con lenguaje simple — la ilusión de comprensión colapsa al intentarlo (2 min)",
+      "conceptos": "ilusión de comprensión, codificación elaborativa, dificultades deseables (Brown/Roediger/McDaniel) (3 min)",
+      "afirmacion": "\"Lo que puedo explicar simple, lo entiendo profundo. Lo que no puedo explicar simple, lo estudio de nuevo.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de viento andino — Wayra aclarando la mente (2 min)\n\n------------------------------"
     }
   },
   {
@@ -519,7 +665,7 @@ const mentadasData = [
     "titulo": "SEGURIDAD PSICOLÓGICA — LO QUE HARVARD INVESTIGÓ DURANTE 25 AÑOS",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60.\nSEGURIDAD PSICOLÓGICA: DEFINICIÓN, MECANISMOS Y CONDICIONES DE PRODUCCIÓN\nAmy Edmondson, profesora de Liderazgo y Gestión en Harvard Business School, introdujo el concepto de seguridad psicológica en el contexto organizacional en su investigación doctoral a finales de los años noventa, publicada en Administrative Science Quarterly en 1999. Su definición operacional es precisa: la creencia compartida por los miembros de un equipo de que el entorno es seguro para tomar riesgos interpersonales. Un riesgo interpersonal incluye hablar con una idea nueva que puede parecer poco realista, señalar un error cometido propio o de otro miembro del equipo, hacer una pregunta que revele desconocimiento, o disentir de la posición de la figura de autoridad en el equipo.\nLa investigación de Edmondson emergió de un hallazgo paradójico en un estudio sobre errores en equipos de enfermería en hospitales. Edmondson esperaba que los equipos con mejor desempeño clínico reportaran menos errores. Los datos mostraron lo contrario: los equipos de mayor rendimiento reportaban más errores. La explicación no era que cometieran más errores sino que los reportaban con mayor frecuencia y prontitud. Los equipos de alto rendimiento habían desarrollado una cultura donde reportar un error no era una amenaza al estatus del individuo sino una contribución al funcionamiento del equipo. Los equipos de bajo rendimiento suprimían los errores — no por deslealtad sino por miedo a consecuencias sobre la evaluación de competencia. Esta supresión producía el efecto paradójico de que los errores llegaban tarde, cuando ya habían escalado.\nEl Proyecto Aristóteles de Google, conducido entre 2012 y 2016 con más de 180 equipos, identificó la seguridad psicológica como la variable número uno que diferenciaba a los equipos de alto rendimiento del resto. El equipo de investigación, liderado por Julia Rozovsky, encontró que la composición del equipo — quiénes son sus miembros, cuál es su experiencia técnica, cuántas horas trabajan — explicaba mucho menos la varianza en rendimiento que las normas de interacción del equipo. Y entre todas las normas de interacción examinadas, la seguridad psicológica tenía el mayor peso predictivo. Los equipos con alta seguridad psicológica mostraban mayor creatividad, menor rotación, mayor eficiencia en la toma de decisiones y mayor capacidad de aprendizaje a partir de los errores.\nUn malentendido frecuente sobre la seguridad psicológica, que Edmondson abordó explícitamente en su artículo de Harvard Business Review de 2023, es confundirla con comfort, ausencia de conflicto o reducción de estándares. La seguridad psicológica no es hacer sentir bien a las personas en todo momento. Es crear las condiciones donde el candor honesto — incluyendo el desacuerdo, la crítica constructiva y el señalamiento de problemas incómodos — puede ocurrir sin costo social inaceptable. Edmondson usa el término 'fricción saludable' para describir el tipo de interacción que la seguridad psicológica hace posible: el debate riguroso sobre ideas, donde el foco está en la calidad del argumento y no en el estatus de quien lo hace.\nLas investigaciones de Boston Consulting Group de 2021 y 2024 sobre el impacto de la seguridad psicológica en retención de talento femenino son especialmente relevantes para este programa. BCG encontró que en entornos con baja seguridad psicológica, las mujeres tienen el doble de probabilidad que los hombres de considerar abandonar la organización, a pesar de tener niveles similares de satisfacción con el rol técnico. El mecanismo propuesto: las mujeres en entornos organizacionales con alta distancia al poder y cultura de evaluación permanente perciben los riesgos interpersonales con mayor magnitud que sus pares masculinos — en parte porque los costos históricos de 'equivocarse en público' han sido consistentemente más altos para las mujeres que para los hombres en contextos laborales. La seguridad psicológica no solo afecta el rendimiento del equipo — afecta diferencialmente la retención de talento femenino.\nEdmondson identifica tres condiciones de producción de seguridad psicológica que están en manos del líder o de la mentora del equipo. La primera es enmarcar el trabajo como aprendizaje en lugar de como ejecución: comunicar explícitamente que el objetivo es desarrollarse, que los errores son parte del proceso y que el criterio de evaluación incluye la capacidad de aprender, no solo la ausencia de error. La segunda es modelar la falibilidad: el líder que muestra sus propias preguntas sin respuesta, sus propios errores recientes y sus propias áreas de desarrollo comunica que no saber algo no es incompatible con tener autoridad. La tercera es responder productivamente al input: cuando alguien habla, señala un problema o hace una pregunta, la calidad de la respuesta del líder determina si otros lo harán después. Un silencio incómodo o una respuesta defensiva ante el señalamiento de un problema reduce la seguridad psicológica del equipo de manera más rápida y durable que lo que cualquier declaración de apertura puede construir.\nPara la mentora, las implicaciones son directas. La relación de mentoría es, por definición, una relación de asimetría de experiencia y frecuentemente de poder organizacional. Esa asimetría puede producir en la mentoreada los mismos patrones de supresión que Edmondson describió en los equipos hospitalarios: el autocensurado de las preguntas que revelan desconocimiento, la minimización de los errores para no aparecer incompetente ante la mentora, la presentación de una versión maquillada del progreso que evita revelar los obstáculos reales. Una mentoría donde la mentoreada solo muestra su mejor versión es una mentoría que trabaja con información incompleta — y que puede terminar reforzando exactamente los patrones que pretende superar.\nEdmondson en su libro The Fearless Organization de 2018 propone el concepto de 'líder inclusivo' como aquel que activamente invita la participación de quienes tienen menor estatus en el equipo — no solo tolera su presencia sino que crea condiciones específicas para que su voz tenga peso. En el contexto de la mentoría, esto se traduce en la mentora que hace preguntas abiertas antes de ofrecer perspectiva, que explícitamente solicita el desacuerdo de la mentoreada con las sugerencias que ofrece, y que celebra con precisión específica los momentos donde la mentoreada habló con honestidad sobre sus dudas o señaló algo que no estaba funcionando.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60.\nSEGURIDAD PSICOLÓGICA: LO QUE NECESITAS PARA APRENDER DE VERDAD, DESDE\nEL LADO DE QUIEN LA RECIBE\n\nAyer descubriste la diferencia entre haber leído algo y haberlo hecho\ntuyo. Hoy vas a despertar algo que cambia cómo vives cada sesión: no\ntienes que esperar a que la seguridad psicológica te la den. Puedes\nreconocerla, pedirla y construirla.\n\nAmy Edmondson, profesora en Harvard Business School, publicó en 1999 en\nAdministrative Science Quarterly el estudio que dio origen a esta línea\nde investigación. La definió como la creencia compartida de que un\nentorno es seguro para tomar riesgos interpersonales, sin temer un\ncosto desproporcionado sobre cómo te perciben. Su libro \"The Fearless\nOrganization\" (2018) confirma que es una de las condiciones más\ndeterminantes del aprendizaje real en cualquier relación de desarrollo.\n\nEste día invierte la perspectiva: la seguridad psicológica no es un\nregalo pasivo. Se construye entre las dos partes, y tú tienes un papel\nactivo.\n\nTimothy Clark, en \"The 4 Stages of Psychological Safety\" (2020),\npropone cuatro etapas progresivas: seguridad de inclusión (pertenecer\nsin disfrazarte), seguridad del aprendiz (preguntar y equivocarte sin\ncastigo), seguridad del contribuidor (que tus ideas se tomen en serio),\ny seguridad del retador (poder cuestionar a tu mentora sin poner en\nriesgo la relación). Es normal que al inicio no exista todavía la etapa\ncuatro.\n\nLa seguridad psicológica no significa ausencia de exigencia — Edmondson\nes enfática en que los equipos con más seguridad psicológica también\nsostienen estándares más altos, porque el error se nombra y se corrige\nen vez de esconderse.\n\nSeñales de que la seguridad psicológica todavía está en construcción:\nevitar decir \"no entendí\", disculparte en exceso antes de preguntas\nrazonables, o guardar desacuerdos genuinos.\n\nSi después de varias sesiones la relación no se siente segura, la\nrecomendación es nombrarlo directamente con una petición concreta y,\nsi no mejora, buscar apoyo de quien coordina el programa.\n\nEsto es lo que se despierta hoy: ya no eres solo receptora de la\nseguridad psicológica que te ofrezcan. Eres coautora de ella.",
       "comprension": [
         {
           "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
@@ -582,9 +728,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Edmondson: la seguridad psicológica es la variable número uno de rendimiento de equipos — y afecta diferencialmente la retención de talento femenino (2 min)",
+      "conceptos": "seguridad psicológica (Edmondson), fricción saludable, Proyecto Aristóteles (Google) (3 min)",
+      "afirmacion": "\"Creo seguridad psicológica no porque sea agradable — sino porque es la condición del aprendizaje real.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de tierra — viento suave sobre pasto andino, raíces que sostienen (2 min)\n\n------------------------------"
     }
   },
   {
@@ -593,7 +740,7 @@ const mentadasData = [
     "titulo": "NEUROPLASTICIDAD DELIBERADA — EL CEREBRO QUE CONSTRUYES CONSCIENTEMENTE",
     "fase1_ancla": "Inhala profundo y prepárate mentalmente para la sesión.",
     "fase2_lectura": {
-      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60.\nNEUROPLASTICIDAD DELIBERADA: EVIDENCIA, MECANISMOS Y APLICACIONES AL DESARROLLO DE LIDERAZGO\nLa neuroplasticidad — la capacidad del sistema nervioso de modificar su estructura y función en respuesta a la experiencia — era considerada en la neurología clínica del siglo veinte como un fenómeno limitado a los períodos críticos del desarrollo infantil. La doctrina dominante, sintetizada en la famosa frase de William James que el cerebro adulto es 'macizo como una yeso', sostenía que después de los primeros años de vida el sistema nervioso perdía su capacidad de reorganización estructural significativa. Las décadas de los noventa y dos mil produjeron una revisión completa de esta doctrina a partir de evidencia experimental acumulada en múltiples laboratorios.\nMichael Merzenich, neurocientífico de la Universidad de California en San Francisco, fue pionero en documentar neuroplasticidad en el córtex sensorial adulto. Sus experimentos con monos adultos demostraron que la representación cortical de los dedos se expandía después de entrenamiento intensivo que requería discriminación táctil fina, y que esta expansión era reversible — el área cortical correspondiente reducía su tamaño cuando el dígito quedaba sin usar. Estudios posteriores de Merzenich con músicos profesionales, que requieren discriminación auditiva y coordinación motora fina altamente entrenadas, mostraron diferencias estructurales medibles en las áreas corticales correspondientes comparados con no músicos de igual edad.\nLa investigación de Joe Dispenza, neurocientífico y médico quiropráxico que estudió con varios de los investigadores de punta en neuroplasticidad, se enfocó en documentar los cambios neurológicos producidos por prácticas de meditación y visualización intensa. Su colaboración en estudios longitudinales, incluyendo investigaciones publicadas en PNAS (Proceedings of the National Academy of Sciences), ha producido evidencia de que incluso intervenciones breves de práctica meditativa intensiva generan cambios medibles en marcadores de neuroplasticidad y conectividad estructural — incluyendo mayor interconexión en redes asociadas con regulación emocional y atención sostenida, y reducción de actividad en la red de modo por defecto, que es la red asociada con el parloteo mental interno no dirigido.\nEl BDNF es especialmente relevante en este contexto. Este factor neurotrófico es esencial para la supervivencia, crecimiento y diferenciación de neuronas, y para la formación y consolidación de sinapsis. Estudios de John Ratey en Harvard, sintetizados en su libro Spark de 2008, demostraron que el ejercicio físico aeróbico es el estimulador más eficiente de producción de BDNF disponible sin prescripción farmacológica. La implicación para el aprendizaje es directa: el ejercicio físico regular potencia la capacidad del cerebro de formar nuevas conexiones sinápticas, lo que optimiza la retención de información aprendida después del ejercicio. Este hallazgo explica parcialmente por qué los programas de desarrollo cognitivo que integran práctica física tienen mejores outcomes que los que no lo hacen.\nEl principio de Hebb, formulado por el neuropsicólogo canadiense Donald Hebb en 1949 y sintetizado frecuentemente como 'las neuronas que se activan juntas, se conectan juntas', describe el mecanismo fundamental de la neuroplasticidad dependiente de actividad. Cuando dos neuronas se activan simultáneamente de manera repetida, la eficiencia de la sinapsis entre ellas aumenta — el umbral de activación baja y la transmisión se vuelve más rápida. Este mecanismo es la base molecular del aprendizaje: la repetición de un patrón de activación neural fortalece ese patrón, haciéndolo más accesible y más automático. Es también la base del hábito: la repetición de una secuencia de comportamiento fortalece el circuito neural que la produce, hasta que requiere cada vez menos activación consciente para ejecutarse.\nLa implicación inversa del principio de Hebb es igualmente relevante: los circuitos neurales que no se activan se debilitan. Las sinapsis que no se usan son prunadas — eliminadas por el sistema nervioso como mecanismo de eficiencia energética. Esto tiene consecuencias prácticas para el desarrollo de liderazgo: los patrones de comportamiento que se quieren cambiar no desaparecen simplemente por no ejecutarlos — los circuitos correspondientes persisten en el sistema nervioso, aunque debilitados. Lo que desplaza los patrones antiguos son circuitos nuevos, más fuertes, que compiten con los anteriores. Por eso el cambio de comportamiento requiere práctica activa del nuevo comportamiento — no solo supresión del antiguo.\nLas investigaciones de Pascual-Leone, Amedi, Fregni y Merabet, publicadas en Nature Reviews Neuroscience en 2005, documentaron un hallazgo que tiene implicaciones directas para el uso del Ensayo del Yo Futuro en este programa: la práctica mental — la visualización detallada de una secuencia de acciones o de un estado de ser — activa los mismos circuitos neurales que la ejecución física o experiencial real, aunque con menor intensidad. En los experimentos de Pascual-Leone con pianistas que practicaban una escala mentalmente versus los que la practicaban físicamente, los estudios de neuroimagen mostraron expansión de representación cortical en ambos grupos — menor en el grupo mental, pero estadísticamente significativa. El cerebro no distingue limpiamente entre imaginar y hacer.\nEsta evidencia provee el fundamento neurológico del Ensayo del Yo Futuro — la práctica diaria de visualizar con detalle y emoción la versión de la mentora que este programa está construyendo. No es una práctica de motivación inspiracional. Es una práctica de entrenamiento neural deliberado: la activación repetida de los circuitos correspondientes a la identidad de liderazgo que se quiere construir produce, según la evidencia disponible, fortalecimiento progresivo de esos circuitos. El cerebro que visualiza repetidamente la mentora segura, que escucha con presencia plena y que acompaña sin resolver, está construyendo los circuitos de esa mentora antes de que la interacción real los ponga a prueba.\nLa práctica de la neuroplasticidad deliberada en el contexto de la mentoría tiene también implicaciones para la mentoreada. Cuando la mentoreada visualiza — con la guía de la mentora — una versión de sí misma que opera sin el síndrome del impostor, que reclama sus logros con lenguaje de agencia, que tiene conversaciones difíciles con candor y sin defensividad — no está solo imaginando un futuro hipotético. Está activando circuitos neurales que corresponden a ese futuro, fortaleciendo su accesibilidad. La mentoría que incluye práctica de visualización no es mentoría esotérica — es mentoría neurocientíficamente fundamentada.",
+      "texto": "(12 min)\nCronómetro activo. Lee sin detenerte. PPM = (1,920 ÷ segundos) × 60.\nEL ENSAYO MENTAL: CÓMO LA VISUALIZACIÓN DELIBERADA PREPARA TU\nCOMPORTAMIENTO REAL\n\nAyer despertaste la idea de que puedes ser coautora de tu propia\nseguridad psicológica. Hoy vas a despertar una herramienta activa: no\nsolo esperar el momento de actuar con seguridad, sino construirlo de\nantemano, en tu mente.\n\nAlvaro Pascual-Leone y colaboradores (Journal of Neurophysiology, 1995)\ncompararon tres grupos aprendiendo piano: práctica física real,\npráctica exclusivamente mental, y control sin práctica. Usando\nestimulación magnética transcraneal, encontraron que el grupo de\npráctica mental mostró cambios en la representación cortical\ncomparables —aunque algo menores— a los del grupo de práctica física\nreal.\n\nEl metaanálisis de Driskell, Copper y Moran (Journal of Applied\nPsychology, 1994) confirmó que la práctica mental mejora el desempeño\nde forma significativa, con mejor resultado si se combina con práctica\nreal.\n\nBandura identifica el \"dominio vicario\" —ver a alguien similar a ti\nlograr algo— como fuente de autoeficacia. La visualización de tu propio\nyo futuro funciona de forma relacionada: ensaya internamente el\n\"haberlo logrado ya\".\n\nUn ensayo mental efectivo no es imaginar solo el resultado final\n(\"me veo exitosa\") sino recorrer con detalle sensorial el proceso paso\na paso. Esto distingue el ensayo mental de \"soñar despierta\", que tiene\nun efecto mucho menor y puede ser contraproducente si sustituye la\nacción real.\n\nAplicado a tu mentoría: puedes ensayar mentalmente tu próxima sesión —\ncómo abres la conversación, qué preguntas haces— y puedes ensayar a tu\nprofesional futura, activando los mismos circuitos que vas a necesitar\ncuando ese momento llegue de verdad.\n\nEsto es lo que se despierta hoy: la profesional futura que ensayas en\ntu mente no es una fantasía. Es un circuito que se fortalece cada vez\nque la visualizas con detalle.",
       "comprension": [
         {
           "q": "¿Cuál es la idea principal o el hallazgo central presentado en esta lectura?",
@@ -656,9 +803,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Dispenza, Merzenich y Pascual-Leone: la práctica mental activa circuitos neurales reales — el Ensayo del Yo Futuro es entrenamiento neural deliberado, no motivación (2 min)",
+      "conceptos": "BDNF, principio de Hebb, práctica mental y activación neural (Pascual-Leone) (3 min)",
+      "afirmacion": "\"Mi cerebro construye la mentora que visualizo. Visualizo con claridad, con detalle, con emoción. Cada día.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de fuego crepitando — Nina transformando la intención en circuitos neurales (2 min)\n\n------------------------------"
     }
   },
   {
@@ -730,9 +878,10 @@ const mentadasData = [
     "fase10_metacognicion": "¿Qué parte de la lectura de hoy te generó más resistencia?",
     "fase11_ensayo": "Obsérvate a ti misma liderando con seguridad utilizando el conocimiento adquirido hoy.",
     "fase12_sueno": {
-      "afirmacion1": "Soy una líder en constante evolución.",
-      "afirmacion2": "Mi identidad se fortalece con cada acción que tomo.",
-      "afirmacion3": "Uso mi conocimiento para empoderar a otras mujeres."
+      "resumen": "Kegan y Lahey: el examen de los compromisos contradictorios produce cambio más duradero que trabajar directamente sobre habilidades — la raíz como condición previa (2 min)",
+      "conceptos": "compromisos contradictorios (Kegan & Lahey), práctica reflexiva en mentores (Clutterbuck et al.), checkpoint de bloque (3 min)",
+      "afirmacion": "\"La raíz está más fuerte. Lo que sigue, crece desde aquí. Estoy lista para el Bloque 2.\" (1 min)",
+      "binaural": "BinauralTheta 6Hz + sonido de agua y fuego simultáneos — cierre del primer elemento, apertura del segundo (2 min)\nRESUMEN DEL BLOQUE 1 — PROGRESIÓN Y RESULTADOS\nDia\nTitulo\nElemento\nPPM obj.\nPalabras\nCiencia principal\n1\nLa Identidad de Liderazgo\n🌊 Agua\n130\n1,560\nIbarra (INSEAD) + Bandura\n2\nEpigenética y Creencias\n🌊 Agua\n140\n1,680\nLipton (Stanford) + Yehuda (Mount Sinai)\n3\nTrauma Intergeneracional\n🌊 Agua\n148\n1,776\nYehuda (Mount Sinai) + LeDoux (NYU)\n4\nSíndrome del Impostor\n🔥 Fuego\n155\n1,860\nClance/Imes + Valerie Young + Steele (Stanford)\n5\nEscritura Expresiva\n🌊 Agua\n160\n1,920\nPennebaker (UT Austin) + LIWC\n6\nEl Perdón Estratégico\n🌊+🔥\n160\n1,920\nEnright (Wisconsin) + Worthington\n7\nTécnica Feynman\n🌊+🔥\n160\n1,800\nRoediger/Karpicke + Brown et al.\n8\nSeguridad Psicológica\n🌱 Tierra\n165\n1,920\nEdmondson (HBS) + Google Aristóteles\n9\nNeuroplasticidad Deliberada\n🔥 Fuego\n168\n1,920\nDispenza + Merzenich + Pascual-Leone\n10\nCierre Bloque 1\n🌊+🔥\n170\n1,920\nKegan/Lahey (HBS) + Clutterbuck et al.\nPROGRESIÓN DE PPM Y PALABRAS — Bloque 1\nInicio: 130 PPM · 1,560 palabras  →  Cierre: 170 PPM · 1,920 palabras\nIncremento progresivo de palabras: +24% entre\n\n------------------------------"
     }
   },
   {
