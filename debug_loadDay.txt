@@ -1,0 +1,86 @@
+46: width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-fire-glow) 0%, transparent 60%);
+51: width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 60%);
+60: @media (min-height: 950px) {
+156: .sos-circle { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 70%); box-shadow: 0 0 60px var(--accent-water-glow); animati
+235: <h2 id="dashboard-day-number" class="text-gradient" style="font-size:3rem; margin:0; line-height:1;">1</h2>
+290: <p class="reader-p">La teoría de Ibarra rompe una creencia tradicional: Las personas no desarrollan liderazgo primero en la mente. Lo desarrollan mediante la acción. Primero actuamos de manera diferen
+331: <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="0"> a) El individuo transforma su autoimagen primero mediante 
+455: <select id="playbook-day-selector" onchange="loadPlaybookContent(this.value)" style="background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: var(--text-primary); padding
+549: // LOAD PERSISTENT DATA ON INIT
+550: window.onload = function() {
+940: if(!currentPhaseProgress[currentDay]) currentPhaseProgress[currentDay] = [];
+941: if(!currentPhaseProgress[currentDay].includes(phaseNum)) {
+942: currentPhaseProgress[currentDay].push(phaseNum);
+944: // Auto-complete day if phase 12 is done (or all 12 are done)
+945: if(currentPhaseProgress[currentDay].length === 12 || phaseNum === 12) {
+946: if(!completedDays.includes(currentDay)) completedDays.push(currentDay);
+954: // 1. Overall Track Progress (Day X of 78)
+957: if(ringContent) ringContent.innerText = currentDay;
+963: const percentage = currentDay / total;
+971: const completedInSession = currentPhaseProgress[currentDay] || [];
+1033: function loadMujeresMentorasDay(dayIndex) {
+1034: const data = window.activeTrackData.find(d => d.dia === dayIndex);
+1037: currentDay = dayIndex;
+1041: if (badge) badge.innerText = `${data.bloque} • Día ${data.dia}`;
+1052: // Clean previous buttons if day changed
+1061: // If already done from loaded state, mark it visually
+1062: const completedInSession = currentPhaseProgress[currentDay] || [];
+1145: // Navigation UI to switch days
+1146: function renderDaySwitcher() {
+1152: // We render first 5 days for the pilot
+1154: let isDone = completedDays.includes(i);
+1155: let isActive = currentDay === i;
+1158: if(!isDone && !isActive && i > currentDay) {
+1159: // Check if all previous days are done
+1161: if(!completedDays.includes(j)) {
+1169: <div class="glass-card track-card ${isActive ? 'active' : ''} ${isLocked ? 'locked' : ''}" onclick="if(!${isLocked}) { loadMujeresMentorasDay(${i}); document.querySelector('.blocks-list').innerHTML=''
+1187: document.addEventListener("DOMContentLoaded", () => {
+1194: renderDaySwitcher();
+1243: initUserSession(); // Load their specific data
+1275: currentDay = data.current_day || 1;
+1276: completedDays = data.completed_days || [];
+1280: currentDay = 1;
+1281: completedDays = [];
+1286: // Find highest incomplete day or 1
+1288: while(completedDays.includes(target)) target++;
+1291: // Check if target day was manually overridden in currentDay
+1292: if(currentDay > target && completedDays.includes(currentDay-1)) target = currentDay;
+1294: loadMujeresMentorasDay(target);
+1295: renderDaySwitcher();
+1313: current_day: currentDay,
+1314: completed_days: completedDays,
+1325: async function loadMentadaDashboard() {
+1339: let day = mentadaProgress ? mentadaProgress.current_day : 1;
+1344: <p style="font-size: 0.9rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">Día actual: ${day} de 78</p>
+1373: loadMentadaDashboard();
+1384: async function loadConexionTab() {
+1420: .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mentoras_messages' }, payload => {
+1421: const msg = payload.new;
+1427: .on('postgres_changes', { event: 'DELETE', schema: 'public', table: 'mentoras_messages' }, payload => {
+1428: const el = document.getElementById('msg-' + payload.old.id);
+1473: input.value = ''; // Clear immediately
+1475: // Optimistic UI (handled by realtime event, but we could append here immediately to feel faster)
+1486: document.addEventListener('DOMContentLoaded', () => {
+1503: loadConexionTab();
+1513: async function loadAgenda() {
+1586: loadAgenda();
+1597: loadAgenda();
+1613: async function loadPlaybookDay(dayIndex) {
+1617: if(!dayIndex) {
+1624: // Fetch existing notes for this day
+1629: .eq('day_index', parseInt(dayIndex));
+1641: data-day="${dayIndex}"
+1653: <h3 style="color: var(--accent-water); margin-bottom: 20px; font-family: 'Outfit'; font-weight: 300;">DÍA ${dayIndex}</h3>
+1667: savePlaybookNote(textarea.getAttribute('data-day'), type, textarea.value, statusDiv);
+1671: async function savePlaybookNote(dayIndex, noteType, content, statusDiv) {
+1679: day_index: parseInt(dayIndex),
+1682: }, { onConflict: 'user_pin, day_index, note_type' });
+1695: // Hook into the tab switcher to populate the day selector
+1700: populatePlaybookDays();
+1704: function populatePlaybookDays() {
+1705: const selector = document.getElementById('playbook-day-selector');
+1709: // We populate 78 days
+1714: // Auto select the current active day from UI
+1715: if(window.currentDayIndex) {
+1716: selector.value = window.currentDayIndex;
+1717: loadPlaybookDay(window.currentDayIndex);

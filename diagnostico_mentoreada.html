@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sesion 0 - Diagnostico de Mentoreada | Invictus Mind</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.08);
+            --text: #FFFFFF;
+            --muted: #8A8F98;
+            --accent: #FF5E00;
+            --water: #00C6FF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --purple: #9370DB;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        .container { max-width: 480px; margin: 0 auto; padding: 24px; min-height: 100vh; display: flex; flex-direction: column; }
+        .logo { font-family: 'Outfit'; font-weight: 700; font-size: 1.2rem; text-align: center; margin-bottom: 8px; }
+        .logo span { color: var(--accent); }
+        header { text-align: center; padding: 20px 0 30px; }
+        header h1 { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 600; margin-bottom: 8px; }
+        header p { color: var(--muted); font-size: 0.85rem; }
+        .progress { height: 3px; background: var(--border); border-radius: 2px; margin-bottom: 24px; overflow: hidden; }
+        .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #FF8C00); transition: width 0.4s ease; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 22px; margin-bottom: 16px; }
+        .card h2 { font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 12px; }
+        .card p { color: var(--muted); font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; }
+        .btn { width: 100%; padding: 16px; border-radius: 14px; border: none; font-family: 'Outfit'; font-size: 0.95rem; font-weight: 600; cursor: pointer; background: linear-gradient(135deg, var(--accent), #FF8C00); color: #fff; transition: transform 0.2s, opacity 0.2s; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); margin-top: 10px; }
+        .btn:hover { transform: translateY(-1px); }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+        .reading-text { font-size: 0.9rem; line-height: 1.85; color: #d1d5db; max-height: 340px; overflow-y: auto; padding-right: 8px; }
+        .reading-text p { margin-bottom: 14px; color: #d1d5db; }
+        .timer-box { text-align: center; padding: 24px; background: rgba(255,94,0,0.05); border: 1px dashed rgba(255,94,0,0.3); border-radius: 16px; margin: 16px 0; }
+        .timer { font-family: 'Outfit'; font-size: 2.6rem; color: var(--accent); font-weight: 700; }
+        .question { margin-bottom: 22px; }
+        .question-text { font-size: 0.9rem; color: #fff; margin-bottom: 12px; line-height: 1.5; }
+        .option { display: flex; align-items: flex-start; gap: 10px; padding: 13px 14px; border: 1px solid var(--border); border-radius: 12px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; background: rgba(255,255,255,0.02); }
+        .option:hover { border-color: var(--accent); background: rgba(255,255,255,0.05); }
+        .option.selected { border-color: var(--accent); background: rgba(255,94,0,0.08); }
+        .option input { margin-top: 3px; accent-color: var(--accent); display: none; }
+        .option span { font-size: 0.84rem; color: var(--muted); }
+        .option.selected span { color: #fff; }
+        .counter { text-align: center; font-size: 0.75rem; color: var(--muted); margin-top: 12px; }
+        .section-title { font-family: 'Outfit'; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--muted); margin: 28px 0 12px; }
+        .stat-box { display: flex; justify-content: space-around; text-align: center; }
+        .stat { padding: 16px; }
+        .stat-value { font-family: 'Outfit'; font-size: 2.2rem; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; margin-top: 4px; }
+        .brecha-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 14px; background: rgba(255,255,255,0.03); border-radius: 12px; margin-bottom: 8px; border-left: 3px solid var(--accent); }
+        .brecha-item.critica { border-left-color: var(--danger); }
+        .brecha-item.media { border-left-color: var(--warning); }
+        .brecha-item.baja { border-left-color: var(--success); }
+        .brecha-name { font-size: 0.85rem; }
+        .brecha-val { font-family: 'Outfit'; font-weight: 600; }
+        .radar-container { display: flex; justify-content: center; margin: 20px 0; }
+        .plan-box { background: rgba(0,198,255,0.05); border: 1px solid rgba(0,198,255,0.2); border-radius: 16px; padding: 18px; margin-top: 16px; }
+        .plan-box h3 { font-family: 'Outfit'; font-size: 1rem; margin-bottom: 10px; color: var(--water); }
+        .plan-box p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">Invictus <span>Mind</span></div>
+        
+        <header>
+            <h1 id="page-title">Sesion 0: Diagnostico de Mentoreada</h1>
+            <p id="page-subtitle">2 tests · 15 minutos · Conoce tu punto de partida</p>
+        </header>
+
+        <div class="progress"><div id="progress-bar" class="progress-bar"></div></div>
+
+        <div id="steps-container">
+            <!-- PASO 0 -->
+            <div class="step active" data-step="0">
+                <div class="card" style="text-align:center;">
+                    <div style="font-size:3.5rem;margin-bottom:16px;">📊</div>
+                    <h2>Antes de tu primera sesion</h2>
+                    <p style="text-align:left;">
+                        Vas a completar 2 evaluaciones que te mostraran donde estas y en que debe enfocar tu mentoria:<br><br>
+                        <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprension lectora.<br>
+                        <strong style="color:#fff">2. Brechas Profesionales</strong> — Tus 11 dimensiones de liderazgo.<br><br>
+                        Comparte los resultados con tu mentora para que prepare tus sesiones.
+                    </p>
+                    <button class="btn" onclick="goToStep(1)">Comenzar Diagnostico →</button>
+                </div>
+            </div>
+
+            <!-- PASO 1: LECTURA -->
+            <div class="step" data-step="1">
+                <div class="card">
+                    <h2>Test 1: Lectura Cognitiva</h2>
+                    <p>Lee el texto con atencion. Cuando termines, presiona "Termine de leer" y responde 5 preguntas sin volver al texto.</p>
+                    <div class="reading-text" id="reading-text"></div>
+                </div>
+                <div class="timer-box">
+                    <div class="timer" id="reading-timer">00:00</div>
+                    <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Tiempo de lectura</p>
+                </div>
+                <button id="btn-start-reading" class="btn" onclick="startReading()">▶ Iniciar Lectura</button>
+                <button id="btn-stop-reading" class="btn hidden" style="background:var(--success);" onclick="stopReading()">⏹ Termine de Leer</button>
+            </div>
+
+            <!-- PASO 2: COMPRENSION -->
+            <div class="step" data-step="2">
+                <div class="card">
+                    <h2>Comprension Lectora</h2>
+                    <p>Responde 5 preguntas sin volver al texto.</p>
+                    <div id="reading-questions"></div>
+                </div>
+            </div>
+
+            <!-- PASO 3: BRECHAS -->
+            <div class="step" data-step="3">
+                <div class="card">
+                    <h2>Test 2: Tus Brechas Profesionales</h2>
+                    <p>55 preguntas · 11 dimensiones. Responde con honestidad sobre ti misma.</p>
+                    <div id="brechas-questions"></div>
+                </div>
+            </div>
+
+            <!-- PASO 4: RESULTADOS -->
+            <div class="step" data-step="4">
+                <div class="card" style="text-align:center;">
+                    <div style="font-size:3rem;margin-bottom:10px;">📈</div>
+                    <h2>Tu Diagnostico Inicial</h2>
+                    <p>Este es tu punto de partida. Al final del programa compararas tu progreso.</p>
+                </div>
+
+                <div class="section-title">📖 Lectura Cognitiva</div>
+                <div class="card stat-box">
+                    <div class="stat"><div class="stat-value" id="res-ppm">--</div><div class="stat-label">PPM</div></div>
+                    <div class="stat"><div class="stat-value" id="res-comp">--</div><div class="stat-label">Comprension</div></div>
+                </div>
+
+                <div class="section-title">👩‍💼 Tus 11 Dimensiones de Liderazgo</div>
+                <div class="card">
+                    <div class="radar-container" id="radar-chart"></div>
+                    <div id="res-brechas"></div>
+                </div>
+
+                <div class="plan-box">
+                    <h3>📋 Para compartir con tu mentora</h3>
+                    <p>Estos son tus 3 brechas mas importantes. Llevalas a tu primera sesion para que juntas disenen un plan enfocado:</p>
+                    <ul id="top-brechas" style="margin-top:12px;padding-left:18px;font-size:0.85rem;color:var(--muted);line-height:1.7;"></ul>
+                </div>
+
+                <button class="btn" onclick="finish()" style="margin-top:24px;">Ir a mi Programa →</button>
+                <button class="btn secondary" onclick="downloadReport()">📄 Descargar mi Reporte</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
+        const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
+        window._supabase = supabase.createClient(supabaseUrl, supabaseKey);
+    </script>
+    <script src="diagnostico_data.js"></script>
+    <script>
+        let currentStep = 0;
+        let answers = { lectura: [], brechas: [] };
+        let readingStart = 0;
+        let readingTime = 0;
+        let timerInterval = null;
+        const totalSteps = 5;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('reading-text').innerHTML = DIAG_DATA.lectura.text.split('\n').map(p => '<p>' + p + '</p>').join('');
+        });
+
+        function updateProgress() {
+            const pct = (currentStep / (totalSteps - 1)) * 100;
+            document.getElementById('progress-bar').style.width = Math.min(100, pct) + '%';
+        }
+
+        function goToStep(step) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.querySelector('.step[data-step="' + step + '"]').classList.add('active');
+            currentStep = step;
+            updateProgress();
+            window.scrollTo(0, 0);
+        }
+
+        function startReading() {
+            readingStart = Date.now();
+            document.getElementById('btn-start-reading').classList.add('hidden');
+            document.getElementById('btn-stop-reading').classList.remove('hidden');
+            timerInterval = setInterval(() => {
+                const s = Math.floor((Date.now() - readingStart) / 1000);
+                const m = Math.floor(s / 60).toString().padStart(2, '0');
+                const ss = (s % 60).toString().padStart(2, '0');
+                document.getElementById('reading-timer').textContent = m + ':' + ss;
+            }, 1000);
+        }
+
+        function stopReading() {
+            clearInterval(timerInterval);
+            readingTime = Math.max(0.1, (Date.now() - readingStart) / 60000);
+            goToStep(2);
+        }
+
+        function renderQuestions(containerId, questions, type, nextStep) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            questions.forEach((q, idx) => {
+                html += '<div class="question">';
+                html += '<div class="question-text"><strong>' + (idx + 1) + '.</strong> ' + q.q + '</div>';
+                q.options.forEach((opt, oidx) => {
+                    html += '<div class="option" onclick="selectOption(this, \'' + type + '\', ' + idx + ', ' + oidx + ')">';
+                    html += '<input type="radio" name="' + type + '-q' + idx + '" value="' + oidx + '" id="' + type + '-q' + idx + '-o' + oidx + '" style="display:none;">';
+                    html += '<span>' + opt + '</span>';
+                    html += '</div>';
+                });
+                html += '</div>';
+            });
+            const answered = answers[type].filter(a => a !== undefined).length;
+            html += '<button id="btn-next-' + type + '" class="btn" onclick="validateAndGo(' + nextStep + ', \'' + type + '\')" ' + (answered === questions.length ? '' : 'disabled') + '>Continuar →</button>';
+            html += '<div class="counter">Respondidas: <span id="count-' + type + '">' + answered + '</span> / ' + questions.length + '</div>';
+            container.innerHTML = html;
+        }
+
+        function selectOption(el, type, qidx, oidx) {
+            const qDiv = el.closest('.question');
+            qDiv.querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            qDiv.querySelector('input[value="' + oidx + '"]').checked = true;
+            answers[type][qidx] = oidx;
+            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : DIAG_DATA.brechasAuto;
+            const answered = answers[type].filter(a => a !== undefined).length;
+            const btn = document.getElementById('btn-next-' + type);
+            const count = document.getElementById('count-' + type);
+            if (btn) btn.disabled = answered < questions.length;
+            if (count) count.textContent = answered;
+        }
+
+        function validateAndGo(nextStep, type) {
+            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : DIAG_DATA.brechasAuto;
+            if (answers[type].filter(a => a !== undefined).length < questions.length) return;
+            if (type === 'brechas') calcularResultados();
+            else goToStep(nextStep);
+        }
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((m) => {
+                if (m.target.classList.contains('active')) {
+                    const step = parseInt(m.target.dataset.step);
+                    if (step === 2 && !m.target.dataset.rendered) {
+                        m.target.dataset.rendered = 'true';
+                        renderQuestions('reading-questions', DIAG_DATA.lectura.questions, 'lectura', 3);
+                    }
+                    if (step === 3 && !m.target.dataset.rendered) {
+                        m.target.dataset.rendered = 'true';
+                        renderQuestions('brechas-questions', DIAG_DATA.brechasAuto, 'brechas', 4);
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.step').forEach(s => {
+            observer.observe(s, { attributes: true, attributeFilter: ['class'] });
+        });
+
+        function calcularResultados() {
+            const ppm = Math.round(DIAG_DATA.lectura.words / readingTime);
+            let correctas = 0;
+            DIAG_DATA.lectura.questions.forEach((q, i) => {
+                if (answers.lectura[i] === q.correct) correctas++;
+            });
+            const comprension = Math.round((correctas / DIAG_DATA.lectura.questions.length) * 100);
+
+            const brechasSuma = {};
+            const brechasCount = {};
+            DIAG_DATA.brechasAuto.forEach((q, i) => {
+                const val = (answers.brechas[i] || 0) + 1;
+                brechasSuma[q.dimension] = (brechasSuma[q.dimension] || 0) + val;
+                brechasCount[q.dimension] = (brechasCount[q.dimension] || 0) + 1;
+            });
+            const brechasPercent = {};
+            DIAG_DATA.brechasDims.forEach(d => {
+                brechasPercent[d] = Math.round(((brechasSuma[d] || 0) / (brechasCount[d] * 4)) * 100);
+            });
+
+            const resultados = {
+                fecha: new Date().toISOString(),
+                lectura: { ppm: Math.min(ppm, 1200), comprension: comprension },
+                brechas: brechasPercent
+            };
+            localStorage.setItem('mm_diag_mentoreada', JSON.stringify(resultados));
+            mostrarResultados(resultados);
+        }
+
+        function mostrarResultados(r) {
+            document.getElementById('res-ppm').textContent = r.lectura.ppm;
+            document.getElementById('res-comp').textContent = r.lectura.comprension + '%';
+
+            const dims = DIAG_DATA.brechasDims;
+            const vals = dims.map(d => r.brechas[d] || 0);
+            const points = dims.map((d, i) => {
+                const angle = (Math.PI * 2 * i / dims.length) - Math.PI / 2;
+                const v = vals[i] / 100;
+                const x = 100 + 70 * v * Math.cos(angle);
+                const y = 100 + 70 * v * Math.sin(angle);
+                return x + ',' + y;
+            }).join(' ');
+            const axis = dims.map((d, i) => {
+                const angle = (Math.PI * 2 * i / dims.length) - Math.PI / 2;
+                const x = 100 + 85 * Math.cos(angle);
+                const y = 100 + 85 * Math.sin(angle);
+                const tx = 100 + 95 * Math.cos(angle);
+                const ty = 100 + 95 * Math.sin(angle);
+                return '<line x1="100" y1="100" x2="' + x + '" y2="' + y + '" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>' +
+                       '<text x="' + tx + '" y="' + ty + '" fill="#8A8F98" font-size="7" text-anchor="middle" dominant-baseline="middle">' + d.split(' ')[0] + '</text>';
+            }).join('');
+            const svg = '<svg width="200" height="200" viewBox="0 0 200 200" style="background:rgba(255,255,255,0.02);border-radius:50%;">' +
+                        axis + '<polygon points="' + points + '" fill="rgba(255,94,0,0.25)" stroke="#FF5E00" stroke-width="2"/></svg>';
+            document.getElementById('radar-chart').innerHTML = svg;
+
+            const sorted = Object.entries(r.brechas).sort((a, b) => a[1] - b[1]);
+            let brechasHtml = '';
+            sorted.forEach(([name, val]) => {
+                const cls = val <= 40 ? 'critica' : (val <= 70 ? 'media' : 'baja');
+                brechasHtml += '<div class="brecha-item ' + cls + '">';
+                brechasHtml += '<span class="brecha-name">' + name + '</span>';
+                brechasHtml += '<span class="brecha-val">' + val + '%</span>';
+                brechasHtml += '</div>';
+            });
+            document.getElementById('res-brechas').innerHTML = brechasHtml;
+
+            const top3 = sorted.slice(0, 3);
+            document.getElementById('top-brechas').innerHTML = top3.map(([name, val]) =>
+                '<li><strong>' + name + '</strong> (' + val + '%): ' + (DIAG_DATA.planMap[name] || 'trabajar durante el programa') + '</li>'
+            ).join('');
+
+            // =========================
+            // SAVE TO SUPABASE
+            // =========================
+            const urlParams = new URLSearchParams(window.location.search);
+            const userPin = urlParams.get('pin') || 'UNKNOWN';
+            const userRole = urlParams.get('role') || 'Mentoreada';
+
+            if (window._supabase) {
+                window._supabase.from('diagnostico_resultados').insert([{
+                    user_pin: userPin,
+                    user_role: userRole,
+                    resultados: r
+                }]).then(({ error }) => {
+                    if (error) console.error("Error saving to Supabase:", error);
+                    else console.log("Saved to Supabase successfully.");
+                });
+            }
+
+            goToStep(4);
+        }
+
+        function finish() {
+            window.location.href = 'Bloque1_Premium.html';
+        }
+
+        function downloadReport() {
+            const data = JSON.parse(localStorage.getItem('mm_diag_mentoreada') || '{}');
+            let text = 'DIAGNOSTICO INICIAL - MENTOREADA\n\n';
+            text += 'Fecha: ' + new Date(data.fecha).toLocaleString() + '\n\n';
+            text += 'LECTURA COGNITIVA\n';
+            text += 'PPM: ' + data.lectura.ppm + '\n';
+            text += 'Comprension: ' + data.lectura.comprension + '%\n\n';
+            text += 'BRECHAS PROFESIONALES\n';
+            for (let d in data.brechas) {
+                text += d + ': ' + data.brechas[d] + '%\n';
+            }
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'diagnostico-mentoreada.txt';
+            a.click();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+585:         let isBionic = false, originalHTML = [];
+586:         function toggleBionic() {
+587:             const ps = document.querySelectorAll('.reader-p');
+588:             const btn = document.getElementById('btn-bionic');
+589:             if(!isBionic) {
+590:                 ps.forEach((p, i) => {
+591:                     originalHTML[i] = p.innerHTML;
+592:                     let words = p.innerText.split(' ');
+593:                     p.innerHTML = words.map(w => {
+594:                         let len = Math.ceil(w.length / 2);
+595:                         if(w.length > 3) len = Math.ceil(w.length * 0.4);
+596:                         return `<b style="font-weight:700; color:#FFF;">${w.substring(0,len)}</b><span style="opacity:0.7;">${w.substring(len)}</span>`;
+597:                     }).join(' ');
+598:                 });
+599:                 isBionic = true; btn.innerHTML = '🧠 Bionic: ON'; btn.style.background = 'rgba(255,255,255,0.1)';
+600:             } else {
+601:                 ps.forEach((p, i) => p.innerHTML = originalHTML[i]);
+602:                 isBionic = false; btn.innerHTML = '⚡ Lectura Biónica'; btn.style.background = 'transparent';
+603:             }
+604:         }
+605: 
+606:         let timer, secs = 0, isRunning = false;
+607:         function toggleTimer() {
+608:             const btn = document.getElementById('btn-timer');
+609:             const box = document.getElementById('ppm-box');
+----------
+1124: 
+1125:     // F4: Recall
+1126:     if (phases[3]) {
+1127:         const testContent = document.getElementById('test-content');
+1128:         if (testContent) {
+1129:             let html = '';
+1130:             data.fase4_recall.forEach((r, idx) => {
+1131:                 html += `
+1132:                 <div style="margin-bottom: 20px;" class="recall-q">
+1133:                     <span style="font-size: 0.7rem; color: var(--accent-fire); text-transform: uppercase;">${r.type}</span>
+1134:                     <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${idx+1}. ${r.q}</strong></p>
+1135:                     <textarea class="input-premium" placeholder="Escribe tu respuesta analítica..."></textarea>
+1136:                 </div>
+1137:                 `;
+1138:             });
+1139:             html += `<button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 4)">📊 Terminar Evaluación y Avanzar</button>`;
+1140:             testContent.innerHTML = html;
+1141:         }
+1142:     }
+1143: 
+1144:     // Replace F5 to F11 texts
+1145:     if (phases[4]) { const desc = phases[4].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase5_codificacion_dual; }
+1146:     if (phases[5]) { const desc = phases[5].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase6_loci; }
+1147:     if (phases[6]) { const desc = phases[6].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase7_analogia; }
+1148:     if (phases[7]) { const desc = phases[7].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase8_ejercicio; }
+1149:     if (phases[8]) { const desc = phases[8].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase9_feynman ? "Aplica la Técnica Feynman hoy." : "Aplica cada 7 sesiones. Hoy descansa."; }
+----------
+1090:         if (desc) desc.innerHTML = `<strong>Respiración de Oxigenación:</strong> ${data.fase1_ancla}`;
+1091:     }
+1092: 
+1093:     // F2: Lectura + Comprension
+1094:     if (phases[1]) {
+1095:         const reader = document.getElementById('reader-content');
+1096:         if (reader) {
+1097:             let html = `<h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">${data.titulo}</h4>`;
+1098:             data.fase2_lectura.texto.split('\n').forEach(p => {
+1099:                 if(p.trim()) html += `<p class="reader-p">${p}</p>`;
+1100:             });
+1101:             reader.innerHTML = html;
+1102:             
+1103:             // Clean old feedback
+1104:             const existingComp = phases[1].querySelector('#comp-feedback');
+1105:             if(existingComp) existingComp.parentElement.remove();
+1106:             
+1107:             renderComprensionLectora(data, phases[1]);
+1108:         }
+1109:     }

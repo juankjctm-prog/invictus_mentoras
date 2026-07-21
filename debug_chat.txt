@@ -1,0 +1,68 @@
+92: #view-conexion.active { display: flex !important; }
+173: .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+174: .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
+175: .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+466: <div id="sigma-fab" onclick="toggleSigmaChat()" style="position:fixed; bottom:110px; right:20px; width:60px; height:60px; border-radius:50%; background:linear-gradient(135deg, #111, #222); border:2px 
+479: <button onclick="toggleSigmaChat()" style="background:transparent; border:none; color:white; font-size:1.5rem; cursor:pointer;">×</button>
+482: <div id="sigma-chat-history" style="flex:1; padding:20px; overflow-y:auto; display:flex; flex-direction:column; gap:15px;">
+512: <div id="view-mentada" class="view" style="padding: 80px 20px 100px;">
+521: <div id="view-conexion" class="view" style="padding: 80px 20px 100px; flex-direction: column; height: 100vh;">
+524: <div id="conexion-agenda" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-top: 20px;">
+529: <div id="chat-container" style="flex: 1; overflow-y: auto; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;">
+530: <!-- Chat bubbles -->
+533: <div id="chat-input-area" style="display: flex; gap: 10px; margin-top: 20px;">
+534: <input type="text" id="chat-input" placeholder="Escribe un mensaje..." style="flex: 1; background: rgba(255,255,255,0.1); border: none; padding: 15px; border-radius: 25px; color: white; font-family: '
+535: <button onclick="sendChatMessage()" style="background: var(--accent-water); border: none; border-radius: 50%; width: 50px; height: 50px; color: var(--bg-absolute); font-size: 1.2rem; cursor: pointer;"
+543: <div class="nav-item mentada-tab-btn" style="display:none;" onclick="switchTab('view-mentada', this)"><div class="nav-icon">👥</div><span class="nav-label">MI MENTADA</span></div>
+544: <div class="nav-item conexion-tab-btn" onclick="switchTab('view-conexion', this)"><div class="nav-icon">💬</div><span class="nav-label">CONEXIÓN</span></div>
+805: .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
+806: .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
+807: .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+1382: if(viewId === 'view-mentada') {
+1390: // --- FASE C: CHAT Y CONEXIÓN ---
+1391: let chatPartner = null;
+1395: const chatContainer = document.getElementById('chat-container');
+1403: chatPartner = data;
+1406: chatPartner = data;
+1409: if(!chatPartner) {
+1410: chatContainer.innerHTML = '<p style="text-align:center; color:#888; margin-top:20px;">No tienes una pareja asignada para chatear.</p>';
+1411: document.getElementById('chat-input-area').style.display = 'none';
+1415: title.innerText = `CHAT CON ${chatPartner.name.toUpperCase()}`;
+1416: document.getElementById('chat-input-area').style.display = 'flex';
+1421: .or(`and(sender_id.eq.${currentUser.id},receiver_id.eq.${chatPartner.id}),and(sender_id.eq.${chatPartner.id},receiver_id.eq.${currentUser.id})`)
+1424: renderChatMessages(messages || []);
+1432: if( (msg.sender_id === currentUser.id && msg.receiver_id === chatPartner.id) ||
+1433: (msg.sender_id === chatPartner.id && msg.receiver_id === currentUser.id) ) {
+1444: function renderChatMessages(messages) {
+1445: const container = document.getElementById('chat-container');
+1451: const container = document.getElementById('chat-container');
+1453: div.classList.add('chat-bubble');
+1457: div.classList.add('chat-sent');
+1461: div.classList.add('chat-received');
+1478: async function sendChatMessage() {
+1479: const input = document.getElementById('chat-input');
+1481: if(!text || !chatPartner) return;
+1490: receiver_id: chatPartner.id,
+1499: const input = document.getElementById('chat-input');
+1502: if (e.key === 'Enter') sendChatMessage();
+1512: if(viewId === 'view-conexion') {
+1520: // --- MODULO DE AGENDAMIENTO ---
+1523: async function loadAgenda() {
+1524: if(!chatPartner || !currentUser) return;
+1525: const agendaStatus = document.getElementById('conexion-session-status');
+1528: let mentoraId = currentUser.role === 'Mentora' ? currentUser.id : chatPartner.id;
+1529: let mentadaId = currentUser.role === 'Mentada' ? currentUser.id : chatPartner.id;
+1543: agendaStatus.innerHTML = `
+1545: <input type="datetime-local" id="agenda-date" style="background:rgba(255,255,255,0.1); border:none; padding:10px; color:white; border-radius:8px; font-family:'Inter'; font-size:0.9rem;">
+1546: <button onclick="proposeSession()" style="background:var(--accent-earth); color:var(--bg-absolute); border:none; padding:10px 15px; border-radius:8px; font-family:'Outfit'; font-weight:600; cursor:poi
+1556: agendaStatus.innerHTML = `
+1564: agendaStatus.innerHTML = `
+1575: const input = document.getElementById('agenda-date');
+1578: let mentoraId = currentUser.role === 'Mentora' ? currentUser.id : chatPartner.id;
+1579: let mentadaId = currentUser.role === 'Mentada' ? currentUser.id : chatPartner.id;
+1588: // Auto-send a chat message
+1592: receiver_id: chatPartner.id,
+1596: loadAgenda();
+1607: loadAgenda();
+1740: function toggleSigmaChat() {
+1756: const history = document.getElementById('sigma-chat-history');

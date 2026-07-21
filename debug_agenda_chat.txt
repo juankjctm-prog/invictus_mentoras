@@ -1,0 +1,3 @@
+1444: function renderChatMessages(messages) {
+1478: async function sendChatMessage() {
+1523: async function loadAgenda() {

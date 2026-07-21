@@ -1,0 +1,25 @@
+545:             <div class="nav-item conexion-tab-btn" onclick="switchTab('view-conexion', this)"><div class="nav-icon">💬</div><span class="nav-label">CONEXIÓN</span></div>
+546:         </nav>
+547:     </div>
+548: 
+549:     <script>
+550:         // LOAD PERSISTENT DATA ON INIT
+551:         window.onload = function() {
+552:             if(localStorage.getItem('invictus_recall_score')) {
+553:                 let score = localStorage.getItem('invictus_recall_score');
+554:                 let ppm = localStorage.getItem('invictus_recall_ppm');
+555:                 document.getElementById('reader-content').style.display = 'none';
+556:                 document.getElementById('btn-bionic').style.display = 'none';
+557:                 document.getElementById('btn-timer').style.display = 'none';
+558:                 document.getElementById('test-intro').style.display = 'none';
+559:                 
+560:                 const res = document.getElementById('recall-result');
+561:                 res.style.display = 'block';
+562:                 if(score == 100) {
+563:                     res.innerHTML = `<strong>🏆 Inteligencia Consolidada</strong><br>Velocidad: ${ppm} PPM<br>Comprensión: ${score}% (Perfecto)<br><span style="font-size:0.8rem; color:var(--bg-absolute);">Conexión sináptica recuperada de tu sesión anterior.</span>`;
+564:                     res.style.background = "var(--success)"; res.style.color = "var(--bg-absolute)";
+565:                 } else {
+566:                     res.innerHTML = `<strong>⚠️ Retención Parcial Guardada</strong><br>Comprensión: ${score}%`;
+567:                     res.style.background = "rgba(255, 94, 0, 0.1)"; res.style.color = "var(--accent-fire)"; res.style.border = "1px solid var(--accent-fire)";
+568:                 }
+569:             }

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Login - Diagnóstico Inicial</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-absolute: #000000;
+            --bg-surface: #0a0a0c;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --accent-fire: #FF5E00;
+            --accent-fire-glow: rgba(255, 94, 0, 0.2);
+            --accent-water: #00C6FF;
+            --accent-water-glow: rgba(0, 198, 255, 0.2);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8A8F98;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-absolute);
+            color: var(--text-primary);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+        }
+
+        body::before {
+            content: ''; position: absolute; top: -20%; left: -10%;
+            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-fire-glow) 0%, transparent 60%);
+            filter: blur(100px); opacity: 0.4; pointer-events: none;
+        }
+        body::after {
+            content: ''; position: absolute; bottom: -20%; right: -10%;
+            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 60%);
+            filter: blur(100px); opacity: 0.3; pointer-events: none;
+        }
+
+        .auth-overlay { 
+            position: relative; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        }
+        
+        .pin-dots { display: flex; gap: 16px; margin-bottom: 40px; margin-top: 30px;}
+        .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-subtle); transition: all 0.2s; }
+        .dot.filled { background: var(--accent-fire); border-color: var(--accent-fire); box-shadow: 0 0 15px var(--accent-fire-glow); }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;}
+        .key { width: 70px; height: 70px; border-radius: 50%; background: rgba(255,255,255,0.03); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-family: 'Outfit'; cursor: pointer; border: 1px solid var(--border-subtle); color: white; transition: all 0.2s; }
+        .key:active { transform: scale(0.9); background: var(--border-subtle); }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+        }
+        .shake-error {
+            animation: shake 0.3s ease-in-out;
+        }
+        .dot.error { background: var(--accent-fire); box-shadow: 0 0 10px var(--accent-fire); }
+        
+        .loading-text {
+            display: none;
+            color: var(--accent-water);
+            font-family: 'Outfit';
+            margin-top: 20px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-overlay" id="auth-overlay">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-water)" stroke-width="2" style="margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--accent-water-glow));"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        <h2 style="font-family: 'Outfit'; font-size: 1.5rem; text-align: center;">Diagnóstico Inicial</h2>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Ingresa tu PIN de acceso.</p>
+        
+        <div class="pin-dots" id="pin-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        
+        <div class="loading-text" id="loading-text">Verificando...</div>
+
+        <div class="keypad" id="keypad">
+            <div class="key" onclick="pressKey('1')">1</div><div class="key" onclick="pressKey('2')">2</div><div class="key" onclick="pressKey('3')">3</div>
+            <div class="key" onclick="pressKey('4')">4</div><div class="key" onclick="pressKey('5')">5</div><div class="key" onclick="pressKey('6')">6</div>
+            <div class="key" onclick="pressKey('7')">7</div><div class="key" onclick="pressKey('8')">8</div><div class="key" onclick="pressKey('9')">9</div>
+            <div></div><div class="key" onclick="pressKey('0')">0</div><div class="key" onclick="deleteKey()" style="font-size: 1.2rem;">⌫</div>
+        </div>
+    </div>
+
+    <!-- SUPABASE INIT -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
+        const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        let currentPin = '';
+        let pinCount = 0;
+
+        function deleteKey() {
+            if (pinCount > 0) {
+                const dots = document.querySelectorAll('.pin-dots .dot');
+                pinCount--;
+                currentPin = currentPin.slice(0, -1);
+                dots[pinCount].classList.remove('filled');
+            }
+        }
+
+        async function pressKey(num) {
+            if(!num) return;
+            const dots = document.querySelectorAll('.pin-dots .dot');
+            const dotsContainer = document.querySelector('.pin-dots');
+            
+            if (pinCount < dots.length) {
+                currentPin += num;
+                dots[pinCount].classList.add('filled');
+                pinCount++;
+                
+                if (pinCount === dots.length) {
+                    document.getElementById('keypad').style.pointerEvents = 'none';
+                    document.getElementById('keypad').style.opacity = '0.5';
+                    document.getElementById('loading-text').style.display = 'block';
+
+                    try {
+                        if (currentPin === '010101') {
+                            window.location.href = 'dashboard_diagnostico.html';
+                            return;
+                        }
+
+                        const { data, error } = await _supabase
+                            .from('mentoras_users')
+                            .select('*')
+                            .eq('pin', currentPin)
+                            .single();
+                            
+                        if (data && !error) {
+                            setTimeout(() => {
+                                if (data.role === 'Mentora' || data.role.toLowerCase().includes('mentora')) {
+                                    window.location.href = 'diagnostico_mentora.html?pin=' + currentPin + '&role=' + data.role;
+                                } else {
+                                    window.location.href = 'diagnostico_mentoreada.html?pin=' + currentPin + '&role=' + data.role;
+                                }
+                            }, 500);
+                        } else {
+                            throw new Error("Invalid PIN");
+                        }
+                    } catch(err) {
+                        document.getElementById('loading-text').style.display = 'none';
+                        document.getElementById('keypad').style.pointerEvents = 'auto';
+                        document.getElementById('keypad').style.opacity = '1';
+
+                        dots.forEach(d => d.classList.add('error'));
+                        if (dotsContainer) dotsContainer.classList.add('shake-error');
+                        
+                        setTimeout(() => {
+                            if (dotsContainer) dotsContainer.classList.remove('shake-error');
+                            dots.forEach(d => {
+                                d.classList.remove('filled');
+                                d.classList.remove('error');
+                            });
+                            currentPin = '';
+                            pinCount = 0;
+                        }, 500);
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

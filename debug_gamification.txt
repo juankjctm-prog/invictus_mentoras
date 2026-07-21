@@ -1,0 +1,10 @@
+732: function marcarHecho(btn, key = null) {
+940: if(!currentPhaseProgress[currentDay]) currentPhaseProgress[currentDay] = [];
+941: if(!currentPhaseProgress[currentDay].includes(phaseNum)) {
+942: currentPhaseProgress[currentDay].push(phaseNum);
+945: if(currentPhaseProgress[currentDay].length === 12 || phaseNum === 12) {
+971: const completedInSession = currentPhaseProgress[currentDay] || [];
+1062: const completedInSession = currentPhaseProgress[currentDay] || [];
+1277: currentPhaseProgress = data.phase_progress || {};
+1282: currentPhaseProgress = {};
+1315: phase_progress: currentPhaseProgress,

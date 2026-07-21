@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Manual Oficial Invictus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos base para la presentación */
+        :root {
+            --bg-absolute: #050505;
+            --accent-water: #00E5FF;
+            --accent-earth: #C5A880;
+            --text-main: #F4F4F5;
+            --text-dim: #A1A1AA;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #222; /* Fondo fuera de las diapositivas */
+            color: var(--text-main);
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+
+        /* Contenedor de Diapositiva (Proporción 16:9 aprox) */
+        .slide {
+            width: 1920px;
+            height: 1080px;
+            margin: 20px auto;
+            background-color: var(--bg-absolute);
+            background-image: radial-gradient(circle at center, rgba(0, 229, 255, 0.05) 0%, transparent 60%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            page-break-after: always;
+        }
+
+        /* En modo de impresión, quitamos márgenes */
+        @media print {
+            @page {
+                size: 1920px 1080px; /* Tamaño carta apaisado o 16:9 */
+                margin: 0;
+            }
+            body { background-color: var(--bg-absolute); }
+            .slide { margin: 0; box-shadow: none; border: none; }
+        }
+
+        /* Elementos Decorativos */
+        .decor-top {
+            position: absolute; top: 0; left: 0; width: 100%; height: 8px;
+            background: linear-gradient(90deg, var(--accent-earth), var(--accent-water));
+        }
+
+        .slide-content {
+            padding: 80px 120px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Tipografías internas */
+        .title {
+            font-size: 5rem;
+            color: var(--accent-earth);
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        .subtitle {
+            font-size: 2.5rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+        .text {
+            font-size: 2rem;
+            line-height: 1.6;
+            color: var(--text-main);
+            margin-top: 40px;
+        }
+        
+        .box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .highlight { color: var(--accent-water); font-weight: bold; }
+
+        /* Footer de la diapositiva */
+        .footer {
+            position: absolute;
+            bottom: 40px;
+            left: 120px;
+            right: 120px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.3);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+        }
+
+        /* Layout de dos columnas */
+        .two-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 50px;
+        }
+
+        ul { margin-top: 20px; padding-left: 40px; }
+        li { margin-bottom: 20px; font-size: 2rem; }
+
+    </style>
+</head>
+<body>
+
+    <!-- PORTADA -->
+    <div class="slide">
+        <div class="decor-top"></div>
+        <div class="slide-content" style="align-items: center; text-align: center;">
+            <img src="favicon.png" style="width: 250px; margin-bottom: 60px;" alt="Logo">
+            <h1 class="title" style="font-size: 7rem; background: linear-gradient(to right, #fff, #888); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">INVICTUS</h1>
+            <p class="subtitle" style="font-size: 3rem; color: var(--accent-earth);">Master Track Premium</p>
+            <p style="font-size: 2rem; margin-top: 50px; color: var(--text-dim);">Manual Oficial de Operaciones Digitales</p>
+        </div>
+    </div>
+
+    <!-- DIAPOSITIVA 2 -->
+    <div class="slide">
+        <div class="decor-top"></div>
+        <div class="slide-content">
+            <h1 class="title">Bienvenida al Ecosistema</h1>
+            <p class="text">Esta plataforma ha sido diseñada bajo estrictos principios neurológicos y tácticos para acompañar tu desarrollo ininterrumpido a lo largo de 78 días.</p>
+            <div class="box">
+                <h3 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--accent-water);">Bifurcación de Roles</h3>
+                <p class="text" style="margin-top:0;">Tu experiencia dentro del sistema y los permisos de interfaz dependerán exclusivamente del PIN que utilices para ingresar:</p>
+                <ul style="font-size: 1.8rem; margin-top: 20px;">
+                    <li><strong>Acceso Mentora:</strong> Herramientas de supervisión, agenda y comunicación. Currículo para <span class="highlight">guiar y exigir</span>.</li>
+                    <li><strong>Acceso Mentoreada:</strong> Optimizado para la transformación personal. Currículo enfocado en <span class="highlight">tus propios desafíos</span>.</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer"><span>Invictus Mentoras</span><span>01</span></div>
+    </div>
+
+    <!-- DIAPOSITIVA 3 -->
+    <div class="slide">
+        <div class="decor-top"></div>
+        <div class="slide-content">
+            <h1 class="title">1. Instalación en tu Teléfono</h1>
+            <p class="subtitle">La plataforma opera como una Progressive Web App (PWA) para fricción cero.</p>
+            <div class="two-cols">
+                <div class="box">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 20px;">🍎 iPhone (Safari)</h3>
+                    <ol style="font-size: 2rem; line-height: 1.6; padding-left: 30px;">
+                        <li>Abre el enlace en Safari.</li>
+                        <li>Toca el botón "Compartir" (el cuadrado con la flecha).</li>
+                        <li>Selecciona <strong>"Agregar a inicio"</strong>.</li>
+                    </ol>
+                </div>
+                <div class="box">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 20px;">🤖 Android (Chrome)</h3>
+                    <ol style="font-size: 2rem; line-height: 1.6; padding-left: 30px;">
+                        <li>Abre el enlace en Google Chrome.</li>
+                        <li>Toca los 3 puntos de configuración (arriba a la derecha).</li>
+                        <li>Selecciona <strong>"Instalar aplicación"</strong> o "Agregar a inicio".</li>
+                    </ol>
+                </div>
+            </div>
+            <p class="text" style="text-align: center;"><em>Una vez instalada, funcionará a pantalla completa como una app nativa, sin requerir descargas en tiendas.</em></p>
+        </div>
+        <div class="footer"><span>Invictus Mentoras</span><span>02</span></div>
+    </div>
+
+    <!-- DIAPOSITIVA 4 -->
+    <div class="slide">
+        <div class="decor-top"></div>
+        <div class="slide-content">
+            <h1 class="title">2. Centro de Mando (HOME)</h1>
+            <p class="subtitle">Tu Head-Up Display (HUD) personal, gamificado para forzar el avance.</p>
+            
+            <ul style="margin-top: 40px;">
+                <li><span class="highlight">Anillo de Fuego:</span> Muestra matemáticamente tu avance a lo largo del programa (Día 1 a 78).</li>
+                <li><span class="highlight">Estadísticas Cognitivas:</span> Registra en tiempo real tu Velocidad Promedio (PPM) y Nivel de Comprensión (%).</li>
+                <li><span class="highlight">Roadmap Bloqueado:</span> El sistema restringe el acceso a días futuros (🔒). Debes completar la Fase 12 del día en curso (🔥) para desbloquear el día de mañana.</li>
+            </ul>
+        </div>
+        <div class="footer"><span>Invictus Mentoras</span><span>03</span></div>
+    </div>
+
+    <!-- DIAPOSITIVA 5 -->
+    <div class="slide">
+        <div class="decor-top"></div>
+        <div class="slide-content">
+            <h1 class="title">3. La Sesión Diaria</h1>
+            <p class="subtitle">Cada día consta de 12 Fases Neurológicas de reconfiguración.</p>
+            
+            <div class="two-cols">
+                <div>
+                    <ul>
+                        <li><strong>Fase 1:</strong> Ancla Cognitiva (Respiración/Postura).</li>
+                        <li><strong>Fase 2:</strong> Lectura Táctica Cronometrada.</li>
+                        <li><strong>Fase 3 & 4:</strong> Extracción Activa (Recall).</li>
+                        <li><strong>Fase 5 a 11:</strong> Técnicas de Retención (Loci, Feynman).</li>
+                        <li><strong>Fase 12:</strong> El Sueño Táctico.</li>
+                    </ul>
+                </div>
+                <div class="box" style="margin-top:0;">
+                    <h3 style="font-size: 2rem; color: var(--accent-earth);">Guardado Automático</h3>
+                    <p class="text" style="font-size: 1.8rem;">Al completar la Fase 12, el sistema disparará un guardado automático, registrará tus estadísticas en la nube, y desbloqueará el día de mañana en tu Dashboard.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Invictus Mentoras</span><span>04</span></div>
+    </div>
+
+    <!-- DIAPOSITIVA 6 -->
+    <div class="slide">
+        <div class="decor-top"></div>
+        <div class="slide-content">
+            <h1 class="title">4. El Ecosistema de Apoyo</h1>
+            
+            <div class="two-cols">
+                <div class="box" style="margin-top:0;">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--accent-water);">Playbook Digital</h3>
+                    <p class="text" style="font-size: 1.8rem; margin-top:0;">Tu bitácora interactiva en la nube. Cuenta con autoguardado en tiempo real. Escribe tus respuestas y el sistema las sincronizará cifradas instantáneamente.</p>
+                </div>
+                <div class="box" style="margin-top:0;">
+                    <h3 style="font-size: 2.5rem; margin-bottom: 20px; color: var(--accent-water);">Conexión (Agenda)</h3>
+                    <p class="text" style="font-size: 1.8rem; margin-top:0;">Propón o acepta sesiones 1-a-1 de videollamada desde el calendario. Mantente en contacto mediante la sala de chat privada y segura.</p>
+                </div>
+            </div>
+
+            <div class="box" style="display: flex; align-items: center; gap: 30px;">
+                <div style="font-size: 4rem;">🧠</div>
+                <div>
+                    <h3 style="font-size: 2.5rem; color: var(--accent-earth);">Sigma Coach</h3>
+                    <p class="text" style="font-size: 1.8rem; margin-top:10px;">Una IA integrada en el botón inferior derecho. Consúltale sobre bloqueos (ej: ansiedad, resistencia) y recibe contramedidas tácticas 24/7.</p>
+                </div>
+            </div>
+        </div>
+        <div class="footer"><span>Invictus Mentoras</span><span>05</span></div>
+    </div>
+
+    <!-- DIAPOSITIVA 7 -->
+    <div class="slide" style="justify-content: center; align-items: center; text-align: center;">
+        <div class="decor-top"></div>
+        <h1 class="title" style="font-size: 6rem; margin-bottom: 40px;">Sincronización Total</h1>
+        <p class="text" style="max-width: 1200px;">Toda tu información (Notas, Mensajes, Progreso y Chat) está centralizada en la nube bajo arquitecturas seguras. <br><br>Si cambias de dispositivo o computadora, continuarás exactamente donde te quedaste <strong>sin perder un solo byte de información</strong>.</p>
+        <p style="font-size: 3rem; margin-top: 80px; color: var(--accent-water); font-family: 'Outfit';">Bienvenida a la élite.</p>
+    </div>
+
+</body>
+</html>

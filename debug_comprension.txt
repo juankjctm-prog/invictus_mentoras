@@ -1,0 +1,40 @@
+1000: function renderComprensionLectora(data, container) {
+1001:     if(!data.fase2_lectura.comprension) return;
+1002:     const comp = data.fase2_lectura.comprension;
+1003:     
+1004:     let html = `
+1005:     <div style="margin-top: 24px; padding: 16px; background: rgba(0, 198, 255, 0.05); border: 1px solid rgba(0, 198, 255, 0.2); border-radius: 12px;">
+1006:         <h5 style="color: var(--accent-water); font-family: 'Outfit'; margin-bottom: 8px;">EXTRA: COMPRENSIÓN LECTORA</h5>
+1007:         <p style="font-size: 0.9rem; color: white; margin-bottom: 12px;">${comp.q}</p>
+1008:     `;
+1009:     
+1010:     comp.options.forEach((opt, idx) => {
+1011:         html += `
+1012:         <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary); cursor:pointer;">
+1013:             <input type="radio" name="comprension" value="${idx}" onchange="checkComprension(${comp.answer}, this)"> ${opt}
+1014:         </label>`;
+1015:     });
+1016:     
+1017:     html += `<div id="comp-feedback" style="margin-top: 10px; font-weight:bold; font-size: 0.85rem;"></div></div>`;
+1018:     
+1019:     const div = document.createElement('div');
+1020:     div.innerHTML = html;
+1021:     container.appendChild(div);
+1022: }
+1023: 
+1024: window.checkComprension = function(correctIdx, el) {
+1025:     const feedback = document.getElementById('comp-feedback');
+1026:     if(parseInt(el.value) === correctIdx) {
+1027:         feedback.innerText = "✓ Respuesta correcta. Excelente comprensión táctica.";
+1028:         feedback.style.color = "var(--success)";
+1029:         completePhase(2); // Auto-complete phase 2
+1030:     } else {
+1031:         feedback.innerText = "✗ Incorrecto. Revisa el texto e intenta de nuevo.";
+1032:         feedback.style.color = "var(--accent-fire)";
+1033:     }
+1034: }
+1035: 
+1036: // Global func to mark manual phases done
+1037: window.markPhaseDone = function(btn, phaseNum) {
+1038:     btn.innerText = "✓ Completado";
+1039:     btn.style.borderColor = "var(--success)";

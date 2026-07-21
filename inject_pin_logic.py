@@ -1,6 +1,6 @@
 import re
 
-html_file = "Invictus_Mentoras.html"
+html_file = "app.html"
 
 with open(html_file, "r", encoding="utf-8") as f:
     content = f.read()
@@ -348,7 +348,17 @@ function loadMujeresMentorasDay(dayIndex) {
     if (phases[7]) { const desc = phases[7].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase8_ejercicio; }
     if (phases[8]) { const desc = phases[8].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase9_feynman ? "Aplica la Técnica Feynman hoy." : "Aplica cada 7 sesiones. Hoy descansa."; }
     if (phases[9]) { const desc = phases[9].querySelectorAll('.phase-desc')[1]; if(desc) desc.innerText = data.fase10_metacognicion; }
+    
     if (phases[10]) { const desc = phases[10].querySelector('.phase-desc'); if(desc) desc.innerText = data.fase11_ensayo; }
+    
+    // F12: Modo Sueño
+    if (phases[11] && data.fase12_sueno && data.fase12_sueno.resumen) {
+        const desc = phases[11].querySelector('.phase-desc');
+        const audioTitle = phases[11].querySelector('.audio-pill span');
+        if(desc) desc.innerHTML = `<strong>Resumen de la Sesión:</strong> ${data.fase12_sueno.resumen}<br><br><strong>Conceptos Integrados:</strong> ${data.fase12_sueno.conceptos}<br><br><strong>Afirmación:</strong> <em>${data.fase12_sueno.afirmacion}</em>`;
+        if(audioTitle) audioTitle.innerText = data.fase12_sueno.binaural;
+    }
+
 
     updateVisualProgress();
 }

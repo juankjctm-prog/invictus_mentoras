@@ -1,0 +1,39 @@
+136: .bottom-nav { position: absolute; bottom: 0; width: 100%; height: 95px; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(24px); border-top: 1px solid var(--border-subtle); display: flex; just
+221: <li><strong style="color:var(--cyan);">No subvocalices:</strong> Usa el botón de Lectura Biónica para guiar tus ojos rápidamente.</li>
+283: <div class="phase-header"><h4 style="color: var(--accent-fire);">2. Lectura Táctica</h4><span class="phase-duration" style="color:var(--accent-fire);">12m</span></div>
+284: <button class="btn-outline" id="btn-bionic" onclick="toggleBionic()" style="margin-top: 10px;">⚡ Lectura Biónica <span style="font-size:0.6rem;opacity:0.7;display:block;">(Entrena tu salto visual)</sp
+322: <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
+323: <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo. Al iniciar el test, el texto de lectura desaparecerá permanentemente. No puedes regresar.</p>
+326: <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
+365: <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
+367: <div id="recall-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px; border: 1px solid transparent;"></div>
+540: <nav class="bottom-nav">
+552: if(localStorage.getItem('invictus_recall_score')) {
+553: let score = localStorage.getItem('invictus_recall_score');
+554: let ppm = localStorage.getItem('invictus_recall_ppm');
+556: document.getElementById('btn-bionic').style.display = 'none';
+560: const res = document.getElementById('recall-result');
+585: let isBionic = false, originalHTML = [];
+586: function toggleBionic() {
+588: const btn = document.getElementById('btn-bionic');
+589: if(!isBionic) {
+599: isBionic = true; btn.innerHTML = '🧠 Bionic: ON'; btn.style.background = 'rgba(255,255,255,0.1)';
+602: isBionic = false; btn.innerHTML = '⚡ Lectura Biónica'; btn.style.background = 'transparent';
+619: btn.innerHTML = 'Lectura Finalizada'; btn.style.pointerEvents = 'none'; btn.style.opacity = '0.5';
+628: document.getElementById('btn-bionic').style.display = 'none';
+635: function evaluarRecall() {
+651: localStorage.setItem('invictus_recall_score', score);
+652: localStorage.setItem('invictus_recall_ppm', basePPM);
+654: const res = document.getElementById('recall-result');
+951: let score = localStorage.getItem('invictus_recall_score') || 0;
+952: let ppm = localStorage.getItem('invictus_recall_ppm') || 0;
+1001: if(!data.fase2_lectura.comprension) return;
+1002: const comp = data.fase2_lectura.comprension;
+1093: // F2: Lectura + Comprension
+1098: data.fase2_lectura.texto.split('\n').forEach(p => {
+1125: // F4: Recall
+1130: data.fase4_recall.forEach((r, idx) => {
+1132: <div style="margin-bottom: 20px;" class="recall-q">
+1684: ${renderTextarea('recall_activo', 'Tus reflexiones personales de la Fase 4 (Recall Activo)...', 'Recall Activo (Fase 4)', 'var(--accent-water)')}
+1805: } else if (lowerText.includes('lectura') || lowerText.includes('ppm') || lowerText.includes('velocidad')) {
+1806: response = "La lectura cronometrada (Fase 2) no se trata de leer rápido, sino de apagar la subvocalización. Intenta activar el modo Bionic y respira profundamente antes de empezar.";

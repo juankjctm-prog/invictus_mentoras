@@ -1,0 +1,3 @@
+225: <div id="view-dashboard" class="view active">
+531: <div class="nav-item active" onclick="switchTab('view-dashboard', this)"><div class="nav-icon">⚲</div><span class="nav-label">HOME</span></div>
+1184: if(viewId === 'view-dashboard') {
