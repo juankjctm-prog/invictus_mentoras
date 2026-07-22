@@ -138,7 +138,7 @@
     </header>
 
     <div style="width: 100%; max-width: 1200px; text-align: right;">
-        <button class="btn-refresh" onclick="loadData()">↻ Actualizar Datos</button>
+        <button class="btn-refresh" onclick="loadData(); loadAvance();">↻ Actualizar Datos</button>
     </div>
 
     <div class="container">
@@ -154,6 +154,29 @@
                 </tr>
             </thead>
             <tbody id="table-body">
+                <tr><td colspan="6" class="empty-state">Cargando datos desde Supabase...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <header style="margin-top: 60px; margin-bottom: 30px;">
+        <h2 style="font-family: 'Outfit'; font-size: 2rem; background: linear-gradient(135deg, var(--accent-water), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Avance en el Ecosistema</h2>
+        <p style="color: var(--text-secondary); margin-top: 10px;">Progreso de d&iacute;as completados de Mentoras y Mentoreadas</p>
+    </header>
+
+    <div class="container" style="margin-bottom: 60px;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>PIN</th>
+                    <th>Rol</th>
+                    <th>D&iacute;a Actual</th>
+                    <th>D&iacute;as Completados</th>
+                    <th>&Uacute;ltima Actividad</th>
+                </tr>
+            </thead>
+            <tbody id="avance-body">
                 <tr><td colspan="6" class="empty-state">Cargando datos desde Supabase...</td></tr>
             </tbody>
         </table>
@@ -226,8 +249,80 @@
             tbody.innerHTML = html;
         }
 
+        async function loadAvance() {
+            const tbody = document.getElementById('avance-body');
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Cargando datos...</td></tr>';
+
+            const { data: usersData, error: usersError } = await _supabase.from('mentoras_users').select('*');
+            if (usersError) {
+                console.error(usersError);
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Error al cargar usuarios.</td></tr>';
+                return;
+            }
+
+            const { data: progressData, error: progressError } = await _supabase.from('mentoras_progress').select('*').order('updated_at', { ascending: false });
+            if (progressError) {
+                console.error(progressError);
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Error al cargar progreso.</td></tr>';
+                return;
+            }
+
+            if (!usersData || usersData.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No hay usuarios registrados.</td></tr>';
+                return;
+            }
+
+            // Create a lookup for progress
+            const progressMap = {};
+            if (progressData) {
+                progressData.forEach(p => {
+                    progressMap[p.user_id] = p;
+                });
+            }
+
+            let html = '';
+            // Sort users by role, then by name
+            usersData.sort((a, b) => {
+                if (a.role !== b.role) return a.role.localeCompare(b.role);
+                const nameA = a.name || a.full_name || '';
+                const nameB = b.name || b.full_name || '';
+                return nameA.localeCompare(nameB);
+            });
+
+            usersData.forEach(user => {
+                // Filter out master pin
+                if (user.pin === '010101') return;
+                
+                const prog = progressMap[user.id];
+                const currentDay = prog ? prog.current_day : 1;
+                const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
+                
+                let lastActivity = '--';
+                if (prog && prog.updated_at) {
+                    lastActivity = new Date(prog.updated_at).toLocaleDateString() + ' ' + new Date(prog.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                }
+
+                const tagClass = user.role.toLowerCase() === 'mentora' ? 'tag-mentora' : 'tag-mentoreada';
+
+                html += `
+                    <tr>
+                        <td style="font-weight: 500;">${user.name || user.full_name || '--'}</td>
+                        <td style="font-weight:bold; letter-spacing:1px;">${user.pin}</td>
+                        <td><span class="tag ${tagClass}">${user.role}</span></td>
+                        <td><span class="score-box" style="color:var(--accent-water);">D&iacute;a ${currentDay}</span></td>
+                        <td><span class="score-box">${completedCount}</span> completados</td>
+                        <td style="font-size:0.85rem; color:var(--text-secondary);">${lastActivity}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html || '<tr><td colspan="6" class="empty-state">No hay datos de avance que mostrar.</td></tr>';
+        }
+
         // Initialize
-        document.addEventListener('DOMContentLoaded', loadData);
+        document.addEventListener('DOMContentLoaded', () => {
+            loadData();
+            loadAvance();
+        });
     </script>
 </body>
 </html>
