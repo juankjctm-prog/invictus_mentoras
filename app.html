@@ -686,8 +686,6 @@
     </div>
 
     <!-- SUPABASE INIT -->
-    <script src="mentadasData.js?v=20260722_2"></script>
-    <script src="mujeresMentorasData.js?v=20260722_2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
@@ -1044,7 +1042,25 @@ function continueToComprension() {
         async function initUserSession() {
     if(!currentUser) return;
     
-    window.activeTrackData = currentUser.role === 'Mentada' ? (typeof mentadasData !== 'undefined' ? mentadasData : []) : (typeof mujeresMentorasData !== 'undefined' ? mujeresMentorasData : []);
+    // Fetch from Supabase
+    try {
+        const { data: contentData, error: contentError } = await _supabase
+            .from('mentoras_content')
+            .select('content')
+            .eq('role', currentUser.role)
+            .order('dia', { ascending: true });
+
+        if (contentError) {
+            console.error("Error al cargar contenido de Supabase:", contentError);
+            window.activeTrackData = [];
+        } else {
+            // Map the rows back to the array of objects
+            window.activeTrackData = contentData.map(row => row.content);
+        }
+    } catch (err) {
+        console.error("Excepción al cargar contenido:", err);
+        window.activeTrackData = [];
+    }
     
     // Fetch from Supabase
     const { data, error } = await _supabase.from('mentoras_progress').select('*').eq('user_id', currentUser.id).single();
