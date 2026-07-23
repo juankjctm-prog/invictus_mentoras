@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Invictus Admin Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-absolute: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-surface-elevated: rgba(255, 255, 255, 0.03);
+            --bg-surface-hover: rgba(255, 255, 255, 0.06);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8A8F98;
+            --text-tertiary: #52525B;
+            --accent-fire: #FF5E00;
+            --accent-water: #00C6FF;
+            --success: #10B981;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-absolute);
+            color: var(--text-primary);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; overflow: hidden;
+        }
+
+        /* --- AUTH OVERLAY --- */
+        .auth-overlay {
+            position: fixed; inset: 0; z-index: 9999;
+            background: var(--bg-absolute);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.5s ease;
+        }
+        .auth-overlay.hidden { opacity: 0; pointer-events: none; }
+        .pin-dots { display: flex; gap: 16px; margin-bottom: 40px; margin-top: 30px;}
+        .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-subtle); transition: all 0.2s; }
+        .dot.filled { background: var(--accent-water); border-color: var(--accent-water); box-shadow: 0 0 15px rgba(0,198,255,0.4); }
+        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;}
+        .key { width: 70px; height: 70px; border-radius: 50%; background: var(--bg-surface-elevated); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-family: 'Outfit'; cursor: pointer; border: 1px solid var(--border-subtle); color: white; }
+        .key:active { transform: scale(0.9); background: var(--border-subtle); }
+
+        /* --- APP CONTAINER --- */
+        .app-container {
+            width: 100%; max-width: 800px; height: 100vh;
+            display: flex; flex-direction: column;
+            background: var(--bg-surface);
+            border-left: 1px solid var(--border-subtle);
+            border-right: 1px solid var(--border-subtle);
+            opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+        }
+        .app-container.visible { opacity: 1; pointer-events: auto; }
+
+        .header {
+            padding: 30px; border-bottom: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,0,0,0.5);
+        }
+        .header h1 { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 500; color: var(--accent-water); }
+
+        .main-content { padding: 30px; overflow-y: auto; flex: 1; }
+
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .stat-card {
+            background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle);
+            border-radius: 16px; padding: 20px;
+        }
+        .stat-card h3 { font-family: 'Outfit'; font-size: 2.5rem; margin-bottom: 5px; }
+        .stat-card p { color: var(--text-secondary); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        .users-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        .users-table th { text-align: left; padding: 15px; color: var(--text-secondary); font-size: 0.8rem; text-transform: uppercase; border-bottom: 1px solid var(--border-subtle); }
+        .users-table td { padding: 15px; border-bottom: 1px solid var(--border-subtle); font-size: 0.95rem; }
+        .users-table tr:hover td { background: var(--bg-surface-hover); }
+
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+        .badge.mentora { background: rgba(255, 94, 0, 0.1); color: var(--accent-fire); border: 1px solid var(--accent-fire); }
+        .badge.mentada { background: rgba(0, 198, 255, 0.1); color: var(--accent-water); border: 1px solid var(--accent-water); }
+
+        .action-btn { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); color: white; padding: 6px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s; font-size: 0.8rem; }
+        .action-btn:hover { background: rgba(255,255,255,0.1); }
+
+        /* Modal Respuestas */
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 10000; display: none; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: var(--bg-surface); border: 1px solid var(--border-subtle); width: 90%; max-width: 600px; max-height: 80vh; border-radius: 16px; display: flex; flex-direction: column; overflow: hidden; }
+        .modal-header { padding: 20px; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; }
+        .modal-header h2 { font-family: 'Outfit'; font-size: 1.2rem; }
+        .modal-body { padding: 20px; overflow-y: auto; flex: 1; }
+        .close-btn { background: transparent; border: none; color: var(--text-secondary); font-size: 1.5rem; cursor: pointer; }
+        
+        .answer-card { background: var(--bg-surface-elevated); padding: 15px; border-radius: 8px; margin-bottom: 15px; }
+        .answer-card h4 { color: var(--accent-water); margin-bottom: 8px; font-size: 0.9rem; }
+        .answer-card p { color: #ccc; font-size: 0.9rem; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+    <!-- PANTALLA DE AUTENTICACION -->
+    <div id="auth-overlay" class="auth-overlay">
+        <h2 style="font-family: 'Outfit'; font-size: 1.5rem; color: var(--accent-water);">Invictus Admin</h2>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Ingresa el PIN Maestro</p>
+        
+        <div class="pin-dots" id="pin-dots">
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        </div>
+        
+        <div class="keypad">
+            <div class="key" onclick="pressKey('1')">1</div><div class="key" onclick="pressKey('2')">2</div><div class="key" onclick="pressKey('3')">3</div>
+            <div class="key" onclick="pressKey('4')">4</div><div class="key" onclick="pressKey('5')">5</div><div class="key" onclick="pressKey('6')">6</div>
+            <div class="key" onclick="pressKey('7')">7</div><div class="key" onclick="pressKey('8')">8</div><div class="key" onclick="pressKey('9')">9</div>
+            <div></div><div class="key" onclick="pressKey('0')">0</div><div></div>
+        </div>
+    </div>
+
+    <!-- APP CONTAINER -->
+    <div id="app-container" class="app-container">
+        <header class="header">
+            <h1>Panel de Control</h1>
+            <div style="font-size: 0.85rem; color: var(--text-secondary);">Directorio Activo</div>
+        </header>
+
+        <main class="main-content">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="stat-mentoras">0</h3>
+                    <p>Mentoras Activas</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="stat-mentadas" style="color: var(--accent-water);">0</h3>
+                    <p>Mentadas Activas</p>
+                </div>
+            </div>
+
+            <h2 style="font-family: 'Outfit'; font-size: 1.2rem; margin-bottom: 15px;">Usuarios Registrados</h2>
+            <div style="overflow-x: auto; border: 1px solid var(--border-subtle); border-radius: 12px;">
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Rol</th>
+                            <th>Día</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="4" style="text-align:center; color:#888;">Cargando...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL DE RESPUESTAS -->
+    <div id="answers-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Respuestas de Usuario</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Contenido dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
+        const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
+        const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+        let enteredPin = "";
+        const ADMIN_PIN = "010101";
+
+        function pressKey(num) {
+            if (enteredPin.length < 6) {
+                enteredPin += num;
+                updateDots();
+            }
+            if (enteredPin.length === 6) {
+                setTimeout(checkPin, 200);
+            }
+        }
+
+        function updateDots() {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+                if (index < enteredPin.length) dot.classList.add('filled');
+                else dot.classList.remove('filled');
+            });
+        }
+
+        function checkPin() {
+            if (enteredPin === ADMIN_PIN) {
+                document.getElementById('auth-overlay').classList.add('hidden');
+                document.getElementById('app-container').classList.add('visible');
+                loadDashboardData();
+            } else {
+                enteredPin = "";
+                updateDots();
+                const dotsContainer = document.getElementById('pin-dots');
+                dotsContainer.style.transform = "translateX(-10px)";
+                setTimeout(() => dotsContainer.style.transform = "translateX(10px)", 100);
+                setTimeout(() => dotsContainer.style.transform = "translateX(0)", 200);
+            }
+        }
+
+        let allUsers = [];
+        let allProgress = [];
+
+        async function loadDashboardData() {
+            const tbody = document.getElementById('users-tbody');
+            
+            try {
+                // Fetch Users
+                const { data: usersData, error: usersError } = await _supabase.from('mentoras_users').select('*');
+                // Fetch Progress
+                const { data: progData, error: progError } = await _supabase.from('mentoras_progress').select('*');
+
+                if (usersError || progError) {
+                    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--accent-fire);">Error al cargar datos.</td></tr>';
+                    return;
+                }
+
+                allUsers = usersData || [];
+                allProgress = progData || [];
+
+                let mentorasCount = 0;
+                let mentadasCount = 0;
+                let html = '';
+
+                allUsers.forEach(user => {
+                    if(user.role === 'Mentora') mentorasCount++;
+                    if(user.role === 'Mentada') mentadasCount++;
+
+                    let progress = allProgress.find(p => p.user_id === user.id);
+                    let currentDay = progress ? progress.current_day : 1;
+                    
+                    let badgeClass = user.role === 'Mentora' ? 'mentora' : 'mentada';
+                    
+                    html += `
+                        <tr>
+                            <td>
+                                <div style="font-weight: 500;">${user.name}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary);">${user.full_name}</div>
+                            </td>
+                            <td><span class="badge ${badgeClass}">${user.role}</span></td>
+                            <td>Día ${currentDay}</td>
+                            <td>
+                                <button class="action-btn" onclick="viewAnswers(${user.id}, '${user.name}')">Ver Respuestas</button>
+                            </td>
+                        </tr>
+                    `;
+                });
+
+                document.getElementById('stat-mentoras').innerText = mentorasCount;
+                document.getElementById('stat-mentadas').innerText = mentadasCount;
+                tbody.innerHTML = html;
+
+            } catch(e) {
+                console.error(e);
+            }
+        }
+
+        function viewAnswers(userId, userName) {
+            document.getElementById('modal-title').innerText = `Respuestas de ${userName}`;
+            const body = document.getElementById('modal-body');
+            
+            let progress = allProgress.find(p => p.user_id === userId);
+            
+            if(!progress || !progress.answers || Object.keys(progress.answers).length === 0) {
+                body.innerHTML = '<p style="color:#aaa;">Este usuario aún no tiene respuestas guardadas.</p>';
+            } else {
+                let html = '';
+                // Sort days
+                let days = Object.keys(progress.answers).sort((a,b) => parseInt(a) - parseInt(b));
+                
+                days.forEach(d => {
+                    let ans = progress.answers[d];
+                    if(ans.trim() !== '') {
+                        html += `
+                            <div class="answer-card">
+                                <h4>Día ${d}</h4>
+                                <p>${ans}</p>
+                            </div>
+                        `;
+                    }
+                });
+
+                if(html === '') {
+                    html = '<p style="color:#aaa;">Las respuestas están vacías.</p>';
+                }
+
+                body.innerHTML = html;
+            }
+
+            document.getElementById('answers-modal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('answers-modal').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
