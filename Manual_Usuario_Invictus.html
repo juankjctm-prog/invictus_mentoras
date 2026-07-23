@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual de Usuario - Invictus Mind</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Base y Variables (Diseño Premium Invictus) */
+        :root {
+            --bg-absolute: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-surface-elevated: rgba(255, 255, 255, 0.05);
+            --border-subtle: rgba(255, 255, 255, 0.1);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8A8F98;
+            --accent-fire: #FF5E00;
+            --accent-fire-glow: rgba(255, 94, 0, 0.2);
+            --accent-water: #00C6FF;
+            --accent-water-glow: rgba(0, 198, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-surface);
+            color: var(--text-primary);
+        }
+
+        /* Configuración de Impresión para PDF */
+        @page {
+            size: 1920px 1080px; /* Pantalla 16:9 FHD */
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                background-color: var(--bg-surface);
+            }
+            .slide {
+                page-break-after: always;
+                page-break-inside: avoid;
+                width: 1920px;
+                height: 1080px;
+            }
+        }
+
+        /* Estructura de la Diapositiva */
+        .slide {
+            width: 1920px;
+            height: 1080px;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--bg-surface);
+            display: flex;
+            flex-direction: column;
+            border-bottom: 2px solid var(--border-subtle); /* Solo visual para pantalla */
+            margin: 0 auto;
+        }
+
+        /* Efectos de fondo universales */
+        .glow-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(150px);
+            opacity: 0.5;
+            z-index: 0;
+            pointer-events: none;
+        }
+        .glow-top-right { top: -200px; right: -200px; width: 800px; height: 800px; background: var(--accent-water-glow); }
+        .glow-bottom-left { bottom: -200px; left: -200px; width: 800px; height: 800px; background: var(--accent-fire-glow); }
+
+        .content {
+            position: relative;
+            z-index: 10;
+            padding: 100px 150px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Tipografía Premium */
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+        .title-huge { font-size: 100px; font-weight: 800; line-height: 1.1; margin-bottom: 30px; letter-spacing: -2px; }
+        .title-large { font-size: 70px; font-weight: 700; margin-bottom: 40px; }
+        .text-gradient-fire { background: linear-gradient(135deg, #FF4500, #FF8C00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient-water { background: linear-gradient(135deg, #00C6FF, #0072FF); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .subtitle { font-size: 35px; color: var(--text-secondary); font-weight: 300; max-width: 1200px; line-height: 1.4; }
+        .body-text { font-size: 30px; color: #D1D5DB; line-height: 1.6; margin-bottom: 30px; }
+
+        /* Layouts de Contenido */
+        .row { display: flex; gap: 80px; align-items: stretch; flex: 1; margin-top: 50px; }
+        .col { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        
+        /* Componentes Visuales (Mockups) */
+        .mockup-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid var(--border-subtle);
+            border-radius: 40px;
+            padding: 50px;
+            position: relative;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .mockup-header { display: flex; align-items: center; gap: 15px; margin-bottom: 40px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px;}
+        .mockup-dot { width: 20px; height: 20px; border-radius: 50%; background: #444;}
+        .mockup-dot.red { background: #FF5F56; }
+        .mockup-dot.yellow { background: #FFBD2E; }
+        .mockup-dot.green { background: #27C93F; }
+
+        .mockup-img-placeholder {
+            flex: 1;
+            background: linear-gradient(to bottom right, rgba(0,198,255,0.1), rgba(255,94,0,0.1));
+            border-radius: 20px;
+            display: flex; justify-content: center; align-items: center;
+            border: 1px dashed var(--border-subtle);
+        }
+
+        /* Elementos específicos del UI */
+        .pin-dots-mockup { display: flex; gap: 20px; justify-content: center; margin: 40px 0; }
+        .dot-m { width: 30px; height: 30px; border-radius: 50%; border: 3px solid var(--border-subtle); }
+        .dot-m.filled { background: var(--accent-fire); border-color: var(--accent-fire); box-shadow: 0 0 20px var(--accent-fire-glow); }
+
+        .day-card-mockup {
+            background: linear-gradient(135deg, rgba(0,198,255,0.15), transparent);
+            border: 2px solid rgba(0,198,255,0.3);
+            border-radius: 30px; padding: 40px; margin-bottom: 30px;
+        }
+        
+        .number-badge {
+            display: inline-flex; justify-content: center; align-items: center;
+            width: 80px; height: 80px; border-radius: 50%;
+            background: var(--accent-water); color: #000;
+            font-family: 'Outfit'; font-weight: 800; font-size: 40px; margin-bottom: 20px;
+        }
+
+        .step-list { list-style: none; counter-reset: my-awesome-counter; }
+        .step-list li { margin-bottom: 40px; position: relative; padding-left: 100px; font-size: 32px; color: #fff; line-height: 1.4; }
+        .step-list li::before {
+            counter-increment: my-awesome-counter;
+            content: counter(my-awesome-counter);
+            position: absolute; left: 0; top: -5px;
+            width: 60px; height: 60px; border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex; justify-content: center; align-items: center;
+            font-family: 'Outfit'; font-weight: 700; color: var(--accent-fire);
+        }
+
+        .footer-logo { position: absolute; bottom: 80px; right: 150px; font-family: 'Outfit'; font-weight: 700; font-size: 30px; color: #fff; display: flex; align-items: center; gap: 15px;}
+        .footer-logo span { color: var(--accent-water); }
+        .footer-page { position: absolute; bottom: 80px; left: 150px; font-family: 'Outfit'; font-size: 24px; color: var(--text-secondary); }
+
+        /* Iconografía básica (SVG insertado) */
+        .icon-circle { width: 100px; height: 100px; border-radius: 50%; background: rgba(255,255,255,0.05); display: flex; justify-content: center; align-items: center; margin-bottom: 30px; border: 2px solid rgba(255,255,255,0.1); }
+        .icon-circle svg { width: 50px; height: 50px; stroke: var(--accent-water); }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1: PORTADA -->
+    <div class="slide">
+        <div class="glow-circle glow-top-right" style="width: 1200px; height: 1200px;"></div>
+        <div class="glow-circle glow-bottom-left" style="width: 1500px; height: 1500px; background: rgba(255, 94, 0, 0.3);"></div>
+        <div class="content" style="justify-content: center; align-items: center; text-align: center;">
+            <div style="font-family: 'Outfit'; font-weight: 800; font-size: 60px; letter-spacing: 15px; color: var(--accent-water); margin-bottom: 50px; text-transform: uppercase;">
+                Manual Oficial
+            </div>
+            <h1 class="title-huge" style="font-size: 150px;">
+                <span class="text-gradient-water">Invictus</span> Mind<br>
+            </h1>
+            <h2 class="subtitle" style="font-size: 50px; color: #fff; margin-top: 40px;">
+                Guía de uso exclusiva para <br><span class="text-gradient-fire">Mujeres Mentoras y Mentadas</span>
+            </h2>
+            <div style="margin-top: 100px; border-top: 2px solid rgba(255,255,255,0.1); padding-top: 50px; width: 600px;">
+                <p style="font-size: 25px; color: var(--text-secondary); letter-spacing: 5px; text-transform: uppercase;">Versión 1.0 - Acceso Premium</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2: BIENVENIDA -->
+    <div class="slide">
+        <div class="glow-circle" style="top: -200px; left: -200px; width: 800px; height: 800px; background: rgba(0, 198, 255, 0.15);"></div>
+        <div class="content">
+            <h1 class="title-large">Bienvenida a la <span class="text-gradient-water">Transformación</span></h1>
+            <div class="row">
+                <div class="col" style="flex: 1.2;">
+                    <p class="body-text" style="font-size: 35px; line-height: 1.8;">
+                        Estás a punto de iniciar un viaje profundo. <strong>Invictus Mind</strong> no es un curso tradicional; es un ecosistema de reprogramación diseñado para llevarte al siguiente nivel de consciencia, ya sea como Mentora o Mentada.
+                    </p>
+                    <p class="body-text" style="font-size: 35px; line-height: 1.8;">
+                        La plataforma ha sido construida con una <strong>estricta política de privacidad ejecutiva</strong>. Todo lo que escribas y proceses aquí es 100% privado y seguro.
+                    </p>
+                    <div style="background: rgba(255,94,0,0.1); border-left: 8px solid var(--accent-fire); padding: 40px; border-radius: 0 20px 20px 0; margin-top: 40px;">
+                        <h3 style="font-size: 30px; margin-bottom: 15px; color: var(--accent-fire);">Importante</h3>
+                        <p style="font-size: 26px; color: #ccc;">Te recomendamos usar auriculares para escuchar los audios de calibración e interactuar en un ambiente tranquilo.</p>
+                    </div>
+                </div>
+                <div class="col" style="align-items: center;">
+                    <div class="icon-circle" style="width: 300px; height: 300px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-water);">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-water)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="width: 150px; height: 150px;">
+                            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                            <polyline points="2 17 12 22 22 17"></polyline>
+                            <polyline points="2 12 12 17 22 12"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-page">02</div>
+        <div class="footer-logo">Invictus <span>Mind</span></div>
+    </div>
+
+    <!-- SLIDE 3: ACCESO (PIN) -->
+    <div class="slide">
+        <div class="glow-circle glow-bottom-left"></div>
+        <div class="content">
+            <h1 class="title-large">1. Acceso <span class="text-gradient-fire">Seguro</span></h1>
+            <p class="subtitle">Para proteger tu progreso y reflexiones íntimas, utilizamos un sistema de autenticación biométrica simulada mediante un PIN único.</p>
+            
+            <div class="row">
+                <div class="col">
+                    <ul class="step-list">
+                        <li><strong>Abre la plataforma</strong> desde el enlace oficial que te proporcionamos.</li>
+                        <li><strong>Tu PIN Único:</strong> Ingresa el PIN de 6 dígitos que se te asignó. Si no lo recuerdas, contacta a soporte.</li>
+                        <li><strong>Bloqueo Automático:</strong> La plataforma se bloqueará si detecta inactividad, deberás ingresar tu PIN nuevamente.</li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <div class="mockup-box" style="align-items: center; justify-content: center; height: 600px;">
+                        <h3 style="font-size: 40px; font-weight: 500; margin-bottom: 20px;">Privacidad Ejecutiva</h3>
+                        <p style="color: var(--text-secondary); font-size: 24px;">Ingresa tu PIN de acceso.</p>
+                        <div class="pin-dots-mockup">
+                            <div class="dot-m filled"></div><div class="dot-m filled"></div><div class="dot-m filled"></div>
+                            <div class="dot-m"></div><div class="dot-m"></div><div class="dot-m"></div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; opacity: 0.5;">
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 30px;">1</div>
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 30px;">2</div>
+                            <div style="width: 80px; height: 80px; border-radius: 50%; background: #222; display: flex; justify-content: center; align-items: center; font-size: 30px;">3</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-page">03</div>
+        <div class="footer-logo">Invictus <span>Mind</span></div>
+    </div>
+
+    <!-- SLIDE 4: PANEL PRINCIPAL -->
+    <div class="slide">
+        <div class="glow-circle glow-top-right"></div>
+        <div class="content">
+            <h1 class="title-large">2. Tu Panel de <span class="text-gradient-water">Días</span></h1>
+            <p class="subtitle">Una vez dentro, verás el "Directorio de Misiones" dividido por días cronológicos.</p>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="mockup-box" style="padding: 40px;">
+                        <div class="mockup-header">
+                            <div class="mockup-dot red"></div><div class="mockup-dot yellow"></div><div class="mockup-dot green"></div>
+                        </div>
+                        <div class="day-card-mockup">
+                            <h3 style="font-size: 35px; color: var(--accent-water); margin-bottom: 10px;">Día 1</h3>
+                            <p style="font-size: 24px; color: #fff;">Calibración de Estado</p>
+                        </div>
+                        <div class="day-card-mockup" style="background: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.1);">
+                            <h3 style="font-size: 35px; color: #fff; margin-bottom: 10px;">Día 2</h3>
+                            <p style="font-size: 24px; color: var(--text-secondary);">Identidad del Yo</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <ul class="step-list">
+                        <li><strong>Navegación Secuencial:</strong> Debes completar el Día 1 para acceder al Día 2, y así sucesivamente. Tu progreso se guarda en la nube.</li>
+                        <li><strong>Días Bloqueados:</strong> Los días que aún no has alcanzado tendrán un candado. Esto garantiza que no te saltes el proceso.</li>
+                        <li><strong>Revisión:</strong> Siempre puedes volver atrás y leer (o escuchar) los días que ya completaste.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-page">04</div>
+        <div class="footer-logo">Invictus <span>Mind</span></div>
+    </div>
+
+    <!-- SLIDE 5: AUDIO Y RESPUESTAS -->
+    <div class="slide">
+        <div class="glow-circle glow-bottom-left" style="background: rgba(0, 198, 255, 0.2);"></div>
+        <div class="content">
+            <h1 class="title-large">3. Audios y <span class="text-gradient-fire">Reflexiones</span></h1>
+            
+            <div class="row">
+                <div class="col">
+                    <ul class="step-list">
+                        <li><strong>Reproductor Dinámico:</strong> Arriba encontrarás una cápsula con un botón de Play. Haz clic para escuchar la mentoría guiada del día.</li>
+                        <li><strong>Cajas de Texto:</strong> Cada día plantea preguntas profundas. Usa los campos de texto para escribir. ¡Explayate! Es tu diario privado.</li>
+                        <li><strong>Guardar Progreso:</strong> Al final del día, presiona el botón "Completar Día X". <em>Obligatorio para avanzar al siguiente.</em></li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <div class="mockup-box" style="padding: 50px;">
+                        <div style="display: flex; align-items: center; background: rgba(0, 198, 255, 0.1); border: 1px solid rgba(0, 198, 255, 0.3); border-radius: 100px; padding: 15px 30px; width: fit-content; margin-bottom: 50px;">
+                            <div style="width: 50px; height: 50px; border-radius: 50%; background: var(--accent-water); display: flex; justify-content: center; align-items: center; margin-right: 20px;">
+                                <div style="width: 0; height: 0; border-style: solid; border-width: 10px 0 10px 15px; border-color: transparent transparent transparent #000; margin-left: 5px;"></div>
+                            </div>
+                            <div style="display: flex; gap: 5px; align-items: center; height: 30px;">
+                                <div style="width: 5px; height: 100%; background: var(--accent-water); border-radius: 3px;"></div>
+                                <div style="width: 5px; height: 60%; background: var(--accent-water); border-radius: 3px;"></div>
+                                <div style="width: 5px; height: 80%; background: var(--accent-water); border-radius: 3px;"></div>
+                                <div style="width: 5px; height: 40%; background: var(--accent-water); border-radius: 3px;"></div>
+                            </div>
+                        </div>
+
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 30px;">
+                            <p style="color: var(--accent-fire); font-size: 20px; margin-bottom: 10px;">Pregunta 1</p>
+                            <p style="font-size: 24px; color: #fff; margin-bottom: 20px;">¿Qué sentiste hoy?</p>
+                            <div style="width: 100%; height: 100px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid rgba(255,255,255,0.2);"></div>
+                        </div>
+
+                        <div style="background: linear-gradient(135deg, var(--accent-fire), #FF0000); color: white; text-align: center; padding: 25px; border-radius: 15px; font-size: 28px; font-family: 'Outfit'; font-weight: 600;">
+                            GUARDAR Y COMPLETAR DÍA
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-page">05</div>
+        <div class="footer-logo">Invictus <span>Mind</span></div>
+    </div>
+
+    <!-- SLIDE 6: KIT DE MENTORÍA -->
+    <div class="slide">
+        <div class="glow-circle glow-top-right" style="background: rgba(255, 94, 0, 0.2);"></div>
+        <div class="content">
+            <h1 class="title-large">4. El Kit de <span class="text-gradient-water">Mentoría</span></h1>
+            <p class="subtitle">En el menú inferior (ícono de herramientas), tienes acceso a tu Kit personal. Aquí encuentras recursos rápidos.</p>
+            
+            <div class="row">
+                <div class="col">
+                    <div class="mockup-box" style="padding: 50px;">
+                        <h3 style="font-size: 35px; color: #fff; margin-bottom: 30px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">Herramientas Activas</h3>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; text-align: center;">
+                                <div style="font-size: 50px; margin-bottom: 15px;">📚</div>
+                                <p style="font-size: 22px; color: #fff;">Librería</p>
+                            </div>
+                            <div style="background: rgba(255,94,0,0.1); border: 1px solid var(--accent-fire); border-radius: 20px; padding: 30px; text-align: center;">
+                                <div style="font-size: 50px; margin-bottom: 15px;">🆘</div>
+                                <p style="font-size: 22px; color: var(--accent-fire);">Botón SOS</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <ul class="step-list">
+                        <li><strong>Métricas:</strong> Visualiza tu racha y nivel de constancia.</li>
+                        <li><strong>Botón SOS:</strong> En un momento de crisis emocional o ansiedad, presiona el botón rojo "SOS". Activará un ejercicio de respiración biónico en pantalla que regulará tu sistema nervioso en segundos.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-page">06</div>
+        <div class="footer-logo">Invictus <span>Mind</span></div>
+    </div>
+
+    <!-- SLIDE 7: CIERRE -->
+    <div class="slide">
+        <div class="glow-circle glow-top-right" style="width: 1500px; height: 1500px;"></div>
+        <div class="glow-circle glow-bottom-left" style="width: 1500px; height: 1500px; background: rgba(0, 198, 255, 0.2);"></div>
+        <div class="content" style="justify-content: center; align-items: center; text-align: center;">
+            <div class="icon-circle" style="width: 200px; height: 200px; margin-bottom: 50px;">
+                <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-fire)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width: 100px; height: 100px;">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                </svg>
+            </div>
+            <h1 class="title-huge" style="font-size: 100px; margin-bottom: 20px;">
+                Estás lista.
+            </h1>
+            <h2 class="subtitle" style="font-size: 40px; color: var(--text-secondary); max-width: 900px; margin: 0 auto;">
+                Sigue las misiones diarias, confía en el proceso y comprométete con tu transformación sistémica.
+            </h2>
+            
+            <div style="margin-top: 100px; border-radius: 20px; background: rgba(255,255,255,0.05); padding: 30px 60px; display: inline-block;">
+                <p style="font-size: 24px; color: #fff;">¿Problemas técnicos?</p>
+                <p style="font-size: 20px; color: var(--accent-water); margin-top: 5px;">Contacta con el soporte de tu Mentora.</p>
+            </div>
+        </div>
+        <div class="footer-page">07</div>
+    </div>
+
+</body>
+</html>
