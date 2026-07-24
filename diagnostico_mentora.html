@@ -77,7 +77,7 @@
         <div class="logo">Invictus <span>Mind</span></div>
         
         <header>
-            <h1 id="page-title">Sesion 0: Diagnostico de Mentora</h1>
+            <h1 id="page-title">Sesión 0: Diagnóstico de Mentora</h1>
             <p id="page-subtitle">4 tests · 20 minutos · Resultados para ti y para RRHH</p>
         </header>
 
@@ -90,9 +90,9 @@
                     <div style="font-size:3.5rem;margin-bottom:16px;">📊</div>
                     <h2>Antes de tu primera sesion</h2>
                     <p style="text-align:left;">
-                        Vas a completar 4 evaluaciones que te daran un mapa claro de donde estas tu, donde esta tu mentoreada, y donde debe enfocarse tu trabajo con ella:<br><br>
+                        Vas a completar 4 evaluaciónes que te daran un mapa claro de donde estas tu, donde esta tu mentoreada, y donde debe enfocarse tu trabajo con ella:<br><br>
                         <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprension lectora.<br>
-                        <strong style="color:#fff">2. Competencias de Mentoria</strong> — Tus habilidades como mentora.<br>
+                        <strong style="color:#fff">2. Competencias de Mentoría</strong> — Tus habilidades como mentora.<br>
                         <strong style="color:#fff">3. Brechas de tu Mentoreada</strong> — Donde necesita mas trabajo tu mentoreada.<br><br>
                         <strong style="color:#fff">4. Tu Propio Crecimiento</strong> — Donde estas tu misma en las 11 competencias que este programa desarrolla.<br><br>
                         Al final recibiras un plan sugerido de sesiones para las proximas 16 semanas.
@@ -105,15 +105,21 @@
             <div class="step" data-step="1">
                 <div class="card">
                     <h2>Test 1: Lectura Cognitiva</h2>
-                    <p>Lee el texto con atencion. Cuando termines, presiona "Termine de leer" y responde 5 preguntas sin volver al texto.</p>
+                    <p>Lee el texto con atención. Cuando termines, presiona "Terminé de leer" y responde 5 preguntas sin volver al texto.</p>
+                    
+                    <div class="timer-box" style="display:flex; justify-content:space-between; align-items:center; padding: 15px 25px; margin-bottom: 20px;">
+                        <div style="display:flex; gap: 10px;">
+                            <button id="btn-start-reading" class="btn" style="width:auto; padding: 10px 20px;" onclick="startReading()">▶ Iniciar Lectura</button>
+                            <button id="btn-stop-reading" class="btn hidden" style="width:auto; padding: 10px 20px; background:var(--success);" onclick="stopReading()">⏹ Terminé de Leer</button>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="timer" id="reading-timer" style="font-size: 2rem; margin:0; line-height: 1;">00:00</div>
+                            <p style="font-size:0.75rem;color:var(--muted);margin:0;">Tiempo</p>
+                        </div>
+                    </div>
+
                     <div class="reading-text" id="reading-text"></div>
                 </div>
-                <div class="timer-box">
-                    <div class="timer" id="reading-timer">00:00</div>
-                    <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Tiempo de lectura</p>
-                </div>
-                <button id="btn-start-reading" class="btn" onclick="startReading()">▶ Iniciar Lectura</button>
-                <button id="btn-stop-reading" class="btn hidden" style="background:var(--success);" onclick="stopReading()">⏹ Termine de Leer</button>
             </div>
 
             <!-- PASO 2: COMPRENSION LECTORA -->
@@ -128,7 +134,7 @@
             <!-- PASO 3: COMPETENCIAS DE MENTORIA -->
             <div class="step" data-step="3">
                 <div class="card">
-                    <h2>Test 2: Competencias de Mentoria</h2>
+                    <h2>Test 2: Competencias de Mentoría</h2>
                     <p>20 preguntas · 5 dimensiones. Elige la respuesta que mejor describa como actuas como mentora.</p>
                     <div id="mentor-questions"></div>
                 </div>
@@ -166,7 +172,7 @@
                     <div class="stat"><div class="stat-value" id="res-comp">--</div><div class="stat-label">Comprension</div></div>
                 </div>
 
-                <div class="section-title">👩‍🏫 Competencias de Mentoria</div>
+                <div class="section-title">👩‍🏫 Competencias de Mentoría</div>
                 <div class="card">
                     <div style="text-align:center;margin-bottom:16px;">
                         <div class="stat-value" id="res-mentoria-total">--</div>
@@ -183,7 +189,7 @@
 
                 <div class="section-title">🌱 Tu Propio Crecimiento</div>
                 <div class="card">
-                    <p style="font-size:0.8rem;">Tu autoevaluacion en las mismas 11 dimensiones. Esta es tu propia linea base — al Dia 78 se compara contra esta foto inicial.</p>
+                    <p style="font-size:0.8rem;">Tu autoevaluación en las mismas 11 dimensiones. Esta es tu propia linea base — al Dia 78 se compara contra esta foto inicial.</p>
                     <div class="radar-container" id="radar-chart-auto"></div>
                     <div id="res-brechas-auto"></div>
                 </div>
@@ -196,7 +202,7 @@
 
                 <div class="plan-box" style="border-color:rgba(147,112,219,0.2);background:rgba(147,112,219,0.05);">
                     <h3 style="color:var(--purple);">🌱 Tu Propio Enfoque de Desarrollo</h3>
-                    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Segun tu propia autoevaluacion, estas son tus areas con mayor oportunidad de crecimiento:</p>
+                    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Segun tu propia autoevaluación, estas son tus areas con mayor oportunidad de crecimiento:</p>
                     <ul id="plan-sugerido-auto"></ul>
                 </div>
 
@@ -383,7 +389,7 @@
                 brechasPercent[d] = Math.round(((brechasSuma[d] || 0) / (brechasCount[d] * 4)) * 100);
             });
 
-            // Tu Propio Crecimiento (autoevaluacion)
+            // Tu Propio Crecimiento (autoevaluación)
             const autoSuma = {};
             const autoCount = {};
             DIAG_DATA.brechasAuto.forEach((q, i) => {
@@ -498,7 +504,7 @@
             const criticasAuto = sortedAuto.filter(x => x[1] <= 40);
             const planUlAuto = document.getElementById('plan-sugerido-auto');
             if (criticasAuto.length === 0) {
-                planUlAuto.innerHTML = '<li>No tienes brechas criticas en tu autoevaluacion. Usa el programa para fortalecer tus areas medias.</li>';
+                planUlAuto.innerHTML = '<li>No tienes brechas criticas en tu autoevaluación. Usa el programa para fortalecer tus areas medias.</li>';
             } else {
                 planUlAuto.innerHTML = criticasAuto.map(([dim, val]) => {
                     const dia = DIAG_DATA.planMap[dim] || 'trabajar durante el programa';
@@ -547,7 +553,7 @@
             for (let d in data.brechas) {
                 text += d + ': ' + data.brechas[d] + '%\n';
             }
-            text += '\nTU PROPIO CRECIMIENTO (autoevaluacion)\n';
+            text += '\nTU PROPIO CRECIMIENTO (autoevaluación)\n';
             for (let d in data.brechasAuto) {
                 text += d + ': ' + data.brechasAuto[d] + '%\n';
             }

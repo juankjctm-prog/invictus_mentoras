@@ -33,7 +33,7 @@ const DIAG_DATA = {
         { q: "Si tu mentoreada quiere un ascenso, tu apoyo mas valioso es:", options: ["Escribirle el correo a su jefe", "Ayudarla a mapear stakeholders, visibilizar logros y preparar conversaciones clave", "Decirle que espere a que se den cuenta", "Prometerle que tu hablaras con alguien"], correct: 1, dimension: "Liderazgo Estrategico" },
         { q: "Una mentora estrategica nunca pierde de vista que su trabajo es:", options: ["Hacer que la mentoreada dependa de ella", "Hacerse innecesaria porque la mentoreada desarrolla autonomia", "Resolver todos los problemas", "Ser amiga de su mentoreada"], correct: 1, dimension: "Liderazgo Estrategico" }
     ],
-    brechasDims: ["Identidad de Liderazgo", "Gestion Emocional", "Comunicacion Ejecutiva", "Feedback y Candor", "Sindrome del Impostor", "Influencia Politica", "Visibilidad Estrategica", "Seguridad Psicologica"],
+    brechasDims: ["Identidad de Liderazgo", "Gestion Emocional", "Comunicacion Ejecutiva", "Feedback y Candor", "Sindrome del Impostor", "Influencia Politica", "Visibilidad Estrategica", "Seguridad Psicologica", "Negociacion y Defensa de Valor", "Delegacion y Empoderamiento", "Resiliencia y Manejo del Fracaso"],
     brechas: [
         { q: "Cuando piensas en ella como lider, ¿que imagen aparece primero?", options: ["No se ve como lider", "Se ve liderando en ciertas situaciones, pero no en otras", "Se ve como lider en formacion", "Se ve como lider consolidada"], dimension: "Identidad de Liderazgo", correct: 3 },
         { q: "En una reunion importante, ¿con que frecuencia toma la palabra para dirigir la conversacion?", options: ["Casi nunca", "Solo si le piden opinion", "Cuando tiene algo claro que aportar", "Frecuentemente, incluso para abrir temas"], dimension: "Identidad de Liderazgo", correct: 3 },
@@ -74,7 +74,22 @@ const DIAG_DATA = {
         { q: "Cuando propone una idea diferente, ¿como la reciben?", options: ["La penalizan", "La ignoran", "La consideran", "La valoran"], dimension: "Seguridad Psicologica", correct: 3 },
         { q: "¿Con que frecuencia pide ayuda en su trabajo?", options: ["Nunca", "Rara vez", "A veces", "Frecuentemente"], dimension: "Seguridad Psicologica", correct: 3 },
         { q: "Si comete un error, ¿que suele pasar?", options: ["La castigan", "La juzgan", "Se habla del error sin culparla", "Se aprende como equipo"], dimension: "Seguridad Psicologica", correct: 3 },
-        { q: "¿Contribuye a crear seguridad psicologica para otras?", options: ["No", "Poco", "Algo", "Mucho"], dimension: "Seguridad Psicologica", correct: 3 }
+        { q: "¿Contribuye a crear seguridad psicologica para otras?", options: ["No", "Poco", "Algo", "Mucho"], dimension: "Seguridad Psicologica", correct: 3 },
+        { q: "Cuando negocia su salario o recursos, ¿cómo lo hace?", options: ["Acepta lo primero que le ofrecen", "Pide más pero cede rápidamente", "Negocia con datos pero le incomoda", "Negocia con firmeza, estrategia y naturalidad"], dimension: "Negociacion y Defensa de Valor", correct: 3 },
+        { q: "¿Con qué frecuencia defiende el valor monetario o estratégico de su tiempo?", options: ["Nunca", "Rara vez", "A veces", "Frecuentemente"], dimension: "Negociacion y Defensa de Valor", correct: 3 },
+        { q: "Si le piden un favor profesional que no le beneficia, ¿qué hace?", options: ["Dice que sí inmediatamente", "Dice que sí pero se resiente", "Duda pero termina aceptando", "Dice que no con firmeza y elegancia"], dimension: "Negociacion y Defensa de Valor", correct: 3 },
+        { q: "Al presentar una propuesta de proyecto, ¿cómo justifica la inversión?", options: ["Se enfoca solo en el costo", "Habla del esfuerzo que requerirá", "Menciona los beneficios vagamente", "Presenta un ROI claro y defiende el valor"], dimension: "Negociacion y Defensa de Valor", correct: 3 },
+        { q: "¿Cobra o exige compensación justa por su experiencia adicional?", options: ["Nunca, lo hace gratis", "Rara vez", "A veces", "Siempre defiende su valor en el mercado"], dimension: "Negociacion y Defensa de Valor", correct: 3 },
+        { q: "Cuando lidera un proyecto, ¿cómo distribuye las tareas operativas?", options: ["Hace todo ella misma", "Delega pero micro-gestiona", "Delega tareas menores", "Delega responsabilidades completas con confianza"], dimension: "Delegacion y Empoderamiento", correct: 3 },
+        { q: "¿Con qué frecuencia desarrolla a otros para que tomen su lugar?", options: ["Nunca", "Rara vez", "A veces", "Constantemente, es su prioridad"], dimension: "Delegacion y Empoderamiento", correct: 3 },
+        { q: "Si su equipo comete un error, ¿qué asume ella?", options: ["Culpa al equipo", "Se frustra y asume la tarea ella", "Se responsabiliza pero no corrige el proceso", "Se responsabiliza y empodera al equipo para arreglarlo"], dimension: "Delegacion y Empoderamiento", correct: 3 },
+        { q: "¿Qué tan indispensable se vuelve en la operación del día a día?", options: ["Totalmente indispensable", "Muy necesaria", "Ayuda pero el equipo funciona sin ella", "Su valor está en la estrategia, no en la operación"], dimension: "Delegacion y Empoderamiento", correct: 3 },
+        { q: "Al empoderar a otros, ¿les da visibilidad por sus logros?", options: ["Se lleva el crédito", "Los menciona a veces", "Los reconoce pero minimiza", "Da crédito total y visible a su equipo"], dimension: "Delegacion y Empoderamiento", correct: 3 },
+        { q: "Cuando un proyecto importante fracasa, ¿cómo reacciona?", options: ["Se hunde emocionalmente", "Busca culpables", "Se levanta pero pierde confianza", "Analiza, aprende y vuelve a intentarlo rápidamente"], dimension: "Resiliencia y Manejo del Fracaso", correct: 3 },
+        { q: "¿Qué tanto miedo le tiene a equivocarse en público?", options: ["Le aterra, la paraliza", "Le da mucho miedo pero actúa", "Le preocupa moderadamente", "Lo ve como parte del proceso de crecimiento"], dimension: "Resiliencia y Manejo del Fracaso", correct: 3 },
+        { q: "¿Con qué frecuencia se recupera de un revés sin perder el foco en su objetivo?", options: ["Nunca", "Rara vez", "A veces", "Casi siempre"], dimension: "Resiliencia y Manejo del Fracaso", correct: 3 },
+        { q: "Si recibe un 'NO' a una iniciativa, ¿qué hace?", options: ["Abandona la idea para siempre", "Se queja del sistema", "Lo intenta una vez más sin cambios", "Itera su estrategia y busca otro ángulo"], dimension: "Resiliencia y Manejo del Fracaso", correct: 3 },
+        { q: "Ante la presión y el estrés extremo sostenido, ¿cómo responde su salud física/mental?", options: ["Se quema (burnout) frecuentemente", "Sufre mucho pero resiste", "Logra mantener el equilibrio a medias", "Mantiene límites sanos y se cuida activamente"], dimension: "Resiliencia y Manejo del Fracaso", correct: 3 }
     ],
     planMap: {
         "Identidad de Liderazgo": "el Dia 1 (Identidad de liderazgo) y el Dia 37 (Agencia)",
@@ -84,6 +99,20 @@ const DIAG_DATA = {
         "Sindrome del Impostor": "el Dia 4 (Impostor) y el Dia 31 (Tipos de impostora)",
         "Influencia Politica": "el Dia 28 (Feedback hacia arriba) y el Dia 57 (Mapa de capital social)",
         "Visibilidad Estrategica": "el Dia 29 (Proposito en 1 oracion) y el Dia 38 (Virtudes publicas)",
-        "Seguridad Psicologica": "el Dia 8 (Seguridad psicologica) y el Dia 27 (Conversacion de accountabilidad)"
+        "Seguridad Psicologica": "el Dia 8 (Seguridad psicologica) y el Dia 27 (Conversacion de accountabilidad)",
+        "Negociacion y Defensa de Valor": "el Dia 14 (Negociacion de poder) y el Dia 42 (El valor de tu tiempo)",
+        "Delegacion y Empoderamiento": "el Dia 19 (Suelto el control) y el Dia 45 (Mentoria inversa)",
+        "Resiliencia y Manejo del Fracaso": "el Dia 10 (El fracaso como dato) y el Dia 60 (Antifragilidad)"
     }
 };
+
+// Autoevaluacion: Mismas preguntas pero aplicadas a la mentora misma
+DIAG_DATA.brechasAuto = DIAG_DATA.brechas.map(item => {
+    return {
+        ...item,
+        q: item.q.replace(/ella/g, 'ti')
+                 .replace(/ su /g, ' tu ')
+                 .replace(/ la /g, ' te ')
+                 .replace(/ le /g, ' te ')
+    };
+});

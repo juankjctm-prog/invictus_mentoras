@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sesion 0 - Diagnostico de Mentoreada | Invictus Mind</title>
+    <title>Sesión 0 - Diagnóstico de Mentoreada | Invictus Mind</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -75,7 +75,7 @@
         <div class="logo">Invictus <span>Mind</span></div>
         
         <header>
-            <h1 id="page-title">Sesion 0: Diagnostico de Mentoreada</h1>
+            <h1 id="page-title">Sesión 0: Diagnóstico de Mentoreada</h1>
             <p id="page-subtitle">2 tests · 15 minutos · Conoce tu punto de partida</p>
         </header>
 
@@ -88,7 +88,7 @@
                     <div style="font-size:3.5rem;margin-bottom:16px;">📊</div>
                     <h2>Antes de tu primera sesion</h2>
                     <p style="text-align:left;">
-                        Vas a completar 2 evaluaciones que te mostraran donde estas y en que debe enfocar tu mentoria:<br><br>
+                        Vas a completar 2 evaluaciónes que te mostraran donde estas y en que debe enfocar tu mentoria:<br><br>
                         <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprension lectora.<br>
                         <strong style="color:#fff">2. Brechas Profesionales</strong> — Tus 11 dimensiones de liderazgo.<br><br>
                         Comparte los resultados con tu mentora para que prepare tus sesiones.
@@ -101,15 +101,21 @@
             <div class="step" data-step="1">
                 <div class="card">
                     <h2>Test 1: Lectura Cognitiva</h2>
-                    <p>Lee el texto con atencion. Cuando termines, presiona "Termine de leer" y responde 5 preguntas sin volver al texto.</p>
+                    <p>Lee el texto con atención. Cuando termines, presiona "Terminé de leer" y responde 5 preguntas sin volver al texto.</p>
+                    
+                    <div class="timer-box" style="display:flex; justify-content:space-between; align-items:center; padding: 15px 25px; margin-bottom: 20px;">
+                        <div style="display:flex; gap: 10px;">
+                            <button id="btn-start-reading" class="btn" style="width:auto; padding: 10px 20px;" onclick="startReading()">▶ Iniciar Lectura</button>
+                            <button id="btn-stop-reading" class="btn hidden" style="width:auto; padding: 10px 20px; background:var(--success);" onclick="stopReading()">⏹ Terminé de Leer</button>
+                        </div>
+                        <div style="text-align:right;">
+                            <div class="timer" id="reading-timer" style="font-size: 2rem; margin:0; line-height: 1;">00:00</div>
+                            <p style="font-size:0.75rem;color:var(--muted);margin:0;">Tiempo</p>
+                        </div>
+                    </div>
+
                     <div class="reading-text" id="reading-text"></div>
                 </div>
-                <div class="timer-box">
-                    <div class="timer" id="reading-timer">00:00</div>
-                    <p style="font-size:0.75rem;color:var(--muted);margin-top:8px;">Tiempo de lectura</p>
-                </div>
-                <button id="btn-start-reading" class="btn" onclick="startReading()">▶ Iniciar Lectura</button>
-                <button id="btn-stop-reading" class="btn hidden" style="background:var(--success);" onclick="stopReading()">⏹ Termine de Leer</button>
             </div>
 
             <!-- PASO 2: COMPRENSION -->
