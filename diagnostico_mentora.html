@@ -215,6 +215,68 @@
         </div>
     </div>
 
+    
+    <!-- PDF TEMPLATE (Hidden) -->
+    <div id="pdf-template-container" style="display: none; position: absolute; left: -9999px; top: -9999px;">
+        <div id="pdf-content" style="width: 794px; min-height: 1123px; background: #000; color: #fff; font-family: 'Inter', sans-serif; padding: 60px; box-sizing: border-box; position: relative;">
+            <div style="text-align: center; margin-bottom: 40px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 20px;">
+                <h1 style="font-family: 'Outfit'; font-size: 32px; color: #FF5E00; margin: 0 0 10px 0;">INVICTUS MIND</h1>
+                <h2 style="font-size: 20px; font-weight: 300; margin: 0; color: #8A8F98;">REPORTE OFICIAL DE DIAGNÓSTICO (MENTORA)</h2>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; margin-bottom: 40px; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
+                <div>
+                    <div style="font-size: 11px; color: #8A8F98; text-transform: uppercase;">PIN Identificador</div>
+                    <div id="pdf-pin" style="font-family: 'Outfit'; font-size: 24px; font-weight: 600; color: #fff;"></div>
+                </div>
+                <div>
+                    <div style="font-size: 11px; color: #8A8F98; text-transform: uppercase;">Fecha</div>
+                    <div id="pdf-fecha" style="font-family: 'Outfit'; font-size: 16px; font-weight: 400; color: #fff; margin-top: 5px;"></div>
+                </div>
+                <div>
+                    <div style="font-size: 11px; color: #8A8F98; text-transform: uppercase;">Código de Verificación</div>
+                    <div id="pdf-codigo" style="font-family: 'Outfit'; font-size: 16px; font-weight: 400; color: #fff; margin-top: 5px;"></div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 30px; margin-bottom: 40px;">
+                <div style="flex: 1; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; background: rgba(255,255,255,0.02);">
+                    <h3 style="font-family: 'Outfit'; font-size: 18px; margin: 0 0 20px 0; color: #FF5E00; border-bottom: 1px solid rgba(255,94,0,0.3); padding-bottom: 10px;">LECTURA COGNITIVA</h3>
+                    <div style="display: flex; justify-content: space-around;">
+                        <div style="text-align: center;">
+                            <div id="pdf-ppm" style="font-family: 'Outfit'; font-size: 36px; font-weight: 700; color: #fff;"></div>
+                            <div style="font-size: 11px; color: #8A8F98; text-transform: uppercase;">PPM</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div id="pdf-comp" style="font-family: 'Outfit'; font-size: 36px; font-weight: 700; color: #fff;"></div>
+                            <div style="font-size: 11px; color: #8A8F98; text-transform: uppercase;">COMPRENSIÓN</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="flex: 1; border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; background: rgba(255,255,255,0.02);">
+                    <h3 style="font-family: 'Outfit'; font-size: 18px; margin: 0 0 20px 0; color: #9370DB; border-bottom: 1px solid rgba(147,112,219,0.3); padding-bottom: 10px;">COMPETENCIAS DE MENTORÍA</h3>
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <div id="pdf-mentor-score" style="font-family: 'Outfit'; font-size: 36px; font-weight: 700; color: #fff;"></div>
+                        <div style="font-size: 11px; color: #8A8F98; text-transform: uppercase;">SCORE GENERAL</div>
+                    </div>
+                    <div id="pdf-mentor-dims" style="display: flex; flex-direction: column; gap: 8px; font-size: 13px;"></div>
+                </div>
+            </div>
+
+            <div style="border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 25px; background: rgba(255,255,255,0.02);">
+                <h3 style="font-family: 'Outfit'; font-size: 18px; margin: 0 0 20px 0; color: #EF4444; border-bottom: 1px solid rgba(239,68,68,0.3); padding-bottom: 10px;">ALERTAS CRÍTICAS (MENTOREADA)</h3>
+                <p style="font-size: 13px; color: #8A8F98; margin-bottom: 15px;">Dimensiones evaluadas con un desarrollo inferior al 40%, recomendadas para intervención inmediata.</p>
+                <div id="pdf-brechas" style="font-size: 14px;"></div>
+            </div>
+
+            <div style="position: absolute; bottom: 40px; left: 60px; right: 60px; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; font-size: 11px; color: #8A8F98;">
+                Documento generado automáticamente por Invictus Mind.<br>
+                Válido para archivo en RRHH.
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
