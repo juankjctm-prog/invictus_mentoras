@@ -554,6 +554,10 @@
             // Brechas recomendaciones
             const brechasSug = document.getElementById('brechas-sugerencias');
             brechasSug.style.display = 'block';
+            
+            // Declarar criticas antes de usarla
+            const criticas = sorted.filter(x => x[1] <= 40);
+
             if (criticas.length > 0) {
                 const worstBrecha = criticas[0][0];
                 if (worstBrecha.includes("Visibilidad") || worstBrecha.includes("Financiera")) {
@@ -571,7 +575,6 @@
 
 
             // Plan sugerido
-            const criticas = sorted.filter(x => x[1] <= 40);
             const planUl = document.getElementById('plan-sugerido');
             if (criticas.length === 0) {
                 planUl.innerHTML = '<li>No hay brechas criticas. Enfocate en fortalecer las areas medias durante las primeras sesiónes.</li>';
