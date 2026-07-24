@@ -176,10 +176,10 @@
                 <div class="section-title">👩‍🏫 Competencias de Mentoría</div>
                 <div class="card">
                     <div style="text-align:center;margin-bottom:16px;">
-                        <div class="stat-value" id="res-mentoría-total">--</div>
+                        <div class="stat-value" id="res-mentoria-total">--</div>
                         <div class="stat-label">Score General</div>
                     </div>
-                    <div id="res-mentoría-dims"></div>
+                    <div id="res-mentoria-dims"></div>
                     <div id="mentoria-recomendaciones" style="margin-top: 16px; padding: 14px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--purple); border-radius: 8px; font-size: 0.85rem; color: var(--muted); display: none; text-align: left;"></div>
                 </div>
 
@@ -228,7 +228,7 @@
         // DIAGNOSTICO MENTORA - LOGICA
         // ===================================================================
         let currentStep = 0;
-        let answers = { lectura: [], mentoría: [], brechas: [], brechasAuto: [] };
+        let answers = { lectura: [], mentoria: [], brechas: [], brechasAuto: [] };
         let readingStart = 0;
         let readingTime = 0;
         let timerInterval = null;
@@ -304,7 +304,7 @@
             qDiv.querySelector('input[value="' + oidx + '"]').checked = true;
             answers[type][qidx] = oidx;
 
-            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoría' ? DIAG_DATA.mentoría : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
+            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoria' ? DIAG_DATA.mentoria : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
             const answered = answers[type].filter(a => a !== undefined).length;
             const btn = document.getElementById('btn-next-' + type);
             const count = document.getElementById('count-' + type);
@@ -313,7 +313,7 @@
         }
 
         function validateAndGo(nextStep, type) {
-            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoría' ? DIAG_DATA.mentoría : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
+            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoria' ? DIAG_DATA.mentoria : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
             if (answers[type].filter(a => a !== undefined).length < questions.length) return;
             if (type === 'brechasAuto') {
                 calcularResultados();
@@ -340,7 +340,7 @@
                     }
                     if (step === 3 && !m.target.dataset.rendered) {
                         m.target.dataset.rendered = 'true';
-                        renderQuestions('mentor-questions', DIAG_DATA.mentoría, 'mentoría', 4);
+                        renderQuestions('mentor-questions', DIAG_DATA.mentoria, 'mentoria', 4);
                     }
                     if (step === 4 && !m.target.dataset.rendered) {
                         m.target.dataset.rendered = 'true';
@@ -370,15 +370,15 @@
             // Mentoría
             const mentorScores = {};
             const mentorCount = {};
-            DIAG_DATA.mentoría.forEach((q, i) => {
-                mentorScores[q.dimension] = (mentorScores[q.dimension] || 0) + (answers.mentoría[i] === q.correct ? 1 : 0);
+            DIAG_DATA.mentoria.forEach((q, i) => {
+                mentorScores[q.dimension] = (mentorScores[q.dimension] || 0) + (answers.mentoria[i] === q.correct ? 1 : 0);
                 mentorCount[q.dimension] = (mentorCount[q.dimension] || 0) + 1;
             });
             const mentorPercent = {};
             for (let d in mentorScores) {
                 mentorPercent[d] = Math.round((mentorScores[d] / mentorCount[d]) * 100);
             }
-            const mentorTotal = Math.round((answers.mentoría.filter((a, i) => a === DIAG_DATA.mentoría[i].correct).length / DIAG_DATA.mentoría.length) * 100);
+            const mentorTotal = Math.round((answers.mentoria.filter((a, i) => a === DIAG_DATA.mentoria[i].correct).length / DIAG_DATA.mentoria.length) * 100);
 
             // Brechas
             const brechasSuma = {};
@@ -409,7 +409,7 @@
             const resultados = {
                 fecha: new Date().toISOString(),
                 lectura: { ppm: Math.min(ppm, 1200), comprensión: comprensión },
-                mentoría: { porDimension: mentorPercent, total: mentorTotal },
+                mentoria: { porDimension: mentorPercent, total: mentorTotal },
                 brechas: brechasPercent,
                 brechasAuto: autoPercent
             };
@@ -421,17 +421,17 @@
         function mostrarResultados(r) {
             document.getElementById('res-ppm').textContent = r.lectura.ppm;
             document.getElementById('res-comp').textContent = r.lectura.comprensión + '%';
-            document.getElementById('res-mentoría-total').textContent = r.mentoría.total + '%';
+            document.getElementById('res-mentoria-total').textContent = r.mentoria.total + '%';
 
             // Mentoría dims
             let mentorHtml = '';
-            for (let d in r.mentoría.porDimension) {
+            for (let d in r.mentoria.porDimension) {
                 mentorHtml += '<div class="brecha-item">';
                 mentorHtml += '<span class="brecha-name">' + d + '</span>';
-                mentorHtml += '<span class="brecha-val">' + r.mentoría.porDimension[d] + '%</span>';
+                mentorHtml += '<span class="brecha-val">' + r.mentoria.porDimension[d] + '%</span>';
                 mentorHtml += '</div>';
             }
-            document.getElementById('res-mentoría-dims').innerHTML = mentorHtml;
+            document.getElementById('res-mentoria-dims').innerHTML = mentorHtml;
 
             // Lectura recomendaciones
             const lecturaAcciones = document.getElementById('lectura-acciones');
@@ -447,7 +447,7 @@
             // Mentoría recomendaciones
             const mentoriaRecs = document.getElementById('mentoria-recomendaciones');
             mentoriaRecs.style.display = 'block';
-            const sortedMentoria = Object.entries(r.mentoría.porDimension).sort((a, b) => a[1] - b[1]);
+            const sortedMentoria = Object.entries(r.mentoria.porDimension).sort((a, b) => a[1] - b[1]);
             const weakestMentoria = sortedMentoria[0][0];
             
             if (weakestMentoria === "Escucha") {
