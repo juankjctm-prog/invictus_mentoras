@@ -418,7 +418,64 @@
             mostrarResultados(resultados);
         }
 
+        
+        function descargarPDF() {
+            const btn = document.getElementById('btn-descargar-pdf');
+            const originalText = btn.textContent;
+            btn.textContent = 'Generando PDF...';
+            btn.disabled = true;
+
+            const element = document.getElementById('pdf-content');
+            
+            // Show temporarily to render
+            const container = document.getElementById('pdf-template-container');
+            container.style.display = 'block';
+            
+            const opt = {
+                margin:       0,
+                filename:     `Reporte_Mentora_${window.currentUserPin || '000000'}.pdf`,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, logging: false },
+                jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                container.style.display = 'none';
+                btn.textContent = originalText;
+                btn.disabled = false;
+            });
+        }
+
         function mostrarResultados(r) {
+            
+            // === POBLAR PDF ===
+            document.getElementById('pdf-pin').textContent = window.currentUserPin || 'NO PIN';
+            const dateStr = new Date().toLocaleDateString('es-ES', {year: 'numeric', month: 'long', day: 'numeric'});
+            document.getElementById('pdf-fecha').textContent = dateStr;
+            document.getElementById('pdf-codigo').textContent = (window.currentUserPin || '000') + '-' + new Date().getTime().toString().slice(-6);
+            
+            document.getElementById('pdf-ppm').textContent = r.lectura.ppm;
+            document.getElementById('pdf-comp').textContent = r.lectura.comprensión + '%';
+            document.getElementById('pdf-mentor-score').textContent = r.mentoria.total + '%';
+            
+            let pdfMentorDims = '';
+            for (let d in r.mentoria.porDimension) {
+                pdfMentorDims += `<div style="display:flex; justify-content:space-between; background:rgba(255,255,255,0.02); padding:8px 12px; border-radius:4px; border:1px solid #222;"><span>${d}</span> <strong>${r.mentoria.porDimension[d]}%</strong></div>`;
+            }
+            document.getElementById('pdf-mentor-dims').innerHTML = pdfMentorDims;
+            
+            let pdfBrechas = '';
+            const brechasCrit = Object.entries(r.brechas).filter(b => b[1] <= 40);
+            if(brechasCrit.length === 0) {
+                pdfBrechas = '<div style="color:#10B981;">No se identificaron brechas críticas (≤40%).</div>';
+            } else {
+                brechasCrit.forEach(b => {
+                    pdfBrechas += `<div style="margin-bottom: 8px; color: #EF4444;">• <strong>${b[0]}</strong>: ${b[1]}%</div>`;
+                });
+            }
+            document.getElementById('pdf-brechas').innerHTML = pdfBrechas;
+            // ==================
+
             document.getElementById('res-ppm').textContent = r.lectura.ppm;
             document.getElementById('res-comp').textContent = r.lectura.comprensión + '%';
             document.getElementById('res-mentoria-total').textContent = r.mentoria.total + '%';
