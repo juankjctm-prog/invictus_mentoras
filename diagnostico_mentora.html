@@ -88,16 +88,16 @@
             <div class="step active" data-step="0">
                 <div class="card" style="text-align:center;">
                     <div style="font-size:3.5rem;margin-bottom:16px;">📊</div>
-                    <h2>Antes de tu primera sesion</h2>
+                    <h2>Antes de tu primera sesión</h2>
                     <p style="text-align:left;">
-                        Vas a completar 4 evaluaciónes que te daran un mapa claro de donde estas tu, donde esta tu mentoreada, y donde debe enfocarse tu trabajo con ella:<br><br>
-                        <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprension lectora.<br>
+                        Vas a completar 4 evaluaciónes que te darán un mapa claro de donde estás tú, dónde está tu mentoreada, y donde debe enfocarse tu trabajo con ella:<br><br>
+                        <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprensión lectora.<br>
                         <strong style="color:#fff">2. Competencias de Mentoría</strong> — Tus habilidades como mentora.<br>
-                        <strong style="color:#fff">3. Brechas de tu Mentoreada</strong> — Donde necesita mas trabajo tu mentoreada.<br><br>
-                        <strong style="color:#fff">4. Tu Propio Crecimiento</strong> — Donde estas tu misma en las 11 competencias que este programa desarrolla.<br><br>
-                        Al final recibiras un plan sugerido de sesiones para las proximas 16 semanas.
+                        <strong style="color:#fff">3. Brechas de tu Mentoreada</strong> — Donde necesita más trabajo tu mentoreada.<br><br>
+                        <strong style="color:#fff">4. Tu Propio Crecimiento</strong> — Donde estás tú misma en las 11 competencias que este programa desarrolla.<br><br>
+                        Al final recibirás un plan sugerido de sesiónes para las próximas 16 semanas.
                     </p>
-                    <button class="btn" onclick="goToStep(1)">Comenzar Diagnostico →</button>
+                    <button class="btn" onclick="goToStep(1)">Comenzar Diagnóstico →</button>
                 </div>
             </div>
 
@@ -105,7 +105,7 @@
             <div class="step" data-step="1">
                 <div class="card">
                     <h2>Test 1: Lectura Cognitiva</h2>
-                    <p>Lee el texto con atención. Cuando termines, presiona "Terminé de leer" y responde 5 preguntas sin volver al texto.</p>
+                    <p>Lee el texto con atención. Cuando termines, presiona "Terminé de Leer" y responde 5 preguntas sin volver al texto.</p>
                     
                     <div class="timer-box" style="display:flex; justify-content:space-between; align-items:center; padding: 15px 25px; margin-bottom: 20px;">
                         <div style="display:flex; gap: 10px;">
@@ -125,7 +125,7 @@
             <!-- PASO 2: COMPRENSION LECTORA -->
             <div class="step" data-step="2">
                 <div class="card">
-                    <h2>Comprension Lectora</h2>
+                    <h2>Comprensión Lectora</h2>
                     <p>Responde 5 preguntas sin volver al texto.</p>
                     <div id="reading-questions"></div>
                 </div>
@@ -135,7 +135,7 @@
             <div class="step" data-step="3">
                 <div class="card">
                     <h2>Test 2: Competencias de Mentoría</h2>
-                    <p>20 preguntas · 5 dimensiones. Elige la respuesta que mejor describa como actuas como mentora.</p>
+                    <p>20 preguntas · 5 dimensiones. Elige la respuesta que mejor describa como actúas como mentora.</p>
                     <div id="mentor-questions"></div>
                 </div>
             </div>
@@ -162,29 +162,32 @@
             <div class="step" data-step="6">
                 <div class="card" style="text-align:center;">
                     <div style="font-size:3rem;margin-bottom:10px;">📈</div>
-                    <h2>Tu Diagnostico Inicial</h2>
+                    <h2>Tu Diagnóstico Inicial</h2>
                     <p>Este es tu punto de partida. Al final del programa compararas tu progreso.</p>
                 </div>
 
                 <div class="section-title">📖 Lectura Cognitiva</div>
-                <div class="card stat-box">
+                <div class="card stat-box" style="flex-wrap: wrap;">
                     <div class="stat"><div class="stat-value" id="res-ppm">--</div><div class="stat-label">PPM</div></div>
-                    <div class="stat"><div class="stat-value" id="res-comp">--</div><div class="stat-label">Comprension</div></div>
+                    <div class="stat"><div class="stat-value" id="res-comp">--</div><div class="stat-label">Comprensión</div></div>
+                    <div id="lectura-acciones" style="width: 100%; margin-top: 16px; padding: 14px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--accent); border-radius: 8px; font-size: 0.85rem; color: var(--muted); display: none; text-align: left;"></div>
                 </div>
 
                 <div class="section-title">👩‍🏫 Competencias de Mentoría</div>
                 <div class="card">
                     <div style="text-align:center;margin-bottom:16px;">
-                        <div class="stat-value" id="res-mentoria-total">--</div>
+                        <div class="stat-value" id="res-mentoría-total">--</div>
                         <div class="stat-label">Score General</div>
                     </div>
-                    <div id="res-mentoria-dims"></div>
+                    <div id="res-mentoría-dims"></div>
+                    <div id="mentoria-recomendaciones" style="margin-top: 16px; padding: 14px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--purple); border-radius: 8px; font-size: 0.85rem; color: var(--muted); display: none; text-align: left;"></div>
                 </div>
 
                 <div class="section-title">👩‍💼 Brechas de tu Mentoreada</div>
                 <div class="card">
                     <div class="radar-container" id="radar-chart"></div>
                     <div id="res-brechas"></div>
+                    <div id="brechas-sugerencias" style="margin-top: 16px; padding: 14px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--warning); border-radius: 8px; font-size: 0.85rem; color: var(--muted); display: none; text-align: left;"></div>
                 </div>
 
                 <div class="section-title">🌱 Tu Propio Crecimiento</div>
@@ -195,8 +198,8 @@
                 </div>
 
                 <div class="plan-box">
-                    <h3>📋 Plan Sugerido para tus Sesiones 1-a-1</h3>
-                    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Basado en las brechas criticas detectadas en tu mentoreada, enfoca tus primeras sesiones en estos temas:</p>
+                    <h3>📋 Plan Sugerido para tus Sesiónes 1-a-1</h3>
+                    <p style="font-size:0.82rem;color:var(--muted);margin-bottom:12px;">Basado en las brechas criticas detectadas en tu mentoreada, enfoca tus primeras sesiónes en estos temas:</p>
                     <ul id="plan-sugerido"></ul>
                 </div>
 
@@ -212,6 +215,7 @@
         </div>
     </div>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
@@ -224,7 +228,7 @@
         // DIAGNOSTICO MENTORA - LOGICA
         // ===================================================================
         let currentStep = 0;
-        let answers = { lectura: [], mentoria: [], brechas: [], brechasAuto: [] };
+        let answers = { lectura: [], mentoría: [], brechas: [], brechasAuto: [] };
         let readingStart = 0;
         let readingTime = 0;
         let timerInterval = null;
@@ -300,7 +304,7 @@
             qDiv.querySelector('input[value="' + oidx + '"]').checked = true;
             answers[type][qidx] = oidx;
 
-            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoria' ? DIAG_DATA.mentoria : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
+            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoría' ? DIAG_DATA.mentoría : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
             const answered = answers[type].filter(a => a !== undefined).length;
             const btn = document.getElementById('btn-next-' + type);
             const count = document.getElementById('count-' + type);
@@ -309,7 +313,7 @@
         }
 
         function validateAndGo(nextStep, type) {
-            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoria' ? DIAG_DATA.mentoria : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
+            const questions = type === 'lectura' ? DIAG_DATA.lectura.questions : (type === 'mentoría' ? DIAG_DATA.mentoría : (type === 'brechasAuto' ? DIAG_DATA.brechasAuto : DIAG_DATA.brechas));
             if (answers[type].filter(a => a !== undefined).length < questions.length) return;
             if (type === 'brechasAuto') {
                 calcularResultados();
@@ -336,7 +340,7 @@
                     }
                     if (step === 3 && !m.target.dataset.rendered) {
                         m.target.dataset.rendered = 'true';
-                        renderQuestions('mentor-questions', DIAG_DATA.mentoria, 'mentoria', 4);
+                        renderQuestions('mentor-questions', DIAG_DATA.mentoría, 'mentoría', 4);
                     }
                     if (step === 4 && !m.target.dataset.rendered) {
                         m.target.dataset.rendered = 'true';
@@ -361,20 +365,20 @@
             DIAG_DATA.lectura.questions.forEach((q, i) => {
                 if (answers.lectura[i] === q.correct) correctas++;
             });
-            const comprension = Math.round((correctas / DIAG_DATA.lectura.questions.length) * 100);
+            const comprensión = Math.round((correctas / DIAG_DATA.lectura.questions.length) * 100);
 
-            // Mentoria
+            // Mentoría
             const mentorScores = {};
             const mentorCount = {};
-            DIAG_DATA.mentoria.forEach((q, i) => {
-                mentorScores[q.dimension] = (mentorScores[q.dimension] || 0) + (answers.mentoria[i] === q.correct ? 1 : 0);
+            DIAG_DATA.mentoría.forEach((q, i) => {
+                mentorScores[q.dimension] = (mentorScores[q.dimension] || 0) + (answers.mentoría[i] === q.correct ? 1 : 0);
                 mentorCount[q.dimension] = (mentorCount[q.dimension] || 0) + 1;
             });
             const mentorPercent = {};
             for (let d in mentorScores) {
                 mentorPercent[d] = Math.round((mentorScores[d] / mentorCount[d]) * 100);
             }
-            const mentorTotal = Math.round((answers.mentoria.filter((a, i) => a === DIAG_DATA.mentoria[i].correct).length / DIAG_DATA.mentoria.length) * 100);
+            const mentorTotal = Math.round((answers.mentoría.filter((a, i) => a === DIAG_DATA.mentoría[i].correct).length / DIAG_DATA.mentoría.length) * 100);
 
             // Brechas
             const brechasSuma = {};
@@ -404,8 +408,8 @@
 
             const resultados = {
                 fecha: new Date().toISOString(),
-                lectura: { ppm: Math.min(ppm, 1200), comprension: comprension },
-                mentoria: { porDimension: mentorPercent, total: mentorTotal },
+                lectura: { ppm: Math.min(ppm, 1200), comprensión: comprensión },
+                mentoría: { porDimension: mentorPercent, total: mentorTotal },
                 brechas: brechasPercent,
                 brechasAuto: autoPercent
             };
@@ -416,18 +420,44 @@
 
         function mostrarResultados(r) {
             document.getElementById('res-ppm').textContent = r.lectura.ppm;
-            document.getElementById('res-comp').textContent = r.lectura.comprension + '%';
-            document.getElementById('res-mentoria-total').textContent = r.mentoria.total + '%';
+            document.getElementById('res-comp').textContent = r.lectura.comprensión + '%';
+            document.getElementById('res-mentoría-total').textContent = r.mentoría.total + '%';
 
-            // Mentoria dims
+            // Mentoría dims
             let mentorHtml = '';
-            for (let d in r.mentoria.porDimension) {
+            for (let d in r.mentoría.porDimension) {
                 mentorHtml += '<div class="brecha-item">';
                 mentorHtml += '<span class="brecha-name">' + d + '</span>';
-                mentorHtml += '<span class="brecha-val">' + r.mentoria.porDimension[d] + '%</span>';
+                mentorHtml += '<span class="brecha-val">' + r.mentoría.porDimension[d] + '%</span>';
                 mentorHtml += '</div>';
             }
-            document.getElementById('res-mentoria-dims').innerHTML = mentorHtml;
+            document.getElementById('res-mentoría-dims').innerHTML = mentorHtml;
+
+            // Lectura recomendaciones
+            const lecturaAcciones = document.getElementById('lectura-acciones');
+            lecturaAcciones.style.display = 'block';
+            if (r.lectura.ppm < 200 || r.lectura.comprensión < 60) {
+                lecturaAcciones.innerHTML = '<strong>Táctica Recomendada:</strong> Te sugerimos repasar el Bloque 1 y utilizar la técnica de Recall Activo para mejorar la retención antes de intentar subir la velocidad.';
+            } else if (r.lectura.ppm >= 400 && r.lectura.comprensión >= 80) {
+                lecturaAcciones.innerHTML = '<strong>¡Excelente nivel ejecutivo!</strong> Tienes una velocidad y comprensión sobresalientes. Usa el marcapasos visual para mantener este ritmo constante sin fatigarte.';
+            } else {
+                lecturaAcciones.innerHTML = '<strong>Táctica Recomendada:</strong> Tienes una buena base. Aplica la técnica de saltos sacádicos para expandir tu visión periférica y aumentar tu velocidad sin perder comprensión.';
+            }
+
+            // Mentoría recomendaciones
+            const mentoriaRecs = document.getElementById('mentoria-recomendaciones');
+            mentoriaRecs.style.display = 'block';
+            const sortedMentoria = Object.entries(r.mentoría.porDimension).sort((a, b) => a[1] - b[1]);
+            const weakestMentoria = sortedMentoria[0][0];
+            
+            if (weakestMentoria === "Escucha") {
+                mentoriaRecs.innerHTML = '<strong>Área de Oportunidad (Escucha):</strong> Te sugerimos repasar el Bloque 2. Además, el libro "Indistractable" de Nir Eyal es fundamental para dominar la atención plena en tus sesiones.';
+            } else if (weakestMentoria === "Feedback" || weakestMentoria === "Candor") {
+                mentoriaRecs.innerHTML = '<strong>Área de Oportunidad (' + weakestMentoria + '):</strong> Te sugerimos enfocarte en el Bloque 6. Como lectura complementaria, revisa a Kim Scott (Radical Candor) y Jocko Willink (Extreme Ownership).';
+            } else {
+                mentoriaRecs.innerHTML = '<strong>Área de Oportunidad (' + weakestMentoria + '):</strong> Enfoca tu atención en desarrollar esta dimensión durante las próximas semanas del programa para potenciar tu impacto como mentora.';
+            }
+
 
             // Brechas radar
             const dims = DIAG_DATA.brechasDims;
@@ -464,11 +494,30 @@
             });
             document.getElementById('res-brechas').innerHTML = brechasHtml;
 
+            // Brechas recomendaciones
+            const brechasSug = document.getElementById('brechas-sugerencias');
+            brechasSug.style.display = 'block';
+            if (criticas.length > 0) {
+                const worstBrecha = criticas[0][0];
+                if (worstBrecha.includes("Visibilidad") || worstBrecha.includes("Financiera")) {
+                    brechasSug.innerHTML = '<strong>Sugerencia Táctica:</strong> Para la brecha de ' + worstBrecha + ', enséñale a traducir sus logros y proyectos a términos de P&L (Pérdidas y Ganancias) para que la directiva escuche su valor.';
+                } else if (worstBrecha.includes("Liderazgo")) {
+                    brechasSug.innerHTML = '<strong>Sugerencia Táctica:</strong> Para la brecha de ' + worstBrecha + ', acompáñala a aplicar "Extreme Ownership" (propiedad extrema) para que deje de victimizarse por su equipo o contexto.';
+                } else if (worstBrecha.includes("Energía") || worstBrecha.includes("Tiempo")) {
+                    brechasSug.innerHTML = '<strong>Sugerencia Táctica:</strong> Para la brecha de ' + worstBrecha + ', guíala hacia la delegación radical. Debe soltar tareas operativas para enfocarse en la visión estratégica.';
+                } else {
+                    brechasSug.innerHTML = '<strong>Sugerencia Táctica:</strong> Tu mentoreada requiere intervención directa en ' + worstBrecha + '. Dedica las próximas dos sesiones exclusivamente a diseñar un plan de acción para esta área.';
+                }
+            } else {
+                brechasSug.innerHTML = '<strong>¡Buen perfil inicial!</strong> No se detectan brechas críticas severas. Ayúdala a llevar sus áreas medias a un nivel de maestría estratégica.';
+            }
+
+
             // Plan sugerido
             const criticas = sorted.filter(x => x[1] <= 40);
             const planUl = document.getElementById('plan-sugerido');
             if (criticas.length === 0) {
-                planUl.innerHTML = '<li>No hay brechas criticas. Enfocate en fortalecer las areas medias durante las primeras sesiones.</li>';
+                planUl.innerHTML = '<li>No hay brechas criticas. Enfocate en fortalecer las areas medias durante las primeras sesiónes.</li>';
             } else {
                 planUl.innerHTML = criticas.map(([dim, val]) => {
                     const dia = DIAG_DATA.planMap[dim] || 'trabajar durante el programa';
@@ -538,31 +587,21 @@
         }
 
         function downloadReport() {
-            const data = JSON.parse(localStorage.getItem('mm_diag_mentora') || '{}');
-            let text = 'DIAGNOSTICO INICIAL - MENTORA\n\n';
-            text += 'Fecha: ' + new Date(data.fecha).toLocaleString() + '\n\n';
-            text += 'LECTURA COGNITIVA\n';
-            text += 'PPM: ' + data.lectura.ppm + '\n';
-            text += 'Comprension: ' + data.lectura.comprension + '%\n\n';
-            text += 'COMPETENCIAS DE MENTORIA\n';
-            text += 'Score total: ' + data.mentoria.total + '%\n';
-            for (let d in data.mentoria.porDimension) {
-                text += d + ': ' + data.mentoria.porDimension[d] + '%\n';
-            }
-            text += '\nBRECHAS DE LA MENTOREADA\n';
-            for (let d in data.brechas) {
-                text += d + ': ' + data.brechas[d] + '%\n';
-            }
-            text += '\nTU PROPIO CRECIMIENTO (autoevaluación)\n';
-            for (let d in data.brechasAuto) {
-                text += d + ': ' + data.brechasAuto[d] + '%\n';
-            }
-            const blob = new Blob([text], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'diagnostico-mentora.txt';
-            a.click();
+            const btns = document.querySelectorAll('.step[data-step="6"] .btn');
+            btns.forEach(b => b.style.display = 'none');
+            
+            const element = document.querySelector('.step[data-step="6"]');
+            const opt = {
+                margin:       [10, 10, 10, 10],
+                filename:     'Diagnostico_Mentora_Invictus.pdf',
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#000000' },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+            };
+            
+            html2pdf().set(opt).from(element).save().then(() => {
+                btns.forEach(b => b.style.display = 'block');
+            });
         }
     </script>
 </body>

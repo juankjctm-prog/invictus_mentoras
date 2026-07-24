@@ -86,14 +86,14 @@
             <div class="step active" data-step="0">
                 <div class="card" style="text-align:center;">
                     <div style="font-size:3.5rem;margin-bottom:16px;">📊</div>
-                    <h2>Antes de tu primera sesion</h2>
+                    <h2>Antes de tu primera sesión</h2>
                     <p style="text-align:left;">
-                        Vas a completar 2 evaluaciónes que te mostraran donde estas y en que debe enfocar tu mentoria:<br><br>
-                        <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprension lectora.<br>
+                        Vas a completar 2 evaluaciónes que te mostraran dónde estás y en que debe enfocar tu mentoría:<br><br>
+                        <strong style="color:#fff">1. Lectura Cognitiva</strong> — Tu velocidad (PPM) y comprensión lectora.<br>
                         <strong style="color:#fff">2. Brechas Profesionales</strong> — Tus 11 dimensiones de liderazgo.<br><br>
-                        Comparte los resultados con tu mentora para que prepare tus sesiones.
+                        Comparte los resultados con tu mentora para que prepare tus sesiónes.
                     </p>
-                    <button class="btn" onclick="goToStep(1)">Comenzar Diagnostico →</button>
+                    <button class="btn" onclick="goToStep(1)">Comenzar Diagnóstico →</button>
                 </div>
             </div>
 
@@ -101,7 +101,7 @@
             <div class="step" data-step="1">
                 <div class="card">
                     <h2>Test 1: Lectura Cognitiva</h2>
-                    <p>Lee el texto con atención. Cuando termines, presiona "Terminé de leer" y responde 5 preguntas sin volver al texto.</p>
+                    <p>Lee el texto con atención. Cuando termines, presiona "Terminé de Leer" y responde 5 preguntas sin volver al texto.</p>
                     
                     <div class="timer-box" style="display:flex; justify-content:space-between; align-items:center; padding: 15px 25px; margin-bottom: 20px;">
                         <div style="display:flex; gap: 10px;">
@@ -121,7 +121,7 @@
             <!-- PASO 2: COMPRENSION -->
             <div class="step" data-step="2">
                 <div class="card">
-                    <h2>Comprension Lectora</h2>
+                    <h2>Comprensión Lectora</h2>
                     <p>Responde 5 preguntas sin volver al texto.</p>
                     <div id="reading-questions"></div>
                 </div>
@@ -140,14 +140,14 @@
             <div class="step" data-step="4">
                 <div class="card" style="text-align:center;">
                     <div style="font-size:3rem;margin-bottom:10px;">📈</div>
-                    <h2>Tu Diagnostico Inicial</h2>
+                    <h2>Tu Diagnóstico Inicial</h2>
                     <p>Este es tu punto de partida. Al final del programa compararas tu progreso.</p>
                 </div>
 
                 <div class="section-title">📖 Lectura Cognitiva</div>
                 <div class="card stat-box">
                     <div class="stat"><div class="stat-value" id="res-ppm">--</div><div class="stat-label">PPM</div></div>
-                    <div class="stat"><div class="stat-value" id="res-comp">--</div><div class="stat-label">Comprension</div></div>
+                    <div class="stat"><div class="stat-value" id="res-comp">--</div><div class="stat-label">Comprensión</div></div>
                 </div>
 
                 <div class="section-title">👩‍💼 Tus 11 Dimensiones de Liderazgo</div>
@@ -158,7 +158,7 @@
 
                 <div class="plan-box">
                     <h3>📋 Para compartir con tu mentora</h3>
-                    <p>Estos son tus 3 brechas mas importantes. Llevalas a tu primera sesion para que juntas disenen un plan enfocado:</p>
+                    <p>Estos son tus 3 brechas mas importantes. Llevalas a tu primera sesión para que juntas disenen un plan enfocado:</p>
                     <ul id="top-brechas" style="margin-top:12px;padding-left:18px;font-size:0.85rem;color:var(--muted);line-height:1.7;"></ul>
                 </div>
 
@@ -285,7 +285,7 @@
             DIAG_DATA.lectura.questions.forEach((q, i) => {
                 if (answers.lectura[i] === q.correct) correctas++;
             });
-            const comprension = Math.round((correctas / DIAG_DATA.lectura.questions.length) * 100);
+            const comprensión = Math.round((correctas / DIAG_DATA.lectura.questions.length) * 100);
 
             const brechasSuma = {};
             const brechasCount = {};
@@ -301,7 +301,7 @@
 
             const resultados = {
                 fecha: new Date().toISOString(),
-                lectura: { ppm: Math.min(ppm, 1200), comprension: comprension },
+                lectura: { ppm: Math.min(ppm, 1200), comprensión: comprensión },
                 brechas: brechasPercent
             };
             localStorage.setItem('mm_diag_mentoreada', JSON.stringify(resultados));
@@ -310,7 +310,7 @@
 
         function mostrarResultados(r) {
             document.getElementById('res-ppm').textContent = r.lectura.ppm;
-            document.getElementById('res-comp').textContent = r.lectura.comprension + '%';
+            document.getElementById('res-comp').textContent = r.lectura.comprensión + '%';
 
             const dims = DIAG_DATA.brechasDims;
             const vals = dims.map(d => r.brechas[d] || 0);
@@ -381,7 +381,7 @@
             text += 'Fecha: ' + new Date(data.fecha).toLocaleString() + '\n\n';
             text += 'LECTURA COGNITIVA\n';
             text += 'PPM: ' + data.lectura.ppm + '\n';
-            text += 'Comprension: ' + data.lectura.comprension + '%\n\n';
+            text += 'Comprensión: ' + data.lectura.comprensión + '%\n\n';
             text += 'BRECHAS PROFESIONALES\n';
             for (let d in data.brechas) {
                 text += d + ': ' + data.brechas[d] + '%\n';
