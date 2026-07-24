@@ -517,25 +517,44 @@
             btn.textContent = 'Generando PDF...';
             btn.disabled = true;
 
-            const element = document.getElementById('pdf-content');
-            
-            // Show temporarily to render
-            const container = document.getElementById('pdf-template-container');
-            container.style.display = 'block';
-            
-            const opt = {
-                margin:       0,
-                filename:     `Reporte_Mentora_${window.currentUserPin || '000000'}.pdf`,
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2, useCORS: true, logging: false },
-                jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' }
-            };
+            window.scrollTo(0, 0);
 
-            html2pdf().set(opt).from(element).save().then(() => {
-                container.style.display = 'none';
-                btn.textContent = originalText;
-                btn.disabled = false;
-            });
+            const element = document.getElementById('pdf-content');
+            const container = document.getElementById('pdf-template-container');
+            
+            // Show temporarily to render, move off-screen but visible to layout engine
+            container.style.display = 'block';
+            container.style.position = 'absolute';
+            container.style.left = '-9999px';
+            container.style.top = '0';
+            
+            // Allow browser to calculate layout before taking snapshot
+            setTimeout(() => {
+                const opt = {
+                    margin:       0,
+                    filename:     `Reporte_Mentora_${window.currentUserPin || '000000'}.pdf`,
+                    image:        { type: 'jpeg', quality: 0.98 },
+                    html2canvas:  { 
+                        scale: 2, 
+                        useCORS: true, 
+                        logging: false,
+                        windowWidth: 1200,
+                        scrollY: 0
+                    },
+                    jsPDF:        { unit: 'px', format: [794, 1123], orientation: 'portrait' }
+                };
+
+                html2pdf().set(opt).from(element).save().then(() => {
+                    container.style.display = 'none';
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                }).catch(err => {
+                    console.error("PDF Error:", err);
+                    container.style.display = 'none';
+                    btn.textContent = "Error, intentar de nuevo";
+                    btn.disabled = false;
+                });
+            }, 300);
         }
 
         function mostrarResultados(r) {
