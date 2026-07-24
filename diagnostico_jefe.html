@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Evaluación de Jefatura | Invictus Mind</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-absolute: #000000;
+            --bg-surface: #0a0a0c;
+            --bg-surface-elevated: rgba(255, 255, 255, 0.03);
+            --bg-surface-hover: rgba(255, 255, 255, 0.06);
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-glow: rgba(255, 255, 255, 0.12);
+            --text-primary: #FFFFFF;
+            --text-secondary: #8A8F98;
+            --accent: #FF5E00;
+            --accent-glow: rgba(255, 94, 0, 0.2);
+            --blue: #00D2FF;
+            --success: #10B981;
+            --gradient: linear-gradient(135deg, #FF4500, #FF8C00);
+            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-absolute);
+            color: var(--text-primary);
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh;
+            font-size: 15px; line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .app-container {
+            width: 100%; max-width: 480px; height: 100vh;
+            background-color: var(--bg-absolute);
+            display: flex; flex-direction: column; position: relative;
+        }
+
+        .header {
+            padding: 30px 24px 20px;
+            text-align: center;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .header h1 { font-family: 'Outfit'; font-size: 1.5rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 4px; }
+        .header p { color: var(--text-secondary); font-size: 0.85rem; }
+
+        .scrollable {
+            flex: 1; overflow-y: auto; padding: 24px; padding-bottom: 100px;
+        }
+
+        .step { display: none; animation: fadeUp 0.4s var(--ease-spring); }
+        .step.active { display: block; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        .card {
+            background: var(--bg-surface-elevated);
+            border: 1px solid var(--border-subtle);
+            border-radius: 16px; padding: 24px; margin-bottom: 20px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+        }
+
+        .card h2 { font-family: 'Outfit'; font-size: 1.3rem; margin-bottom: 10px; color: var(--blue); }
+        .card p { color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 20px; }
+
+        .input-group { margin-bottom: 20px; }
+        .input-group label { display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .input-group input {
+            width: 100%; background: rgba(255,255,255,0.03); border: 1px solid var(--border-subtle);
+            padding: 14px 16px; border-radius: 12px; color: white; font-family: 'Inter'; font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .input-group input:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,0.06); }
+
+        .btn {
+            width: 100%; background: var(--gradient); color: white; border: none;
+            padding: 16px; border-radius: 16px; font-family: 'Outfit'; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; text-transform: uppercase; letter-spacing: 1px;
+            box-shadow: 0 8px 16px var(--accent-glow); margin-top: 10px;
+        }
+        .btn:disabled { opacity: 0.5; filter: grayscale(1); cursor: not-allowed; box-shadow: none; }
+        .btn:not(:disabled):active { transform: scale(0.97); }
+
+        .btn-outline {
+            width: 100%; background: transparent; border: 1px solid var(--success); color: var(--success);
+            padding: 16px; border-radius: 16px; font-family: 'Outfit'; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: all 0.3s; text-transform: uppercase; margin-top: 10px;
+        }
+        .btn-outline:active { transform: scale(0.97); }
+
+        .section-title { font-family: 'Outfit'; font-size: 1.1rem; color: var(--accent); margin: 30px 0 15px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 8px; }
+
+        /* Q Grouping */
+        .q-group { margin-bottom: 24px; padding-bottom: 24px; border-bottom: 1px dashed var(--border-subtle); }
+        .q-group:last-child { border-bottom: none; }
+        .q-text { font-size: 0.95rem; margin-bottom: 12px; line-height: 1.4; color: #E4E4E7; }
+        
+        .radio-group { display: flex; gap: 8px; justify-content: space-between; }
+        .radio-option {
+            flex: 1; position: relative;
+        }
+        .radio-option input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+        .radio-label {
+            display: flex; justify-content: center; align-items: center;
+            height: 44px; border-radius: 10px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-subtle); color: var(--text-secondary);
+            font-weight: 600; font-family: 'Outfit'; transition: all 0.2s; cursor: pointer;
+        }
+        .radio-option input:checked ~ .radio-label { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+        
+        .progress-bar {
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 6px; background: rgba(255,255,255,0.1); z-index: 200;
+        }
+        .progress-fill { height: 100%; background: var(--gradient); width: 0%; transition: width 0.3s ease; }
+
+        .result-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-subtle); align-items: center; }
+        .result-item:last-child { border-bottom: none; }
+        .result-name { font-size: 0.9rem; color: #E4E4E7; }
+        .result-score { font-family: 'Outfit'; font-weight: 700; color: var(--blue); }
+        
+        .url-box {
+            background: rgba(0,0,0,0.5); padding: 12px; border-radius: 8px; border: 1px solid var(--border-subtle);
+            font-family: monospace; font-size: 0.8rem; color: var(--text-secondary); word-break: break-all;
+            margin-top: 15px; max-height: 80px; overflow-y: auto; user-select: all;
+        }
+
+        #copy-alert {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-20px);
+            background: var(--success); color: white; padding: 10px 20px; border-radius: 20px;
+            font-weight: 600; font-size: 0.9rem; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 1000;
+        }
+        #copy-alert.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+
+    <div id="copy-alert">¡Enlace copiado al portapapeles!</div>
+
+    <div class="app-container">
+        <div class="header">
+            <h1>Evaluación 360°</h1>
+            <p>Diagnóstico de Liderazgo (Jefatura)</p>
+        </div>
+
+        <div class="scrollable">
+            
+            <!-- STEP 0: INFO -->
+            <div class="step active" id="step-0">
+                <div class="card">
+                    <h2>Bienvenido</h2>
+                    <p>Este diagnóstico rápido le permitirá a la mentora de su colaboradora entender sus áreas de oportunidad y enfocar su entrenamiento.</p>
+                    
+                    <div class="input-group">
+                        <label>Tu Nombre (Evaluador)</label>
+                        <input type="text" id="jefe-nombre" placeholder="Ej. Carlos Mendoza">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Nombre de la Colaboradora</label>
+                        <input type="text" id="mentee-nombre" placeholder="Ej. Ana Pérez">
+                    </div>
+
+                    <button class="btn" id="btn-start" onclick="startTest()">Comenzar Evaluación</button>
+                </div>
+            </div>
+
+            <!-- STEP 1: PREGUNTAS -->
+            <div class="step" id="step-1">
+                <div class="card" style="margin-bottom:10px;">
+                    <p style="margin:0; font-size:0.85rem;">Evalúa a tu colaboradora en las siguientes áreas del 1 (Nunca/Deficiente) al 5 (Siempre/Excelente).</p>
+                </div>
+                
+                <div id="questions-container"></div>
+                
+                <button class="btn" id="btn-finish" onclick="calculateResults()" disabled style="margin-top:30px; margin-bottom: 20px;">Generar Reporte (0/55)</button>
+            </div>
+
+            <!-- STEP 2: RESULTADOS -->
+            <div class="step" id="step-2">
+                <div class="card">
+                    <div style="text-align: center; font-size: 3rem; margin-bottom: 10px;">✅</div>
+                    <h2 style="text-align: center;">Evaluación Completada</h2>
+                    <p style="text-align: center;">Gracias por tu tiempo. Hemos generado un perfil de desarrollo basado en tus respuestas.</p>
+                    
+                    <div style="margin-top: 24px;">
+                        <h3 style="font-family: 'Outfit'; font-size: 1.1rem; color: var(--accent); margin-bottom: 15px;">Brechas Detectadas</h3>
+                        <div id="results-list" style="background: rgba(255,255,255,0.02); border-radius: 12px; padding: 15px; border: 1px solid var(--border-subtle);"></div>
+                    </div>
+                </div>
+
+                <div class="card" style="border-color: rgba(0, 210, 255, 0.3);">
+                    <h2 style="color: var(--blue);">Enviar a la Mentora</h2>
+                    <p>Por favor, copia este enlace encriptado y envíalo a la Mentora por WhatsApp o Correo.</p>
+                    
+                    <div class="url-box" id="share-url">generando...</div>
+                    <button class="btn-outline" onclick="copyUrl()">📋 Copiar Enlace</button>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Cargar Datos -->
+    <script src="diagnostico_data.js"></script>
+    <script>
+        let totalQuestions = 0;
+        let answeredQuestions = new Set();
+        let generatedUrl = '';
+
+        function startTest() {
+            const jName = document.getElementById('jefe-nombre').value.trim();
+            const mName = document.getElementById('mentee-nombre').value.trim();
+            if(!jName || !mName) {
+                alert("Por favor, ingresa ambos nombres para continuar.");
+                return;
+            }
+            document.getElementById('step-0').classList.remove('active');
+            document.getElementById('step-1').classList.add('active');
+            window.scrollTo(0, 0);
+            renderQuestions();
+        }
+
+        function renderQuestions() {
+            const container = document.getElementById('questions-container');
+            const data = window.DIAG_DATA.brechas;
+            totalQuestions = data.length;
+
+            // Group by dimension
+            const groups = {};
+            data.forEach((q, idx) => {
+                if(!groups[q.dimension]) groups[q.dimension] = [];
+                groups[q.dimension].push({ ...q, id: idx });
+            });
+
+            let html = '';
+            for(let dim in groups) {
+                html += `<div class="section-title">📊 ${dim}</div>`;
+                groups[dim].forEach(q => {
+                    html += `
+                        <div class="q-group">
+                            <div class="q-text">${q.id + 1}. ${q.pregunta}</div>
+                            <div class="radio-group">
+                                ${[1,2,3,4,5].map(v => `
+                                    <label class="radio-option">
+                                        <input type="radio" name="q_${q.id}" value="${v}" onchange="markAnswer(${q.id})">
+                                        <div class="radio-label">${v}</div>
+                                    </label>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+            container.innerHTML = html;
+        }
+
+        function markAnswer(id) {
+            answeredQuestions.add(id);
+            const progress = (answeredQuestions.size / totalQuestions) * 100;
+            document.getElementById('progress-fill').style.width = `${progress}%`;
+            
+            const btn = document.getElementById('btn-finish');
+            btn.textContent = `Generar Reporte (${answeredQuestions.size}/${totalQuestions})`;
+            
+            if(answeredQuestions.size === totalQuestions) {
+                btn.disabled = false;
+                btn.style.boxShadow = '0 0 20px rgba(16, 185, 129, 0.4)';
+                btn.style.background = 'var(--success)';
+            }
+        }
+
+        function calculateResults() {
+            const data = window.DIAG_DATA.brechas;
+            const sums = {};
+            const counts = {};
+
+            data.forEach((q, idx) => {
+                const val = parseInt(document.querySelector(`input[name="q_${idx}"]:checked`).value);
+                const score = val - 1; // 1-5 maps to 0-4
+                
+                if(!sums[q.dimension]) { sums[q.dimension] = 0; counts[q.dimension] = 0; }
+                sums[q.dimension] += score;
+                counts[q.dimension] += 1;
+            });
+
+            const results = [];
+            for(let dim in sums) {
+                const maxScore = counts[dim] * 4;
+                const percentage = Math.round((sums[dim] / maxScore) * 100);
+                results.push({ dimension: dim, score: percentage });
+            }
+
+            // Sort ascending (worst first)
+            results.sort((a,b) => a.score - b.score);
+
+            // Render
+            const resHtml = results.map(r => `
+                <div class="result-item">
+                    <div class="result-name">${r.dimension}</div>
+                    <div class="result-score" style="color: ${r.score < 40 ? '#EF4444' : (r.score < 70 ? '#F59E0B' : '#10B981')}">${r.score}%</div>
+                </div>
+            `).join('');
+            document.getElementById('results-list').innerHTML = resHtml;
+
+            // Generate Export Link
+            const jName = document.getElementById('jefe-nombre').value.trim();
+            const mName = document.getElementById('mentee-nombre').value.trim();
+            
+            const payload = {
+                jefe: jName,
+                mentee: mName,
+                fecha: new Date().toISOString(),
+                resultados: results
+            };
+            
+            const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+            
+            // Assume diagnostico_mentora is in the same directory
+            const baseUrl = window.location.href.replace('diagnostico_jefe.html', 'diagnostico_mentora.html').split('?')[0];
+            generatedUrl = `${baseUrl}?pin=012699&role=Mentora&brechas_jefe=${b64}`;
+            
+            document.getElementById('share-url').textContent = generatedUrl;
+
+            // Transition
+            document.getElementById('step-1').classList.remove('active');
+            document.getElementById('step-2').classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function copyUrl() {
+            navigator.clipboard.writeText(generatedUrl).then(() => {
+                const alert = document.getElementById('copy-alert');
+                alert.classList.add('show');
+                setTimeout(() => alert.classList.remove('show'), 3000);
+            });
+        }
+    </script>
+</body>
+</html>

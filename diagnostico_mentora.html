@@ -73,6 +73,9 @@
     </style>
 </head>
 <body>
+
+    <div id="boss-banner" style="position: fixed; top: 0; left: 0; width: 100%; background: #10B981; color: white; text-align: center; padding: 12px; font-family: 'Inter'; font-weight: 600; z-index: 9999; transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);"></div>
+
     <div class="container">
         <div class="logo">Invictus <span>Mind</span></div>
         
@@ -298,7 +301,33 @@
 
         const totalSteps = 7;
 
+        
+        function checkBossImport() {
+            const params = new URLSearchParams(window.location.search);
+            const brechasB64 = params.get('brechas_jefe');
+            if(brechasB64) {
+                try {
+                    const decoded = JSON.parse(decodeURIComponent(escape(atob(brechasB64))));
+                    localStorage.setItem('mm_brechas_jefe', JSON.stringify(decoded));
+                    
+                    const banner = document.getElementById('boss-banner');
+                    banner.innerHTML = `✅ Evaluación del Jefe importada — Evaluador: ${decoded.jefe} · Sobre: ${decoded.mentee}`;
+                    banner.style.transform = 'translateY(0)';
+                    
+                    setTimeout(() => {
+                        banner.style.transform = 'translateY(-100%)';
+                    }, 8000);
+                    
+                    // Remove from URL to keep it clean
+                    window.history.replaceState({}, document.title, window.location.pathname + "?pin=" + (params.get('pin')||''));
+                } catch(e) {
+                    console.error("Failed to parse boss data", e);
+                }
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            checkBossImport();
             renderReadingText();
         });
 
