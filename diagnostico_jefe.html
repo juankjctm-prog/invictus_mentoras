@@ -329,8 +329,16 @@
             
             const b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
             
-            // Assume diagnostico_mentora is in the same directory
-            const baseUrl = window.location.href.replace('diagnostico_jefe.html', 'diagnostico_mentora.html').split('?')[0];
+            // Handle cases where .html is stripped by the server
+            let currentPath = window.location.pathname;
+            if (currentPath.endsWith('diagnostico_jefe.html')) {
+                currentPath = currentPath.replace('diagnostico_jefe.html', 'diagnostico_mentora.html');
+            } else if (currentPath.endsWith('diagnostico_jefe')) {
+                currentPath = currentPath.replace('diagnostico_jefe', 'diagnostico_mentora.html');
+            } else {
+                currentPath = currentPath + (currentPath.endsWith('/') ? '' : '/') + 'diagnostico_mentora.html';
+            }
+            const baseUrl = window.location.origin + currentPath;
             generatedUrl = `${baseUrl}?pin=012699&role=Mentora&brechas_jefe=${b64}`;
             
             document.getElementById('share-url').textContent = generatedUrl;
