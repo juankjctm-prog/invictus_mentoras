@@ -754,6 +754,14 @@
             const userPin = urlParams.get('pin') || 'UNKNOWN';
             const userRole = urlParams.get('role') || 'Mentora';
 
+            const storedJefe = localStorage.getItem('mm_brechas_jefe');
+            if (storedJefe) {
+                try {
+                    const parsed = JSON.parse(storedJefe);
+                    r.brechas_jefe = parsed.brechas || parsed;
+                } catch(e) {}
+            }
+
             if (window._supabase) {
                 window._supabase.from('diagnostico_resultados').insert([{
                     user_pin: userPin,

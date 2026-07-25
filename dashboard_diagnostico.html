@@ -225,15 +225,35 @@
                 let brechas = r?.brechas || {};
                 let criticas = Object.entries(brechas).filter(([k,v]) => v !== null && v !== undefined && v <= 40);
                 
-                let brechasHtml = '<ul class="brechas-list">';
-                if (criticas.length === 0) {
-                    brechasHtml += '<li>Ninguna</li>';
+                let brechasJefe = r?.brechas_jefe || null;
+                let criticasJefe = brechasJefe ? Object.entries(brechasJefe).filter(([k,v]) => v !== null && v !== undefined && v <= 40) : null;
+                
+                let brechasHtml = '';
+                
+                if (criticasJefe) {
+                    brechasHtml += '<div style="margin-bottom: 5px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">';
+                    brechasHtml += '<strong style="color:var(--accent); font-size:0.8rem;">Visión Mentora:</strong>';
+                    brechasHtml += '<ul class="brechas-list" style="margin-top:2px;">';
+                    if (criticas.length === 0) brechasHtml += '<li>Ninguna</li>';
+                    else criticas.forEach(([k,v]) => { brechasHtml += `<li>${k} (${v}%)</li>`; });
+                    brechasHtml += '</ul></div>';
+                    
+                    brechasHtml += '<div><strong style="color:var(--blue); font-size:0.8rem;">Visión Jefe:</strong>';
+                    brechasHtml += '<ul class="brechas-list" style="margin-top:2px;">';
+                    if (criticasJefe.length === 0) brechasHtml += '<li>Ninguna</li>';
+                    else criticasJefe.forEach(([k,v]) => { brechasHtml += `<li>${k} (${v}%)</li>`; });
+                    brechasHtml += '</ul></div>';
                 } else {
-                    criticas.forEach(([k,v]) => {
-                        brechasHtml += `<li>${k} (${v}%)</li>`;
-                    });
+                    brechasHtml = '<ul class="brechas-list">';
+                    if (criticas.length === 0) {
+                        brechasHtml += '<li>Ninguna</li>';
+                    } else {
+                        criticas.forEach(([k,v]) => {
+                            brechasHtml += `<li>${k} (${v}%)</li>`;
+                        });
+                    }
+                    brechasHtml += '</ul>';
                 }
-                brechasHtml += '</ul>';
 
                 html += `
                     <tr>
