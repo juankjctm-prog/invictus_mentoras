@@ -138,7 +138,7 @@
                         if (data && !error) {
                             setTimeout(() => {
                                 if (data.role === 'Mentora' || data.role.toLowerCase().includes('mentora')) {
-                                    window.location.href = 'diagnostico_mentora.html?pin=' + currentPin + '&role=' + data.role;
+                                    window.location.href = 'diagnostico_mentora.html?pin=' + currentPin + '&role=' + data.role + '&name=' + encodeURIComponent(data.nombre || data.name || '');
                                 } else {
                                     window.location.href = 'diagnostico_mentoreada.html?pin=' + currentPin + '&role=' + data.role;
                                 }

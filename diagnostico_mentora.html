@@ -100,9 +100,22 @@
                         <strong style="color:#fff">4. Tu Propio Crecimiento</strong> — Donde estás tú misma en las 11 competencias que este programa desarrolla.<br><br>
                         Al final recibirás un plan sugerido de sesiónes para las próximas 16 semanas.
                     </p>
-                    <button class="btn" onclick="goToStep(1)">Comenzar Diagnóstico →</button>
+                    <input type="text" id="mentora-name-input" placeholder="Ingresa tu nombre completo" style="width: 100%; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); color: #fff; margin-bottom: 20px; font-family: 'Inter';" />
+                    <button class="btn" onclick="startWithMentoraName()">Comenzar Diagnóstico →</button>
                 </div>
             </div>
+
+            <script>
+                function startWithMentoraName() {
+                    const n = document.getElementById('mentora-name-input').value.trim();
+                    if (!n) {
+                        alert("Por favor, ingresa tu nombre completo antes de comenzar.");
+                        return;
+                    }
+                    window.mentoraName = n;
+                    goToStep(1);
+                }
+            </script>
 
             <!-- PASO 1: LECTURA -->
             <div class="step" data-step="1">
@@ -560,7 +573,9 @@
         function mostrarResultados(r) {
             
             // === POBLAR PDF ===
-            document.getElementById('pdf-pin').textContent = window.currentUserPin || 'NO PIN';
+            const finalName = window.mentoraName || 'USUARIA';
+            const finalPin = window.currentUserPin || 'NO PIN';
+            document.getElementById('pdf-pin').textContent = `${finalName} (${finalPin})`;
             const dateStr = new Date().toLocaleDateString('es-ES', {year: 'numeric', month: 'long', day: 'numeric'});
             document.getElementById('pdf-fecha').textContent = dateStr;
             document.getElementById('pdf-codigo').textContent = (window.currentUserPin || '000') + '-' + new Date().getTime().toString().slice(-6);
