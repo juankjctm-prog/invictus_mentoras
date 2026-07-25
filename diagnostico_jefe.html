@@ -200,7 +200,10 @@
                     <p>Por favor, copia este enlace encriptado y envíalo a la Mentora por WhatsApp o Correo.</p>
                     
                     <div class="url-box" id="share-url">generando...</div>
-                    <button class="btn-outline" onclick="copyUrl()">📋 Copiar Enlace</button>
+                    <div style="display:flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn-outline" onclick="copyUrl()">📋 Copiar Enlace</button>
+                        <a id="whatsapp-link" href="#" target="_blank" class="btn" style="background-color: #25D366; text-decoration: none; padding: 12px 20px; font-weight: 500;">📲 Enviar por WhatsApp</a>
+                    </div>
                 </div>
             </div>
 
@@ -249,7 +252,7 @@
                 groups[dim].forEach(q => {
                     html += `
                         <div class="q-group">
-                            <div class="q-text">${q.id + 1}. ${q.pregunta}</div>
+                            <div class="q-text">${q.id + 1}. ${q.q}</div>
                             <div class="radio-group">
                                 ${[1,2,3,4,5].map(v => `
                                     <label class="radio-option">
@@ -331,6 +334,10 @@
             generatedUrl = `${baseUrl}?pin=012699&role=Mentora&brechas_jefe=${b64}`;
             
             document.getElementById('share-url').textContent = generatedUrl;
+
+            // WhatsApp link
+            const waMessage = `Hola, he completado la evaluación de brechas de ${mName}. Puedes ver los resultados de su diagnóstico aquí:\n${generatedUrl}`;
+            document.getElementById('whatsapp-link').href = `https://wa.me/?text=${encodeURIComponent(waMessage)}`;
 
             // Transition
             document.getElementById('step-1').classList.remove('active');

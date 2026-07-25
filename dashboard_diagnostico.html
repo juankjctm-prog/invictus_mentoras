@@ -223,7 +223,7 @@
                 const scoreMentoria = r?.mentoria?.total ? r.mentoria.total + '%' : 'N/A';
                 
                 let brechas = r?.brechas || {};
-                let criticas = Object.entries(brechas).filter(([k,v]) => v <= 40);
+                let criticas = Object.entries(brechas).filter(([k,v]) => v !== null && v !== undefined && v <= 40);
                 
                 let brechasHtml = '<ul class="brechas-list">';
                 if (criticas.length === 0) {
