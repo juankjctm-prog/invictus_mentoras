@@ -758,7 +758,13 @@
             if (storedJefe) {
                 try {
                     const parsed = JSON.parse(storedJefe);
-                    r.brechas_jefe = parsed.brechas || parsed;
+                    if (parsed.resultados && Array.isArray(parsed.resultados)) {
+                        const dict = {};
+                        parsed.resultados.forEach(item => {
+                            dict[item.dimension] = item.score;
+                        });
+                        r.brechas_jefe = dict;
+                    }
                 } catch(e) {}
             }
 
