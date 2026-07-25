@@ -233,7 +233,7 @@
 
         function renderQuestions() {
             const container = document.getElementById('questions-container');
-            const data = window.DIAG_DATA.brechas;
+            const data = DIAG_DATA.brechas;
             totalQuestions = data.length;
 
             // Group by dimension
@@ -281,7 +281,7 @@
         }
 
         function calculateResults() {
-            const data = window.DIAG_DATA.brechas;
+            const data = DIAG_DATA.brechas;
             const sums = {};
             const counts = {};
 
