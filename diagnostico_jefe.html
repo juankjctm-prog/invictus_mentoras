@@ -108,10 +108,10 @@
         }
         .radio-option input { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
         .radio-label {
-            display: flex; justify-content: center; align-items: center;
-            height: 44px; border-radius: 10px; background: rgba(255,255,255,0.03);
+            display: flex; justify-content: flex-start; align-items: center; text-align: left;
+            min-height: 44px; padding: 12px 15px; border-radius: 10px; background: rgba(255,255,255,0.03);
             border: 1px solid var(--border-subtle); color: var(--text-secondary);
-            font-weight: 600; font-family: 'Outfit'; transition: all 0.2s; cursor: pointer;
+            font-weight: 500; font-family: 'Inter', sans-serif; transition: all 0.2s; cursor: pointer; line-height: 1.4;
         }
         .radio-option input:checked ~ .radio-label { background: var(--accent-glow); border-color: var(--accent); color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
         
@@ -253,11 +253,11 @@
                     html += `
                         <div class="q-group">
                             <div class="q-text">${q.id + 1}. ${q.q}</div>
-                            <div class="radio-group">
-                                ${[1,2,3,4,5].map(v => `
+                            <div class="radio-group" style="flex-direction: column; gap: 10px;">
+                                ${q.options.map((opt, oidx) => `
                                     <label class="radio-option">
-                                        <input type="radio" name="q_${q.id}" value="${v}" onchange="markAnswer(${q.id})">
-                                        <div class="radio-label">${v}</div>
+                                        <input type="radio" name="q_${q.id}" value="${oidx}" onchange="markAnswer(${q.id})">
+                                        <div class="radio-label">${opt}</div>
                                     </label>
                                 `).join('')}
                             </div>
@@ -290,7 +290,7 @@
 
             data.forEach((q, idx) => {
                 const val = parseInt(document.querySelector(`input[name="q_${idx}"]:checked`).value);
-                const score = val - 1; // 1-5 maps to 0-4
+                const score = val + 1; // 0-3 maps to 1-4
                 
                 if(!sums[q.dimension]) { sums[q.dimension] = 0; counts[q.dimension] = 0; }
                 sums[q.dimension] += score;
