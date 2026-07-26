@@ -201,9 +201,17 @@
 
                 <div class="section-title">👩‍💼 Brechas de tu Mentoreada</div>
                 <div class="card">
+                    <p style="font-size:0.8rem; text-align:center;">Tu visión como mentora.</p>
                     <div class="radar-container" id="radar-chart"></div>
                     <div id="res-brechas"></div>
                     <div id="brechas-sugerencias" style="margin-top: 16px; padding: 14px; background: rgba(255,255,255,0.03); border-left: 3px solid var(--warning); border-radius: 8px; font-size: 0.85rem; color: var(--muted); display: none; text-align: left;"></div>
+                </div>
+
+                <div class="section-title" id="jefe-title" style="display:none;">👁️ Visión del Jefe</div>
+                <div class="card" id="jefe-card" style="display:none;">
+                    <p style="font-size:0.8rem; text-align:center;">Evaluación enviada por la jefatura.</p>
+                    <div class="radar-container" id="radar-chart-jefe"></div>
+                    <div id="res-brechas-jefe"></div>
                 </div>
 
                 <div class="section-title">🌱 Tu Propio Crecimiento</div>
@@ -722,6 +730,50 @@
                 }
             } else {
                 brechasSug.innerHTML = '<strong>¡Buen perfil inicial!</strong> No se detectan brechas críticas severas. Ayúdala a llevar sus áreas medias a un nivel de maestría estratégica.';
+            }
+
+            // Boss data rendering
+            const storedJefe = localStorage.getItem('mm_brechas_jefe');
+            if (storedJefe) {
+                try {
+                    const parsed = JSON.parse(storedJefe);
+                    if (parsed.resultados && Array.isArray(parsed.resultados)) {
+                        document.getElementById('jefe-title').style.display = 'block';
+                        document.getElementById('jefe-card').style.display = 'block';
+
+                        const bossDict = {};
+                        parsed.resultados.forEach(item => {
+                            bossDict[item.dimension] = item.score;
+                        });
+
+                        let bossPoints = '';
+                        dims.forEach((d, i) => {
+                            const angle = (Math.PI * 2 * i / dims.length) - Math.PI / 2;
+                            const score = bossDict[d] || 0;
+                            const rScaled = (score / 100) * 80;
+                            const px = 100 + rScaled * Math.cos(angle);
+                            const py = 100 + rScaled * Math.sin(angle);
+                            bossPoints += px + ',' + py + ' ';
+                        });
+                        
+                        const bossSvg = '<svg width="200" height="200" viewBox="0 0 200 200" style="background:rgba(255,255,255,0.02);border-radius:50%;">' +
+                                    axis + '<polygon points="' + bossPoints + '" fill="rgba(59,130,246,0.25)" stroke="#3B82F6" stroke-width="2"/></svg>';
+                        document.getElementById('radar-chart-jefe').innerHTML = bossSvg;
+
+                        const sortedBoss = Object.entries(bossDict).sort((a, b) => a[1] - b[1]);
+                        let bossHtml = '';
+                        sortedBoss.forEach(([name, val]) => {
+                            const cls = val <= 40 ? 'critica' : (val <= 70 ? 'media' : 'baja');
+                            bossHtml += '<div class="brecha-item ' + cls + '">';
+                            bossHtml += '<span class="brecha-name">' + name + '</span>';
+                            bossHtml += '<span class="brecha-val">' + val + '%</span>';
+                            bossHtml += '</div>';
+                        });
+                        document.getElementById('res-brechas-jefe').innerHTML = bossHtml;
+                    }
+                } catch(e) {
+                    console.error("Error rendering boss data", e);
+                }
             }
 
 
