@@ -339,7 +339,7 @@
                 currentPath = currentPath + (currentPath.endsWith('/') ? '' : '/') + 'diagnostico_mentora.html';
             }
             const baseUrl = window.location.origin + currentPath;
-            generatedUrl = `${baseUrl}?pin=012699&role=Mentora&brechas_jefe=${b64}`;
+            generatedUrl = `${baseUrl}?brechas_jefe=${b64}`;
             
             document.getElementById('share-url').textContent = generatedUrl;
 

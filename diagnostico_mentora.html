@@ -341,8 +341,33 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             checkBossImport();
+            ensureSession();
             renderReadingText();
         });
+
+        function ensureSession() {
+            const urlParams = new URLSearchParams(window.location.search);
+            let userPin = urlParams.get('pin');
+            
+            if (!userPin) {
+                userPin = localStorage.getItem('currentUserPin');
+            }
+            
+            if (!userPin) {
+                userPin = prompt("Para acceder al diagnóstico y guardar tu progreso, por favor ingresa tu PIN único:", "");
+                if (userPin && userPin.trim() !== "") {
+                    userPin = userPin.trim();
+                    localStorage.setItem('currentUserPin', userPin);
+                } else {
+                    alert("Es necesario un PIN para continuar y no perder tu progreso.");
+                    window.location.href = 'Bloque1_Premium.html'; 
+                }
+            } else {
+                localStorage.setItem('currentUserPin', userPin);
+            }
+            
+            window.currentUserPin = userPin;
+        }
 
         function updateProgress() {
             const pct = (currentStep / (totalSteps - 1)) * 100;
@@ -751,7 +776,7 @@
             // SAVE TO SUPABASE
             // =========================
             const urlParams = new URLSearchParams(window.location.search);
-            const userPin = urlParams.get('pin') || 'UNKNOWN';
+            const userPin = urlParams.get('pin') || window.currentUserPin || 'UNKNOWN';
             const userRole = urlParams.get('role') || 'Mentora';
 
             const storedJefe = localStorage.getItem('mm_brechas_jefe');
