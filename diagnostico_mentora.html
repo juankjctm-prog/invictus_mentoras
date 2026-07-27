@@ -733,10 +733,10 @@
             }
 
             // Boss data rendering
-            const storedJefe = localStorage.getItem('mm_brechas_jefe');
-            if (storedJefe) {
+            const storedJefeVis = localStorage.getItem('mm_brechas_jefe');
+            if (storedJefeVis) {
                 try {
-                    const parsed = JSON.parse(storedJefe);
+                    const parsed = JSON.parse(storedJefeVis);
                     if (parsed.resultados && Array.isArray(parsed.resultados)) {
                         document.getElementById('jefe-title').style.display = 'block';
                         document.getElementById('jefe-card').style.display = 'block';
