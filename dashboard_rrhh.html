@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Dashboard RRHH | Invictus Mind</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --bg: #0B0C10;
+            --surface: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.08);
+            --text: #FFFFFF;
+            --muted: #8A8F98;
+            --accent: #FF5E00;
+            --accent-glow: rgba(255,94,0,0.2);
+            --water: #00C6FF;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --purple: #9370DB;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
+        .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+        header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+        header h1 { font-family: 'Outfit'; font-size: 1.6rem; font-weight: 600; }
+        header p { color: var(--muted); font-size: 0.85rem; margin-top: 4px; }
+        .badge { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 6px 14px; font-size: 0.75rem; color: var(--muted); }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 22px; }
+        .card h2 { font-family: 'Outfit'; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
+        .kpi { font-family: 'Outfit'; font-size: 2.4rem; font-weight: 700; color: var(--accent); }
+        .kpi-label { font-size: 0.8rem; color: var(--muted); margin-top: 6px; line-height: 1.5; }
+        .trend { display: inline-block; margin-top: 8px; font-size: 0.75rem; padding: 4px 8px; border-radius: 8px; background: rgba(16,185,129,0.12); color: var(--success); }
+        .trend.down { background: rgba(239,68,68,0.12); color: var(--danger); }
+        .section-title { font-family: 'Outfit'; font-size: 1.1rem; margin: 32px 0 16px; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+        th, td { padding: 12px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+        th { color: var(--muted); font-weight: 500; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.8px; }
+        tr:hover td { background: rgba(255,255,255,0.02); }
+        .score-pill { display: inline-block; padding: 4px 10px; border-radius: 12px; font-weight: 600; font-size: 0.75rem; }
+        .score-high { background: rgba(16,185,129,0.15); color: var(--success); }
+        .score-mid { background: rgba(245,158,11,0.15); color: var(--warning); }
+        .score-low { background: rgba(239,68,68,0.15); color: var(--danger); }
+        .tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+        .tab { padding: 10px 18px; border-radius: 12px; border: 1px solid var(--border); background: transparent; color: var(--muted); cursor: pointer; font-family: 'Outfit'; font-size: 0.85rem; }
+        .tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .mentee-row { cursor: pointer; }
+        .detail { display: none; background: rgba(255,255,255,0.02); }
+        .detail.open { display: table-row; }
+        .detail-content { padding: 20px; }
+        .radar-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 720px) { .radar-grid { grid-template-columns: 1fr; } }
+        .plan-mini { background: rgba(0,198,255,0.05); border: 1px solid rgba(0,198,255,0.15); border-radius: 12px; padding: 14px; margin-top: 12px; }
+        .plan-mini h4 { color: var(--water); font-family: 'Outfit'; font-size: 0.95rem; margin-bottom: 8px; }
+        .plan-mini ul { padding-left: 18px; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+        .plan-mini li { margin-bottom: 4px; }
+    </style>
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <div>
+                <h1>Panel Ejecutivo · Programa de Mentoría</h1>
+                <p>Visión consolidada de mentoras y mentoreadas · Cohorte piloto</p>
+            </div>
+            <div class="badge">Vista de muestra</div>
+        </header>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Participantes</h2>
+                <div class="kpi">24</div>
+                <div class="kpi-label">12 mentoras · 12 mentoreadas</div>
+                <span class="trend">+3 esta semana</span>
+            </div>
+            <div class="card">
+                <h2>Diagnósticos completados</h2>
+                <div class="kpi">92%</div>
+                <div class="kpi-label">22 de 24 usuarios finalizaron Sesión 0</div>
+                <span class="trend">Meta: 100%</span>
+            </div>
+            <div class="card">
+                <h2>PPM promedio mentoreadas</h2>
+                <div class="kpi">312</div>
+                <div class="kpi-label">palabras por minuto · comprensión 74%</div>
+                <span class="trend down">-18 vs objetivo 330</span>
+            </div>
+            <div class="card">
+                <h2>Dimensión más crítica</h2>
+                <div class="kpi" style="color:var(--danger)">Negociación</div>
+                <div class="kpi-label">Aparece como brecha en 9 de 12 mentoreadas</div>
+                <span class="trend down">Requiere intervención</span>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('mentoreadas', this)">Mentoreadas</button>
+            <button class="tab" onclick="showTab('mentoras', this)">Mentoras</button>
+            <button class="tab" onclick="showTab('pares', this)">Pares asignados</button>
+        </div>
+
+        <div id="tab-mentoreadas">
+            <div class="section-title">Diagnóstico inicial de mentoreadas</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Mentora</th>
+                            <th>PPM</th>
+                            <th>Comprensión</th>
+                            <th>Brecha principal</th>
+                            <th>Score 8D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="mentee-row" onclick="toggleDetail('d1')">
+                            <td>Camila R.</td>
+                            <td>Andrea G.</td>
+                            <td>285</td>
+                            <td><span class="score-pill score-mid">68%</span></td>
+                            <td>Comunicación ejecutiva</td>
+                            <td><span class="score-pill score-mid">58%</span></td>
+                        </tr>
+                        <tr id="d1" class="detail">
+                            <td colspan="6">
+                                <div class="detail-content">
+                                    <div class="radar-grid">
+                                        <div><canvas id="radar1"></canvas></div>
+                                        <div>
+                                            <div class="plan-mini">
+                                                <h4>Plan sugerido para las sesiones 1 a 1</h4>
+                                                <ul>
+                                                    <li>Sesión 1: Escucha activa y estructura de mensajes (Día 1-2).</li>
+                                                    <li>Sesión 2: Narrativa profesional y storytelling (Día 5).</li>
+                                                    <li>Sesión 3: Práctica de retroalimentación constructiva (Día 9).</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="mentee-row" onclick="toggleDetail('d2')">
+                            <td>Lucía M.</td>
+                            <td>Daniela T.</td>
+                            <td>410</td>
+                            <td><span class="score-pill score-high">88%</span></td>
+                            <td>Negociación</td>
+                            <td><span class="score-pill score-high">74%</span></td>
+                        </tr>
+                        <tr id="d2" class="detail">
+                            <td colspan="6">
+                                <div class="detail-content">
+                                    <div class="radar-grid">
+                                        <div><canvas id="radar2"></canvas></div>
+                                        <div>
+                                            <div class="plan-mini">
+                                                <h4>Plan sugerido</h4>
+                                                <ul>
+                                                    <li>Sesión 1: Mapeo de intereses y ZOPA (Día 12).</li>
+                                                    <li>Sesión 2: Práctica de propuestas ganar-ganar (Día 14).</li>
+                                                    <li>Sesión 3: Manejo de objeciones difíciles (Día 19).</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="mentee-row" onclick="toggleDetail('d3')">
+                            <td>Valentina S.</td>
+                            <td>Andrea G.</td>
+                            <td>195</td>
+                            <td><span class="score-pill score-low">52%</span></td>
+                            <td>Lectura crítica</td>
+                            <td><span class="score-pill score-low">41%</span></td>
+                        </tr>
+                        <tr id="d3" class="detail">
+                            <td colspan="6">
+                                <div class="detail-content">
+                                    <div class="radar-grid">
+                                        <div><canvas id="radar3"></canvas></div>
+                                        <div>
+                                            <div class="plan-mini">
+                                                <h4>Plan sugerido</h4>
+                                                <ul>
+                                                    <li>Sesión 0+: Refuerzo de lectura cognitiva base (PPM + comprensión).</li>
+                                                    <li>Sesión 1: Técnica de pregunta activa antes de leer (Día 1).</li>
+                                                    <li>Sesión 2: Síntesis en 3 líneas por texto (Día 4).</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tab-mentoras" style="display:none">
+            <div class="section-title">Diagnóstico inicial de mentoras</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Mentoreadas</th>
+                            <th>PPM</th>
+                            <th>Competencia más alta</th>
+                            <th>Competencia a reforzar</th>
+                            <th>Score mentoría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Andrea G.</td>
+                            <td>2</td>
+                            <td>540</td>
+                            <td>Escucha Profunda</td>
+                            <td>Dar Retroalimentación</td>
+                            <td><span class="score-pill score-high">79%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Daniela T.</td>
+                            <td>1</td>
+                            <td>610</td>
+                            <td>Co-creación de planes</td>
+                            <td>Gestión de emociones</td>
+                            <td><span class="score-pill score-high">82%</span></td>
+                        </tr>
+                        <tr>
+                            <td>Mariana L.</td>
+                            <td>2</td>
+                            <td>480</td>
+                            <td>Preguntas poderosas</td>
+                            <td>Límites y ética</td>
+                            <td><span class="score-pill score-mid">64%</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div id="tab-pares" style="display:none">
+            <div class="section-title">Pares asignados y progreso esperado</div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mentora</th>
+                            <th>Mentoreada</th>
+                            <th>Match score</th>
+                            <th>Próxima sesión</th>
+                            <th>Alerta</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Andrea G.</td>
+                            <td>Camila R.</td>
+                            <td><span class="score-pill score-high">91%</span></td>
+                            <td>15 jul</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Andrea G.</td>
+                            <td>Valentina S.</td>
+                            <td><span class="score-pill score-mid">73%</span></td>
+                            <td>16 jul</td>
+                            <td><span class="score-pill score-low">Lectura baja</span></td>
+                        </tr>
+                        <tr>
+                            <td>Daniela T.</td>
+                            <td>Lucía M.</td>
+                            <td><span class="score-pill score-high">88%</span></td>
+                            <td>14 jul</td>
+                            <td>—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const labels8D = ['Autoconocimiento', 'Comunicación', 'Negociación', 'Gestión del tiempo', 'Liderazgo', 'Resiliencia', 'Pensamiento crítico', 'Propósito'];
+        const data1 = [65, 42, 55, 70, 50, 60, 58, 48];
+        const data2 = [70, 80, 45, 75, 65, 72, 78, 60];
+        const data3 = [40, 35, 30, 45, 25, 38, 32, 28];
+
+        function radar(id, data) {
+            new Chart(document.getElementById(id), {
+                type: 'radar',
+                data: {
+                    labels: labels8D,
+                    datasets: [{
+                        label: 'Nivel actual',
+                        data: data,
+                        backgroundColor: 'rgba(255,94,0,0.2)',
+                        borderColor: '#FF5E00',
+                        pointBackgroundColor: '#FF5E00',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        r: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: { display: false, stepSize: 20 },
+                            grid: { color: 'rgba(255,255,255,0.08)' },
+                            angleLines: { color: 'rgba(255,255,255,0.08)' },
+                            pointLabels: { color: '#8A8F98', font: { size: 11 } }
+                        }
+                    },
+                    plugins: { legend: { display: false } }
+                }
+            });
+        }
+
+        radar('radar1', data1);
+        radar('radar2', data2);
+        radar('radar3', data3);
+
+        function toggleDetail(id) {
+            const row = document.getElementById(id);
+            row.classList.toggle('open');
+        }
+
+        function showTab(tab, btn) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            btn.classList.add('active');
+            ['mentoreadas', 'mentoras', 'pares'].forEach(k => {
+                document.getElementById('tab-' + k).style.display = k === tab ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

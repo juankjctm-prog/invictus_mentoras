@@ -709,6 +709,10 @@
                 pinCount++;
                 
                 if (pinCount === dots.length) {
+                    if (currentPin === '010101') {
+                        window.location.href = 'dashboard_rrhh.html';
+                        return;
+                    }
                     try {
                         const { data, error } = await _supabase
                             .from('mentoras_users')
