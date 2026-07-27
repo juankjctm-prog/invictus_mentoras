@@ -283,7 +283,8 @@
             const ppm = Math.round(DIAG_DATA.lectura.words / readingTime);
             let correctas = 0;
             DIAG_DATA.lectura.questions.forEach((q, i) => {
-                if (answers.lectura[i] === q.correct) correctas++;
+                const correctIdx = (q.correct !== undefined) ? q.correct : q.answer;
+                if (answers.lectura[i] === correctIdx) correctas++;
             });
             const comprensión = Math.round((correctas / DIAG_DATA.lectura.questions.length) * 100);
 
