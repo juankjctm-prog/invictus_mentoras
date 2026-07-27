@@ -6,6 +6,7 @@
     <title>Master Dashboard - Diagnósticos</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
+        
         :root {
             --bg-absolute: #000000;
             --bg-surface: #0a0a0c;
@@ -13,6 +14,9 @@
             --accent-fire: #FF5E00;
             --accent-fire-glow: rgba(255, 94, 0, 0.2);
             --accent-water: #00C6FF;
+            --accent-water-glow: rgba(0, 198, 255, 0.2);
+            --accent-jefe: #10B981;
+            --accent-jefe-glow: rgba(16, 185, 129, 0.2);
             --text-primary: #FFFFFF;
             --text-secondary: #8A8F98;
         }
@@ -51,60 +55,75 @@
         .container {
             width: 100%;
             max-width: 1200px;
-            background: rgba(255,255,255,0.02);
+            margin-bottom: 60px;
+        }
+
+        /* Semaforo */
+        .semaforo-box {
+            background: rgba(255,255,255,0.03);
             border: 1px solid var(--border-subtle);
-            border-radius: 20px;
-            padding: 20px;
-            overflow-x: auto;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            text-align: left;
-        }
-
-        th, td {
-            padding: 15px;
-            border-bottom: 1px solid var(--border-subtle);
-        }
-
-        th {
-            font-family: 'Outfit';
-            font-weight: 600;
-            color: var(--accent-water);
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            letter-spacing: 1px;
-        }
-
-        td {
-            font-size: 0.95rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 40px;
+            backdrop-filter: blur(12px);
         }
         
-        .tag-mentora { background: rgba(255, 94, 0, 0.2); color: var(--accent-fire); }
-        .tag-mentoreada { background: rgba(0, 198, 255, 0.2); color: var(--accent-water); }
-
-        .score-box {
+        .semaforo-title {
             font-family: 'Outfit';
-            font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
+            color: white;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .brechas-list {
-            margin: 0;
-            padding-left: 20px;
+        .semaforo-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .semaforo-item { display: flex; align-items: center; gap: 8px; }
+        
+        .pendientes-list {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border-subtle);
             font-size: 0.85rem;
             color: var(--text-secondary);
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-family: 'Inter';
+            width: 300px;
+            outline: none;
+        }
+        
+        .filter-select {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-subtle);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-family: 'Inter';
+            outline: none;
         }
 
         .btn-refresh {
@@ -114,171 +133,530 @@
             padding: 10px 20px;
             border-radius: 10px;
             cursor: pointer;
-            margin-bottom: 20px;
             font-family: 'Outfit';
             transition: all 0.3s;
         }
 
-        .btn-refresh:hover {
-            background: var(--accent-fire);
+        .btn-refresh:hover { background: var(--accent-fire); }
+
+        /* Tarjeta de Pareja */
+        .pair-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 32px;
+            backdrop-filter: blur(12px);
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 32px;
         }
         
-        .empty-state {
-            text-align: center;
-            padding: 40px;
-            color: var(--text-secondary);
+        @media (max-width: 900px) {
+            .pair-card { grid-template-columns: 1fr; }
         }
+
+        .pair-header {
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .pair-title {
+            font-family: 'Outfit';
+            font-size: 1.4rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .pair-status {
+            font-size: 0.85rem;
+            margin-top: 8px;
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 500;
+        }
+        
+        .status-completo { background: rgba(16,185,129,0.15); color: #10B981; }
+        .status-parcial { background: rgba(245,158,11,0.15); color: #F59E0B; }
+        .status-vacio { background: rgba(239,68,68,0.15); color: #EF4444; }
+
+        /* Tabla Competencias */
+        .comp-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .comp-table th {
+            text-align: left;
+            padding: 8px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .comp-table td {
+            padding: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .comp-name { color: white; }
+        .val-mentada { color: var(--accent-water); font-weight: 600; }
+        .val-mentora { color: var(--accent-fire); font-weight: 600; }
+        .val-jefe { color: var(--accent-jefe); font-weight: 600; }
+        
+        .brecha-badge {
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            display: inline-block;
+            min-width: 45px;
+            text-align: center;
+        }
+
+        /* Radar Chart Container */
+        .chart-container {
+            width: 100%;
+            aspect-ratio: 1;
+            position: relative;
+        }
+
+        .pair-footer {
+            margin-top: 20px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            gap: 20px;
+        }
+
+        /* Avance Ecosystem */
+        .progress-bar-bg {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-water), var(--accent-fire));
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+        
+        .empty-state { text-align: center; padding: 40px; color: var(--text-secondary); }
+        
+        table.ecosystem-table { width: 100%; border-collapse: collapse; text-align: left; }
+        table.ecosystem-table th, table.ecosystem-table td { padding: 15px; border-bottom: 1px solid var(--border-subtle); }
+        table.ecosystem-table th { font-family: 'Outfit'; font-weight: 600; color: var(--accent-water); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; }
+        table.ecosystem-table td { font-size: 0.95rem; }
+        .tag { display: inline-block; padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        .tag-mentora { background: rgba(255, 94, 0, 0.2); color: var(--accent-fire); }
+        .tag-mentoreada { background: rgba(0, 198, 255, 0.2); color: var(--accent-water); }
+        .score-box { font-family: 'Outfit'; font-weight: 700; font-size: 1.1rem; }
+
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
 
+    
     <header>
         <h1>Master Dashboard</h1>
-        <p>Centro de monitoreo de diagnósticos de Mentoras y Mentoreadas</p>
+        <p>Centro de Inteligencia Visual de Parejas (Mentora-Mentada)</p>
     </header>
 
-    <div style="width: 100%; max-width: 1200px; text-align: right;">
-        <button class="btn-refresh" onclick="loadData(); loadAvance();">↻ Actualizar Datos</button>
-    </div>
-
     <div class="container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Fecha</th>
-                    <th>PIN</th>
-                    <th>Rol</th>
-                    <th>PPM / Comprensión</th>
-                    <th>Score General</th>
-                    <th>Brechas Críticas (≤ 40%)</th>
-                </tr>
-            </thead>
-            <tbody id="table-body">
-                <tr><td colspan="6" class="empty-state">Cargando datos desde Supabase...</td></tr>
-            </tbody>
-        </table>
+        <!-- Semáforo de Completitud -->
+        <div class="semaforo-box" id="semaforo-box">
+            <div class="semaforo-title">📊 Estado de Diagnósticos Cargando...</div>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="search-input" class="search-box" placeholder="Buscar por Nombre o PIN..." oninput="renderPairs()">
+            <select id="status-filter" class="filter-select" onchange="renderPairs()">
+                <option value="all">Todas las Parejas</option>
+                <option value="completo">✅ Diagnóstico Completo</option>
+                <option value="parcial">⚠️ Diagnóstico Parcial</option>
+                <option value="vacio">🔴 Sin Diagnóstico</option>
+            </select>
+            <button class="btn-refresh" onclick="loadData(); loadAvance();">↻ Actualizar Datos</button>
+        </div>
+
+        <div id="pairs-container">
+            <div class="empty-state">Cargando datos desde Supabase...</div>
+        </div>
     </div>
 
-    <header style="margin-top: 60px; margin-bottom: 30px;">
+    <header style="margin-top: 20px; margin-bottom: 30px;">
         <h2 style="font-family: 'Outfit'; font-size: 2rem; background: linear-gradient(135deg, var(--accent-water), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Avance en el Ecosistema</h2>
         <p style="color: var(--text-secondary); margin-top: 10px;">Progreso de d&iacute;as completados de Mentoras y Mentoreadas</p>
     </header>
 
     <div class="container" style="margin-bottom: 60px;">
-        <table>
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>PIN</th>
-                    <th>Rol</th>
-                    <th>D&iacute;a Actual</th>
-                    <th>D&iacute;as Completados</th>
-                    <th>&Uacute;ltima Actividad</th>
-                </tr>
-            </thead>
-            <tbody id="avance-body">
-                <tr><td colspan="6" class="empty-state">Cargando datos desde Supabase...</td></tr>
-            </tbody>
-        </table>
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 20px; overflow-x: auto;">
+            <table class="ecosystem-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>PIN</th>
+                        <th>Rol</th>
+                        <th>D&iacute;a Actual</th>
+                        <th>Progreso Global</th>
+                        <th>&Uacute;ltima Actividad</th>
+                    </tr>
+                </thead>
+                <tbody id="avance-body">
+                    <tr><td colspan="6" class="empty-state">Cargando datos desde Supabase...</td></tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+
 
     <!-- SUPABASE INIT -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
+        
         const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
         const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+        const COMPETENCIAS = [
+            "Identidad de Liderazgo",
+            "Sindrome del Impostor",
+            "Resiliencia y Manejo del Fracaso",
+            "Comunicación Ejecutiva",
+            "Feedback y Candor",
+            "Negociacion y Defensa de Valor",
+            "Influencia Politica",
+            "Visibilidad Estrategica",
+            "Delegacion y Empoderamiento",
+            "Gestion Emocional",
+            "Seguridad Psicologica"
+        ];
+
+        let globalPairs = {};
+        let usersMap = {};
+
         async function loadData() {
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Cargando datos...</td></tr>';
+            document.getElementById('pairs-container').innerHTML = '<div class="empty-state">Cargando datos...</div>';
 
             try {
-                const { data, error } = await _supabase
-                    .from('diagnostico_resultados')
-                    .select('*')
-                    .order('created_at', { ascending: false });
+                // 1. Fetch all users for names
+                const { data: usersData, error: usersError } = await _supabase.from('mentoras_users').select('*');
+                if (!usersError && usersData) {
+                    usersData.forEach(u => {
+                        usersMap[u.pin] = u.name || u.full_name || 'Usuario';
+                    });
+                }
+
+                // 2. Fetch all diagnostics
+                const { data, error } = await _supabase.from('diagnostico_resultados').select('*').order('created_at', { ascending: false });
 
                 if (error) {
-                    console.error(error);
-                    tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Error al cargar o la tabla no existe aún: ${error.message}. Revisa Supabase.</td></tr>`;
+                    document.getElementById('pairs-container').innerHTML = `<div class="empty-state">Error: ${error.message}</div>`;
                     return;
                 }
 
-                if (!data || data.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No hay resultados registrados todavía.</td></tr>';
-                    return;
+                // 3. Group by Pair (last 2 digits)
+                globalPairs = {};
+
+                // Initialize all pairs from mentoras_users first so we track 'Sin Diagnóstico'
+                if (usersData) {
+                    usersData.forEach(u => {
+                        const pin = u.pin;
+                        if (pin === '010101' || pin === '012699' || pin.endsWith('07')) return;
+                        if (pin.length === 6) {
+                            const pairId = pin.slice(-2);
+                            if (!globalPairs[pairId]) globalPairs[pairId] = { id: pairId, mentadaUser: null, mentoraUser: null, mentadaRow: null, mentoraRow: null };
+                            
+                            if (pin.startsWith('0226')) globalPairs[pairId].mentadaUser = u;
+                            if (pin.startsWith('0126')) globalPairs[pairId].mentoraUser = u;
+                        }
+                    });
                 }
 
-                let html = '';
-                data.forEach(row => {
-                    const pin = row.user_pin || '';
-                    // Filter out test PINs (ending in 07, 012699, or master pin 010101)
-                    if (pin.endsWith('07') || pin === '012699' || pin === '010101') return;
+                if (data) {
+                    data.forEach(row => {
+                        const pin = row.user_pin || '';
+                        if (pin === '010101' || pin === '012699' || pin.endsWith('07')) return;
+                        
+                        if (pin.length >= 2) {
+                            const pairId = pin.slice(-2);
+                            if (!globalPairs[pairId]) globalPairs[pairId] = { id: pairId, mentadaUser: null, mentoraUser: null, mentadaRow: null, mentoraRow: null };
+                            
+                            const isMentora = row.user_role && row.user_role.toLowerCase().includes('mentora');
+                            // Si no hay user_role, inferimos por el PIN
+                            const actuallyMentora = isMentora || pin.startsWith('0126');
+                            
+                            // Guardamos la primera ocurrencia (la mas reciente debido al order by desc)
+                            if (actuallyMentora && !globalPairs[pairId].mentoraRow) {
+                                globalPairs[pairId].mentoraRow = row;
+                            } else if (!actuallyMentora && !globalPairs[pairId].mentadaRow) {
+                                globalPairs[pairId].mentadaRow = row;
+                            }
+                        }
+                    });
+                }
 
-                    const isMentora = row.user_role ? row.user_role.toLowerCase().includes('mentora') : false;
-                    const tagClass = isMentora ? 'tag-mentora' : 'tag-mentoreada';
+                renderPairs();
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById('pairs-container').innerHTML = `<div class="empty-state">Error: ${err.message}</div>`;
+            }
+        }
+
+        function getBrechaColor(mentada, other) {
+            if (mentada === null || other === null) return 'rgba(255,255,255,0.1)';
+            const diff = mentada - other;
+            if (diff >= 20) return 'rgba(239,68,68,0.2)'; // Rojo (Punto Ciego)
+            if (diff >= 10) return 'rgba(245,158,11,0.2)'; // Amarillo
+            if (diff >= 0) return 'rgba(16,185,129,0.2)'; // Verde
+            return 'rgba(0,198,255,0.2)'; // Azul (Subestimacion)
+        }
+        function getBrechaTextColor(mentada, other) {
+            if (mentada === null || other === null) return '#fff';
+            const diff = mentada - other;
+            if (diff >= 20) return '#EF4444'; 
+            if (diff >= 10) return '#F59E0B';
+            if (diff >= 0) return '#10B981';
+            return '#00C6FF';
+        }
+
+        function calculateAverage(brechas) {
+            if(!brechas) return 0;
+            let sum = 0; let count = 0;
+            for(let key of COMPETENCIAS) {
+                if(brechas[key] !== undefined && brechas[key] !== null) {
+                    sum += brechas[key];
+                    count++;
+                }
+            }
+            return count > 0 ? Math.round(sum / count) : 0;
+        }
+
+        function renderPairs() {
+            const container = document.getElementById('pairs-container');
+            const search = document.getElementById('search-input').value.toLowerCase();
+            const filter = document.getElementById('status-filter').value;
+            
+            let html = '';
+            let stats = { completo: 0, parcial: 0, vacio: 0, total: 0 };
+            let missingList = [];
+
+            // Limpiar Canvas anteriores (Chart.js no le gusta que se re-usen los canvas sin destruirse)
+            Object.values(Chart.instances).forEach(i => i.destroy());
+
+            const pairsArray = Object.values(globalPairs).sort((a,b) => a.id.localeCompare(b.id));
+            const chartDataArray = [];
+
+            pairsArray.forEach(pair => {
+                const mentadaName = pair.mentadaUser ? (pair.mentadaUser.name || pair.mentadaUser.full_name) : (usersMap[`0226${pair.id}`] || 'Mentada Desconocida');
+                const mentoraName = pair.mentoraUser ? (pair.mentoraUser.name || pair.mentoraUser.full_name) : (usersMap[`0126${pair.id}`] || 'Mentora Desconocida');
+                
+                const pinMentada = `0226${pair.id}`;
+                const pinMentora = `0126${pair.id}`;
+
+                let evalMentada = pair.mentadaRow ? pair.mentadaRow.resultados?.brechas : (pair.mentoraRow ? pair.mentoraRow.resultados?.brechasAuto : null);
+                let evalMentora = pair.mentoraRow ? pair.mentoraRow.resultados?.brechas : null;
+                let evalJefe = pair.mentoraRow ? pair.mentoraRow.resultados?.brechas_jefe : null;
+
+                let state = 'vacio';
+                let missingStr = [];
+                if (!evalMentada && !evalMentora && !evalJefe) {
+                    state = 'vacio';
+                    stats.vacio++;
+                    missingStr.push(`Ninguna evaluación para Pareja ${pair.id}`);
+                } else if (evalMentada && evalMentora && evalJefe) {
+                    state = 'completo';
+                    stats.completo++;
+                } else {
+                    state = 'parcial';
+                    stats.parcial++;
+                    if(!evalMentada) missingStr.push(`Autoeval Mentada ${pinMentada}`);
+                    if(!evalMentora) missingStr.push(`Eval Mentora ${pinMentora}`);
+                    if(!evalJefe) missingStr.push(`Eval Jefe (para Mentada ${pinMentada})`);
+                }
+                
+                if (missingStr.length > 0) {
+                    missingList.push(...missingStr);
+                }
+                stats.total++;
+
+                // Búsqueda
+                const searchStr = `${mentadaName} ${mentoraName} ${pinMentada} ${pinMentora}`.toLowerCase();
+                if (search && !searchStr.includes(search)) return;
+                
+                // Filtro
+                if (filter !== 'all' && filter !== state) return;
+
+                let badgeHtml = '';
+                if(state === 'completo') badgeHtml = `<span class="pair-status status-completo">✅ Diagnóstico Completo (Mentada + Mentora + Jefe)</span>`;
+                else if (state === 'parcial') badgeHtml = `<span class="pair-status status-parcial">⚠️ Diagnóstico Parcial</span>`;
+                else badgeHtml = `<span class="pair-status status-vacio">🔴 Sin Diagnóstico</span>`;
+
+                // Construir Tabla
+                let tableRows = '';
+                let dMentada = [], dMentora = [], dJefe = [];
+
+                COMPETENCIAS.forEach(comp => {
+                    const vMentada = evalMentada && evalMentada[comp] !== undefined ? evalMentada[comp] : null;
+                    const vMentora = evalMentora && evalMentora[comp] !== undefined ? evalMentora[comp] : null;
+                    const vJefe = evalJefe && evalJefe[comp] !== undefined ? evalJefe[comp] : null;
+
+                    dMentada.push(vMentada || 0);
+                    dMentora.push(vMentora || 0);
+                    dJefe.push(vJefe || 0);
+
+                    const maxOther = Math.max(vMentora || 0, vJefe || 0);
+                    const brechaDisplay = (vMentada !== null && maxOther > 0) ? (vMentada - maxOther) : '--';
                     
-                    const fecha = new Date(row.created_at).toLocaleDateString() + ' ' + new Date(row.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    
-                    const r = row.resultados;
-                    const ppm = r?.lectura?.ppm || '--';
-                    const comp = r?.lectura?.comprensión !== undefined ? r.lectura.comprensión : (r?.lectura?.comprension !== undefined ? r.lectura.comprension : '--');
-                    
-                    const scoreMentoria = r?.mentoria?.total ? r.mentoria.total + '%' : 'N/A';
-                    
-                    let brechas = r?.brechas || {};
-                    let compList = Object.entries(brechas)
-                        .filter(([k,v]) => v !== null && v !== undefined)
-                        .sort((a,b) => a[1] - b[1]);
+                    const bgBadge = getBrechaColor(vMentada, maxOther);
+                    const colorBadge = getBrechaTextColor(vMentada, maxOther);
+                    const s_brecha = brechaDisplay !== '--' ? `<span class="brecha-badge" style="background:${bgBadge}; color:${colorBadge}">${brechaDisplay > 0 ? '+'+brechaDisplay : brechaDisplay}%</span>` : '--';
 
-                    let brechasJefe = r?.brechas_jefe || null;
-                    let compListJefe = brechasJefe ? Object.entries(brechasJefe)
-                        .filter(([k,v]) => v !== null && v !== undefined)
-                        .sort((a,b) => a[1] - b[1]) : null;
-
-                    function buildCompetenciesHtml(list) {
-                        if (!list || list.length === 0) return '<span style="color:var(--text-secondary); font-size:0.8rem;">Sin competencias registradas</span>';
-                        return '<div style="display:flex; flex-wrap:wrap; gap:4px; max-width:420px;">' +
-                            list.map(([name, val]) => {
-                                let badgeColor = val <= 40 ? 'background:rgba(239,68,68,0.2); color:#EF4444; border:1px solid rgba(239,68,68,0.4);' : 
-                                                (val <= 69 ? 'background:rgba(245,158,11,0.2); color:#F59E0B; border:1px solid rgba(245,158,11,0.4);' : 
-                                                'background:rgba(16,185,129,0.15); color:#10B981; border:1px solid rgba(16,185,129,0.3);');
-                                return `<span style="padding:2px 7px; border-radius:6px; font-size:0.75rem; font-weight:500; ${badgeColor}">${name}: <strong>${val}%</strong></span>`;
-                            }).join('') +
-                        '</div>';
-                    }
-
-                    let brechasHtml = '';
-                    if (compListJefe) {
-                        brechasHtml += '<div style="margin-bottom:6px;">';
-                        brechasHtml += '<strong style="color:var(--accent-water); font-size:0.75rem;">Visión Mentora:</strong>';
-                        brechasHtml += buildCompetenciesHtml(compList);
-                        brechasHtml += '</div>';
-                        brechasHtml += '<div>';
-                        brechasHtml += '<strong style="color:var(--water); font-size:0.75rem;">Visión Jefe:</strong>';
-                        brechasHtml += buildCompetenciesHtml(compListJefe);
-                        brechasHtml += '</div>';
-                    } else {
-                        brechasHtml = buildCompetenciesHtml(compList);
-                    }
-
-                    html += `
+                    tableRows += `
                         <tr>
-                            <td>${fecha}</td>
-                            <td style="font-weight:bold; letter-spacing:1px;">${row.user_pin}</td>
-                            <td><span class="tag ${tagClass}">${row.user_role || '--'}</span></td>
-                            <td><span class="score-box">${ppm}</span> / ${comp}%</td>
-                            <td><span class="score-box" style="color:var(--accent-fire);">${scoreMentoria}</span></td>
-                            <td>${brechasHtml}</td>
+                            <td class="comp-name">${comp}</td>
+                            <td class="val-mentada">${vMentada !== null ? vMentada+'%' : '-'}</td>
+                            <td class="val-mentora">${vMentora !== null ? vMentora+'%' : '-'}</td>
+                            <td class="val-jefe">${vJefe !== null ? vJefe+'%' : '-'}</td>
+                            <td>${s_brecha}</td>
                         </tr>
                     `;
                 });
-                tbody.innerHTML = html || '<tr><td colspan="6" class="empty-state">No hay resultados de diagnósticos registrados.</td></tr>';
-            } catch (err) {
-                console.error(err);
-                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Excepción al cargar datos: ${err.message}. Verifica tu conexión a internet o si el CDN de Supabase está bloqueado.</td></tr>`;
-            }
+                
+                // Average Score footer logic
+                let scoreMentada = calculateAverage(evalMentada);
+                let colorM = scoreMentada >= 70 ? 'var(--accent-jefe)' : (scoreMentada >= 50 ? '#F59E0B' : '#EF4444');
+
+                html += `
+                    <div class="pair-card">
+                        <div>
+                            <div class="pair-header">
+                                <div class="pair-title">
+                                    👤 ${mentadaName} <span style="color:var(--text-secondary); font-size:1rem;">(Mentada ${pinMentada})</span> 
+                                    <span style="color:var(--text-secondary); font-size:1rem; margin:0 8px;">←</span> 
+                                    ${mentoraName} <span style="color:var(--text-secondary); font-size:1rem;">(Mentora ${pinMentora})</span>
+                                </div>
+                                ${badgeHtml}
+                            </div>
+                            
+                            <table class="comp-table">
+                                <thead>
+                                    <tr>
+                                        <th style="width: 40%">Competencia</th>
+                                        <th>Mentada</th>
+                                        <th>Mentora</th>
+                                        <th>Jefe</th>
+                                        <th>Brecha</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${tableRows}
+                                </tbody>
+                            </table>
+                            
+                            <div class="pair-footer">
+                                <div><strong>Score Promedio Mentada:</strong> <span style="color:${colorM}">${scoreMentada}%</span></div>
+                                ${pair.mentadaRow?.resultados?.lectura ? `<div><strong>Lectura (Mentada):</strong> ${pair.mentadaRow.resultados.lectura.ppm || '--'} PPM / Comprensión: ${pair.mentadaRow.resultados.lectura.comprensión !== undefined ? pair.mentadaRow.resultados.lectura.comprensión : pair.mentadaRow.resultados.lectura.comprension}%</div>` : ''}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="chart-container">
+                                <canvas id="chart_${pair.id}"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                chartDataArray.push({
+                    id: pair.id,
+                    mentada: dMentada,
+                    mentora: dMentora,
+                    jefe: dJefe
+                });
+            });
+
+            if (html === '') html = '<div class="empty-state">No se encontraron parejas con esos filtros.</div>';
+            container.innerHTML = html;
+
+            // Render Semaphore
+            document.getElementById('semaforo-box').innerHTML = `
+                <div class="semaforo-title">📊 Estado de Diagnósticos (${stats.total} Parejas Totales)</div>
+                <div class="semaforo-stats">
+                    <div class="semaforo-item"><span>✅</span> <strong>${stats.completo} pareja(s)</strong> con diagnóstico completo (3/3)</div>
+                    <div class="semaforo-item"><span>⚠️</span> <strong>${stats.parcial} pareja(s)</strong> con diagnóstico parcial</div>
+                    <div class="semaforo-item"><span>🔴</span> <strong>${stats.vacio} pareja(s)</strong> sin diagnóstico</div>
+                </div>
+                ${missingList.length > 0 ? `<div class="pendientes-list"><strong>Pendientes Principales:</strong><br>${missingList.slice(0, 5).join('<br>')}${missingList.length > 5 ? '<br>...y más' : ''}</div>` : ''}
+            `;
+
+            // Draw Charts
+            setTimeout(() => {
+                chartDataArray.forEach(data => {
+                    const canvas = document.getElementById(`chart_${data.id}`);
+                    if (!canvas) return;
+                    new Chart(canvas, {
+                        type: 'radar',
+                        data: {
+                            labels: COMPETENCIAS.map(c => c.split(' ')), // Split into multiple lines for radar
+                            datasets: [
+                                {
+                                    label: 'Autoevaluación Mentada',
+                                    data: data.mentada,
+                                    backgroundColor: 'rgba(0, 198, 255, 0.2)',
+                                    borderColor: 'rgba(0, 198, 255, 1)',
+                                    pointBackgroundColor: 'rgba(0, 198, 255, 1)',
+                                    borderWidth: 2
+                                },
+                                {
+                                    label: 'Visión Mentora',
+                                    data: data.mentora,
+                                    backgroundColor: 'rgba(255, 94, 0, 0.2)',
+                                    borderColor: 'rgba(255, 94, 0, 1)',
+                                    pointBackgroundColor: 'rgba(255, 94, 0, 1)',
+                                    borderWidth: 2
+                                },
+                                {
+                                    label: 'Visión Jefe',
+                                    data: data.jefe,
+                                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                                    borderColor: 'rgba(16, 185, 129, 1)',
+                                    pointBackgroundColor: 'rgba(16, 185, 129, 1)',
+                                    borderWidth: 2
+                                }
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                r: {
+                                    angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                                    pointLabels: { color: '#8A8F98', font: { size: 10 } },
+                                    ticks: { display: false, min: 0, max: 100 }
+                                }
+                            },
+                            plugins: {
+                                legend: { position: 'bottom', labels: { color: 'white', font: { size: 11 } } }
+                            }
+                        }
+                    });
+                });
+            }, 100);
         }
 
         async function loadAvance() {
@@ -287,6 +665,79 @@
 
             try {
                 const { data: usersData, error: usersError } = await _supabase.from('mentoras_users').select('*');
+                const { data: progressData, error: progressError } = await _supabase.from('mentoras_progress').select('*').order('updated_at', { ascending: false });
+
+                if (!usersData || usersData.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No hay usuarios registrados.</td></tr>';
+                    return;
+                }
+
+                const progressMap = {};
+                if (progressData) {
+                    progressData.forEach(p => { progressMap[p.user_id] = p; });
+                }
+
+                let html = '';
+                usersData.sort((a, b) => {
+                    const roleA = a.role || ''; const roleB = b.role || '';
+                    if (roleA !== roleB) return roleA.localeCompare(roleB);
+                    const nameA = a.name || a.full_name || ''; const nameB = b.name || b.full_name || '';
+                    return nameA.localeCompare(nameB);
+                });
+
+                usersData.forEach(user => {
+                    const pin = user.pin || '';
+                    if (pin === '010101' || pin.endsWith('07') || pin === '012699') return;
+                    
+                    const pairId = pin.length >= 2 ? pin.slice(-2) : '';
+                    let hasDiag = false;
+                    if(globalPairs[pairId]) {
+                        if (pin.startsWith('0226') && globalPairs[pairId].mentadaRow) hasDiag = true;
+                        if (pin.startsWith('0126') && globalPairs[pairId].mentoraRow) hasDiag = true;
+                    }
+
+                    const prog = progressMap[user.id];
+                    const currentDay = prog ? prog.current_day : 1;
+                    const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
+                    const totalDays = 45; // Assumed program length
+                    const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
+                    
+                    let lastActivity = '--';
+                    if (prog && prog.updated_at) {
+                        lastActivity = new Date(prog.updated_at).toLocaleDateString() + ' ' + new Date(prog.updated_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    }
+
+                    const tagClass = (user.role || '').toLowerCase() === 'mentora' ? 'tag-mentora' : 'tag-mentoreada';
+
+                    html += `
+                        <tr>
+                            <td style="font-weight: 500;">
+                                ${hasDiag ? '<span title="Diagnóstico Inicial Completado">✅</span>' : '<span title="Falta Diagnóstico Inicial">❌</span>'} 
+                                ${user.name || user.full_name || '--'}
+                            </td>
+                            <td style="font-weight:bold; letter-spacing:1px;">${user.pin}</td>
+                            <td><span class="tag ${tagClass}">${user.role || '--'}</span></td>
+                            <td><span class="score-box" style="color:var(--accent-water);">D&iacute;a ${currentDay}</span></td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <span class="score-box">${completedCount}</span>
+                                    <div style="flex:1; min-width: 100px;">
+                                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${percentage}%"></div></div>
+                                        <div style="font-size:0.7rem; color:var(--text-secondary); text-align:right; margin-top:2px;">${percentage}%</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="font-size:0.85rem; color:var(--text-secondary);">${lastActivity}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html || '<tr><td colspan="6" class="empty-state">No hay datos de avance que mostrar.</td></tr>';
+            } catch (err) {
+                console.error(err);
+                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Excepción al cargar avance: ${err.message}.</td></tr>`;
+            }
+        }
+ = await _supabase.from('mentoras_users').select('*');
                 if (usersError) {
                     console.error(usersError);
                     tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Error al cargar usuarios: ${usersError.message}.</td></tr>`;
