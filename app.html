@@ -958,8 +958,8 @@ function continueToComprension() {
                 }
 
             // Intentar cargar MP3 primero
-            const rolePrefix = (currentUser && currentUser.role === 'Mentora') ? 'mentora' : 'mentada';
-            mp3Audio = new Audio(`https://unbaagnuwdhavqkajory.supabase.co/storage/v1/object/public/audios/${rolePrefix}_dia_${currentDay}.mp3?v=1`);
+            const roleSuffix = (currentUser && currentUser.role === 'Mentora') ? 'Mentora' : 'Mentoreadas';
+            mp3Audio = new Audio(`https://unbaagnuwdhavqkajory.supabase.co/storage/v1/object/public/audios/Dia${currentDay}${roleSuffix}.mp3?v=1`);
             mp3Audio.play().catch(err => {
                 // Fallback a SpeechSynthesis si no existe el MP3
                 console.log("No MP3 found, falling back to TTS", err);
