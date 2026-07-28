@@ -198,45 +198,6 @@
 .mirror-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:20px;margin-bottom:12px; }
             select option { background-color: #1a1a1c; color: #fff; }
         input, textarea, select { color-scheme: dark; }
-
-        /* ---- SCHULTE / FOCUS MODALS ---- */
-        .cogn-modal { position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.97);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px; }
-        .cogn-modal.open { display:flex; }
-        .cogn-close { position:absolute;top:16px;right:20px;background:transparent;border:none;color:#8A8F98;font-size:2rem;cursor:pointer;line-height:1; }
-        /* Schulte Grid */
-        #schulte-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(320px,88vw); }
-        .s-cell { aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-family:'Outfit';font-size:1.1rem;font-weight:600;color:#fff;cursor:pointer;transition:all .15s; }
-        .s-cell:active { transform:scale(.93); }
-        .s-cell.found { background:rgba(16,185,129,.2);border-color:#10b981;color:#10b981; }
-        .s-cell.wrong { background:rgba(255,69,0,.15);border-color:#FF4500; animation:shake .25s; }
-        #schulte-timer { font-family:'Outfit';font-size:2.4rem;font-weight:700;color:#FF5E00;margin:18px 0 6px; }
-        #schulte-target { font-size:.9rem;color:#8A8F98;margin-bottom:14px; }
-        /* Focus Modal */
-        #focus-canvas { border-radius:50%;background:rgba(0,198,255,.05);border:1px solid rgba(0,198,255,.12); }
-        #focus-instruction { font-size:.85rem;color:#8A8F98;text-align:center;max-width:260px;margin-top:14px;line-height:1.6; }
-        /* Playbook Tactics */
-        .pb-step { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;margin-bottom:12px; }
-        .pb-step-label { font-size:.65rem;color:#FF5E00;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px; }
-        .pb-step-title { font-family:'Outfit';font-size:.95rem;color:#fff;font-weight:600;margin-bottom:6px; }
-        .pb-step-body { font-size:.82rem;color:#8A8F98;line-height:1.6; }
-        .pb-accent { color:#FF5E00;font-weight:600; }
-        .pb-cyan { color:#00C6FF;font-weight:600; }
-        .pb-note-field { width:100%;min-height:70px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Inter';font-size:.82rem;resize:vertical;margin-top:8px;outline:none;transition:border-color .2s; }
-        .pb-note-field:focus { border-color:rgba(255,94,0,.4); }
-        .pb-nav { display:flex;gap:10px;margin-bottom:20px;align-items:center; }
-        .pb-nav-btn { background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:10px;padding:8px 14px;font-family:'Outfit';font-size:.82rem;cursor:pointer;transition:all .2s; }
-        .pb-nav-btn:hover { background:rgba(255,255,255,.1); }
-        .pb-nav-btn.active { background:rgba(255,94,0,.15);border-color:rgba(255,94,0,.4);color:#FF5E00; }
-        .pb-day-badge { font-family:'Outfit';font-size:1.1rem;font-weight:700;color:#FF5E00;flex:1;text-align:center; }
-        /* Caso cards style */
-        .caso-card { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .2s; }
-        .caso-card:active { transform:scale(.98);background:rgba(255,255,255,.06); }
-        .caso-card h4 { font-family:'Outfit';font-size:.95rem;color:#fff;margin-bottom:6px; }
-        .caso-card p { font-size:.78rem;color:#8A8F98;line-height:1.5; }
-        .caso-tag { display:inline-block;font-size:.62rem;background:rgba(0,198,255,.1);color:#00C6FF;border:1px solid rgba(0,198,255,.2);border-radius:20px;padding:3px 10px;margin-top:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px; }
-        #sala-modal.active, #crisis-modal-mm.active { display:block; }
-        .opt-btn { width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:13px 16px;color:#ddd;font-family:'Inter';font-size:.85rem;margin-bottom:8px;cursor:pointer;transition:all .2s; }
-        .opt-btn:active { opacity:.8; }
 </style>
 </head>
 <body>
@@ -271,7 +232,22 @@
         <main class="scrollable">
             <!-- DASHBOARD -->
 
-      <!-- DASHBOARD -->
+      <!-- NEURO-READING MANIFESTO -->
+      <div class="card" style="background:linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,0,0,0.4)); border:1px solid var(--cyan); border-radius:16px; padding:20px; margin-bottom:24px;">
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+          <div style="background:var(--cyan-glow); color:var(--cyan); padding:5px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;">🧠 TU ENTRENAMIENTO COGNITIVO</div>
+        </div>
+        <h3 style="font-family:'Outfit'; font-size:1.3rem; margin-bottom:8px; color:#fff;">La Meta: 600 Palabras Por Minuto</h3>
+        <p style="font-size:0.8rem; color:var(--text-secondary); line-height:1.5; margin-bottom:12px;">
+          Este programa es un gimnasio para tu cerebro. Al finalizar, tu meta es procesar información al doble de velocidad con retención profunda.
+        </p>
+        <ul style="font-size:0.75rem; color:var(--text-secondary); padding-left:15px; line-height:1.6; margin-bottom:0;">
+          <li><strong style="color:var(--cyan);">No subvocalices:</strong> Usa el botón de Lectura Biónica para guiar tus ojos rápidamente.</li>
+          <li><strong style="color:var(--gold);">Velocidad de comprensión:</strong> Cada sesión calcula tu velocidad. Fuerza tu vista un 20% más rápido hoy.</li>
+        </ul>
+      </div>
+
+            
             <div id="view-dashboard" class="view active">
                 <div class="hero-progress stagger-1" style="display:flex; flex-direction:column; align-items:center;">
                     <div class="ring-wrapper" style="position:relative; width:200px; height:200px;">
@@ -312,54 +288,208 @@
 
             <!-- SESIÓN -->
             <div id="view-session" class="view">
-                
-<div class="card" style="background:linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,0,0,0.4)); border:1px solid var(--accent-water); border-radius:16px; padding:20px; margin-bottom:24px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div style="background:rgba(0,198,255,0.15); color:var(--accent-water); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;"> ENTRENAMIENTO COGNITIVO & LECTURA BIÓNICA</div>
-    </div>
-    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:6px; color:#fff;">Tu Espacio de Preparación Neuro-Lectora</h3>
-    <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">
-        Antes de guiar a tu mentoreada, ejercita tu cerebro con la lectura del día, evalúa tu velocidad (PPM) con comprensión profunda y completa la rutina neuropedagógica.
-    </p>
-    <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:16px; line-height:1.6;">
-        <li><strong style="color:var(--accent-water);">Modo Biónico:</strong> Usa el resaltado de fijación para apagar la subvocalización.</li>
-        <li><strong style="color:#FFD700;">Recall Activo:</strong> Responde el quiz sin volver al texto para fortalecer tu memoria de trabajo.</li>
-    </ul>
-</div>
-
-<div class="session-hero stagger-1">
+                <div class="session-hero stagger-1">
                     <div class="badge-premium">Bloque 5 • Día 41</div>
                     <h2 class="display-font" style="font-size: 1.8rem; line-height: 1.1;">La Realidad del Poder</h2>
                 </div>
 
                 <div class="timeline stagger-2">
-
-<div id="mentora-timeline-container">
-<!-- Se inyectara dinamicamente por JS -->
+                    <!-- F1 -->
+                    <div class="phase completed">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>1. Ancla Cognitiva</h4><span class="phase-duration">2m</span></div>
+                        
+<div id="breathing-ui" style="text-align:center; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-subtle);">
+    <div id="b-circle" style="width: 100px; height: 100px; border-radius: 50%; background: var(--accent-water); margin: 0 auto; transition: all 1s linear; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; font-weight: bold; opacity: 0.8;"></div>
+    <p id="b-text" style="margin-top: 15px; font-weight: bold; color: white;">Ciclo 4-8-16. Oxigena tu cerebro.</p>
+    <button id="b-start-btn" class="btn-outline" style="margin-top: 15px; font-size: 0.8rem;" onclick="startBreathing()">Iniciar 2 Ciclos</button>
 </div>
 
-</div>
+                    </div>
+
+                    <!-- F2 (TEXTO RESTAURADO COMPLETO) -->
+                    <div class="phase active">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4 style="color: var(--accent-fire);">2. Lectura Táctica</h4><span class="phase-duration" style="color:var(--accent-fire);">12m</span></div>
+                        <button class="btn-outline" id="btn-bionic" onclick="toggleBionic()" style="margin-top: 10px;">⚡ Lectura Biónica <span style="font-size:0.6rem;opacity:0.7;display:block;">(Entrena tu salto visual)</span></button>
+                        
+                        <div class="reader-premium" id="reader-content">
+                            <h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">La Identidad de Liderazgo — Lo que no te enseñaron</h4>
+                            <p class="reader-p">Herminia Ibarra, experta en liderazgo y comportamiento organizacional, estudió cómo las personas desarrollan una identidad de liderazgo y por qué muchas mujeres altamente capaces encuentran mayores obstáculos para avanzar profesionalmente. Uno de sus aportes más importantes es demostrar que el problema no es únicamente la falta de talento o experiencia. El verdadero desafío muchas veces está en la <strong>construcción de identidad</strong>.</p>
+                            
+                            <h5 style="color: var(--accent-fire); margin: 20px 0 8px; font-family: 'Outfit';">LA IDEA CENTRAL: ACTUAR PRIMERO</h5>
+                            <p class="reader-p">La teoría de Ibarra rompe una creencia tradicional: Las personas no desarrollan liderazgo primero en la mente. Lo desarrollan mediante la acción. Primero actuamos de manera diferente, luego cambiamos cómo nos percibimos, y finalmente transformamos nuestra identidad. Muchas mujeres esperan sentirse seguras o tener absoluta confianza antes de asumir retos más grandes. Sin embargo, la seguridad aparece <em>después</em> de la experiencia, no antes.</p>
+                            
+                            <h5 style="color: var(--accent-fire); margin: 20px 0 8px; font-family: 'Outfit';">IMPACTO DE LA FALTA DE IDENTIDAD</h5>
+                            <ul style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 16px; padding-left: 20px; line-height: 1.6;">
+                                <li style="margin-bottom: 8px;"><strong>Visibilidad reducida:</strong> Las mujeres trabajan intensamente pero minimizan su impacto y evitan exponerse. La invisibilidad limita enormemente el crecimiento.</li>
+                                <li style="margin-bottom: 8px;"><strong>Dudas ante oportunidades:</strong> Esperan cumplir el 100% de los requisitos, no porque tengan menos capacidad, sino porque no se sienten completamente autorizadas a ocupar ese espacio.</li>
+                                <li style="margin-bottom: 8px;"><strong>Síndrome del Impostor:</strong> Sienten constantemente que "no son suficientes" o "serán descubiertas", produciendo ansiedad, perfeccionismo extremo y miedo constante al error.</li>
+                                <li style="margin-bottom: 8px;"><strong>Carreras más pequeñas:</strong> Reducen sus aspiraciones y evitan espacios de poder, no porque no puedan, sino porque internamente todavía no se autorizan a ocupar espacios más grandes.</li>
+                                <li><strong>Redes limitadas:</strong> Priorizan el trabajo operativo sobre la construcción de redes estratégicas, lo cual afecta el patrocinio y la visibilidad.</li>
+                            </ul>
+                            
+                            <h5 style="color: var(--accent-fire); margin: 20px 0 8px; font-family: 'Outfit';">EL ROL TRANSFORMADOR DE LA MENTORA (TU AUTO-MAESTRÍA)</h5>
+                            <p class="reader-p">El impacto cultural en Latinoamérica intensifica estos sesgos, donde a las mujeres se les enseña a "ser humildes" y "no hablar demasiado fuerte". Por esto, estudios regionales (como INCAE) muestran que el 78% de las ejecutivas atribuyen su éxito a la suerte, redes o el momento oportuno, reflejando cómo la competencia femenina es sistemáticamente subevaluada.</p>
+                            <p class="reader-p">El mensaje más poderoso es este: La identidad de liderazgo no aparece esperando; se construye actuando. <strong>Pero aquí está la clave: tú, como mentora, no estás lista al 100% (nadie lo está).</strong> Tu primera misión no es ser perfecta, sino estar dispuesta a examinar y sanar tu propia identidad de liderazgo primero. No puedes liderar a otra mujer hacia un territorio de seguridad que no has conquistado tú misma. Al sanar tu propio síndrome del impostor, ganas la autoridad moral y la empatía profunda para ayudar a tu mentoreada a reconocer su propio poder. Construir tu identidad, construirá la de ella.</p>
+                        </div>
+                        
+                        <div id="ppm-box" style="display: none; margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 0.85rem;"></div>
+                        
+<div id="sticky-timer-wrapper" style="position: sticky; top: 10px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--accent-fire); margin-bottom: 10px;">
+    <button class="btn-premium fire" id="btn-timer" style="width: 100%;" onclick="toggleTimer()">Iniciar Cronómetro</button>
+    <div id="re-read-prompt" style="display: none; margin-top: 10px; font-size: 0.9rem;">
+        <p style="color: white; margin-bottom: 8px;">¿Hay algo que no entendiste?</p>
+        <div style="display: flex; gap: 10px;">
+            <button class="btn-outline" style="flex:1; font-size:0.7rem;" onclick="resetTimer()">🔁 Repetir Lectura</button>
+            <button class="btn-primary" style="flex:1; font-size:0.7rem;" onclick="continueToComprension()">✅ Continuar a Comprensión</button>
+        </div>
+    </div>
 </div>
 
-<!-- LIBRETA (PLAYBOOK DE MENTORÍA 1-a-1) -->
+                    </div>
+
+                    <!-- F3 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>3. Síntesis Ejecutiva</h4><span class="phase-duration">1m</span></div>
+                        <div id="f3-vocab-container" style="margin-bottom: 12px; font-size: 0.85rem; color: #a1a1aa; background: rgba(0,0,0,0.2); padding: 8px; border-radius: 6px; display: none;"></div>
+                        <p class="phase-desc">Como mentora, debes destilar conocimiento complejo en principios simples.</p>
+                        <input type="text" id="f3-input" class="input-premium" placeholder="Resume la idea principal en 1 frase para tu mentoreada...">
+                        <button class="btn-outline" id="f3-save-btn" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 3); document.getElementById('f3-input').disabled = true;">💾 Guardar Síntesis</button>
+                    </div>
+
+                    <!-- F4 (SCORING) -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
+                        <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo. Al iniciar el test, el texto de lectura desaparecerá permanentemente. No puedes regresar.</p>
+                        
+                        <div id="test-intro">
+                            <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
+                        </div>
+                        
+                        <div id="test-content" style="display: none; margin-top: 16px;">
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>1. Según la evidencia longitudinal de Herminia Ibarra, la identidad de liderazgo se consolida cuando:</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="0"> a) El individuo transforma su autoimagen primero mediante introspección.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="1"> b) El individuo ensaya comportamientos directivos y luego ajusta su autoimagen.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q1" value="0"> c) El individuo adquiere las competencias técnicas y la posición formal.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>2. ¿Cuál es el síntoma más claro de ocupar una posición formal pero carecer de identidad de liderazgo?</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q2" value="0"> a) Delegar demasiadas tareas operativas al equipo.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q2" value="0"> b) Mostrar exceso de autoritarismo y falta de empatía.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q2" value="1"> c) Requerir validación externa constante o regresar a un modo de ejecución individual bajo presión.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>3. Según el estudio de INCAE, el 78% de las ejecutivas atribuyen su éxito a:</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q3" value="1"> a) Suerte, red de contactos y estar en el momento oportuno.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q3" value="0"> b) Exceso de trabajo técnico y largas jornadas laborales.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q3" value="0"> c) Una superioridad estratégica frente a sus pares masculinos.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>4. Este patrón de atribución externa en las mujeres NO es un problema clínico de autoestima, sino el resultado predecible de:</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q4" value="0"> a) Una falta innata de agresividad biológica en el entorno corporativo.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q4" value="0"> b) El síndrome del impostor que afecta a todos los seres humanos por igual.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q4" value="1"> c) Operar durante años en entornos donde la competencia femenina es sistemáticamente subevaluada.</label>
+                            </div>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>5. ¿Por qué una mentora debe obligatoriamente examinar su propia identidad de liderazgo?</strong></p>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q5" value="0"> a) Porque la empresa requiere una evaluación de desempeño para habilitarla como mentora.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q5" value="1"> b) Para no transmitir inconscientemente a su mentoreada los mismos patrones limitantes que ella porta.</label>
+                                <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q5" value="0"> c) Para poder presumir su impecable trayectoria frente a su mentoreada con total autoridad.</label>
+                            </div>
+
+                            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
+                        </div>
+                        <div id="recall-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px; border: 1px solid transparent;"></div>
+                    </div>
+
+                    <!-- F5 (ANALÓGICO: CUADERNO FÍSICO) -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
+                        <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Abre tu Libreta MindJump. Recuerda tu último gran ascenso o logro corporativo. Dibuja un gráfico de pastel. ¿Qué porcentaje le atribuiste internamente a la 'suerte/redes' y cuánto a tu 'competencia técnica'? Tacha ese gráfico y dibuja uno nuevo reclamando el 100% de la autoridad sobre tu trayectoria.</p>
+                        <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
+                    </div>
+
+                    <!-- F6 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc">La memoria espacial es la más fuerte. Usando el anclaje espacial, liga la información a tu cuerpo. Toca tu cabeza (mente racional) y visualiza la palabra 'Identidad'. Ahora toca tus manos (acción táctil) y visualiza el 'Comportamiento Directivo'. Recuerda: el cambio baja de la cabeza a las manos. El cuerpo recuerda lo que la mente olvida.</p>
+                    </div>
+
+                    <!-- F7 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc" style="margin-bottom: 8px;"><em>Base Científica: Transferir patrones entre dominios demuestra alta Inteligencia Fluida.</em></p>
+                        <input type="text" class="input-premium" placeholder="Si la Identidad es el músculo, actuar sin estar lista es...">
+                    </div>
+
+                    <!-- F8 (ANALÓGICO: CUADERNO FÍSICO) -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>8. Zona de Riesgo Identitario</h4><span class="phase-duration">5m</span></div>
+                        <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Identifica 1 decisión corporativa o conversación difícil que has estado posponiendo por sentirte "no lista". Escríbela en papel. Ahora, anota el primer paso táctico que darás HOY mismo para ejecutarla, actuando desde la líder que ya eres.</p>
+                        <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_2')">Marcar como Hecho a Mano</button>
+                    </div>
+
+                    <!-- F9 -->
+                    <div class="phase completed">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
+                        <p class="phase-desc">Aplica cada 7 sesiones. Hoy descansa.</p>
+                    </div>
+
+                    <!-- F10 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
+                        <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+                        <p class="phase-desc" style="margin-top: 8px;">Evalúa cómo aprendiste hoy. ¿Qué concepto te costó más trabajo interiorizar? Abre tu Libreta MindJump y escribe a mano tu mayor bloqueo cognitivo de hoy para ajustar tu estrategia mañana.</p>
+                        <button id="btn-analog-3" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_3')">Marcar como Hecho a Mano</button>
+                    </div>
+
+                    <!-- F11 -->
+                    <div class="phase">
+                        <div class="phase-node"></div>
+                        <div class="phase-header"><h4>11. Ensayo Somático (Estado del Ser)</h4><span class="phase-duration">2m</span></div>
+                        <p class="phase-desc">Tu cerebro subconsciente no distingue entre un evento real y uno vívidamente imaginado. Cierra los ojos. Visualízate en la junta directiva más intimidante de este mes. Observa tu postura. Siente la firmeza en tu voz al presentar. Reclama el espacio. Siente la certeza absoluta de tu competencia. Ancla esta emoción en tu pecho. Estás recableando tu red neuronal para el éxito AHORA.</p>
+                    </div>
+
+                    <!-- F12 (AUDIO ESPIRITUAL + TMR) -->
+                    <div class="phase active">
+                        <div class="phase-node" style="background: var(--accent-water); box-shadow: 0 0 0 4px rgba(0,198,255,0.2), 0 0 0 8px var(--bg-absolute);"></div>
+                        <div class="phase-header"><h4 style="color: var(--accent-water);">12. Modo Sueño (Consciencia y Paz)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
+                        <p class="phase-desc">Ponte audífonos. Esta fase durará 8 minutos. La onda Theta inducirá un sueño profundo, mientras que la voz te guiará para integrar el poder ejecutivo con la paz interior, la armonía y el amor, elevando la consciencia de tu entorno.</p>
+                        
+                        <div class="audio-pill" id="audio-pill" onclick="toggleAudio()">
+                            <div class="play-circle" id="play-circle"><div class="play-icon"></div></div>
+                            <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+                            <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Espiritual + Theta 6Hz</span>
+                        </div>
+                        
+                        <div id="subtitles-box" style="display:none; margin-top: 12px; padding: 16px; background: rgba(0,198,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; font-style: italic; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;">
+                            <!-- Subs appear here -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- LIBRETA (PLAYBOOK DE MENTORÍA 1-a-1) -->
             <!-- LIBRETA (PLAYBOOK DIGITAL) -->
             <div id="view-libreta" class="view">
-                
-<div class="card" style="background:linear-gradient(135deg, rgba(255,94,0,0.05), rgba(0,0,0,0.4)); border:1px solid var(--accent-fire); border-radius:16px; padding:20px; margin-bottom:24px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div style="background:rgba(255,94,0,0.15); color:var(--accent-fire); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;"> GUÍA DE FACILITACIÓN 1-A-1</div>
-    </div>
-    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:6px; color:#fff;">Tu Hoja de Ruta para la Sesión con tu Mentada</h3>
-    <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">
-        Estructura la transformación de tu mentoreada en 2 momentos clave:
-    </p>
-    <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:16px; line-height:1.6;">
-        <li><strong style="color:var(--accent-fire);">Paso 1 (Auto-Maestría):</strong> Completa tus 3 ejercicios de preparación antes de la reunión.</li>
-        <li><strong style="color:var(--accent-water);">Paso 2 (Sesión 1-a-1):</strong> Envía el ancla de WhatsApp 24h antes, lanza la pregunta de coaching socrático y ejecuta el ejercicio de valor en vivo durante la reunión.</li>
-    </ul>
-</div>
-
-<div class="session-hero">
+                <div class="session-hero">
                     <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Táctico</h2>
                     <p style="color: var(--text-secondary); font-size: 0.85rem;">Guía elevada para transformar a la mujer latina ejecutiva.</p>
                 </div>
@@ -406,22 +536,7 @@
       <p style="color:#8A8F98;font-size:.82rem;margin-top:4px">Tus herramientas como mentora</p>
     </div>
 
-    
-<div class="card" style="background:linear-gradient(135deg, rgba(16,185,129,0.05), rgba(0,0,0,0.4)); border:1px solid var(--success); border-radius:16px; padding:20px; margin-bottom:24px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div style="background:rgba(16,185,129,0.15); color:var(--success); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;"> CENTRO DE APOYO & CONTINGENCIAS</div>
-    </div>
-    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:6px; color:#fff;">Tu Caja de Herramientas de Mentoría</h3>
-    <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">
-        Respuestas tácticas para desatascar sesiones y calibrar tu criterio de liderazgo:
-    </p>
-    <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:16px; line-height:1.6;">
-        <li><strong style="color:var(--success);">Coach de Crisis:</strong> Toca cualquier tarjeta cuando tu mentada llore, no avance, se muestre defensiva o se estanque la sesión.</li>
-        <li><strong style="color:var(--accent-water);">Sala de Casos:</strong> Resuelve escenarios reales y recibe retroalimentación metodológica (Candor Radical, Escucha U, Humble Inquiry).</li>
-    </ul>
-</div>
-
-<!-- MI IMPACTO -->
+    <!-- MI IMPACTO -->
     <div class="kit-sec-title">📊 Mi Impacto</div>
     <div class="kit-stat-grid">
       <div class="kit-stat"><div class="val" id="km-dias">0</div><div class="lbl">Días activos</div></div>
@@ -461,45 +576,20 @@
       <div id="crisis-mm-content"></div>
     </div>
 
-    <!-- ENTRENAMIENTO COGNITIVO -->
-    <div class="kit-sec-title">🧠 Entrenamiento Cognitivo</div>
-    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Ejercicios para acelerar tu visión y procesamiento.</p>
-    <div class="crisis-grid-mm">
-      <div class="crisis-btn-mm" onclick="abrirSchulte()">
-        <span class="cbi">🔢</span>
-        <span class="cbl">Tabla de Schulte<br><span style="font-size:.6rem;opacity:.6">Visión periférica</span></span>
-      </div>
-      <div class="crisis-btn-mm" onclick="abrirFocus()">
-        <span class="cbi">🎯</span>
-        <span class="cbl">Focus Visual<br><span style="font-size:.6rem;opacity:.6">Salto ocular</span></span>
-      </div>
-    </div>
-
     <!-- SALA DE CASOS -->
-    <div class="kit-sec-title">⚔️ Sala de Casos Socráticos</div>
-    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Simulaciones de situaciones reales. Elige la respuesta socrática correcta.</p>
+    <div class="kit-sec-title">⚔️ Sala de Casos</div>
+    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Simulaciones de situaciones reales de mentoría.</p>
     <div id="sala-casos-list">
         <div class="caso-card" onclick="abrirCaso(0)">
-          <h4>Caso 1: La Primera Sesión que Falla</h4>
-          <p>Tu mentoreada llega con los brazos cruzados y monosílabos. ¿Cómo activas la apertura?</p>
-          <span class="caso-tag">Candor Radical</span>
+          <h4>Caso 1: La Primera Sesion que Falla</h4>
+          <p>Tu mentoreada llega a la primera sesion con los brazos cruzados, monosilabica. Cuando le p...</p>
+          <span class="caso-tag">Disponible</span>
         </div>
         <div class="caso-card" onclick="abrirCaso(1)">
-          <h4>Caso 2: La Escalera del Drama</h4>
-          <p>Ella construyó una narrativa de víctima sobre su jefe. Tú debes separar datos de inferencias.</p>
-          <span class="caso-tag">Escalera de Inferencia</span>
-        </div>
-        <div class="caso-card" onclick="abrirCaso(2)">
-          <h4>Caso 3: El Triángulo Oculto</h4>
-          <p>Tu mentoreada te pide que tomes partido en un conflicto con su equipo. Detecta el rol.</p>
-          <span class="caso-tag">Triángulo de Karpman</span>
-        </div>
-        <div class="caso-card" onclick="abrirCaso(3)">
-          <h4>Caso 4: La Pregunta que Ella No Esperaba</h4>
-          <p>Tu mentoreada llegó con la solución ya decidida. Tu tarea: hacerla pensar desde cero.</p>
-          <span class="caso-tag">Humble Inquiry</span>
-        </div>
-    </div>
+          <h4>Caso 2: El Éxito Inesperado</h4>
+          <p>Tu mentoreada acaba de recibir una promocion grande. Te lo cuenta por WhatsApp: 'Lo logre!...</p>
+          <span class="caso-tag">Disponible</span>
+        </div></div>
     <div id="sala-modal">
       <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:16px">
         <h3 id="sala-title" style="font-family:'Outfit';font-size:1.1rem;max-width:85%"></h3>
@@ -515,30 +605,6 @@
       <p>Se activa al completar 5 días del bloque. Revela tu estilo dominante, tus brechas como mentora y los patrones que estás replicando sin saberlo.</p>
       <span id="espejo-status" class="caso-tag">🔒 Completa 5 días</span>
     </div>
-  </div>
-</div>
-
-<!-- MODAL SCHULTE -->
-<div id="schulte-modal" class="cogn-modal">
-  <button class="cogn-close" onclick="cerrarSchulte()">×</button>
-  <div style="font-family:'Outfit';font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:4px">Tabla de Schulte</div>
-  <div id="schulte-target" style="font-size:.85rem;color:#8A8F98;margin-bottom:12px;">Encuentra el: <strong id="schulte-next" style="color:#FF5E00;font-size:1.2rem;">—</strong></div>
-  <div id="schulte-timer">0.0s</div>
-  <div id="schulte-grid"></div>
-  <div id="schulte-result" style="margin-top:16px;font-family:'Outfit';font-size:1rem;color:#10b981;text-align:center;min-height:24px;"></div>
-  <button id="schulte-start" onclick="iniciarSchulte()" class="btn-premium fire" style="margin-top:18px;padding:13px 32px;border-radius:14px;font-size:.9rem;">▶ Iniciar Entrenamiento</button>
-</div>
-
-<!-- MODAL FOCUS VISUAL -->
-<div id="focus-modal" class="cogn-modal">
-  <button class="cogn-close" onclick="cerrarFocus()">×</button>
-  <div style="font-family:'Outfit';font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:4px">Focus Visual</div>
-  <div style="font-size:.78rem;color:#8A8F98;margin-bottom:14px;">Sigue el punto con tu mirada. No muevas la cabeza.</div>
-  <canvas id="focus-canvas" width="280" height="280"></canvas>
-  <div id="focus-instruction">Mantén el punto de fijación central en tu visión. Deja que tus ojos salten suavemente al punto azul.</div>
-  <div style="margin-top:16px;display:flex;gap:12px;">
-    <button onclick="iniciarFocus()" class="btn-premium water" style="padding:12px 24px;border-radius:12px;font-size:.85rem;">▶ Iniciar</button>
-    <button onclick="cerrarFocus()" class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:.85rem;">Cerrar</button>
   </div>
 </div>
 
@@ -643,10 +709,6 @@
                 pinCount++;
                 
                 if (pinCount === dots.length) {
-                    if (currentPin === '010101') {
-                        window.location.href = 'dashboard_diagnostico.html';
-                        return;
-                    }
                     try {
                         const { data, error } = await _supabase
                             .from('mentoras_users')
@@ -866,54 +928,22 @@ function continueToComprension() {
 
         function evaluarRecall() {
             let correctas = 0;
-            // Evaluador Dinamico
-            let qData = [];
-            if (window.activeTrackData) {
-                const d = window.activeTrackData.find(x => x.dia === currentDay);
-                if (d && d.preguntas) qData = d.preguntas;
-            }
-            
             for(let i=1; i<=5; i++) {
                 const radios = document.getElementsByName('q' + i);
-                let selectedVal = -1;
+                let selected = false;
                 for(let r of radios) {
                     if(r.checked) {
-                        selectedVal = parseInt(r.value);
+                        selected = true;
+                        if(r.value === "1") correctas++;
                     }
                 }
-                
-                let correctIdx = 1; // fallback
-                if(qData[i-1]) {
-                    const q = qData[i-1];
-                    correctIdx = (q.correct !== undefined) ? q.correct : q.answer;
-                } else {
-                    // Legacy fallback
-                    for(let r of radios) {
-                        if(r.checked && r.value === "1") selectedVal = 1;
-                    }
-                }
-                
-                if(selectedVal === correctIdx) correctas++;
             }
             let score = (correctas / 5) * 100;
-            let ppmText = document.getElementById('dash-ppm') ? document.getElementById('dash-ppm').innerText : "0";
-            let basePPM = ppmText.includes('PPM') ? ppmText.match(/\d+/)[0] : (ppmText || "Pendiente");
+            let ppmText = document.getElementById('ppm-box').innerText;
+            let basePPM = ppmText.includes('PPM') ? ppmText.match(/\d+/)[0] : "Pendiente";
             
-            // Guardar progreso en el array y BD
-            if (!progresoLocal[currentDay]) progresoLocal[currentDay] = {};
-            progresoLocal[currentDay].comprension = score;
-            progresoLocal[currentDay].ppm = basePPM;
-            progresoLocal[currentDay].completado = true;
-            
-            if (currentUser && _supabase) {
-                _supabase.from('mentoras_progress').upsert({
-                    user_id: currentUser.id,
-                    current_day: currentDay,
-                    ppm: basePPM,
-                    comprension: score,
-                    completado: true
-                }).then(() => console.log('Progreso guardado'));
-            }
+            localStorage.setItem('invictus_recall_score', score);
+            localStorage.setItem('invictus_recall_ppm', basePPM);
             
             const res = document.getElementById('recall-result');
             res.style.display = 'block';
@@ -927,16 +957,6 @@ function continueToComprension() {
             } else {
                 res.innerHTML = `<strong>🚨 Fuga Cognitiva</strong><br>Comprensión: ${score}%<br><span style="font-size:0.8rem; color:var(--text-secondary);">Tu atención divagó. Debes mejorar el enfoque mañana.</span>`;
                 res.style.background = "rgba(255, 69, 0, 0.2)"; res.style.color = "#FF4500"; res.style.border = "1px solid #FF4500";
-            }
-            
-            // Evaluar Espejo de Liderazgo (5 dias)
-            const diasCompletos = Object.values(progresoLocal).filter(d => d.completado).length;
-            if (diasCompletos === 5 && !localStorage.getItem('espejo_revelado')) {
-                localStorage.setItem('espejo_revelado', 'true');
-                setTimeout(() => {
-                    alert('🎉 ESPEJO DE LIDERAZGO REVELADO\\n\\n¡Has completado 5 días de actividad! Según tus respuestas y velocidad, tu perfil de mentoría es: MENTORA ESTRATEGA.\\n\\nFortaleza: Transformación de la visión a la acción.\\n\\nVe a "Mi Kit" para ver los detalles.');
-                    if(window.renderKitMentoria) window.renderKitMentoria();
-                }, 1500);
             }
         }
 
@@ -988,8 +1008,8 @@ function continueToComprension() {
                 }
 
             // Intentar cargar MP3 primero
-            const roleSuffix = (currentUser && currentUser.role === 'Mentora') ? 'Mentora' : 'Mentoreadas';
-            mp3Audio = new Audio(`https://unbaagnuwdhavqkajory.supabase.co/storage/v1/object/public/audios/Dia${currentDay}${roleSuffix}.mp3?v=1`);
+            const rolePrefix = (currentUser && currentUser.role === 'Mentora') ? 'mentora' : 'mentada';
+            mp3Audio = new Audio(`https://unbaagnuwdhavqkajory.supabase.co/storage/v1/object/public/audios/${rolePrefix}_dia_${currentDay}.mp3?v=1`);
             mp3Audio.play().catch(err => {
                 // Fallback a SpeechSynthesis si no existe el MP3
                 console.log("No MP3 found, falling back to TTS", err);
@@ -1819,64 +1839,6 @@ window.abrirCrisisMM = function(id) {
     document.body.style.overflow = '';
   };
 
-window.cerrarCrisisMM = function() {
-    const m = document.getElementById('crisis-modal-mm');
-    if (m) m.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
-  window.abrirCaso = function(idx) {
-    const caso = CASOS_DATA[idx];
-    if (!caso) return;
-    const m = document.getElementById('sala-modal');
-    const t = document.getElementById('sala-title');
-    const ct = document.getElementById('sala-content');
-    if (!m || !t || !ct) return;
-    t.textContent = caso.title;
-    let html = '<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:16px;margin-bottom:20px;font-size:.85rem;color:#ddd;line-height:1.7">' + caso.setup + '</div>';
-    html += '<div style="font-size:.72rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">OPCIONES</div>';
-    html += '<div id="sala-opts">';
-    caso.options.forEach((opt, i) => {
-      html += '<button class="opt-btn" onclick="elegirOpcion(' + idx + ',' + i + ')">';
-      html += '<strong>' + ['A','B','C','D'][i] + '.</strong> ' + opt.label;
-      html += '</button>';
-    });
-    html += '</div>';
-    html += '<div id="sala-feedback" style="display:none;margin-top:20px"></div>';
-    html += '<div id="sala-prompt-wrap" style="display:none;margin-top:20px"><div style="font-size:.78rem;color:' + ACCENT + ';font-weight:600;margin-bottom:10px">' + (caso.prompt||'Tu reflexión:') + '</div><textarea id="sala-answer" style="width:100%;min-height:90px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px;color:#fff;font-family:Inter;font-size:.85rem" placeholder="Escribe aquí..."></textarea><button onclick="guardarCaso(' + idx + ')" style="margin-top:12px;width:100%;padding:13px;background:linear-gradient(135deg,' + ACCENT + ',#FF8C00);color:#fff;border:none;border-radius:12px;font-family:Outfit;font-size:.95rem;cursor:pointer">Guardar mi reflexión</button></div>';
-    ct.innerHTML = html;
-    m.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  };
-
-  window.elegirOpcion = function(casoIdx, optIdx) {
-    const caso = CASOS_DATA[casoIdx];
-    const opt = caso.options[optIdx];
-    document.querySelectorAll('.opt-btn').forEach((btn, i) => {
-      btn.style.borderColor = (i === optIdx) ? (opt.correct ? '#10b981' : '#ef4444') : 'rgba(255,255,255,.06)';
-      btn.style.opacity = (i === optIdx) ? '1' : '.4';
-    });
-    const fb = document.getElementById('sala-feedback');
-    const color = opt.correct ? '#10b981' : '#ef4444';
-    fb.style.display = 'block';
-    fb.innerHTML = '<div style="background:rgba(255,255,255,.03);border:1px solid ' + color + ';border-radius:14px;padding:16px"><div style="color:' + color + ';font-weight:600;margin-bottom:8px">' + (opt.correct ? '✓ ' : '✗ ') + opt.concept + '</div><p style="font-size:.83rem;color:#ddd;line-height:1.6">' + opt.feedback + '</p></div>';
-    document.getElementById('sala-prompt-wrap').style.display = 'block';
-  };
-
-  window.guardarCaso = function(idx) {
-    const ans = document.getElementById('sala-answer').value.trim();
-    if (!ans) return;
-    localStorage.setItem('mm_b1_caso_' + idx, ans);
-    window.cerrarSala();
-    window.renderKitMentoria();
-  };
-
-  window.cerrarSala = function() {
-    const m = document.getElementById('sala-modal');
-    if (m) m.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-
   // Render on tab switch
   const _origSwitch = window.switchTab;
   window.switchTab = function(viewId, navEl) {
@@ -1885,6 +1847,7 @@ window.cerrarCrisisMM = function() {
     if (viewId === 'view-libreta' && typeof window.renderMenteePanel === 'function') window.renderMenteePanel();
   };
 
+})();
 
 /* MI MENTOREADA — Objetivos SMART, Calendario, Bitácora, Compromisos (MVP) */
 /* Llaves globales (no prefijadas por bloque) para que persistan entre los 8 archivos Bloque_Premium.html */
@@ -1904,7 +1867,7 @@ window.cerrarCrisisMM = function() {
   function setArr(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
   function newId() { return 'id' + Date.now() + Math.floor(Math.random()*1000); }
   function fmtDate(iso) {
-    if (!iso) return '—';
+
     const d = new Date(iso + 'T00:00:00');
     if (isNaN(d.getTime())) return iso;
     return d.toLocaleDateString('es-ES', { day: '2-digit', month: 'short' });
@@ -2234,737 +2197,6 @@ window.updateKitStats = function() {
 };
 
 // -----------------------------------
-
-/* ============================================================
-   MISSING CORE FUNCTIONS — CASOS_DATA, PLAYBOOK, SCHULTE, FOCUS
-   ============================================================ */
-
-/* ---------- PROGRESS LOCAL (base para Kit Stats) ---------- */
-var progresoLocal = JSON.parse(localStorage.getItem('invictus_progreso') || '{}');
-function saveProgresoLocal() { localStorage.setItem('invictus_progreso', JSON.stringify(progresoLocal)); }
-
-/* ---------- ACCENT (usada en templates de crisis/casos) ---------- */
-var ACCENT = '#FF5E00';
-
-/* ---------- CASOS_DATA — 4 Casos Socráticos completos ---------- */
-var CASOS_DATA = [
-  {
-    title: 'Caso 1: La Primera Sesión que Falla',
-    setup: 'Tu mentoreada llega a la primera sesión con los brazos cruzados, monosílabos y mirando el teléfono. Cuando le preguntas "¿Cómo estás?", responde "Bien". Llevan 5 minutos en silencio. Necesitas romper el hielo SIN que se sienta interrogada ni juzgada. ¿Qué haces primero?',
-    prompt: 'Describe en tus palabras qué principio de Candor Radical usarías aquí y cómo abrirías esa sesión:',
-    options: [
-      { label: 'Le dices directamente: "Noto que no tienes ganas de estar aquí. ¿Qué necesitarías para que esto valiera tu tiempo?"', correct: true, concept: '✓ Candor Radical (cuidado personal + desafío directo)', feedback: 'Correcto. Kim Scott define Candor Radical como "cuidar personalmente" y "desafiar directamente" al mismo tiempo. Esta respuesta hace ambas cosas: muestra que la ves (cuidado) y nombra la realidad sin rodeos (desafío). No acusa; invita a cocrear.' },
-      { label: 'Ignoras la tensión y comienzas tu agenda: "Hoy vamos a revisar tus metas del bloque..."', correct: false, concept: '✗ Empatía Destructiva (evitar el conflicto)', feedback: 'Incorrecto. Esto es Empatía Destructiva — priorizas la comodidad de la sesión sobre la verdad de la relación. La tensión no desaparece, se acumula y destruye la confianza a largo plazo.' },
-      { label: 'Le dices: "Sé que no quieres estar aquí, pero es obligatorio. Hagámoslo rápido."', correct: false, concept: '✗ Agresividad Desagradable (desafío sin cuidado)', feedback: 'Incorrecto. Esto desafía sin cuidar. Aunque es honesto, la agresividad elimina el componente de cuidado personal que es la base del Candor Radical. Genera defensividad, no apertura.' }
-    ]
-  },
-  {
-    title: 'Caso 2: La Escalera del Drama',
-    setup: 'Tu mentoreada lleva 15 minutos describiendo a su jefe: "Es un manipulador que bloquea mis ideas deliberadamente. Ya sé que lo hace para que no avance. Todo el equipo lo ve." Tú notas que su narrativa mezcla datos reales con inferencias como hechos. ¿Cuál es tu intervención?',
-    prompt: '¿Cuál fue la inferencia más peligrosa en su relato y cómo la desmontas con una pregunta?',
-    options: [
-      { label: 'Le preguntas: "¿Qué viste o escuchaste exactamente que te hizo concluir que lo hace deliberadamente?"', correct: true, concept: '✓ Escalera de Inferencia (bajando al piso de los datos)', feedback: 'Perfecto. Chris Argyris describe la Escalera de Inferencia: subimos datos → selección → interpretación → supuesto → conclusión → acción, sin notar los peldaños intermedios. Tu pregunta la obliga a bajar al primer peldaño: ¿qué observaste realmente? Esto separa los datos de la narrativa.' },
-      { label: 'Validas su narrativa: "Entiendo, eso suena muy injusto. Tu jefe claramente tiene un problema de ego."', correct: false, concept: '✗ Validar la inferencia como dato', feedback: 'Incorrecto. Al validar la narrativa, refuerzas la inferencia como hecho y cierras la posibilidad de que ella vea su propia escalada de interpretaciones. No ayudas; le añades un peldaño más.' },
-      { label: 'Cambias el tema: "Olvidemos a tu jefe. ¿Qué puedes controlar tú?"', correct: false, concept: '✗ Bypass del conflicto central', feedback: 'Incorrecto. Aunque redirigir hacia el locus de control es útil eventualmente, hacerlo ANTES de examinar la narrativa deja intacta la creencia limitante. Ella necesita ver la escalera, no saltarla.' }
-    ]
-  },
-  {
-    title: 'Caso 3: El Triángulo Oculto',
-    setup: 'Tu mentoreada llega furiosa: "Necesito que me digas si tengo razón. Mi colega Andrea me saboteó en la presentación. Yo la defiendo siempre y ella me hizo esto. No puedo creerlo." Te pide que tomes partido. Sientes el impulso de consolarla. ¿Qué haces?',
-    prompt: '¿En qué rol del Triángulo de Karpman está ella ahora, y cuál es el riesgo si entras como Rescatadora?',
-    options: [
-      { label: 'Le nombras el patrón: "Noto que en esta historia hay una víctima, una perseguidora y me estás pidiendo que sea la rescatadora. ¿Qué pasaría si en lugar de eso te hago una pregunta?"', correct: true, concept: '✓ Nombrando el Triángulo de Karpman', feedback: 'Excelente. El Triángulo de Karpman describe tres roles inconscientes: Víctima, Perseguidor, Rescatador. Si entras como Rescatadora (tomando partido), la refuerzas en el rol de Víctima y niegas su agencia. Nombrar el patrón rompe el triángulo sin abandonarla.' },
-      { label: 'Validas su dolor y le dices que Andrea se equivocó: "Tienes razón, eso es una traición. ¿Cómo quieres responder?"', correct: false, concept: '✗ Entrar como Rescatadora', feedback: 'Incorrecto. Al validar y juzgar a Andrea, entras al Triángulo como Rescatadora. Esto refuerza la identidad de Víctima de tu mentoreada y crea dependencia. Cuando el conflicto cambie, tú podrías convertirte en la Perseguidora.' },
-      { label: 'La corriges: "Creo que tú también tienes parte de responsabilidad en esto."', correct: false, concept: '✗ Convertirte en Perseguidora', feedback: 'Incorrecto. Aunque busca responsabilidad, hacerlo en caliente, sin rapport, te convierte en Perseguidora. El momento correcto para explorar su responsabilidad es después de que ella salga del rol de Víctima, no antes.' }
-    ]
-  },
-  {
-    title: 'Caso 4: La Pregunta que Ella No Esperaba',
-    setup: 'Tu mentoreada llega con la solución ya decidida: "Ya sé lo que debo hacer: pedir un aumento esta semana o renuncio." Tiene una energía de ultimátum. Internamente sientes que la decisión puede ser impulsiva. ¿Cuál es tu primer movimiento?',
-    prompt: 'Escribe la pregunta de Humble Inquiry que usarías para abrirle el pensamiento sin bloquear su agencia:',
-    options: [
-      { label: '"¿Qué te llevaría a estar segura de que renunciar esta semana es la decisión correcta para el próximo año de tu vida?"', correct: true, concept: '✓ Humble Inquiry (curiosidad genuina sin agenda)', feedback: 'Perfecto. Edgar Schein define Humble Inquiry como preguntar desde curiosidad real, sin saber la respuesta, sin agenda oculta. Esta pregunta abre el horizonte temporal (próximo año), invita a pensar en evidencia (qué te llevaría a estar segura) y respeta totalmente su agencia.' },
-      { label: '"Creo que estás actuando desde el impulso emocional. ¿Has dormido bien esta semana?"', correct: false, concept: '✗ Consejo disfrazado de pregunta', feedback: 'Incorrecto. Esta pregunta ya contiene un juicio (actuando desde impulso) y una teoría (falta de sueño). No es Humble Inquiry; es una observación con signos de interrogación. Produce defensividad, no reflexión.' },
-      { label: '"¿Has evaluado cuánto tiempo te tomaría conseguir un trabajo similar?"', correct: false, concept: '✗ Pregunta con agenda implícita', feedback: 'Incorrecto. Esta pregunta introduce tu agenda implícita (que ella mida el costo de renunciar). No nace de curiosidad genuina; nace de tu miedo a que cometa un error. Humble Inquiry exige soltar la agenda.' }
-    ]
-  }
-];
-
-
-/* ---------- PLAYBOOK_DATA — 8 días del Bloque 1 ---------- */
-
-/* ---------- MOCKS INYECTADOS ---------- */
-const THETA_SCRIPTS = [
-    { dia: 1, guion: "Respira profundo. Estás entrando en un estado de paz absoluta. La identidad de liderazgo no se espera; se ejerce..." },
-    { dia: 2, guion: "Siente el peso de la gravedad anclándote. Tu valor no depende de tus logros, sino de tu existencia..." },
-    { dia: 3, guion: "Visualiza tu zona de influencia expandiéndose como una luz. No necesitas pedir permiso para brillar..." },
-    { dia: 4, guion: "El síndrome del impostor es solo una señal de crecimiento. Estás expandiendo tu territorio. Acéptalo y avanza..." },
-    { dia: 5, guion: "Siente tu columna recta. Esa es la postura de la autoridad moral. Las personas confían en quienes confían en sí mismos..." },
-    { dia: 6, guion: "Tus miedos corporativos son fantasmas del pasado. El presente te exige actuar con absoluta certeza..." },
-    { dia: 7, guion: "Imagina la junta más difícil. Mírate liderando la conversación. Estás recableando tu neuroplasticidad AHORA..." },
-    { dia: 8, guion: "La paz y el poder coexisten en ti. No tienes que elegir. Eres la estratega y la luz de tu entorno..." },
-    { dia: 9, guion: "Suelta la necesidad de aprobación. Tu impacto habla por sí mismo. Descansa en la certeza de tu vocación..." },
-    { dia: 10, guion: "Eres invencible no porque no caigas, sino porque tu identidad no se fractura con el error. Duerme y reinicia..." }
-];
-/* -------------------------------------- */
-
-var PLAYBOOK_DATA = {
-  1: {
-    tema: 'Identidad de Liderazgo',
-    autor: 'Herminia Ibarra',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'Antes de guiar a alguien, debes examinar tu propia brújula de liderazgo.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe en tu libreta MindJump: ¿Cuándo fue la última vez que tomaste una decisión de liderazgo sin esperar permiso? ¿Cómo se sintió tu cuerpo?' },
-        { icon:'💬', label:'WhatsApp Previo (enviar antes de la sesión)', text:'"Mañana exploraremos la primera pregunta que toda lideresa evita: ¿estás aquí por competencia o por accidente? Lleva tu respuesta honesta."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy tu meta NO es darle respuestas. Es hacerle la pregunta que ella nunca se ha hecho a sí misma.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Estás aquí por competencia real o porque las circunstancias te pusieron aquí?" — Deja que la respuesta flote en el silencio 10 segundos. No la rescates.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Pídele que enumere 3 decisiones de alto riesgo que tomó sin permiso en los últimos 12 meses. Para cada una: ¿qué sabía que sabía? ¿Qué sabía que no sabía? ¿Qué no sabía que no sabía?' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Antes de terminar: identifica 1 conversación difícil que lleva más de 15 días postergando. Fija la fecha en que la tendrá esta semana. Ese es su primer acto de identidad de liderazgo.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "no lo sé" más de 2 veces, cambia la pregunta: "¿Qué diría la versión tuya de dentro de 3 años sobre esta situación?" Eso activa el observador interno sin activar la defensividad.' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'Envíale este mensaje 24 horas después: "¿Tuviste la conversación? No me importa cómo salió. Me importa que la hayas tenido. Eso es ser lideresa."' }
-      ]
-    }
-  },
-  2: {
-    tema: 'Atención y Multitasking',
-    autor: 'Daniel Goleman',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'El multitasking no es una habilidad de alto rendimiento. Es el disfraz del miedo al aburrimiento.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Cuenta: ¿cuántas veces revisaste el teléfono durante la lectura de hoy? Escríbelo. Sin juicio. Solo el dato.' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablaremos del hábito que más drena tu poder ejecutivo. Trae tu agenda y el recuento honesto de cuántas ventanas tienes abiertas cuando trabajas."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no enseñas concentración. Hoy modelas concentración. Apaga todas las notificaciones antes de entrar a la sesión.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿De qué estás huyendo emocionalmente cuando revisas el teléfono en una reunión de alto riesgo?" — La respuesta honesta aquí es oro puro.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Protocolo de Auditoría de Atención: pídele que abra su agenda del lunes pasado. ¿Cuántos bloques de trabajo profundo sin interrupciones tiene? (Ninguno cuenta como respuesta.) Calcula el costo: si cada interrupción cuesta 23 minutos de recuperación (Gloria Mark, UCI), ¿cuántas horas de trabajo profundo perdió?' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: bloquear 1 ventana de 90 minutos de trabajo profundo cada día. Teléfono boca abajo, notificaciones apagadas, puerta cerrada. Registrar en papel cuánto logra en ese bloque vs. en el resto del día.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "es que mi trabajo requiere estar disponible": "¿Tu jefe contrata una CEO o una secretaria de sí misma? La disponibilidad constante es el lujo que no se pueden permitir las lideresas de alto impacto."' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Lograste el bloque de 90 min? Dime el número concreto: ¿cuántos logros de alta palanca completaste en él?"' }
-      ]
-    }
-  },
-  3: {
-    tema: 'Escucha Nivel 3',
-    autor: 'Otto Scharmer',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'La mayoría escucha Nivel 1 (desde sus propios pensamientos) o Nivel 2 (desde los hechos del otro). El Nivel 3 es escuchar lo que aún no ha sido dicho.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Recuerda la última sesión con tu mentoreada. ¿Escuchaste para responder o para entender su dolor más profundo? ¿Cuál fue la frase que más te incomodó? ¿Por qué?' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana auditaremos la calidad de tu escucha. Prepárate para descubrir cuánto tiempo de la sesión hablas TÚ. (La respuesta correcta es: menos del 40%.)"' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy en la sesión: mide internamente el porcentaje del tiempo en que hablas tú. Si supera el 40%, es señal de que la sesión fue tuya, no de ella.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Antes de que me cuentes lo de esta semana — ¿qué es lo que más te cuesta decirme hoy?" Espera 15 segundos sin llenar el silencio.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Protocolo de Escucha Espejo: ella habla 3 minutos sobre un desafío actual. Tú solo escuchas, sin tomar notas. Al final, le reflejas: "Lo que escuché fue... ¿es eso?" — No interpretes, no resumas con tus palabras, solo refleja las de ella.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: en 1 reunión difícil, practicar escucha Nivel 2 completa — no interrumpir, no dar consejos, solo preguntas. Registrar cómo cambia la dinámica de la reunión.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si se siente incómoda con el silencio: "El silencio que sientes es la resistencia de tu cerebro a no llenar el espacio con soluciones. Ese malestar es exactamente el músculo que estamos entrenando."' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuándo fue la última vez que alguien se fue de una reunión contigo sintiéndose profundamente escuchada? ¿Cómo lo sabes?"' }
-      ]
-    }
-  },
-  4: {
-    tema: 'Escalera de Inferencia',
-    autor: 'Chris Argyris',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'Subimos de los datos brutos a las conclusiones en milisegundos, sin notar los peldaños que saltamos.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Recuerda un conflicto reciente en tu trabajo. Escribe: ¿cuáles fueron los DATOS REALES que observaste? ¿Cuántos peldaños subiste antes de concluir lo que concluiste?' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana separaremos el drama de los datos. Trae el conflicto que más te está drenando energía esta semana — pero solo los hechos observables, sin interpretación."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Cuando ella diga "él siempre" o "ella nunca", mentalmente anota: peldaño de generalización. Tu trabajo es bajarla al primer peldaño.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Si asumiéramos que no tienes todos los datos sobre la intención de la otra persona, ¿qué cambiaría en tu narrativa?" — Esta pregunta es el desarmador de conflictos más potente que existe.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Dibuja juntas la Escalera de Inferencia para su conflicto actual: Datos observables → Selección de datos → Interpretación → Supuesto → Conclusión → Acción. Identifica en qué peldaño su conclusión pierde contacto con los datos reales.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: antes de responder a un email que la active emocionalmente, ella debe escribir en papel las 3 interpretaciones alternativas posibles de esa comunicación antes de enviar su respuesta.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si insiste en que su interpretación es correcta: "Puede que tengas razón. Y también es posible que tengas razón y la otra persona también tenga razón desde su propia escalera. ¿Cuál de las dos interpretaciones te da más poder de acción?"' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"Cuéntame: ¿tuviste una situación donde aplicaste la escalera esta semana? ¿Cuál fue el dato real que cambiaste por inferencia?"' }
-      ]
-    }
-  },
-  5: {
-    tema: 'Autoeficacia y Evidencia',
-    autor: 'Albert Bandura',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'La autoeficacia no es creer que puedes hacerlo todo. Es creer que puedes aprender lo que necesitas cuando lo necesitas.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe 3 momentos donde actuaste sin certeza completa y funcionó. Esos no son éxitos de suerte — son evidencia de autoeficacia real.' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana trabajaremos en construir el archivo de evidencia más poderoso que tienes: tu propio historial de éxito. Llega con 3 logros que atribuiste a la suerte o las circunstancias."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Tu trabajo hoy es ayudarla a recuperar la autoría de su éxito. Nada de lo que logró fue accidente.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Dime algo que lograste en los últimos 3 meses que internamente atribuiste a la suerte, a alguien más o al momento oportuno." — Cuando ella lo diga, pregunta: "¿Y qué hiciste TÚ para estar en posición de aprovecharlo?"' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Construir juntas el "Archivo de Evidencia": 5 logros concretos de los últimos 2 años. Para cada uno: ¿qué decisión tomó ella? ¿qué riesgo asumió? ¿qué competencia aplicó? — Recuperar la autoría de cada éxito.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Identificar 1 oportunidad que ha estado postergando por "no estar lista". Definir qué evidencia de su Archivo de Evidencia prueba que ya está suficientemente lista.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "pero ese caso fue diferente": "¿Diferente en qué? ¿Los desafíos eran distintos o la versión tuya que los resolvió era menos capaz que la de hoy?" — La segunda opción nunca es verdad.' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Aplicaste para algo esta semana que antes habrías descartado por sentirte no lista? Cuéntame el resultado — no el éxito, sino el aprendizaje."' }
-      ]
-    }
-  },
-  6: {
-    tema: 'Escucha de Nivel 3 (Presencia Total)',
-    autor: 'Otto Scharmer',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'La presencia es el acto de dejar entrar el momento tal como es, sin filtrar con tus categorías previas.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Antes de la sesión de hoy: 3 minutos de silencio. Sin teléfono. Sin agenda mental. Solo observa qué pensamientos llegan y déjalos pasar sin seguirlos.' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana tu única tarea es llegar sin agenda. Sin el consejo que ya preparaste. Sin el logro que quieres compartir. Solo tú, presente. ¿Puedes hacer eso?"' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Si en algún momento de la sesión tu mente planea la próxima pregunta mientras ella habla — pausa, regresa, escucha su voz.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué está vivo en ti ahora mismo? No lo que pasó esta semana — lo que está vivo ahora, en este momento." — Esto activa presencia inmediata.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Protocolo de Presencia Somática: 2 minutos cada una con los ojos cerrados, mano en el pecho, observando el ritmo cardíaco. Después: "¿Qué notó tu cuerpo que tu mente no había procesado?" — Llevar eso al centro de la sesión.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: en la reunión de mayor tensión de la semana, hacer una pausa de 30 segundos antes de responder — respirar, notar el cuerpo, luego hablar.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si se desconecta o se va al teléfono: "Noto que algo en esta conversación activó algo en tu cuerpo. ¿Qué fue?" — No es confrontación; es curiosidad hacia la señal.' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuándo en la semana te fuiste a piloto automático y tomaste una decisión sin estar presente? ¿Qué cambiarías?"' }
-      ]
-    }
-  },
-  7: {
-    tema: 'Negociación de Alto Valor',
-    autor: 'Roger Fisher / William Ury',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'Negociar no es pedir. Es demostrar que el valor que entregas supera el costo de lo que solicitas.',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe: ¿cuándo fue la última vez que negociaste algo importante para ti? ¿Qué ZOPA (zona de posible acuerdo) tenías preparada? ¿O improvisaste desde la emoción?' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablaremos del dinero, el poder y las conversaciones que las mujeres evitan. Trae la negociación que has postergado durante más de 30 días."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Tu trabajo hoy: que ella salga de la sesión sabiendo exactamente qué va a pedir, por qué lo merece y cuándo lo va a pedir.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué es lo que más temes que digan cuando pidas lo que mereces? ¿Y si te dijeran exactamente eso — qué harías después?"' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Preparar juntas la negociación usando el modelo de Fisher/Ury: 1) Intereses vs. posiciones (¿qué quiere realmente vs. qué está pidiendo?), 2) BATNA propio (¿mejor alternativa si no hay acuerdo?), 3) Criterios objetivos (¿qué datos externos justifican su pedido?). Escribirlo en papel, no en el teléfono.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Fecha concreta para tener la conversación de negociación esta semana. Si no tiene fecha, la sesión no cuenta.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "no es el momento": "¿Cuándo fue el momento perfecto para algo importante en tu vida? El momento perfecto es una ficción que usa el cerebro para evitar el riesgo. ¿Cuál es el costo de esperar 6 meses más?"' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuánto pediste? ¿Cuánto obtuviste? ¿Cuándo es la próxima conversación de seguimiento?"' }
-      ]
-    }
-  },
-  8: {
-    tema: 'Pensamiento Crítico y Datos',
-    autor: 'Kahneman / Cialdini',
-    paso1: {
-      titulo: 'Tu Preparación Interna',
-      intro: 'El pensamiento crítico no es ser escéptica de todo. Es saber cuándo tu Sistema 1 (automático) está tomando decisiones que necesitan tu Sistema 2 (racional).',
-      ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe la última decisión importante que tomaste rápidamente (Sistema 1). ¿Cuáles fueron los sesgos que probablemente activó? (Ancla, disponibilidad, confirmación...)' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana auditaremos la calidad de tus decisiones de alto riesgo. Trae la decisión más costosa que tomaste este trimestre — y la pregunta que no te hiciste antes de tomarla."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy enseñas a pensar más despacio en lo que importa. La herramienta más valiosa que le puedes dar es la pregunta que nunca se hace.' }
-      ]
-    },
-    paso2: {
-      titulo: 'Guía de la Sesión 1-a-1',
-      secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Cuál es la decisión que tomaste recientemente de la que aún no estás 100% segura? ¿Qué pregunta no te hiciste?"' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Auditoría de Sesgos: tomar una decisión actual de ella y pasarla por 3 filtros: 1) ¿Sesgo de confirmación? (¿busqué solo evidencia que apoya mi conclusión?), 2) ¿Sesgo de disponibilidad? (¿elegí lo primero que recordé?), 3) ¿Sesgo de ancla? (¿el primer número que escuché marcó mi expectativa?). Reescribir la decisión sin esos sesgos.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: antes de cualquier decisión con consecuencias de más de 30 días, escribir en papel 3 razones por las que podría estar equivocada. Luego decidir.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "es que yo confío en mi intuición": "La intuición es el reconocimiento de patrones basado en experiencia. ¿Cuánta experiencia exacta tienes en decisiones de este tipo? ¿Es suficiente para confiar sin Sistema 2?"' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Aplicaste los 3 filtros de sesgo esta semana? ¿Qué decisión revisaste? ¿Qué cambió cuando la miré sin el sesgo?"' }
-      ]
-    }
-  }
-};
-
-
-/* ---------- CURRENT DAY (shared state) ---------- */
-var currentDay = 1;
-var completedDays = [];
-var currentPhaseProgress = {};
-var currentAnswers = {};
-var maxUnlockedDay = 1;
-var mujeresMentorasData = [];
-
-/* ---------- loadMujeresMentorasDay — Inyecta el día en las vistas ---------- */
-
-/* ---------- RENDER DINAMICO DE LA SESION (12 FASES) ---------- */
-function renderMentoraSession(dayIndex) {
-    const container = document.getElementById('mentora-timeline-container');
-    if (!container) return;
-    
-    let d = null;
-    if (window.activeTrackData) {
-        d = window.activeTrackData.find(x => x.dia === dayIndex);
-    }
-    
-    // Fallback data
-    const titulo = d ? (d.titulo || "La Identidad de Liderazgo") : "Entrenamiento Cognitivo";
-    let texto = d && d.texto_lectura ? d.texto_lectura : "Cargando el texto de la base de datos... Por favor asegúrate de estar conectada.";
-    // Simple formatter for paragraphs
-    texto = texto.split('\n').map(p => p.trim() ? `<p class="reader-p">${p}</p>` : '').join('');
-    
-    let preguntasHTML = '';
-    if (d && d.preguntas) {
-        preguntasHTML = d.preguntas.map((q, i) => `
-            <div style="margin-bottom: 20px;">
-                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${i+1}. ${q.q || q.pregunta}</strong></p>
-                ${(q.options || q.opciones).map((opt, j) => `
-                    <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="q${i+1}" value="${j}"> ${opt}</label>
-                `).join('')}
-            </div>
-        `).join('');
-    } else {
-        preguntasHTML = '<p style="color:var(--text-secondary);">Preguntas no disponibles en este momento.</p>';
-    }
-
-    const showFeynman = (dayIndex % 7 === 0);
-    const thetaScript = THETA_SCRIPTS[(dayIndex - 1) % THETA_SCRIPTS.length].guion;
-
-    container.innerHTML = `
-        <!-- F1 -->
-        <div class="phase completed">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>1. Ancla Cognitiva</h4><span class="phase-duration">2m</span></div>
-            <div id="breathing-ui" style="text-align:center; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-subtle);">
-                <div id="b-circle" style="width: 100px; height: 100px; border-radius: 50%; background: var(--accent-water); margin: 0 auto; transition: all 1s linear; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; font-weight: bold; opacity: 0.8;"></div>
-                <p id="b-text" style="margin-top: 15px; font-weight: bold; color: white;">Ciclo 4-8-16. Oxigena tu cerebro.</p>
-                <button id="b-start-btn" class="btn-outline" style="margin-top: 15px; font-size: 0.8rem;" onclick="startBreathing()">Iniciar 2 Ciclos</button>
-            </div>
-        </div>
-
-        <!-- F2 -->
-        <div class="phase active">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4 style="color: var(--accent-fire);">2. Lectura Táctica</h4><span class="phase-duration" style="color:var(--accent-fire);">12m</span></div>
-            <button class="btn-outline" id="btn-bionic" onclick="toggleBionic()" style="margin-top: 10px;">⚡ Lectura Biónica <span style="font-size:0.6rem;opacity:0.7;display:block;">(Entrena tu salto visual)</span></button>
-            <div class="reader-premium" id="reader-content">
-                <h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">${titulo}</h4>
-                ${texto}
-            </div>
-            
-            <div id="ppm-box" style="display: none; margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 0.85rem;"></div>
-            
-            <div id="sticky-timer-wrapper" style="position: sticky; top: 10px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--accent-fire); margin-bottom: 10px;">
-                <button class="btn-premium fire" id="btn-timer" style="width: 100%;" onclick="toggleTimer()">Iniciar Cronómetro</button>
-                <div id="re-read-prompt" style="display: none; margin-top: 10px; font-size: 0.9rem;">
-                    <p style="color: white; margin-bottom: 8px;">¿Hay algo que no entendiste?</p>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn-outline" style="flex:1; font-size:0.7rem;" onclick="resetTimer()">🔁 Repetir Lectura</button>
-                        <button class="btn-primary" style="flex:1; font-size:0.7rem;" onclick="continueToComprension()">✅ Continuar a Comprensión</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- F3 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>3. Síntesis Ejecutiva</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">Como mentora, debes destilar conocimiento complejo en principios simples.</p>
-            <input type="text" id="f3-input" class="input-premium" placeholder="Resume la idea principal en 1 frase para tu mentoreada...">
-            <button class="btn-outline" id="f3-save-btn" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 3); document.getElementById('f3-input').disabled = true;">💾 Guardar Síntesis</button>
-        </div>
-
-        <!-- F4 -->
-        <div class="phase" id="comprension-block" style="display:none;">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
-            <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo. Al iniciar el test, el texto desaparecerá permanentemente.</p>
-            <div id="test-intro">
-                <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
-            </div>
-            <div id="test-content" style="display: none; margin-top: 16px;">
-                ${preguntasHTML}
-                <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
-            </div>
-            <div id="recall-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px; border: 1px solid transparent;"></div>
-        </div>
-
-        <!-- F5 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
-            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
-            <p class="phase-desc" style="margin-top: 8px;">Abre tu Libreta MindJump. Realiza el ejercicio correspondiente a este bloque.</p>
-            <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
-        </div>
-
-        <!-- F6 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">La memoria espacial es la más fuerte. Usando el anclaje espacial, liga la información a tu cuerpo.</p>
-        </div>
-
-        <!-- F7 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
-            <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo...">
-            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 7); document.getElementById('f7-input').disabled = true;">💾 Guardar</button>
-        </div>
-
-        <!-- F8 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>8. Zona de Riesgo Identitario</h4><span class="phase-duration">5m</span></div>
-            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
-            <p class="phase-desc" style="margin-top: 8px;">Identifica tu zona de riesgo de liderazgo HOY.</p>
-            <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_2')">Marcar como Hecho a Mano</button>
-        </div>
-        
-        <!-- F9 -->
-        <div class="phase" style="display: ${showFeynman ? 'block' : 'none'}">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
-            <p class="phase-desc">Explica en voz alta lo aprendido a tu celular o grabadora como si le hablaras a tu mentoreada.</p>
-        </div>
-
-        <!-- F10 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
-            <input type="text" id="f10-input" class="input-premium" placeholder="Escribe tu mayor bloqueo cognitivo hoy...">
-            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 10); document.getElementById('f10-input').disabled = true;">💾 Guardar Metacognición</button>
-        </div>
-
-        <!-- F11 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>11. Ensayo Somático (Estado del Ser)</h4><span class="phase-duration">2m</span></div>
-            <p class="phase-desc">Cierra los ojos y visualiza el comportamiento deseado en tu próxima reunión crítica.</p>
-        </div>
-
-        <!-- F12 -->
-        <div class="phase active">
-            <div class="phase-node" style="background: var(--accent-water); box-shadow: 0 0 0 4px rgba(0,198,255,0.2), 0 0 0 8px var(--bg-absolute);"></div>
-            <div class="phase-header"><h4 style="color: var(--accent-water);">12. Modo Sueño (Consciencia y Paz)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
-            <p class="phase-desc">Frecuencia Theta 6Hz: ${thetaScript}</p>
-            <div class="audio-pill" id="audio-pill" onclick="toggleAudio()">
-                <div class="play-circle" id="play-circle"><div class="play-icon"></div></div>
-                <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-                <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
-            </div>
-            <div id="subtitles-box" style="display:none; margin-top: 12px; padding: 16px; background: rgba(0,198,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; font-style: italic; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;"></div>
-        </div>
-    `;
-    
-    // Configurar titulo del heroe del bloque
-    const heroTitle = document.querySelector('.session-hero h2');
-    const heroBadge = document.querySelector('.session-hero .badge-premium');
-    if (heroTitle) heroTitle.innerText = titulo;
-    if (heroBadge) heroBadge.innerText = `Día ${dayIndex}`;
-}
-
-function loadMujeresMentorasDay(dayIndex) {
-    if (!dayIndex || dayIndex < 1) dayIndex = 1;
-    currentDay = dayIndex;
-    maxUnlockedDay = Math.max(maxUnlockedDay, dayIndex);
-    window.currentDayIndex = dayIndex;
-
-    // Update header ring
-    const dayNumEl = document.getElementById('dashboard-day-number');
-    if (dayNumEl) dayNumEl.textContent = dayIndex;
-    const ring = document.getElementById('progress-ring-circle');
-    const totalDays = 78;
-    if (ring) {
-        const pct = dayIndex / totalDays;
-        const circumference = 2 * Math.PI * 90;
-        ring.style.strokeDasharray = circumference;
-        ring.style.strokeDashoffset = circumference * (1 - pct);
-    }
-    // Update PPM / Score from local progress
-    if (progresoLocal[dayIndex]) {
-        const p = progresoLocal[dayIndex];
-        const ppmEl = document.getElementById('dash-ppm');
-        const scoreEl = document.getElementById('dash-score');
-        if (ppmEl && p.ppm) ppmEl.textContent = p.ppm;
-        if (scoreEl && p.comprension != null) scoreEl.textContent = p.comprension + '%';
-    }
-
-    // Inject Playbook content
-    renderMentoraSession(dayIndex);
-    renderPlaybookTactico(dayIndex);
-
-    // Render roadmap
-    renderRoadmap(dayIndex);
-}
-
-/* ---------- ROADMAP RENDER ---------- */
-function renderRoadmap(currentDayArg) {
-    const container = document.getElementById('roadmap-container');
-    if (!container) return;
-    const bloques = [
-        { num:1, name:'Identidad de Liderazgo', days:'1–8', icon:'🧬' },
-        { num:2, name:'Inteligencia Emocional', days:'9–18', icon:'🧠' },
-        { num:3, name:'Comunicación Ejecutiva', days:'19–28', icon:'🎤' },
-        { num:4, name:'Estrategia y Sistemas', days:'29–38', icon:'♟️' },
-        { num:5, name:'Negociación e Influencia', days:'39–48', icon:'🤝' },
-        { num:6, name:'Alta Performance', days:'49–58', icon:'⚡' },
-        { num:7, name:'Legado y Red', days:'59–68', icon:'🌐' },
-        { num:8, name:'Transformación Profunda', days:'69–78', icon:'🔮' }
-    ];
-    container.innerHTML = bloques.map(b => {
-        const startDay = (b.num - 1) * 10 + 1;
-        const endDay = b.num * 10;
-        const isActive = currentDayArg >= startDay && currentDayArg <= endDay;
-        const isDone = currentDayArg > endDay;
-        return `<div style="display:flex;align-items:center;gap:14px;background:${
-            isDone ? 'rgba(16,185,129,0.06)' : isActive ? 'rgba(255,94,0,0.06)' : 'rgba(255,255,255,0.03)'
-        };border:1px solid ${
-            isDone ? 'rgba(16,185,129,0.2)' : isActive ? 'rgba(255,94,0,0.3)' : 'rgba(255,255,255,0.07)'
-        };border-radius:14px;padding:14px;cursor:pointer;" onclick="switchTab('view-session',document.querySelectorAll('.nav-item')[1])">
-          <div style="font-size:1.6rem;width:40px;text-align:center">${b.icon}</div>
-          <div style="flex:1">
-            <div style="font-family:'Outfit';font-size:.78rem;font-weight:700;color:${
-                isDone ? '#10b981' : isActive ? '#FF5E00' : '#8A8F98'
-            };text-transform:uppercase;letter-spacing:1px">Bloque ${b.num} · Días ${b.days}</div>
-            <div style="font-size:.9rem;color:#fff;margin-top:2px">${b.name}</div>
-          </div>
-          <div style="font-size:1rem">${isDone ? '✅' : isActive ? '▶' : '🔒'}</div>
-        </div>`;
-    }).join('');
-}
-
-/* ---------- PLAYBOOK TÁCTICO RENDER ---------- */
-function renderPlaybookTactico(dayIndex) {
-    const container = document.getElementById('playbook-content');
-    if (!container) return;
-    const d = PLAYBOOK_DATA[dayIndex];
-    if (!d) {
-        container.innerHTML = '<div style="text-align:center;padding:30px;color:#8A8F98;font-size:.85rem;">El contenido táctico del Día ' + dayIndex + ' estará disponible pronto.</div>';
-        return;
-    }
-
-    // Load saved notes
-    const noteKey = 'pb_notes_d' + dayIndex;
-    let savedNotes = {};
-    try { savedNotes = JSON.parse(localStorage.getItem(noteKey) || '{}'); } catch(e){}
-
-    let html = `
-    <div class="pb-nav">
-        <button class="pb-nav-btn" onclick="renderPlaybookTactico(Math.max(1,${dayIndex}-1))" style="${dayIndex<=1?'opacity:.3;pointer-events:none':''}">&larr;</button>
-        <div class="pb-day-badge">Día ${dayIndex} · ${d.tema}</div>
-        <button class="pb-nav-btn" onclick="renderPlaybookTactico(Math.min(${maxUnlockedDay},${dayIndex}+1))" style="${dayIndex>=maxUnlockedDay?'opacity:.3;pointer-events:none':''}">→</button>
-    </div>
-    <div class="pb-step" style="border-color:rgba(255,94,0,.2)">
-        <div class="pb-step-label">Fuente · ${d.autor}</div>
-        <div class="pb-step-title">⟩ Paso 1: ${d.paso1.titulo}</div>
-        <div class="pb-step-body" style="margin-bottom:14px">${d.paso1.intro}</div>
-        ${d.paso1.ejercicios.map((e,i) => `
-        <div style="background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.06);border-radius:10px;padding:12px;margin-bottom:8px">
-            <div style="font-size:.68rem;color:#FF5E00;text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">${e.icon} ${e.label}</div>
-            <div style="font-size:.82rem;color:#ddd;line-height:1.6">${e.text}</div>
-        </div>`).join('')}
-    </div>
-
-    <div class="pb-step" style="border-color:rgba(0,198,255,.15)">
-        <div class="pb-step-label">Guía 1-a-1</div>
-        <div class="pb-step-title">⟩ Paso 2: ${d.paso2.titulo}</div>
-        ${d.paso2.secciones.map((s,i) => `
-        <div style="border-left:2px solid ${s.color};padding:10px 12px;margin-bottom:10px;background:rgba(0,0,0,.2);border-radius:0 8px 8px 0">
-            <div style="font-size:.65rem;color:${s.color};text-transform:uppercase;letter-spacing:1px;font-weight:700;margin-bottom:4px">${s.code}. ${s.title}</div>
-            <div style="font-size:.82rem;color:#ddd;line-height:1.6">${s.text}</div>
-            <textarea class="pb-note-field" placeholder="Tu nota personal aquí..." data-note="s${i}" onchange="guardarNotaPlaybook(${dayIndex},'s${i}',this.value)">${savedNotes['s'+i]||''}</textarea>
-        </div>`).join('')}
-    </div>`;
-
-    container.innerHTML = html;
-}
-
-function guardarNotaPlaybook(dayIndex, key, val) {
-    const noteKey = 'pb_notes_d' + dayIndex;
-    let notes = {};
-    try { notes = JSON.parse(localStorage.getItem(noteKey) || '{}'); } catch(e){}
-    notes[key] = val;
-    localStorage.setItem(noteKey, JSON.stringify(notes));
-}
-
-/* ---------- renderKitMentoria (previously missing) ---------- */
-window.renderKitMentoria = function() {
-    window.updateKitStats && window.updateKitStats();
-    // Update espejo status
-    const dias = progresoLocal ? Object.values(progresoLocal).filter(d => d && d.completado).length : 0;
-    const estejoEl = document.getElementById('espejo-status');
-    if (estejoEl) {
-        if (dias >= 5) { estejoEl.textContent = '✅ Revelado · Ver en Mi Impacto'; estejoEl.style.background='rgba(16,185,129,.1)'; estejoEl.style.color='#10b981'; }
-        else { estejoEl.textContent = `🔒 Completa ${5-dias} día(s) más`; }
-    }
-};
-
-/* ---------- markPhaseDone (used in breathing) ---------- */
-if (!window.markPhaseDone) {
-    window.markPhaseDone = function(btn, phaseNum) {
-        if (!currentPhaseProgress) currentPhaseProgress = {};
-        currentPhaseProgress['p'+phaseNum] = true;
-        if (btn) { btn.textContent = '✅ Completado'; btn.disabled = true; btn.style.opacity = '.6'; }
-    };
-}
-
-/* ---------- marcarHecho (analog tasks) ---------- */
-if (!window.marcarHecho) {
-    window.marcarHecho = function(btn, key) {
-        if (key) localStorage.setItem(key, 'true');
-        if (btn) { btn.textContent = '✅ Hecho a Mano'; btn.disabled = true; btn.style.opacity = '.7'; }
-    };
-}
-
-/* ---------- showMotivationToast ---------- */
-if (!window.showMotivationToast) {
-    window.showMotivationToast = function(msg) {
-        let t = document.createElement('div');
-        t.style.cssText = 'position:fixed;bottom:110px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.9);border:1px solid rgba(255,94,0,.3);color:#fff;padding:10px 20px;border-radius:20px;font-size:.82rem;z-index:9998;white-space:nowrap;max-width:90vw;text-align:center;';
-        t.textContent = msg;
-        document.body.appendChild(t);
-        setTimeout(() => t.remove(), 3500);
-    };
-}
-
-/* ---------- openSOS ---------- */
-if (!window.openSOS) {
-    window.openSOS = function() {
-        const sos = document.querySelector('.sos-overlay');
-        if (sos) { sos.classList.add('active'); }
-    };
-}
-
-/* ---------- SCHULTE TABLE ---------- */
-var schulteNumbers = [];
-var schulteTarget = 1;
-var schulteStartTime = null;
-var schulteInterval = null;
-var schulteRunning = false;
-
-window.abrirSchulte = function() {
-    document.getElementById('schulte-modal').classList.add('open');
-    document.getElementById('schulte-start').style.display = 'block';
-    document.getElementById('schulte-result').textContent = '';
-    document.getElementById('schulte-timer').textContent = '0.0s';
-    document.getElementById('schulte-next').textContent = '—';
-    document.getElementById('schulte-grid').innerHTML = '';
-};
-
-window.cerrarSchulte = function() {
-    document.getElementById('schulte-modal').classList.remove('open');
-    if (schulteInterval) clearInterval(schulteInterval);
-    schulteRunning = false;
-};
-
-window.iniciarSchulte = function() {
-    document.getElementById('schulte-start').style.display = 'none';
-    document.getElementById('schulte-result').textContent = '';
-    // Generate shuffled 1-25
-    schulteNumbers = Array.from({length:25},(_,i)=>i+1).sort(()=>Math.random()-.5);
-    schulteTarget = 1;
-    document.getElementById('schulte-next').textContent = schulteTarget;
-    // Render grid
-    const grid = document.getElementById('schulte-grid');
-    grid.innerHTML = schulteNumbers.map((n,i) =>
-        `<div class="s-cell" id="sc-${n}" onclick="presionarSchulte(${n})">${n}</div>`
-    ).join('');
-    // Start timer
-    schulteStartTime = Date.now();
-    schulteRunning = true;
-    schulteInterval = setInterval(() => {
-        if (!schulteRunning) return;
-        const elapsed = ((Date.now() - schulteStartTime) / 1000).toFixed(1);
-        document.getElementById('schulte-timer').textContent = elapsed + 's';
-    }, 100);
-};
-
-window.presionarSchulte = function(num) {
-    if (!schulteRunning) return;
-    const cell = document.getElementById('sc-' + num);
-    if (num === schulteTarget) {
-        if (cell) { cell.classList.add('found'); cell.onclick = null; }
-        schulteTarget++;
-        if (schulteTarget > 25) {
-            // Finished!
-            clearInterval(schulteInterval);
-            schulteRunning = false;
-            const totalTime = ((Date.now() - schulteStartTime) / 1000).toFixed(1);
-            document.getElementById('schulte-next').textContent = '✓';
-            document.getElementById('schulte-result').textContent = `🏆 Completado en ${totalTime}s — ¡Entrena para bajar de 60s!`;
-            document.getElementById('schulte-start').style.display = 'block';
-            document.getElementById('schulte-start').textContent = '🔁 Volver a intentar';
-        } else {
-            document.getElementById('schulte-next').textContent = schulteTarget;
-        }
-    } else {
-        if (cell) { cell.classList.add('wrong'); setTimeout(()=>cell.classList.remove('wrong'),300); }
-    }
-};
-
-/* ---------- FOCUS VISUAL ---------- */
-var focusAnimFrame = null;
-var focusRunning = false;
-
-window.abrirFocus = function() {
-    document.getElementById('focus-modal').classList.add('open');
-    const canvas = document.getElementById('focus-canvas');
-    const ctx = canvas.getContext('2d');
-    ctx.clearRect(0,0,280,280);
-    ctx.beginPath(); ctx.arc(140,140,5,0,Math.PI*2); ctx.fillStyle='#FF5E00'; ctx.fill();
-};
-
-window.cerrarFocus = function() {
-    document.getElementById('focus-modal').classList.remove('open');
-    if (focusAnimFrame) cancelAnimationFrame(focusAnimFrame);
-    focusRunning = false;
-};
-
-window.iniciarFocus = function() {
-    focusRunning = true;
-    const canvas = document.getElementById('focus-canvas');
-    const ctx = canvas.getContext('2d');
-    const cx=140, cy=140, r=100;
-    let angle = 0;
-    let speed = 0.012;
-    let lap = 0;
-    const patterns = [
-        // Circle
-        (a) => ({ x: cx + r*Math.cos(a), y: cy + r*Math.sin(a) }),
-        // Horizontal saccade
-        (a) => ({ x: cx + Math.sin(a*2)*r, y: cy + Math.cos(a*6)*20 }),
-        // Figure-8
-        (a) => ({ x: cx + r*0.8*Math.sin(a), y: cy + r*0.4*Math.sin(2*a) })
-    ];
-    let patternIdx = 0;
-
-    function draw() {
-        if (!focusRunning) return;
-        ctx.clearRect(0,0,280,280);
-        // Center cross
-        ctx.beginPath(); ctx.arc(cx,cy,5,0,Math.PI*2); ctx.fillStyle='rgba(255,94,0,.8)'; ctx.fill();
-        // Moving dot
-        const pos = patterns[patternIdx](angle);
-        ctx.beginPath(); ctx.arc(pos.x, pos.y, 8, 0, Math.PI*2); ctx.fillStyle='rgba(0,198,255,.9)'; ctx.fill();
-        ctx.beginPath(); ctx.arc(pos.x, pos.y, 14, 0, Math.PI*2); ctx.strokeStyle='rgba(0,198,255,.2)'; ctx.lineWidth=2; ctx.stroke();
-        angle += speed;
-        if (angle > Math.PI*2) { angle=0; lap++; if(lap%3===0){ patternIdx=(patternIdx+1)%patterns.length; } }
-        focusAnimFrame = requestAnimationFrame(draw);
-    }
-    draw();
-};
 
 </script>
 </body>

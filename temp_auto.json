@@ -1,0 +1,607 @@
+[
+    {
+        "q": "Cuando piensas en ti como lider, ¿que imagen aparece primero?",
+        "options": [
+            "No se ve como lider",
+            "Se ve liderando en ciertas situaciones, pero no en otras",
+            "Se ve como lider en formacion",
+            "Se ve como lider consolidada"
+        ],
+        "dimension": "Identidad de Liderazgo",
+        "correct": 3
+    },
+    {
+        "q": "En una reunion importante, ¿con que frecuencia toma te palabra para dirigir te conversacion?",
+        "options": [
+            "Casi nunca",
+            "Solo si le piden opinion",
+            "Cuando tiene algo claro que aportar",
+            "Frecuentemente, incluso para abrir temas"
+        ],
+        "dimension": "Identidad de Liderazgo",
+        "correct": 3
+    },
+    {
+        "q": "Si tu equipo te eligiera como referente natural, ¿que tan probabte crees que sea?",
+        "options": [
+            "Muy poco probable",
+            "Posible en algunos contextos",
+            "Probable si se esfuerza",
+            "Muy probable"
+        ],
+        "dimension": "Identidad de Liderazgo",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia dice 'yo lidero esto' o asume te responsabilidad de un resultado grupal?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Identidad de Liderazgo",
+        "correct": 3
+    },
+    {
+        "q": "Cuando imaginas tu carrera en 5 años, ¿te ves en un puesto de liderazgo?",
+        "options": [
+            "No me lo imagino",
+            "Me cuesta imaginarlo",
+            "Lo imagino con esfuerzo",
+            "Lo imagino claramente"
+        ],
+        "dimension": "Identidad de Liderazgo",
+        "correct": 3
+    },
+    {
+        "q": "Ante una critica inesperada en publico, ¿que suete hacer?",
+        "options": [
+            "Se bloquea o se pone a la defensiva",
+            "Se incomoda pero intenta mantener la calma",
+            "Respira y pide clarificacion",
+            "Procesa la informacion y responde con serenidad"
+        ],
+        "dimension": "Gestion Emocional",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia sus emociones afectan sus decisiones importantes?",
+        "options": [
+            "Siempre",
+            "Frecuentemente",
+            "A veces",
+            "Casi nunca"
+        ],
+        "dimension": "Gestion Emocional",
+        "correct": 3
+    },
+    {
+        "q": "Cuando siente estres intenso, ¿tiene estrategias para regularse?",
+        "options": [
+            "No tiene ninguna",
+            "Alguna pero no siempre funcionan",
+            "Tiene algunas que usa",
+            "Tiene varias estrategias probadas"
+        ],
+        "dimension": "Gestion Emocional",
+        "correct": 3
+    },
+    {
+        "q": "En conflictos interpersonales, ¿como responde generalmente?",
+        "options": [
+            "Evita o explota",
+            "Se incomoda y pospone el tema",
+            "Habla cuando esta mas calmada",
+            "Aborda el tema con claridad y empatia"
+        ],
+        "dimension": "Gestion Emocional",
+        "correct": 3
+    },
+    {
+        "q": "¿Cuanto tiempo tarda en recuperarse emocionalmente despues de un dia dificil?",
+        "options": [
+            "Dias",
+            "Horas",
+            "Menos de una hora",
+            "Minutos"
+        ],
+        "dimension": "Gestion Emocional",
+        "correct": 3
+    },
+    {
+        "q": "Cuando presenta una idea, ¿como se siente?",
+        "options": [
+            "Insegura y nerviosa",
+            "Con algo de nervio pero funcional",
+            "Generalmente segura",
+            "Muy segura y clara"
+        ],
+        "dimension": "Comunicacion Ejecutiva",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia termina sus intervenciones con una pregunta de elevacion?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Comunicacion Ejecutiva",
+        "correct": 3
+    },
+    {
+        "q": "En reuniones con jerarcas, ¿como habla?",
+        "options": [
+            "Bajo y poco",
+            "Con cuidado, midiendo cada palabra",
+            "Con claridad cuando tiene algo que decir",
+            "Con voz firme, pausas estrategicas y estructura"
+        ],
+        "dimension": "Comunicacion Ejecutiva",
+        "correct": 3
+    },
+    {
+        "q": "¿Cuanto tiempo suete tardar en llegar al punto al hablar?",
+        "options": [
+            "Mucho, se pierde en contexto",
+            "Algo de tiempo",
+            "Razonable",
+            "Voy directa al punto"
+        ],
+        "dimension": "Comunicacion Ejecutiva",
+        "correct": 3
+    },
+    {
+        "q": "Cuando alguien te interrumpe, ¿que hace?",
+        "options": [
+            "Se calla",
+            "Se incomoda pero no hace nada",
+            "Intenta retomar la palabra",
+            "Recupera la palabra con educacion y firmeza"
+        ],
+        "dimension": "Comunicacion Ejecutiva",
+        "correct": 3
+    },
+    {
+        "q": "Cuando recibe feedback constructivo, ¿que pasa primero?",
+        "options": [
+            "Se siente atacada",
+            "Se incomoda pero lo escucha",
+            "Lo procesa y extrae lo util",
+            "Lo valora como oportunidad de crecimiento"
+        ],
+        "dimension": "Feedback y Candor",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia pide feedback directo a tu jefe o colegas?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Feedback y Candor",
+        "correct": 3
+    },
+    {
+        "q": "Cuando da feedback a otros, ¿como lo hace?",
+        "options": [
+            "Evita hacerlo",
+            "Lo suaviza tanto que pierde sentido",
+            "Lo dice con cuidado",
+            "Lo dice con claridad y empatia"
+        ],
+        "dimension": "Feedback y Candor",
+        "correct": 3
+    },
+    {
+        "q": "Si te dices una verdad incomoda, ¿como reacciona?",
+        "options": [
+            "Se cierra",
+            "Se molesta internamente",
+            "Te escucha aunque le cueste",
+            "Lo agradece y reflexiona"
+        ],
+        "dimension": "Feedback y Candor",
+        "correct": 3
+    },
+    {
+        "q": "¿Que tan comoda esta diciendo 'no estoy de acuerdo' en una reunion?",
+        "options": [
+            "Muy incomoda",
+            "Algo incomoda",
+            "Comoda si tiene argumentos",
+            "Muy comoda"
+        ],
+        "dimension": "Feedback y Candor",
+        "correct": 3
+    },
+    {
+        "q": "Cuando logra algo importante, ¿que piensa primero?",
+        "options": [
+            "Fue suerte",
+            "La ayudaron",
+            "Trabajo duro",
+            "Merecio esto por su competencia"
+        ],
+        "dimension": "Sindrome del Impostor",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia teme que 'descubran' que no es tan capaz?",
+        "options": [
+            "Muy frecuentemente",
+            "Frecuentemente",
+            "A veces",
+            "Casi nunca"
+        ],
+        "dimension": "Sindrome del Impostor",
+        "correct": 3
+    },
+    {
+        "q": "Antes de una presentacion importante, ¿como se siente?",
+        "options": [
+            "Segura de que va a fracasar",
+            "Nerviosa e insegura",
+            "Nerviosa pero preparada",
+            "Con confianza manejable"
+        ],
+        "dimension": "Sindrome del Impostor",
+        "correct": 3
+    },
+    {
+        "q": "Si te piden que lidere un proyecto nuevo, ¿que siente?",
+        "options": [
+            "Panico y rechazo",
+            "Inseguridad",
+            "Reto manejable",
+            "Entusiasmo"
+        ],
+        "dimension": "Sindrome del Impostor",
+        "correct": 3
+    },
+    {
+        "q": "¿Como compara tu exito con el de otros?",
+        "options": [
+            "Siempre siente que les debe",
+            "A veces siente que no merece estar ahi",
+            "Reconoce que trabajo por esto",
+            "Sabe que su esfuerzo y talento la trajeron ahi"
+        ],
+        "dimension": "Sindrome del Impostor",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que claridad identifica quienes tienen poder real en tu organizacion?",
+        "options": [
+            "No tengo idea",
+            "Tengo una idea vaga",
+            "Identifico a la mayoria",
+            "Tengo un mapa claro"
+        ],
+        "dimension": "Influencia Politica",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia construye alianzas estrategicas intencionalmente?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Influencia Politica",
+        "correct": 3
+    },
+    {
+        "q": "Cuando necesita que algo se apruebe, ¿que hace?",
+        "options": [
+            "Espera a que alguien mas lo impulse",
+            "Presenta la idea y espera",
+            "Identifica a los decisores y prepara el terreno",
+            "Construye apoyo antes de la reunion formal"
+        ],
+        "dimension": "Influencia Politica",
+        "correct": 3
+    },
+    {
+        "q": "¿Que tan comoda esta navegando te 'politica' de tu organizacion?",
+        "options": [
+            "Muy incomoda",
+            "Algo incomoda",
+            "Comoda",
+            "Muy comoda"
+        ],
+        "dimension": "Influencia Politica",
+        "correct": 3
+    },
+    {
+        "q": "¿Tiene personas que hablen bien de ti cuando no esta presente?",
+        "options": [
+            "No lo se",
+            "Pocas",
+            "Algunas",
+            "Varias y estrategicas"
+        ],
+        "dimension": "Influencia Politica",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia sus logros son visibles para quienes deciden?",
+        "options": [
+            "Casi nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Visibilidad Estrategica",
+        "correct": 3
+    },
+    {
+        "q": "Cuando hace un buen trabajo, ¿como lo comunica?",
+        "options": [
+            "No lo comunica",
+            "Espera que otros lo noten",
+            "Lo menciona modestamente",
+            "Lo comparte con metricas e impacto"
+        ],
+        "dimension": "Visibilidad Estrategica",
+        "correct": 3
+    },
+    {
+        "q": "¿Que tan clara es tu narrativa profesional?",
+        "options": [
+            "No la tengo",
+            "Tengo ideas dispersas",
+            "Razonablemente clara",
+            "Muy clara y comunicada"
+        ],
+        "dimension": "Visibilidad Estrategica",
+        "correct": 3
+    },
+    {
+        "q": "En eventos de te empresa, ¿como se relaciona?",
+        "options": [
+            "Evita ir",
+            "Va pero no interactua mucho",
+            "Conversa con algunos colegas",
+            "Aprovecha para conectar estrategicamente"
+        ],
+        "dimension": "Visibilidad Estrategica",
+        "correct": 3
+    },
+    {
+        "q": "¿Tiene un sponsor o alguien que abra puertas por ti?",
+        "options": [
+            "No",
+            "No formalmente",
+            "Posiblemente",
+            "Si, de forma clara"
+        ],
+        "dimension": "Visibilidad Estrategica",
+        "correct": 3
+    },
+    {
+        "q": "En tu equipo, ¿se siente segura para decir 'no entiendo' o 'me equivoque'?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Seguridad Psicologica",
+        "correct": 3
+    },
+    {
+        "q": "Cuando propone una idea diferente, ¿como te reciben?",
+        "options": [
+            "La penalizan",
+            "La ignoran",
+            "La consideran",
+            "La valoran"
+        ],
+        "dimension": "Seguridad Psicologica",
+        "correct": 3
+    },
+    {
+        "q": "¿Con que frecuencia pide ayuda en tu trabajo?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Seguridad Psicologica",
+        "correct": 3
+    },
+    {
+        "q": "Si comete un error, ¿que suete pasar?",
+        "options": [
+            "La castigan",
+            "La juzgan",
+            "Se habla del error sin culparla",
+            "Se aprende como equipo"
+        ],
+        "dimension": "Seguridad Psicologica",
+        "correct": 3
+    },
+    {
+        "q": "¿Contribuye a crear seguridad psicologica para otras?",
+        "options": [
+            "No",
+            "Poco",
+            "Algo",
+            "Mucho"
+        ],
+        "dimension": "Seguridad Psicologica",
+        "correct": 3
+    },
+    {
+        "q": "Cuando negocia tu salario o recursos, ¿cómo lo hace?",
+        "options": [
+            "Acepta lo primero que le ofrecen",
+            "Pide más pero cede rápidamente",
+            "Negocia con datos pero le incomoda",
+            "Negocia con firmeza, estrategia y naturalidad"
+        ],
+        "dimension": "Negociacion y Defensa de Valor",
+        "correct": 3
+    },
+    {
+        "q": "¿Con qué frecuencia defiende el valor monetario o estratégico de tu tiempo?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Frecuentemente"
+        ],
+        "dimension": "Negociacion y Defensa de Valor",
+        "correct": 3
+    },
+    {
+        "q": "Si te piden un favor profesional que no te beneficia, ¿qué hace?",
+        "options": [
+            "Dice que sí inmediatamente",
+            "Dice que sí pero se resiente",
+            "Duda pero termina aceptando",
+            "Dice que no con firmeza y elegancia"
+        ],
+        "dimension": "Negociacion y Defensa de Valor",
+        "correct": 3
+    },
+    {
+        "q": "Al presentar una propuesta de proyecto, ¿cómo justifica te inversión?",
+        "options": [
+            "Se enfoca solo en el costo",
+            "Habla del esfuerzo que requerirá",
+            "Menciona los beneficios vagamente",
+            "Presenta un ROI claro y defiende el valor"
+        ],
+        "dimension": "Negociacion y Defensa de Valor",
+        "correct": 3
+    },
+    {
+        "q": "¿Cobra o exige compensación justa por tu experiencia adicional?",
+        "options": [
+            "Nunca, lo hace gratis",
+            "Rara vez",
+            "A veces",
+            "Siempre defiende su valor en el mercado"
+        ],
+        "dimension": "Negociacion y Defensa de Valor",
+        "correct": 3
+    },
+    {
+        "q": "Cuando lidera un proyecto, ¿cómo distribuye las tareas operativas?",
+        "options": [
+            "Hace todo ella misma",
+            "Delega pero micro-gestiona",
+            "Delega tareas menores",
+            "Delega responsabilidades completas con confianza"
+        ],
+        "dimension": "Delegacion y Empoderamiento",
+        "correct": 3
+    },
+    {
+        "q": "¿Con qué frecuencia desarrolte a otros para que tomen tu lugar?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Constantemente, es su prioridad"
+        ],
+        "dimension": "Delegacion y Empoderamiento",
+        "correct": 3
+    },
+    {
+        "q": "Si tu equipo comete un error, ¿qué asume ti?",
+        "options": [
+            "Culpa al equipo",
+            "Se frustra y asume la tarea ella",
+            "Se responsabiliza pero no corrige el proceso",
+            "Se responsabiliza y empodera al equipo para arreglarlo"
+        ],
+        "dimension": "Delegacion y Empoderamiento",
+        "correct": 3
+    },
+    {
+        "q": "¿Qué tan indispensabte se vuelve en te operación del día a día?",
+        "options": [
+            "Totalmente indispensable",
+            "Muy necesaria",
+            "Ayuda pero el equipo funciona sin ella",
+            "Su valor está en la estrategia, no en la operación"
+        ],
+        "dimension": "Delegacion y Empoderamiento",
+        "correct": 3
+    },
+    {
+        "q": "Al empoderar a otros, ¿les da visibilidad por sus logros?",
+        "options": [
+            "Se lleva el crédito",
+            "Los menciona a veces",
+            "Los reconoce pero minimiza",
+            "Da crédito total y visible a su equipo"
+        ],
+        "dimension": "Delegacion y Empoderamiento",
+        "correct": 3
+    },
+    {
+        "q": "Cuando un proyecto importante fracasa, ¿cómo reacciona?",
+        "options": [
+            "Se hunde emocionalmente",
+            "Busca culpables",
+            "Se levanta pero pierde confianza",
+            "Analiza, aprende y vuelve a intentarlo rápidamente"
+        ],
+        "dimension": "Resiliencia y Manejo del Fracaso",
+        "correct": 3
+    },
+    {
+        "q": "¿Qué tanto miedo te tiene a equivocarse en público?",
+        "options": [
+            "Le aterra, la paraliza",
+            "Le da mucho miedo pero actúa",
+            "Le preocupa moderadamente",
+            "Lo ve como parte del proceso de crecimiento"
+        ],
+        "dimension": "Resiliencia y Manejo del Fracaso",
+        "correct": 3
+    },
+    {
+        "q": "¿Con qué frecuencia se recupera de un revés sin perder el foco en tu objetivo?",
+        "options": [
+            "Nunca",
+            "Rara vez",
+            "A veces",
+            "Casi siempre"
+        ],
+        "dimension": "Resiliencia y Manejo del Fracaso",
+        "correct": 3
+    },
+    {
+        "q": "Si recibe un 'NO' a una iniciativa, ¿qué hace?",
+        "options": [
+            "Abandona la idea para siempre",
+            "Se queja del sistema",
+            "Lo intenta una vez más sin cambios",
+            "Itera su estrategia y busca otro ángulo"
+        ],
+        "dimension": "Resiliencia y Manejo del Fracaso",
+        "correct": 3
+    },
+    {
+        "q": "Ante te presión y el estrés extremo sostenido, ¿cómo responde tu salud física/mental?",
+        "options": [
+            "Se quema (burnout) frecuentemente",
+            "Sufre mucho pero resiste",
+            "Logra mantener el equilibrio a medias",
+            "Mantiene límites sanos y se cuida activamente"
+        ],
+        "dimension": "Resiliencia y Manejo del Fracaso",
+        "correct": 3
+    }
+]
