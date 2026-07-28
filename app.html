@@ -2521,7 +2521,7 @@ function renderMentoraSession(dayIndex) {
     
     // Fallback data
     const titulo = d ? (d.titulo || "La Identidad de Liderazgo") : "Entrenamiento Cognitivo";
-    let texto = d && d.texto_lectura ? d.texto_lectura : "Cargando el texto de la base de datos... Por favor asegúrate de estar conectada.";
+    let texto = d && (d.texto_lectura || (d.fase2_lectura && d.fase2_lectura.texto)) ? (d.texto_lectura || d.fase2_lectura.texto) : "Cargando el texto de la base de datos... Por favor asegúrate de estar conectada.";
     // Simple formatter for paragraphs
     texto = texto.split('\n').map(p => p.trim() ? `<p class="reader-p">${p}</p>` : '').join('');
     
