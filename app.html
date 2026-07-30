@@ -2637,8 +2637,13 @@ function renderMentoraSession(dayIndex) {
     texto = texto.split('\n').map(p => p.trim() ? `<p class="reader-p">${p}</p>` : '').join('');
     
     let preguntasHTML = '';
-    if (d && (d.preguntas || d.comprension)) {
-        let arr = d.preguntas || d.comprension;
+    let arr = null;
+    if (d) {
+        if (d.preguntas) arr = d.preguntas;
+        else if (d.comprension) arr = d.comprension;
+        else if (d.fase2_lectura && d.fase2_lectura.comprension) arr = d.fase2_lectura.comprension;
+    }
+    if (arr) {
         preguntasHTML = arr.map((q, i) => `
             <div style="margin-bottom: 20px;">
                 <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${i+1}. ${q.q || q.pregunta}</strong></p>
@@ -3132,9 +3137,16 @@ function evaluarQuizReal(dayId) {
     let qData = [];
     if (window.activeTrackData) {
         const d = window.activeTrackData.find(x => x.dia === currentDay);
-        if (d && (d.preguntas || d.comprension)) qData = (d.preguntas || d.comprension);
+        if (d) {
+            if (d.preguntas) qData = d.preguntas;
+            else if (d.comprension) qData = d.comprension;
+            else if (d.fase2_lectura && d.fase2_lectura.comprension) qData = d.fase2_lectura.comprension;
+        }
     }
-    if (!qData || qData.length === 0) return;
+    if (!qData || qData.length === 0) {
+        alert("⚠️ No se encontraron preguntas para evaluar.");
+        return;
+    }
 
     let correctas = 0;
     let sinResponder = 0;
