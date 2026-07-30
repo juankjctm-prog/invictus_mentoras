@@ -237,7 +237,56 @@
         #sala-modal.active, #crisis-modal-mm.active { display:block; }
         .opt-btn { width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:13px 16px;color:#ddd;font-family:'Inter';font-size:.85rem;margin-bottom:8px;cursor:pointer;transition:all .2s; }
         .opt-btn:active { opacity:.8; }
-</style>
+
+        /* --- NEW UX REFINEMENTS --- */
+        .phase-header h4 {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF !important;
+        }
+        .reader-p, .phase-desc {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.95rem !important;
+            line-height: 1.6 !important;
+            color: #E2E8F0 !important;
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-options label:active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .btn-premium, .btn-outline {
+            min-height: 44px;
+            border-radius: 12px;
+        }
+        .btn-premium.fire {
+            background: linear-gradient(135deg, #FF5E00, #FF8C00) !important;
+            border: none;
+            color: white;
+        }
+        .btn-premium.fire:active {
+            transform: scale(0.98);
+        }
+    
+    </style>
 </head>
 <body>
 <div id="version-tag" style="position:fixed; top:10px; left:10px; color:#FF5E00; z-index:9999; font-weight:bold; font-family:sans-serif;">v1.5 KIT FIX</div>
@@ -935,7 +984,7 @@ function continueToComprension() {
             let qData = [];
             if (window.activeTrackData) {
                 const d = window.activeTrackData.find(x => x.dia === currentDay);
-                if (d && d.preguntas) qData = d.preguntas;
+                if (d && (d.preguntas || d.comprension)) qData = (d.preguntas || d.comprension);
             }
             
             for(let i=1; i<=5; i++) {
@@ -2588,13 +2637,16 @@ function renderMentoraSession(dayIndex) {
     texto = texto.split('\n').map(p => p.trim() ? `<p class="reader-p">${p}</p>` : '').join('');
     
     let preguntasHTML = '';
-    if (d && d.preguntas) {
-        preguntasHTML = d.preguntas.map((q, i) => `
+    if (d && (d.preguntas || d.comprension)) {
+        let arr = d.preguntas || d.comprension;
+        preguntasHTML = arr.map((q, i) => `
             <div style="margin-bottom: 20px;">
                 <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${i+1}. ${q.q || q.pregunta}</strong></p>
+                <div class="quiz-options">
                 ${(q.options || q.opciones).map((opt, j) => `
-                    <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="quiz-q${i+1}" value="${j}"> ${opt}</label>
+                    <label><input type="radio" name="quiz-q${i+1}" value="${j}"> <span style="line-height:1.4;">${opt}</span></label>
                 `).join('')}
+                </div>
             </div>
         `).join('');
     } else {
@@ -2665,33 +2717,11 @@ function renderMentoraSession(dayIndex) {
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
-            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
-            <p class="phase-desc" style="margin-top: 8px;">Abre tu Libreta MindJump. Realiza el ejercicio correspondiente a este bloque.</p>
-            <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
-        </div>
-
-        <!-- F6 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">La memoria espacial es la más fuerte. Usando el anclaje espacial, liga la información a tu cuerpo.</p>
-        </div>
-
-        <!-- F7 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
-            <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo...">
-            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 7); document.getElementById('f7-input').disabled = true;">💾 Guardar</button>
-        </div>
-
-        <!-- F8 -->
-        <div class="phase">
-            <div class="phase-node"></div>
-            <div class="phase-header"><h4>8. Zona de Riesgo Identitario</h4><span class="phase-duration">5m</span></div>
-            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
-            <p class="phase-desc" style="margin-top: 8px;">Identifica tu zona de riesgo de liderazgo HOY.</p>
-            <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_2')">Marcar como Hecho a Mano</button>
+                                    <p class="phase-desc" style="color: white; font-weight: 500;">✏️ Ejercicio Analógico (Cuaderno Físico)</p>
+            <p class="phase-desc" style="margin-top: 8px;">
+                ${d && d.fase8_analog ? d.fase8_analog : "Identifica tu zona de riesgo de liderazgo HOY."}
+            </p>
+            <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d'+${dayIndex}+'_analog_f8')">✍️ Marcar como Hecho a Mano</button>
         </div>
         
         <!-- F9 -->
@@ -3102,7 +3132,7 @@ function evaluarQuizReal(dayId) {
     let qData = [];
     if (window.activeTrackData) {
         const d = window.activeTrackData.find(x => x.dia === currentDay);
-        if (d && d.preguntas) qData = d.preguntas;
+        if (d && (d.preguntas || d.comprension)) qData = (d.preguntas || d.comprension);
     }
     if (!qData || qData.length === 0) return;
 
@@ -3122,6 +3152,11 @@ function evaluarQuizReal(dayId) {
         if (!answered) sinResponder++;
     });
 
+    if (sinResponder > 0) {
+        alert("⚠️ Test incompleto: Por favor responde todas las preguntas para evaluar tu comprensión.");
+        return;
+    }
+
     const total = qData.length;
     const score = Math.round((correctas / total) * 100);
 
@@ -3130,23 +3165,26 @@ function evaluarQuizReal(dayId) {
 
     localStorage.setItem('mm_b_d' + currentDay + '_score', score.toString());
     localStorage.setItem('mm_b_d' + currentDay, '1');
+    
+    // Marcar el día como finalizado en la variable global
+    if (typeof completedDays !== 'undefined' && !completedDays.includes(currentDay)) {
+        completedDays.push(currentDay);
+    }
 
     const box = document.getElementById('quiz-result-' + currentDay);
     if (!box) return;
     box.style.display = 'block';
 
     let nivel = "";
-    if (score >= 80) nivel = "Comprensión sólida";
-    else if (score >= 60) nivel = "Comprensión parcial — repasa lo que falló";
+    if (score >= 80) nivel = "🏆 Inteligencia Consolidada";
+    else if (score >= 60) nivel = "Comprensión Sólida";
     else nivel = "Fuga de comprensión — vuelve a leer antes de avanzar";
 
     const color = score >= 80 ? 'var(--success)' : (score >= 60 ? 'var(--accent-fire)' : '#FF4500');
     box.style.borderColor = color;
     box.style.background = 'rgba(255,255,255,0.03)';
 
-    let detalle = sinResponder > 0
-        ? `<p style="font-size:0.78rem; color: var(--text-tertiary); margin-top:6px;">${sinResponder} pregunta(s) sin responder — cuentan como incorrectas.</p>`
-        : '';
+    let detalle = '';
 
     box.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -3265,6 +3303,55 @@ window.openCrisisModal = function() {
         90% { transform:scale(0.5); opacity:0.5; }
         100% { transform:scale(0.5); opacity:0.5; }
     }
+    
+        /* --- NEW UX REFINEMENTS --- */
+        .phase-header h4 {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF !important;
+        }
+        .reader-p, .phase-desc {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.95rem !important;
+            line-height: 1.6 !important;
+            color: #E2E8F0 !important;
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-options label:active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .btn-premium, .btn-outline {
+            min-height: 44px;
+            border-radius: 12px;
+        }
+        .btn-premium.fire {
+            background: linear-gradient(135deg, #FF5E00, #FF8C00) !important;
+            border: none;
+            color: white;
+        }
+        .btn-premium.fire:active {
+            transform: scale(0.98);
+        }
+    
     </style>
 
 
@@ -3314,6 +3401,55 @@ window.openCrisisModal = function() {
     <style>
     .lectura-atenuada .reader-p { opacity: 0.2; transition: opacity 0.3s; }
     .lectura-atenuada .reader-p.regla-focus { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
+    
+        /* --- NEW UX REFINEMENTS --- */
+        .phase-header h4 {
+            font-family: 'Outfit', sans-serif !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            color: #FFFFFF !important;
+        }
+        .reader-p, .phase-desc {
+            font-family: 'Inter', sans-serif !important;
+            font-size: 0.95rem !important;
+            line-height: 1.6 !important;
+            color: #E2E8F0 !important;
+        }
+        .quiz-options label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.02);
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .quiz-options label:active {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .quiz-options input[type="radio"] {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        .btn-premium, .btn-outline {
+            min-height: 44px;
+            border-radius: 12px;
+        }
+        .btn-premium.fire {
+            background: linear-gradient(135deg, #FF5E00, #FF8C00) !important;
+            border: none;
+            color: white;
+        }
+        .btn-premium.fire:active {
+            transform: scale(0.98);
+        }
+    
     </style>
     
     <script>
@@ -3390,6 +3526,15 @@ window.openCrisisModal = function() {
         }
     }
     </script>
-
+    <script>
+function marcarHecho(btn, key) {
+    localStorage.setItem(key, 'true');
+    btn.style.background = 'rgba(16,185,129,0.1)';
+    btn.style.borderColor = 'rgba(16,185,129,0.5)';
+    btn.style.color = '#10B981';
+    btn.innerHTML = '✅ Hecho en el mundo físico';
+    btn.disabled = true;
+}
+    </script>
 </body>
 
