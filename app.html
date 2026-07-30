@@ -238,55 +238,58 @@
         .opt-btn { width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:13px 16px;color:#ddd;font-family:'Inter';font-size:.85rem;margin-bottom:8px;cursor:pointer;transition:all .2s; }
         .opt-btn:active { opacity:.8; }
 
-        /* --- NEW UX REFINEMENTS --- */
-        .phase-header h4 {
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: #FFFFFF !important;
-        }
-        .reader-p, .phase-desc {
-            font-family: 'Inter', sans-serif !important;
-            font-size: 0.95rem !important;
-            line-height: 1.6 !important;
-            color: #E2E8F0 !important;
-        }
-        .quiz-options label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.02);
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .quiz-options label:active {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .quiz-options input[type="radio"] {
-            margin-right: 12px;
-            transform: scale(1.2);
-        }
-        .btn-premium, .btn-outline {
-            min-height: 44px;
-            border-radius: 12px;
-        }
-        .btn-premium.fire {
-            background: linear-gradient(135deg, #FF5E00, #FF8C00) !important;
-            border: none;
-            color: white;
-        }
-        .btn-premium.fire:active {
-            transform: scale(0.98);
-        }
-    
-    </style>
+    /* Mentoras High-End UX Tweaks */
+    .phase-header h4 {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        color: #FFFFFF !important;
+    }
+    .phase-desc, .reader-p {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        color: #E2E8F0 !important;
+    }
+    .quiz-options label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px !important;
+        min-height: 44px !important;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .quiz-options label:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.3);
+    }
+    .quiz-options input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+    }
+    .btn-premium.fire {
+        background: linear-gradient(135deg, #FF5E00 0%, #E04000 100%) !important;
+        min-height: 44px !important;
+        border-radius: 12px !important;
+    }
+    .btn-outline {
+        min-height: 44px !important;
+        border-radius: 12px !important;
+        font-weight: 500 !important;
+    }
+    .btn-outline.done {
+        background: rgba(16, 185, 129, 0.1) !important;
+        border-color: #10B981 !important;
+        color: #10B981 !important;
+    }
+
+</style>
 </head>
 <body>
 <div id="version-tag" style="position:fixed; top:10px; left:10px; color:#FF5E00; z-index:9999; font-weight:bold; font-family:sans-serif;">v1.5 KIT FIX</div>
@@ -984,7 +987,7 @@ function continueToComprension() {
             let qData = [];
             if (window.activeTrackData) {
                 const d = window.activeTrackData.find(x => x.dia === currentDay);
-                if (d && (d.preguntas || d.comprension)) qData = (d.preguntas || d.comprension);
+                if (d && d.preguntas) qData = d.preguntas;
             }
             
             for(let i=1; i<=5; i++) {
@@ -2647,11 +2650,9 @@ function renderMentoraSession(dayIndex) {
         preguntasHTML = arr.map((q, i) => `
             <div style="margin-bottom: 20px;">
                 <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${i+1}. ${q.q || q.pregunta}</strong></p>
-                <div class="quiz-options">
                 ${(q.options || q.opciones).map((opt, j) => `
-                    <label><input type="radio" name="quiz-q${i+1}" value="${j}"> <span style="line-height:1.4;">${opt}</span></label>
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="quiz-q${i+1}" value="${j}"> ${opt}</label>
                 `).join('')}
-                </div>
             </div>
         `).join('');
     } else {
@@ -2722,33 +2723,64 @@ function renderMentoraSession(dayIndex) {
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
-                                    <p class="phase-desc" style="color: white; font-weight: 500;">✏️ Ejercicio Analógico (Cuaderno Físico)</p>
-            <p class="phase-desc" style="margin-top: 8px;">
-                ${d && d.fase8_analog ? d.fase8_analog : "Identifica tu zona de riesgo de liderazgo HOY."}
-            </p>
-            <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d'+${dayIndex}+'_analog_f8')">✍️ Marcar como Hecho a Mano</button>
+            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Libreta MindJump)</p>
+            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase5_desc ? d.fase5_desc : `Abre tu Libreta MindJump. Realiza un esquema visual o diagrama de cómo aplicar <strong>${titulo}</strong> en tu entorno de trabajo. Tacha los elementos limitantes y asume el 100% del control sobre tu trayectoria.`}</p>
+            <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_analog')">✍️ Marcar como Hecho a Mano</button>
+        </div>
+
+        <!-- F6 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
+            <p class="phase-desc">${d && d.fase6_desc ? d.fase6_desc : `Anclaje corporal consciente: Toca tu cabeza al internalizar los principios racionales de <strong>${titulo}</strong>, y tus manos al visualizar su ejecución táctica para la semana.`}</p>
+        </div>
+
+        <!-- F7 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
+            <p class="phase-desc">${d && d.fase7_desc ? d.fase7_desc : `Si la estrategia de <strong>${titulo}</strong> fuera una herramienta física de ingeniería o precisión, ¿cuál sería y cómo la aplicarías?`}</p>
+            <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo..." style="margin-top: 12px;">
+            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 7); document.getElementById('f7-input').disabled = true;">💾 Guardar</button>
+        </div>
+
+        <!-- F8 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>8. Zona de Riesgo Táctico</h4><span class="phase-duration">5m</span></div>
+            <p class="phase-desc" style="color: white; font-weight: 500;">⚡ Micro-Desafío Real en Libreta</p>
+            <div class="phase-desc" style="margin-top: 8px;">
+                ${d && d.fase8_desc ? d.fase8_desc : `
+                1. <strong>Identifica el Bloqueo:</strong> ¿En qué decisión o área relacionada con <strong>${titulo}</strong> estás dudando por no sentirte '100% lista'?<br><br>
+                2. <strong>Acción Incómoda:</strong> Escribe la acción directa a ejecutar en 48h.<br><br>
+                3. <strong>Regla del 100%:</strong> Escribe a mano: <em>"La seguridad no precede a la acción; la seguridad sigue a la acción ejecutada."</em>
+                `}
+            </div>
+            <button id="btn-analog-8-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_riesgo')">✍️ Marcar como Hecho a Mano</button>
         </div>
         
         <!-- F9 -->
-        <div class="phase active">
+        <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
-            <p class="phase-desc">Explica en voz alta lo aprendido a tu celular o grabadora como si le hablaras a tu mentoreada.</p>
+            <p class="phase-desc">${d && d.fase9_desc ? d.fase9_desc : `Explica en voz alta y de forma simplificada los conceptos de <strong>${titulo}</strong>, como si le enseñaras la estrategia a una mentoreada junior.`}</p>
         </div>
 
         <!-- F10 -->
         <div class="phase">
             <div class="phase-node"></div>
-            <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
-            <input type="text" id="f10-input" class="input-premium" placeholder="Escribe tu mayor bloqueo cognitivo hoy...">
-            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 10); document.getElementById('f10-input').disabled = true;">💾 Guardar Metacognición</button>
+            <div class="phase-header"><h4>10. Metacognición y Sesgos</h4><span class="phase-duration">1m</span></div>
+            <p class="phase-desc" style="color: #FFFFFF; font-weight: 500;">🧠 Reflexión Profunda en Libreta</p>
+            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase10_desc ? d.fase10_desc : `Escribe a mano en 2 oraciones: ¿Cuál fue tu principal resistencia o sesgo mental durante la sesión sobre <strong>${titulo}</strong>? ¿En qué momento sentiste el impulso de justificar un hábito antiguo?`}</p>
+            <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_meta')">✍️ Marcar como Hecho a Mano</button>
         </div>
 
         <!-- F11 -->
         <div class="phase">
             <div class="phase-node"></div>
-            <div class="phase-header"><h4>11. Ensayo Somático (Estado del Ser)</h4><span class="phase-duration">2m</span></div>
-            <p class="phase-desc">Cierra los ojos y visualiza el comportamiento deseado en tu próxima reunión crítica.</p>
+            <div class="phase-header"><h4>11. Ensayo Somático (Identidad)</h4><span class="phase-duration">2m</span></div>
+            <p class="phase-desc">${d && d.fase11_desc ? d.fase11_desc : `Cierra los ojos 60 segundos. Visualízate aplicando <strong>${titulo}</strong> en tu reunión más exigente. Siente tu postura firme y declara en voz alta y por escrito: <strong>"Soy líder. Nací líder. Y actúo como la líder que soy."</strong>`}</p>
+            <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_somatico')">✍️ Marcar como Hecho a Mano</button>
         </div>
 
         <!-- F12 -->
@@ -2761,8 +2793,9 @@ function renderMentoraSession(dayIndex) {
                 <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
                 <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
             </div>
-            <div id="subtitles-box" style="display:none; margin-top: 12px; padding: 16px; background: rgba(0,198,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; font-style: italic; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;"></div>
+            <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px;" onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
         </div>
+    </div>
     `;
     
     // Configurar titulo del heroe del bloque
@@ -3164,11 +3197,6 @@ function evaluarQuizReal(dayId) {
         if (!answered) sinResponder++;
     });
 
-    if (sinResponder > 0) {
-        alert("⚠️ Test incompleto: Por favor responde todas las preguntas para evaluar tu comprensión.");
-        return;
-    }
-
     const total = qData.length;
     const score = Math.round((correctas / total) * 100);
 
@@ -3177,26 +3205,23 @@ function evaluarQuizReal(dayId) {
 
     localStorage.setItem('mm_b_d' + currentDay + '_score', score.toString());
     localStorage.setItem('mm_b_d' + currentDay, '1');
-    
-    // Marcar el día como finalizado en la variable global
-    if (typeof completedDays !== 'undefined' && !completedDays.includes(currentDay)) {
-        completedDays.push(currentDay);
-    }
 
     const box = document.getElementById('quiz-result-' + currentDay);
     if (!box) return;
     box.style.display = 'block';
 
     let nivel = "";
-    if (score >= 80) nivel = "🏆 Inteligencia Consolidada";
-    else if (score >= 60) nivel = "Comprensión Sólida";
+    if (score >= 80) nivel = "Comprensión sólida";
+    else if (score >= 60) nivel = "Comprensión parcial — repasa lo que falló";
     else nivel = "Fuga de comprensión — vuelve a leer antes de avanzar";
 
     const color = score >= 80 ? 'var(--success)' : (score >= 60 ? 'var(--accent-fire)' : '#FF4500');
     box.style.borderColor = color;
     box.style.background = 'rgba(255,255,255,0.03)';
 
-    let detalle = '';
+    let detalle = sinResponder > 0
+        ? `<p style="font-size:0.78rem; color: var(--text-tertiary); margin-top:6px;">${sinResponder} pregunta(s) sin responder — cuentan como incorrectas.</p>`
+        : '';
 
     box.innerHTML = `
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
@@ -3316,55 +3341,58 @@ window.openCrisisModal = function() {
         100% { transform:scale(0.5); opacity:0.5; }
     }
     
-        /* --- NEW UX REFINEMENTS --- */
-        .phase-header h4 {
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: #FFFFFF !important;
-        }
-        .reader-p, .phase-desc {
-            font-family: 'Inter', sans-serif !important;
-            font-size: 0.95rem !important;
-            line-height: 1.6 !important;
-            color: #E2E8F0 !important;
-        }
-        .quiz-options label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.02);
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .quiz-options label:active {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .quiz-options input[type="radio"] {
-            margin-right: 12px;
-            transform: scale(1.2);
-        }
-        .btn-premium, .btn-outline {
-            min-height: 44px;
-            border-radius: 12px;
-        }
-        .btn-premium.fire {
-            background: linear-gradient(135deg, #FF5E00, #FF8C00) !important;
-            border: none;
-            color: white;
-        }
-        .btn-premium.fire:active {
-            transform: scale(0.98);
-        }
-    
-    </style>
+    /* Mentoras High-End UX Tweaks */
+    .phase-header h4 {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        color: #FFFFFF !important;
+    }
+    .phase-desc, .reader-p {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        color: #E2E8F0 !important;
+    }
+    .quiz-options label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px !important;
+        min-height: 44px !important;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .quiz-options label:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.3);
+    }
+    .quiz-options input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+    }
+    .btn-premium.fire {
+        background: linear-gradient(135deg, #FF5E00 0%, #E04000 100%) !important;
+        min-height: 44px !important;
+        border-radius: 12px !important;
+    }
+    .btn-outline {
+        min-height: 44px !important;
+        border-radius: 12px !important;
+        font-weight: 500 !important;
+    }
+    .btn-outline.done {
+        background: rgba(16, 185, 129, 0.1) !important;
+        border-color: #10B981 !important;
+        color: #10B981 !important;
+    }
+
+</style>
 
 
     <!-- Sala de Casos Modal (Socrático) -->
@@ -3414,55 +3442,58 @@ window.openCrisisModal = function() {
     .lectura-atenuada .reader-p { opacity: 0.2; transition: opacity 0.3s; }
     .lectura-atenuada .reader-p.regla-focus { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
     
-        /* --- NEW UX REFINEMENTS --- */
-        .phase-header h4 {
-            font-family: 'Outfit', sans-serif !important;
-            font-size: 1.1rem !important;
-            font-weight: 600 !important;
-            color: #FFFFFF !important;
-        }
-        .reader-p, .phase-desc {
-            font-family: 'Inter', sans-serif !important;
-            font-size: 0.95rem !important;
-            line-height: 1.6 !important;
-            color: #E2E8F0 !important;
-        }
-        .quiz-options label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            background: rgba(255, 255, 255, 0.02);
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            min-height: 44px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .quiz-options label:active {
-            background: rgba(255, 255, 255, 0.05);
-        }
-        .quiz-options input[type="radio"] {
-            margin-right: 12px;
-            transform: scale(1.2);
-        }
-        .btn-premium, .btn-outline {
-            min-height: 44px;
-            border-radius: 12px;
-        }
-        .btn-premium.fire {
-            background: linear-gradient(135deg, #FF5E00, #FF8C00) !important;
-            border: none;
-            color: white;
-        }
-        .btn-premium.fire:active {
-            transform: scale(0.98);
-        }
-    
-    </style>
+    /* Mentoras High-End UX Tweaks */
+    .phase-header h4 {
+        font-family: 'Outfit', sans-serif !important;
+        font-size: 1.1rem !important;
+        font-weight: 600 !important;
+        color: #FFFFFF !important;
+    }
+    .phase-desc, .reader-p {
+        font-family: 'Inter', sans-serif !important;
+        font-size: 0.95rem !important;
+        line-height: 1.6 !important;
+        color: #E2E8F0 !important;
+    }
+    .quiz-options label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px !important;
+        min-height: 44px !important;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--border-subtle);
+        border-radius: 8px;
+        margin-bottom: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .quiz-options label:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: rgba(255,255,255,0.3);
+    }
+    .quiz-options input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        margin: 0;
+    }
+    .btn-premium.fire {
+        background: linear-gradient(135deg, #FF5E00 0%, #E04000 100%) !important;
+        min-height: 44px !important;
+        border-radius: 12px !important;
+    }
+    .btn-outline {
+        min-height: 44px !important;
+        border-radius: 12px !important;
+        font-weight: 500 !important;
+    }
+    .btn-outline.done {
+        background: rgba(16, 185, 129, 0.1) !important;
+        border-color: #10B981 !important;
+        color: #10B981 !important;
+    }
+
+</style>
     
     <script>
     let reglaActiva = false;
@@ -3538,15 +3569,49 @@ window.openCrisisModal = function() {
         }
     }
     </script>
-    <script>
-function marcarHecho(btn, key) {
-    localStorage.setItem(key, 'true');
-    btn.style.background = 'rgba(16,185,129,0.1)';
-    btn.style.borderColor = 'rgba(16,185,129,0.5)';
-    btn.style.color = '#10B981';
-    btn.innerHTML = '✅ Hecho en el mundo físico';
-    btn.disabled = true;
-}
-    </script>
+
 </body>
 
+
+// Mentoras High-End Executive Functions
+function marcarHecho(btn, key) {
+    if (!btn) return;
+    btn.classList.add('done');
+    btn.innerHTML = '✅ Hecho en el mundo físico';
+    localStorage.setItem(key, 'true');
+}
+
+function concluirDia(dayId) {
+    const btn = document.getElementById('btn-concluir-' + dayId);
+    if (btn) {
+        btn.classList.remove('fire');
+        btn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
+        btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('mm_b1_d' + dayId + '_done', 'true');
+    
+    // Add to global state if not already
+    if (window.completedDays && !window.completedDays.includes(dayId)) {
+        window.completedDays.push(dayId);
+    }
+    
+    // Show celebratory modal
+    const m = document.createElement('div');
+    m.style.position = 'fixed';
+    m.style.top = '0'; m.style.left = '0'; m.style.width = '100vw'; m.style.height = '100vh';
+    m.style.backgroundColor = 'rgba(0,0,0,0.85)';
+    m.style.zIndex = '99999';
+    m.style.display = 'flex'; m.style.flexDirection = 'column';
+    m.style.alignItems = 'center'; m.style.justifyContent = 'center';
+    m.innerHTML = `
+        <div style="background: var(--bg-card); padding: 40px; border-radius: 20px; text-align: center; border: 1px solid var(--border-subtle); max-width: 90%; animation: slideUp 0.5s ease;">
+            <div style="font-size: 4rem; margin-bottom: 20px;">✨ 🏆 ✨</div>
+            <h2 style="font-family: 'Outfit', sans-serif; color: white; margin-bottom: 10px;">¡Día ${dayId} Concluido con Éxito!</h2>
+            <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; line-height: 1.6;">Has consolidado tu identidad de liderazgo en el plano cognitivo, táctico y somático. Eres imparable.</p>
+            <button class="btn-premium" style="margin-top: 30px; background: white; color: black;" onclick="this.parentElement.parentElement.remove()">Cerrar y Continuar</button>
+        </div>
+    `;
+    document.body.appendChild(m);
+}
