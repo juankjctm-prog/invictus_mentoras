@@ -1162,16 +1162,29 @@ function continueToComprension() {
     // Fetch from Supabase
     const { data, error } = await _supabase.from('mentoras_progress').select('*').eq('user_id', currentUser.id).single();
     
-    if(data) {
-        currentDay = data.current_day || 1;
-        completedDays = data.completed_days || [];
-        currentPhaseProgress = data.phase_progress || {};
-        currentAnswers = data.answers || {};
+    let cloudCurrentDay = data ? (data.current_day || 1) : 1;
+    let cloudCompletedDays = data ? (data.completed_days || []) : [];
+    
+    let localCompleted = Object.keys(progresoLocal).filter(k => progresoLocal[k].completado).map(Number);
+    let localCurrentDay = localCompleted.length > 0 ? Math.max(...localCompleted) + 1 : 1;
+    
+    if (localCompleted.length > cloudCompletedDays.length) {
+        currentDay = localCurrentDay;
+        completedDays = localCompleted;
+        currentPhaseProgress = data ? (data.phase_progress || {}) : {};
+        currentAnswers = data ? (data.answers || {}) : {};
+        setTimeout(() => { if (typeof saveProgress === 'function') saveProgress(); }, 2000);
     } else {
-        currentDay = 1;
-        completedDays = [];
-        currentPhaseProgress = {};
-        currentAnswers = {};
+        currentDay = cloudCurrentDay;
+        completedDays = cloudCompletedDays;
+        currentPhaseProgress = data ? (data.phase_progress || {}) : {};
+        currentAnswers = data ? (data.answers || {}) : {};
+        
+        completedDays.forEach(d => {
+            if(!progresoLocal[d]) progresoLocal[d] = { completado: true };
+            progresoLocal[d].completado = true;
+        });
+        if(typeof saveProgresoLocal === 'function') saveProgresoLocal();
     }
     
     const savedLastDay = localStorage.getItem('mm_last_day_b1');
