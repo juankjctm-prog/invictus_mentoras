@@ -33,6 +33,48 @@
             }];
         }
 
+        
+        function renderMentorasLiveTable() {
+            const list = [
+                { name: "Carla", pin: "012605" },
+                { name: "Eliana", pin: "012602" },
+                { name: "Giovanna", pin: "012606" },
+                { name: "Mabel", pin: "012601" },
+                { name: "Marjorie", pin: "012604" },
+                { name: "Mayra", pin: "012603" }
+            ];
+            const tbody = document.getElementById('mentoras-live-tbody');
+            if (!tbody) return;
+            let html = '';
+            list.forEach(m => {
+                let isUser = m.name.toLowerCase().includes('marjorie') || m.pin === '012604';
+                let savedLastDay = localStorage.getItem('mm_last_day_b1');
+                let currentDay = isUser ? (savedLastDay ? parseInt(savedLastDay) : 2) : 1;
+                let pct = isUser ? Math.max(10, Math.round((currentDay / 10) * 100)) : 0;
+                let lastActiveTime = isUser ? (localStorage.getItem('mm_last_active_time') || new Date().toLocaleString()) : '--';
+                
+                html += `
+                    <tr>
+                        <td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${isUser ? '#10B981' : '#8A8F98'};"></span></td>
+                        <td><strong>${m.name}</strong></td>
+                        <td><span style="font-family:'Outfit'; font-weight:600; color:white;">${m.pin}</span></td>
+                        <td><span class="badge" style="background:rgba(255,94,0,0.15); color:#FF5E00; border-color:rgba(255,94,0,0.3);">MENTORA</span></td>
+                        <td><span style="color:#00C6FF; font-weight:600;">Día ${currentDay}</span></td>
+                        <td style="width:160px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px; overflow:hidden;">
+                                    <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, #FF5E00, #10B981);"></div>
+                                </div>
+                                <span style="font-size:0.75rem; color:#8A8F98;">${pct}%</span>
+                            </div>
+                        </td>
+                        <td style="font-size:0.75rem; color:#8A8F98;">${lastActiveTime}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
         function renderRealMentees() {
             const tbody = document.querySelector('#tab-mentoreadas tbody');
             if(!tbody) return;
@@ -83,10 +125,11 @@
         }
 
         // Ejecutar al cargar
-        document.addEventListener('DOMContentLoaded', renderRealMentees);
+        document.addEventListener('DOMContentLoaded', () => { renderRealMentees(); renderMentorasLiveTable(); });
         // Si ya cargó:
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
             renderRealMentees();
+            renderMentorasLiveTable();
         }
 
     </script>
@@ -120,6 +163,48 @@
             }];
         }
 
+        
+        function renderMentorasLiveTable() {
+            const list = [
+                { name: "Carla", pin: "012605" },
+                { name: "Eliana", pin: "012602" },
+                { name: "Giovanna", pin: "012606" },
+                { name: "Mabel", pin: "012601" },
+                { name: "Marjorie", pin: "012604" },
+                { name: "Mayra", pin: "012603" }
+            ];
+            const tbody = document.getElementById('mentoras-live-tbody');
+            if (!tbody) return;
+            let html = '';
+            list.forEach(m => {
+                let isUser = m.name.toLowerCase().includes('marjorie') || m.pin === '012604';
+                let savedLastDay = localStorage.getItem('mm_last_day_b1');
+                let currentDay = isUser ? (savedLastDay ? parseInt(savedLastDay) : 2) : 1;
+                let pct = isUser ? Math.max(10, Math.round((currentDay / 10) * 100)) : 0;
+                let lastActiveTime = isUser ? (localStorage.getItem('mm_last_active_time') || new Date().toLocaleString()) : '--';
+                
+                html += `
+                    <tr>
+                        <td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${isUser ? '#10B981' : '#8A8F98'};"></span></td>
+                        <td><strong>${m.name}</strong></td>
+                        <td><span style="font-family:'Outfit'; font-weight:600; color:white;">${m.pin}</span></td>
+                        <td><span class="badge" style="background:rgba(255,94,0,0.15); color:#FF5E00; border-color:rgba(255,94,0,0.3);">MENTORA</span></td>
+                        <td><span style="color:#00C6FF; font-weight:600;">Día ${currentDay}</span></td>
+                        <td style="width:160px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px; overflow:hidden;">
+                                    <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, #FF5E00, #10B981);"></div>
+                                </div>
+                                <span style="font-size:0.75rem; color:#8A8F98;">${pct}%</span>
+                            </div>
+                        </td>
+                        <td style="font-size:0.75rem; color:#8A8F98;">${lastActiveTime}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
         function renderRealMentees() {
             const tbody = document.querySelector('#tab-mentoreadas tbody');
             if(!tbody) return;
@@ -170,10 +255,11 @@
         }
 
         // Ejecutar al cargar
-        document.addEventListener('DOMContentLoaded', renderRealMentees);
+        document.addEventListener('DOMContentLoaded', () => { renderRealMentees(); renderMentorasLiveTable(); });
         // Si ya cargó:
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
             renderRealMentees();
+            renderMentorasLiveTable();
         }
 
     </script>
@@ -381,39 +467,17 @@
                 <table>
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Nombre</th>
-                            <th>Mentoreadas</th>
-                            <th>PPM</th>
-                            <th>Competencia más alta</th>
-                            <th>Competencia a reforzar</th>
-                            <th>Score mentoría</th>
+                            <th>PIN</th>
+                            <th>Rol</th>
+                            <th>Día Activo</th>
+                            <th>Progreso</th>
+                            <th>Última Actividad</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>Andrea G.</td>
-                            <td>2</td>
-                            <td>540</td>
-                            <td>Escucha Profunda</td>
-                            <td>Dar Retroalimentación</td>
-                            <td><span class="score-pill score-high">79%</span></td>
-                        </tr>
-                        <tr>
-                            <td>Daniela T.</td>
-                            <td>1</td>
-                            <td>610</td>
-                            <td>Co-creación de planes</td>
-                            <td>Gestión de emociones</td>
-                            <td><span class="score-pill score-high">82%</span></td>
-                        </tr>
-                        <tr>
-                            <td>Mariana L.</td>
-                            <td>2</td>
-                            <td>480</td>
-                            <td>Preguntas poderosas</td>
-                            <td>Límites y ética</td>
-                            <td><span class="score-pill score-mid">64%</span></td>
-                        </tr>
+                    <tbody id="mentoras-live-tbody">
+                        <!-- JS INJECTED -->
                     </tbody>
                 </table>
             </div>
@@ -542,6 +606,48 @@
             }];
         }
 
+        
+        function renderMentorasLiveTable() {
+            const list = [
+                { name: "Carla", pin: "012605" },
+                { name: "Eliana", pin: "012602" },
+                { name: "Giovanna", pin: "012606" },
+                { name: "Mabel", pin: "012601" },
+                { name: "Marjorie", pin: "012604" },
+                { name: "Mayra", pin: "012603" }
+            ];
+            const tbody = document.getElementById('mentoras-live-tbody');
+            if (!tbody) return;
+            let html = '';
+            list.forEach(m => {
+                let isUser = m.name.toLowerCase().includes('marjorie') || m.pin === '012604';
+                let savedLastDay = localStorage.getItem('mm_last_day_b1');
+                let currentDay = isUser ? (savedLastDay ? parseInt(savedLastDay) : 2) : 1;
+                let pct = isUser ? Math.max(10, Math.round((currentDay / 10) * 100)) : 0;
+                let lastActiveTime = isUser ? (localStorage.getItem('mm_last_active_time') || new Date().toLocaleString()) : '--';
+                
+                html += `
+                    <tr>
+                        <td><span style="display:inline-block; width:10px; height:10px; border-radius:50%; background:${isUser ? '#10B981' : '#8A8F98'};"></span></td>
+                        <td><strong>${m.name}</strong></td>
+                        <td><span style="font-family:'Outfit'; font-weight:600; color:white;">${m.pin}</span></td>
+                        <td><span class="badge" style="background:rgba(255,94,0,0.15); color:#FF5E00; border-color:rgba(255,94,0,0.3);">MENTORA</span></td>
+                        <td><span style="color:#00C6FF; font-weight:600;">Día ${currentDay}</span></td>
+                        <td style="width:160px;">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <div style="flex:1; background:rgba(255,255,255,0.06); height:6px; border-radius:3px; overflow:hidden;">
+                                    <div style="width:${pct}%; height:100%; background:linear-gradient(90deg, #FF5E00, #10B981);"></div>
+                                </div>
+                                <span style="font-size:0.75rem; color:#8A8F98;">${pct}%</span>
+                            </div>
+                        </td>
+                        <td style="font-size:0.75rem; color:#8A8F98;">${lastActiveTime}</td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
         function renderRealMentees() {
             const tbody = document.querySelector('#tab-mentoreadas tbody');
             if(!tbody) return;
@@ -592,10 +698,11 @@
         }
 
         // Ejecutar al cargar
-        document.addEventListener('DOMContentLoaded', renderRealMentees);
+        document.addEventListener('DOMContentLoaded', () => { renderRealMentees(); renderMentorasLiveTable(); });
         // Si ya cargó:
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
             renderRealMentees();
+            renderMentorasLiveTable();
         }
 
     </script>
