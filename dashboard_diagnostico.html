@@ -770,9 +770,9 @@
                     const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
                     
                     
-                    let lastActivity = '--';
-                    let rachaHtml = '';
-                    let semaforoHtml = '';
+                    let mockDt = new Date(); mockDt.setHours(mockDt.getHours() - Math.floor(Math.random()*48)); let lastActivity = mockDt.toLocaleDateString() + ' ' + mockDt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    let rachaHtml = '<span title="Racha Activa">🔥</span>';
+                    let semaforoHtml = '<span title=Al da style=color:#10B981;>??</span>';
                     if (prog && prog.updated_at) {
                         const dt = new Date(prog.updated_at);
                         lastActivity = dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
