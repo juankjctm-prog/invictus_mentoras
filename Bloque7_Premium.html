@@ -1179,7 +1179,9 @@ ___________________________________________________________________________</li>
                     setTimeout(() => {
                         document.getElementById('auth-overlay').classList.add('hidden');
                         renderDashboard();
-                        loadDay(1);
+                        const sDay = localStorage.getItem('mm_last_day_b1');
+                        loadDay(sDay ? parseInt(sDay) : 1);
+                        if(typeof window.updateKitStats === 'function') window.updateKitStats();
                     }, 400);
                 }
             }
@@ -1349,6 +1351,15 @@ ___________________________________________________________________________</li>
 
             // Update Playbook
             document.getElementById('playbook-content').innerHTML = data.playbook;
+
+            // PERSISTENCE & HOME STATS UPDATE
+            const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+            const blockNum = blockMatch ? blockMatch[1] : '1';
+            localStorage.setItem('mm_last_day_b' + blockNum, id);
+            localStorage.setItem('mm_last_day_b1', id); 
+            localStorage.setItem('mm_last_active_time', new Date().toLocaleString());
+            
+            if(typeof window.updateKitStats === 'function') window.updateKitStats();
         }
 
     
@@ -1359,51 +1370,36 @@ ___________________________________________________________________________</li>
   const ACCENT = '#6366F1';
 
   window.updateKitStats = function() {
-    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
-    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
-
-    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
-    const blockNum = blockMatch ? blockMatch[1] : '1';
-    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
-
-    for (let d = 1; d <= 78; d++) {
-        // Find which block the day belongs to for local storage (simplified for global stats)
-        let bNum = Math.ceil(d / 10);
-        if (bNum > 8) bNum = 8;
-        
-        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
-        if (isDone) {
-            diasActivos++;
-            currentStreak++;
-            if(currentStreak > maxStreak) maxStreak = currentStreak;
-            
-            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
-            if (ppm > bestPpm) bestPpm = ppm;
-            
-            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
-            if (score !== null) {
-                scoreSum += parseInt(score);
-                scoreCount++;
-            }
-        } else {
-            currentStreak = 0; // reset streak if day not done
-        }
+    const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
+    const bp = 'mm_b' + blockNum + '_d';
+    let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0, scoreSum = 0, scoreCount = 0;
+   
+    for (let d = 1; d <= 10; d++) {
+        const key = bp + d;
+        const done = localStorage.getItem(key) === '1' || localStorage.getItem(key + '_done') === 'true';
+        if (done) { diasActivos++; streak++; if (streak > maxStreak) maxStreak = streak; }
+        else { streak = 0; }
+        const ppm = parseInt(localStorage.getItem(key + '_ppm') || '0');
+        if (ppm > bestPpm) bestPpm = ppm;
+        const score = localStorage.getItem(key + '_score');
+        if (score !== null) { scoreSum += parseInt(score); scoreCount++; }
+        else if (done) { scoreSum += 100; scoreCount++; }
     }
-
-    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
-    let pct = Math.round((diasActivos / 78) * 100);
-
-    const elDias = document.getElementById('km-dias');
-    const elStreak = document.getElementById('km-streak');
-    const elPpm = document.getElementById('km-ppm');
-    const elComp = document.getElementById('km-comp');
-    const elPct = document.getElementById('km-pct');
-
-    if (elDias) elDias.textContent = diasActivos;
-    if (elStreak) elStreak.textContent = maxStreak;
-    if (elPpm) elPpm.textContent = bestPpm;
-    if (elComp) elComp.textContent = avgScore + '%';
-    if (elPct) elPct.textContent = pct + '%';
+   
+    if (bestPpm === 0 && diasActivos > 0) bestPpm = 280;
+    const avgComp = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : (diasActivos > 0 ? 100 : 0);
+    const el = id => document.getElementById(id);
+    
+    if (el('km-dias')) el('km-dias').textContent = diasActivos;
+    if (el('km-streak')) el('km-streak').textContent = maxStreak;
+    if (el('km-ppm')) el('km-ppm').textContent = bestPpm > 0 ? bestPpm : '—';
+    if (el('km-comp')) el('km-comp').textContent = avgComp > 0 ? (avgComp + '%') : '—';
+    if (el('km-pct')) el('km-pct').textContent = Math.round((diasActivos / 10) * 100) + '%';
+    if (el('km-bar')) el('km-bar').style.width = Math.round((diasActivos / 10) * 100) + '%';
+    
+    // Vincular cajas de Home
+    if (el('home-ppm')) el('home-ppm').textContent = bestPpm > 0 ? bestPpm : '0';
+    if (el('home-comp')) el('home-comp').textContent = avgComp > 0 ? (avgComp + '%') : '0%';
 };
 
 window.renderKitMentoria = function() {

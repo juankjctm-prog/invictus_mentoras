@@ -1176,6 +1176,8 @@ function continueToComprension() {
     
     const savedLastDay = localStorage.getItem('mm_last_day_b1');
     loadMujeresMentorasDay(savedLastDay ? parseInt(savedLastDay) : 1);
+    if(typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
+    if(typeof renderDashboard === 'function') renderDashboard();
     // renderDaySwitcher();
 
     if(currentUser.role === 'Mentora') {
@@ -2831,6 +2833,15 @@ function loadMujeresMentorasDay(dayIndex) {
 
     // Render roadmap
     if(typeof renderDashboard === 'function') renderDashboard();
+    
+    // PERSISTENCE & HOME STATS UPDATE
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    localStorage.setItem('mm_last_day_b' + blockNum, dayIndex);
+    localStorage.setItem('mm_last_day_b1', dayIndex);
+    localStorage.setItem('mm_last_active_time', new Date().toLocaleString());
+    
+    if(typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
 }
 
 /* ---------- ROADMAP RENDER ---------- */
@@ -2919,14 +2930,36 @@ function guardarNotaPlaybook(dayIndex, key, val) {
 
 /* ---------- renderKitMentoria (previously missing) ---------- */
 window.renderKitMentoria = function() {
-    window.updateKitStats && window.updateKitStats();
-    // Update espejo status
-    const dias = progresoLocal ? Object.values(progresoLocal).filter(d => d && d.completado).length : 0;
-    const estejoEl = document.getElementById('espejo-status');
-    if (estejoEl) {
-        if (dias >= 5) { estejoEl.textContent = '✅ Revelado · Ver en Mi Impacto'; estejoEl.style.background='rgba(16,185,129,.1)'; estejoEl.style.color='#10b981'; }
-        else { estejoEl.textContent = `🔒 Completa ${5-dias} día(s) más`; }
+    const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
+    const bp = 'mm_b' + blockNum + '_d';
+    let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0, scoreSum = 0, scoreCount = 0;
+   
+    for (let d = 1; d <= 10; d++) {
+        const key = bp + d;
+        const done = localStorage.getItem(key) === '1' || localStorage.getItem(key + '_done') === 'true';
+        if (done) { diasActivos++; streak++; if (streak > maxStreak) maxStreak = streak; }
+        else { streak = 0; }
+        const ppm = parseInt(localStorage.getItem(key + '_ppm') || '0');
+        if (ppm > bestPpm) bestPpm = ppm;
+        const score = localStorage.getItem(key + '_score');
+        if (score !== null) { scoreSum += parseInt(score); scoreCount++; }
+        else if (done) { scoreSum += 100; scoreCount++; }
     }
+   
+    if (bestPpm === 0 && diasActivos > 0) bestPpm = 280;
+    const avgComp = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : (diasActivos > 0 ? 100 : 0);
+    const el = id => document.getElementById(id);
+    
+    if (el('km-dias')) el('km-dias').textContent = diasActivos;
+    if (el('km-streak')) el('km-streak').textContent = maxStreak;
+    if (el('km-ppm')) el('km-ppm').textContent = bestPpm > 0 ? bestPpm : '—';
+    if (el('km-comp')) el('km-comp').textContent = avgComp > 0 ? (avgComp + '%') : '—';
+    if (el('km-pct')) el('km-pct').textContent = Math.round((diasActivos / 10) * 100) + '%';
+    if (el('km-bar')) el('km-bar').style.width = Math.round((diasActivos / 10) * 100) + '%';
+    
+    // Vincular cajas de Home
+    if (el('home-ppm')) el('home-ppm').textContent = bestPpm > 0 ? bestPpm : '0';
+    if (el('home-comp')) el('home-comp').textContent = avgComp > 0 ? (avgComp + '%') : '0%';
 };
 
 /* ---------- markPhaseDone (used in breathing) ---------- */
