@@ -1,0 +1,10 @@
+
+        { num:1, name:'Identidad de Liderazgo', days:'1–8', icon:'🧬' },
+        { num:2, name:'Inteligencia Emocional', days:'9–18', icon:'🧠' },
+        { num:3, name:'Comunicación Ejecutiva', days:'19–28', icon:'🎤' },
+        { num:4, name:'Estrategia y Sistemas', days:'29–38', icon:'♟️' },
+        { num:5, name:'Negociación e Influencia', days:'39–48', icon:'🤝' },
+        { num:6, name:'Alta Performance', days:'49–58', icon:'⚡' },
+        { num:7, name:'Legado y Red', days:'59–68', icon:'🌐' },
+        { num:8, name:'Transformación Profunda', days:'69–78', icon:'🔮' }
+    

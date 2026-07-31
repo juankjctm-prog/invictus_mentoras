@@ -1,0 +1,167 @@
+function renderMentoraSession(dayIndex) {
+    const container = document.getElementById('mentora-timeline-container');
+    if (!container) return;
+    
+    let d = null;
+    if (window.activeTrackData) {
+        d = window.activeTrackData.find(x => x.dia === dayIndex);
+    }
+    
+    // Fallback data
+    const titulo = d ? (d.titulo || "La Identidad de Liderazgo") : "Entrenamiento Cognitivo";
+    let texto = d && (d.texto_lectura || (d.fase2_lectura && d.fase2_lectura.texto)) ? (d.texto_lectura || d.fase2_lectura.texto) : "Cargando el texto de la base de datos... Por favor asegúrate de estar conectada.";
+    // Simple formatter for paragraphs
+    texto = texto.split('\n').map(p => p.trim() ? `<p class="reader-p">${p}</p>` : '').join('');
+    
+    let preguntasHTML = '';
+    if (d && d.preguntas) {
+        preguntasHTML = d.preguntas.map((q, i) => `
+            <div style="margin-bottom: 20px;">
+                <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${i+1}. ${q.q || q.pregunta}</strong></p>
+                ${(q.options || q.opciones).map((opt, j) => `
+                    <label style="display: block; margin-bottom: 8px; font-size: 0.85rem; color: var(--text-secondary);"><input type="radio" name="quiz-q${i+1}" value="${j}"> ${opt}</label>
+                `).join('')}
+            </div>
+        `).join('');
+    } else {
+        preguntasHTML = '<p style="color:var(--text-secondary);">Preguntas no disponibles en este momento.</p>';
+    }
+
+    const showFeynman = (dayIndex % 7 === 0);
+    const thetaScript = THETA_SCRIPTS[(dayIndex - 1) % THETA_SCRIPTS.length].guion;
+
+    container.innerHTML = `
+        <!-- F1 -->
+        <div class="phase completed">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>1. Ancla Cognitiva</h4><span class="phase-duration">2m</span></div>
+            <div id="breathing-ui" style="text-align:center; padding: 20px; background: rgba(0,0,0,0.4); border-radius: 8px; margin-top: 15px; border: 1px solid var(--border-subtle);">
+                <div id="b-circle" style="width: 100px; height: 100px; border-radius: 50%; background: var(--accent-water); margin: 0 auto; transition: all 1s linear; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: #fff; font-weight: bold; opacity: 0.8;"></div>
+                <p id="b-text" style="margin-top: 15px; font-weight: bold; color: white;">Ciclo 4-8-16. Oxigena tu cerebro.</p>
+                <button id="b-start-btn" class="btn-outline" style="margin-top: 15px; font-size: 0.8rem;" onclick="startBreathing()">Iniciar 2 Ciclos</button>
+            </div>
+        </div>
+
+        <!-- F2 -->
+        <div class="phase active">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4 style="color: var(--accent-fire);">2. Lectura Táctica</h4><span class="phase-duration" style="color:var(--accent-fire);">12m</span></div>
+            <button class="btn-outline" id="btn-bionic" onclick="toggleBionic()" style="margin-top: 10px;">⚡ Lectura Biónica <span style="font-size:0.6rem;opacity:0.7;display:block;">(Entrena tu salto visual)</span></button>
+            <div class="reader-premium" id="reader-content">
+                <h4 style="color: white; margin-bottom: 12px; font-family: 'Outfit'; text-transform: uppercase;">${titulo}</h4>
+                ${texto}
+            </div>
+            
+            <div id="ppm-box" style="display: none; margin-top: 16px; padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.05); color: white; font-size: 0.85rem;"></div>
+            
+            <div id="sticky-timer-wrapper" style="position: sticky; top: 10px; z-index: 1000; background: rgba(0,0,0,0.8); padding: 10px; border-radius: 8px; text-align: center; border: 1px solid var(--accent-fire); margin-bottom: 10px;">
+                <button class="btn-premium fire" id="btn-timer" style="width: 100%;" onclick="toggleTimer()">Iniciar Cronómetro</button>
+                <div id="re-read-prompt" style="display: none; margin-top: 10px; font-size: 0.9rem;">
+                    <p style="color: white; margin-bottom: 8px;">¿Hay algo que no entendiste?</p>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn-outline" style="flex:1; font-size:0.7rem;" onclick="resetTimer()">🔁 Repetir Lectura</button>
+                        <button class="btn-primary" style="flex:1; font-size:0.7rem;" onclick="continueToComprension()">✅ Continuar a Comprensión</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- F3 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>3. Síntesis Ejecutiva</h4><span class="phase-duration">1m</span></div>
+            <p class="phase-desc">Como mentora, debes destilar conocimiento complejo en principios simples.</p>
+            <input type="text" id="f3-input" class="input-premium" placeholder="Resume la idea principal en 1 frase para tu mentoreada...">
+            <button class="btn-outline" id="f3-save-btn" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 3); document.getElementById('f3-input').disabled = true;">💾 Guardar Síntesis</button>
+        </div>
+
+        <!-- F4 -->
+        <div class="phase" id="comprension-block" style="display:none;">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
+            <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo. Al iniciar el test, el texto desaparecerá permanentemente.</p>
+            <div id="test-intro">
+                <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
+            </div>
+            <div id="test-content" style="display: none; margin-top: 16px;">
+                ${preguntasHTML}
+                <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
+            </div>
+            <div id="recall-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px; border: 1px solid transparent;"></div>
+        </div>
+
+        <!-- F5 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
+            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+            <p class="phase-desc" style="margin-top: 8px;">Abre tu Libreta MindJump. Realiza el ejercicio correspondiente a este bloque.</p>
+            <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
+        </div>
+
+        <!-- F6 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
+            <p class="phase-desc">La memoria espacial es la más fuerte. Usando el anclaje espacial, liga la información a tu cuerpo.</p>
+        </div>
+
+        <!-- F7 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
+            <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo...">
+            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 7); document.getElementById('f7-input').disabled = true;">💾 Guardar</button>
+        </div>
+
+        <!-- F8 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>8. Zona de Riesgo Identitario</h4><span class="phase-duration">5m</span></div>
+            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+            <p class="phase-desc" style="margin-top: 8px;">Identifica tu zona de riesgo de liderazgo HOY.</p>
+            <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_2')">Marcar como Hecho a Mano</button>
+        </div>
+        
+        <!-- F9 -->
+        <div class="phase" style="display: ${showFeynman ? 'block' : 'none'}">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
+            <p class="phase-desc">Explica en voz alta lo aprendido a tu celular o grabadora como si le hablaras a tu mentoreada.</p>
+        </div>
+
+        <!-- F10 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
+            <input type="text" id="f10-input" class="input-premium" placeholder="Escribe tu mayor bloqueo cognitivo hoy...">
+            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 10); document.getElementById('f10-input').disabled = true;">💾 Guardar Metacognición</button>
+        </div>
+
+        <!-- F11 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>11. Ensayo Somático (Estado del Ser)</h4><span class="phase-duration">2m</span></div>
+            <p class="phase-desc">Cierra los ojos y visualiza el comportamiento deseado en tu próxima reunión crítica.</p>
+        </div>
+
+        <!-- F12 -->
+        <div class="phase active">
+            <div class="phase-node" style="background: var(--accent-water); box-shadow: 0 0 0 4px rgba(0,198,255,0.2), 0 0 0 8px var(--bg-absolute);"></div>
+            <div class="phase-header"><h4 style="color: var(--accent-water);">12. Modo Sueño (Consciencia y Paz)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
+            <p class="phase-desc">Frecuencia Theta 6Hz: ${thetaScript}</p>
+            <div class="audio-pill" id="audio-pill" onclick="toggleAudio()">
+                <div class="play-circle" id="play-circle"><div class="play-icon"></div></div>
+                <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
+                <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
+            </div>
+            <div id="subtitles-box" style="display:none; margin-top: 12px; padding: 16px; background: rgba(0,198,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; font-style: italic; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;"></div>
+        </div>
+    `;
+    
+    // Configurar titulo del heroe del bloque
+    const heroTitle = document.querySelector('.session-hero h2');
+    const heroBadge = document.querySelector('.session-hero .badge-premium');
+    if (heroTitle) heroTitle.innerText = titulo;
+    if (heroBadge) heroBadge.innerText = `Día ${dayIndex}`;
+}

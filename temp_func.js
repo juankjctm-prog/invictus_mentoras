@@ -1,0 +1,33 @@
+function loadMujeresMentorasDay(dayIndex) {
+    if (!dayIndex || dayIndex < 1) dayIndex = 1;
+    currentDay = dayIndex;
+    maxUnlockedDay = Math.max(maxUnlockedDay, dayIndex);
+    window.currentDayIndex = dayIndex;
+
+    // Update header ring
+    const dayNumEl = document.getElementById('dashboard-day-number');
+    if (dayNumEl) dayNumEl.textContent = dayIndex;
+    const ring = document.getElementById('progress-ring-circle');
+    const totalDays = 78;
+    if (ring) {
+        const pct = dayIndex / totalDays;
+        const circumference = 2 * Math.PI * 90;
+        ring.style.strokeDasharray = circumference;
+        ring.style.strokeDashoffset = circumference * (1 - pct);
+    }
+    // Update PPM / Score from local progress
+    if (progresoLocal[dayIndex]) {
+        const p = progresoLocal[dayIndex];
+        const ppmEl = document.getElementById('dash-ppm');
+        const scoreEl = document.getElementById('dash-score');
+        if (ppmEl && p.ppm) ppmEl.textContent = p.ppm;
+        if (scoreEl && p.comprension != null) scoreEl.textContent = p.comprension + '%';
+    }
+
+    // Inject Playbook content
+    renderMentoraSession(dayIndex);
+    renderPlaybookTactico(dayIndex);
+
+    // Render roadmap
+    renderRoadmap(dayIndex);
+}

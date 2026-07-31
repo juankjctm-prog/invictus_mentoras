@@ -1,750 +1,10 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <title>MindJump Premium</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        /* =========================================
-           1. DESIGN TOKENS (SISTEMA LINEAR/STRIPE/APPLE)
-           ========================================= */
-        :root {
-            --bg-absolute: #000000;
-            --bg-surface: #0a0a0c;
-            --bg-surface-elevated: rgba(255, 255, 255, 0.03);
-            --bg-surface-hover: rgba(255, 255, 255, 0.06);
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-glow: rgba(255, 255, 255, 0.12);
-            --text-primary: #FFFFFF;
-            --text-secondary: #8A8F98;
-            --text-tertiary: #52525B;
-            --accent-fire: #FF5E00;
-            --accent-fire-glow: rgba(255, 94, 0, 0.2);
-            --gradient-fire: linear-gradient(135deg, #FF4500, #FF8C00);
-            --accent-water: #00C6FF;
-            --accent-water-glow: rgba(0, 198, 255, 0.2);
-            --gradient-water: linear-gradient(135deg, #00C6FF, #0072FF);
-            --success: #10B981;
-            --success-bg: rgba(16, 185, 129, 0.1);
-            --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-absolute);
-            color: var(--text-primary);
-            display: flex; justify-content: center; align-items: center;
-            min-height: 100vh; overflow: hidden;
-            font-size: 15px; line-height: 1.5;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        body::before {
-            content: ''; position: absolute; top: -20%; left: -10%;
-            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-fire-glow) 0%, transparent 60%);
-            filter: blur(100px); opacity: 0.4; pointer-events: none;
-        }
-        body::after {
-            content: ''; position: absolute; bottom: -20%; right: -10%;
-            width: 50%; height: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 60%);
-            filter: blur(100px); opacity: 0.3; pointer-events: none;
-        }
-
-        .app-container {
-            width: 100%; max-width: 428px; height: 100vh; max-height: 926px;
-            background-color: var(--bg-absolute); position: relative;
-            display: flex; flex-direction: column; overflow: hidden; z-index: 10;
-        }
-        @media (min-height: 950px) {
-            .app-container {
-                height: 926px; border-radius: 44px; border: 8px solid #1a1a1c;
-                box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.05);
-            }
-        }
-
-        h1, h2, h3, h4, .display-font { font-family: 'Outfit', sans-serif; letter-spacing: -0.02em; }
-        .text-gradient { background: var(--gradient-fire); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .scrollable { flex: 1; overflow-y: auto; padding: 0 24px 120px; scrollbar-width: none; }
-        .scrollable::-webkit-scrollbar { display: none; }
-
-        .app-header { padding: 50px 24px 20px; display: flex; justify-content: space-between; align-items: center; z-index: 20; backdrop-filter: blur(10px); }
-        .header-greeting h1 { font-size: 1.7rem; font-weight: 600; color: #FFF; }
-        .header-greeting p { font-size: 0.85rem; color: var(--text-secondary); }
-        .profile-pic { width: 44px; height: 44px; border-radius: 50%; background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; font-weight: 600; }
-
-        .glass-card { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 24px; backdrop-filter: blur(16px); box-shadow: 0 8px 32px rgba(0,0,0,0.4); transition: transform 0.4s var(--ease-spring); }
-        .btn-premium { display: flex; justify-content: center; align-items: center; width: 100%; padding: 16px; border-radius: 16px; background: var(--text-primary); color: var(--bg-absolute); border: none; font-family: 'Outfit'; font-weight: 600; cursor: pointer; transition: all 0.3s var(--ease-spring); }
-        .btn-premium:hover { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 12px 24px rgba(255,255,255,0.1); }
-        .btn-premium:active { transform: scale(0.96); filter: brightness(0.9); }
-        .btn-premium.fire { background: var(--gradient-fire); color: white; box-shadow: 0 8px 16px var(--accent-fire-glow), inset 0 2px 4px rgba(255,255,255,0.3); border: 1px solid rgba(255,160,100,0.5); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
-        .btn-premium.water { background: var(--gradient-water); color: white; box-shadow: 0 8px 16px var(--accent-water-glow), inset 0 2px 4px rgba(255,255,255,0.3); border: 1px solid rgba(100,200,255,0.5); text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
-        .btn-outline { background: rgba(255,255,255,0.03); border: 1px solid var(--border-glow); color: var(--text-primary); padding: 14px 20px; border-radius: 16px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s var(--ease-spring); display: inline-flex; justify-content: center; backdrop-filter: blur(10px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); text-transform: uppercase; letter-spacing: 0.5px; }
-        .btn-outline:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.3); transform: translateY(-1px); }
-        .btn-outline:active { transform: scale(0.97); }
-        .btn-outline:hover { background: var(--bg-surface-hover); }
-        .input-premium { width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; color: white; font-family: 'Inter'; font-size: 0.9rem; transition: all 0.3s; margin-bottom: 12px;}
-        .input-premium:focus { outline: none; border-color: rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.05); }
-
-        .view { display: none; }
-        .view.active { display: block; animation: fadeInView 0.5s var(--ease-spring) forwards; }
-        #view-conexion.active { display: flex !important; }
-        @keyframes fadeInView { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
-        .stagger-1 { animation: slideUpFade 0.6s var(--ease-spring) 0.1s both; }
-        .stagger-2 { animation: slideUpFade 0.6s var(--ease-spring) 0.2s both; }
-        .stagger-3 { animation: slideUpFade 0.6s var(--ease-spring) 0.3s both; }
-        .stagger-4 { animation: slideUpFade 0.6s var(--ease-spring) 0.4s both; }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        .ring-wrapper { position: relative; width: 200px; height: 200px; display: flex; justify-content: center; align-items: center; margin: 10px auto 40px; }
-        .ring-bg, .ring-progress { fill: none; stroke-width: 4; stroke-linecap: round; }
-        .ring-bg { stroke: var(--border-subtle); }
-        .ring-progress { stroke: url(#fire-grad); stroke-dasharray: 565; stroke-dashoffset: 282; transform: rotate(-90deg); transform-origin: 50% 50%; filter: drop-shadow(0 0 8px var(--accent-fire-glow)); }
-        .ring-content { position: absolute; text-align: center; }
-        .ring-content h2 { font-size: 3.5rem; line-height: 1; }
-        .track-card { display: flex; align-items: center; cursor: pointer; margin-bottom: 12px; }
-        .track-card.active { border: 1px solid rgba(255, 94, 0, 0.3); background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,94,0,0.02) 100%); }
-        .track-number { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 500; width: 48px; height: 48px; display: flex; justify-content: center; align-items: center; border-radius: 14px; background: var(--bg-surface); border: 1px solid var(--border-subtle); margin-right: 16px; }
-        .track-card.active .track-number { background: var(--accent-fire); border-color: var(--accent-fire); color: white; box-shadow: 0 0 15px var(--accent-fire-glow); }
-
-        .timeline { position: relative; padding-left: 24px; }
-        .timeline::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--border-glow) 0%, rgba(255,255,255,0) 100%); }
-        .phase { position: relative; margin-bottom: 48px; opacity: 0.5; transition: opacity 0.3s; }
-        .phase.active { opacity: 1; }
-        .phase.completed { opacity: 0.8; }
-        .phase-node { position: absolute; left: -28px; top: 2px; width: 9px; height: 9px; border-radius: 50%; background: var(--border-glow); box-shadow: 0 0 0 4px var(--bg-absolute); }
-        .phase.active .phase-node { background: var(--accent-fire); box-shadow: 0 0 0 4px rgba(255, 94, 0, 0.2), 0 0 0 8px var(--bg-absolute); }
-        .phase.completed .phase-node { background: var(--text-secondary); }
-        .phase-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
-        .phase-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
-        .reader-premium { margin-top: 20px; background: rgba(255,255,255,0.02); border-radius: 16px; padding: 24px; font-size: 0.95rem; color: var(--text-secondary); max-height: 320px; overflow-y: auto; border: 1px solid var(--border-subtle); line-height: 1.8; box-shadow: inset 0 2px 10px rgba(0,0,0,0.3); }
-        .reader-p { margin-bottom: 18px; }
-        
-        .audio-pill { display: flex; align-items: center; background: rgba(0, 198, 255, 0.05); border: 1px solid rgba(0, 198, 255, 0.1); border-radius: 100px; padding: 8px 16px 8px 8px; margin-top: 16px; width: fit-content; cursor: pointer; }
-        .play-circle { width: 36px; height: 36px; border-radius: 50%; background: var(--accent-water); display: flex; justify-content: center; align-items: center; box-shadow: 0 0 15px var(--accent-water-glow); margin-right: 12px; }
-        .play-icon { width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent var(--bg-absolute); margin-left: 3px; }
-        .play-circle.playing .play-icon { border-width: 10px; border-color: var(--bg-absolute); border-radius: 2px; width: 12px; height: 12px; margin-left: 0; background: var(--bg-absolute); }
-        .waveform { display: flex; gap: 3px; align-items: center; height: 20px; }
-        .bar { width: 3px; height: 20%; background: var(--accent-water); border-radius: 2px; opacity: 0.5; transition: height 0.2s;}
-        .audio-pill.active .bar { opacity: 1; animation: sound 0.8s infinite alternate; }
-        @keyframes sound { 0% { height: 20%; } 100% { height: 100%; } }
-
-        .note-item { background: var(--bg-surface-elevated); border: 1px solid var(--border-subtle); border-radius: 16px; padding: 20px; margin-bottom: 12px; }
-        
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; height: 95px; background: rgba(10, 10, 12, 0.85); backdrop-filter: blur(24px); border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-around; align-items: center; padding: 10px 10px 25px; z-index: 50; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--text-tertiary); cursor: pointer; flex: 1; transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); padding: 8px 0; border-radius: 12px; }
-        .nav-item:hover { color: var(--text-secondary); transform: translateY(-2px); }
-        .nav-item:active { transform: scale(0.95); }
-        .nav-item.active { color: var(--text-primary); background: rgba(255,255,255,0.06); }
-        .nav-icon { font-size: 1.5rem; margin-bottom: 4px; filter: grayscale(1); opacity: 0.6; transition: all 0.3s; }
-        .nav-item.active .nav-icon { filter: grayscale(0); opacity: 1; transform: scale(1.1); }
-        .nav-label { font-size: 0.7rem; font-weight: 500; font-family: 'Outfit'; letter-spacing: 0.5px; }
-
-        .auth-overlay { position: fixed; inset: 0; z-index: 9999; background: var(--bg-absolute); display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease, transform 0.5s ease; }
-        .auth-overlay.hidden { opacity: 0; pointer-events: none; transform: scale(1.05); }
-        .pin-dots { display: flex; gap: 16px; margin-bottom: 40px; margin-top: 30px;}
-        .dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--border-subtle); transition: all 0.2s; }
-        .dot.filled { background: var(--accent-fire); border-color: var(--accent-fire); box-shadow: 0 0 15px var(--accent-fire-glow); }
-        .keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 40px;}
-        .key { width: 70px; height: 70px; border-radius: 50%; background: var(--bg-surface-elevated); display: flex; justify-content: center; align-items: center; font-size: 1.8rem; font-family: 'Outfit'; cursor: pointer; border: 1px solid var(--border-subtle); color: white; }
-        .key:active { transform: scale(0.9); background: var(--border-subtle); }
-
-        /* SOS Modal */
-        .sos-overlay { position: fixed; inset: 0; background: var(--bg-absolute); z-index: 2000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; backdrop-filter: blur(20px); }
-        .sos-overlay.active { opacity: 1; pointer-events: auto; }
-        .sos-circle { width: 150px; height: 150px; border-radius: 50%; background: radial-gradient(circle, var(--accent-water-glow) 0%, transparent 70%); box-shadow: 0 0 60px var(--accent-water-glow); animation: breathe 8s ease-in-out infinite; }
-        @keyframes breathe { 0%, 100% { transform: scale(1); opacity: 0.3; } 50% { transform: scale(1.6); opacity: 1; } }
-        .sos-text { margin-top: 80px; font-family: 'Outfit'; font-size: 1.3rem; font-weight: 300; text-align: center; max-width: 85%; line-height: 1.6; color: white; opacity: 0; transition: opacity 1s ease; }
-        .sos-text.visible { opacity: 1; }
-    
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            25% { transform: translateX(-5px); }
-            50% { transform: translateX(5px); }
-            75% { transform: translateX(-5px); }
-        }
-        .shake-error {
-            animation: shake 0.3s ease-in-out;
-        }
-        .dot.error { background: var(--accent-fire); box-shadow: 0 0 10px var(--accent-fire); }
-
-    
-        .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 16px; font-size: 0.95rem; line-height: 1.4; word-wrap: break-word; }
-        .chat-sent { background: var(--accent-water); color: var(--bg-absolute); align-self: flex-end; border-bottom-right-radius: 4px; }
-        .chat-received { background: rgba(255,255,255,0.1); color: white; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
-    
-    .input-premium { width: 100%; background: rgba(255, 255, 255, 0.02); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px 16px; color: white; font-family: 'Inter'; font-size: 0.9rem; transition: all 0.3s; margin-bottom: 12px; }
-.input-premium:focus { outline: none; border-color: rgba(255,255,255,0.3); background: rgba(255, 255, 255, 0.05); }
-/* KIT DE MENTORIA */
-.kit-view { overflow-y:auto; display:none; flex-direction:column; }
-.kit-view.active { display:flex; }
-.kit-scroll { flex:1; overflow-y:auto; padding:0 20px 120px; scrollbar-width:none; }
-.kit-sec-title { font-family:'Outfit';font-size:.78rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:#FF5E00;margin:28px 0 12px;display:flex;align-items:center;gap:8px; }
-.kit-stat-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px; }
-.kit-stat { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:12px;text-align:center; }
-.kit-stat .val { font-family:'Outfit';font-size:1.5rem;font-weight:700;color:#FF5E00; }
-.kit-stat .lbl { font-size:.58rem;color:#8A8F98;margin-top:3px;text-transform:uppercase;letter-spacing:1px; }
-.kit-progress-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 16px;margin-bottom:8px; }
-.kit-bar-bg { height:5px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden;margin-top:8px; }
-.kit-bar-fill { height:100%;background:linear-gradient(90deg,#FF5E00,#00C6FF);border-radius:3px;transition:width 1s ease; }
-.crisis-grid-mm { display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px; }
-.crisis-btn-mm { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:14px 8px;text-align:center;cursor:pointer;transition:all .2s; }
-.crisis-btn-mm:active { transform:scale(.97);background:rgba(255,255,255,.06); }
-.crisis-btn-mm .cbi { font-size:1.5rem;display:block;margin-bottom:6px; }
-.crisis-btn-mm .cbl { font-size:.7rem;color:#8A8F98;display:block;line-height:1.3; }
-.mirror-wrap { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:20px;padding:20px;margin-bottom:12px; }
-            select option { background-color: #1a1a1c; color: #fff; }
-        input, textarea, select { color-scheme: dark; }
-
-        /* ---- SCHULTE / FOCUS MODALS ---- */
-        .cogn-modal { position:fixed;inset:0;z-index:8000;background:rgba(0,0,0,.97);display:none;flex-direction:column;align-items:center;justify-content:center;padding:24px; }
-        .cogn-modal.open { display:flex; }
-        .cogn-close { position:absolute;top:16px;right:20px;background:transparent;border:none;color:#8A8F98;font-size:2rem;cursor:pointer;line-height:1; }
-        /* Schulte Grid */
-        #schulte-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:6px;width:min(320px,88vw); }
-        .s-cell { aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;font-family:'Outfit';font-size:1.1rem;font-weight:600;color:#fff;cursor:pointer;transition:all .15s; }
-        .s-cell:active { transform:scale(.93); }
-        .s-cell.found { background:rgba(16,185,129,.2);border-color:#10b981;color:#10b981; }
-        .s-cell.wrong { background:rgba(255,69,0,.15);border-color:#FF4500; animation:shake .25s; }
-        #schulte-timer { font-family:'Outfit';font-size:2.4rem;font-weight:700;color:#FF5E00;margin:18px 0 6px; }
-        #schulte-target { font-size:.9rem;color:#8A8F98;margin-bottom:14px; }
-        /* Focus Modal */
-        #focus-canvas { border-radius:50%;background:rgba(0,198,255,.05);border:1px solid rgba(0,198,255,.12); }
-        #focus-instruction { font-size:.85rem;color:#8A8F98;text-align:center;max-width:260px;margin-top:14px;line-height:1.6; }
-        /* Playbook Tactics */
-        .pb-step { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:16px;padding:16px;margin-bottom:12px; }
-        .pb-step-label { font-size:.65rem;color:#FF5E00;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;margin-bottom:8px; }
-        .pb-step-title { font-family:'Outfit';font-size:.95rem;color:#fff;font-weight:600;margin-bottom:6px; }
-        .pb-step-body { font-size:.82rem;color:#8A8F98;line-height:1.6; }
-        .pb-accent { color:#FF5E00;font-weight:600; }
-        .pb-cyan { color:#00C6FF;font-weight:600; }
-        .pb-note-field { width:100%;min-height:70px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:10px 12px;color:#fff;font-family:'Inter';font-size:.82rem;resize:vertical;margin-top:8px;outline:none;transition:border-color .2s; }
-        .pb-note-field:focus { border-color:rgba(255,94,0,.4); }
-        .pb-nav { display:flex;gap:10px;margin-bottom:20px;align-items:center; }
-        .pb-nav-btn { background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#fff;border-radius:10px;padding:8px 14px;font-family:'Outfit';font-size:.82rem;cursor:pointer;transition:all .2s; }
-        .pb-nav-btn:hover { background:rgba(255,255,255,.1); }
-        .pb-nav-btn.active { background:rgba(255,94,0,.15);border-color:rgba(255,94,0,.4);color:#FF5E00; }
-        .pb-day-badge { font-family:'Outfit';font-size:1.1rem;font-weight:700;color:#FF5E00;flex:1;text-align:center; }
-        /* Caso cards style */
-        .caso-card { background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:14px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .2s; }
-        .caso-card:active { transform:scale(.98);background:rgba(255,255,255,.06); }
-        .caso-card h4 { font-family:'Outfit';font-size:.95rem;color:#fff;margin-bottom:6px; }
-        .caso-card p { font-size:.78rem;color:#8A8F98;line-height:1.5; }
-        .caso-tag { display:inline-block;font-size:.62rem;background:rgba(0,198,255,.1);color:#00C6FF;border:1px solid rgba(0,198,255,.2);border-radius:20px;padding:3px 10px;margin-top:8px;font-weight:600;text-transform:uppercase;letter-spacing:.5px; }
-        #sala-modal.active, #crisis-modal-mm.active { display:block; }
-        .opt-btn { width:100%;text-align:left;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:12px;padding:13px 16px;color:#ddd;font-family:'Inter';font-size:.85rem;margin-bottom:8px;cursor:pointer;transition:all .2s; }
-        .opt-btn:active { opacity:.8; }
-
-    /* Mentoras High-End UX Tweaks */
-    .phase-header h4 {
-        font-family: 'Outfit', sans-serif !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        color: #FFFFFF !important;
-    }
-    .phase-desc, .reader-p {
-        font-family: 'Inter', sans-serif !important;
-        font-size: 0.95rem !important;
-        line-height: 1.6 !important;
-        color: #E2E8F0 !important;
-    }
-    .quiz-options label {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 16px !important;
-        min-height: 44px !important;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border-subtle);
-        border-radius: 8px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .quiz-options label:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.3);
-    }
-    .quiz-options input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin: 0;
-    }
-    .btn-premium.fire {
-        background: linear-gradient(135deg, #FF5E00 0%, #E04000 100%) !important;
-        min-height: 44px !important;
-        border-radius: 12px !important;
-    }
-    .btn-outline {
-        min-height: 44px !important;
-        border-radius: 12px !important;
-        font-weight: 500 !important;
-    }
-    .btn-outline.done {
-        background: rgba(16, 185, 129, 0.1) !important;
-        border-color: #10B981 !important;
-        color: #10B981 !important;
-    }
-
-</style>
-</head>
-<body>
-<div id="version-tag" style="position:fixed; top:10px; left:10px; color:#FF5E00; z-index:9999; font-weight:bold; font-family:sans-serif;">v1.5 KIT FIX</div>
-
-    <div class="app-container">
-        
-        <!-- PANTALLA DE AUTENTICACIÓN -->
-        <div id="auth-overlay" class="auth-overlay">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--accent-fire)" stroke-width="2" style="margin-bottom: 20px; filter: drop-shadow(0 0 10px var(--accent-fire-glow));"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-            <h2 style="font-family: 'Outfit'; font-size: 1.5rem;">Privacidad Ejecutiva</h2>
-            <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Ingresa tu PIN de acceso.</p>
-            
-            <div class="pin-dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-            
-            <div class="keypad">
-                <div class="key" onclick="pressKey('1')">1</div><div class="key" onclick="pressKey('2')">2</div><div class="key" onclick="pressKey('3')">3</div>
-                <div class="key" onclick="pressKey('4')">4</div><div class="key" onclick="pressKey('5')">5</div><div class="key" onclick="pressKey('6')">6</div>
-                <div class="key" onclick="pressKey('7')">7</div><div class="key" onclick="pressKey('8')">8</div><div class="key" onclick="pressKey('9')">9</div>
-                <div></div><div class="key" onclick="pressKey('0')">0</div><div></div>
-            </div>
-        </div>
-
-        <header class="app-header">
-            <div style="display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2px;">
-                <img src="mindjump-logo.png" alt="MindJump Logo" style="height: 50px; object-fit: contain;">
-                <div class="header-greeting">
-                <h1>Hola, Marjorie</h1>
-                <p>Tu transformación sistémica.</p>
-            </div>
-            </div>
-            <div class="profile-pic">M</div>
-        </header>
-
-        <main class="scrollable">
-            <!-- DASHBOARD -->
-
-      <!-- DASHBOARD -->
-            <div id="view-dashboard" class="view active">
-                <div class="hero-progress stagger-1" style="display:flex; flex-direction:column; align-items:center;">
-                    <div class="ring-wrapper" style="position:relative; width:200px; height:200px;">
-                        <svg width="200" height="200" viewBox="0 0 200 200" style="transform: rotate(-90deg);">
-                            <defs><linearGradient id="fire-grad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#FF4500" /><stop offset="100%" stop-color="#FF8C00" /></linearGradient></defs>
-                            <circle class="ring-bg" cx="100" cy="100" r="90" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="12"></circle>
-                            <circle id="progress-ring-circle" class="ring-progress" cx="100" cy="100" r="90" fill="none" stroke="url(#fire-grad)" stroke-width="12" stroke-dasharray="565.48" stroke-dashoffset="565.48" style="transition: stroke-dashoffset 1s ease-in-out;"></circle>
-                        </svg>
-                        <div class="ring-content" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;">
-                            <h2 id="dashboard-day-number" class="text-gradient" style="font-size:3rem; margin:0; line-height:1;">1</h2>
-                            <p style="margin:0; font-size:0.9rem; color:var(--text-secondary);">Día de 78</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stagger-2" style="display:grid; grid-template-columns: 1fr 1fr; gap:15px; margin-top:20px;">
-                    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center; border:1px solid rgba(255,255,255,0.1);">
-                        <div style="font-size:1.8rem; font-family:'Outfit'; color:var(--accent-water);" id="dash-ppm">0</div>
-                        <div style="font-size:0.7rem; color:var(--text-secondary);">Velocidad (PPM)</div>
-                    </div>
-                    <div style="background:rgba(255,255,255,0.05); padding:15px; border-radius:12px; text-align:center; border:1px solid rgba(255,255,255,0.1);">
-                        <div style="font-size:1.8rem; font-family:'Outfit'; color:var(--success);" id="dash-score">0%</div>
-                        <div style="font-size:0.7rem; color:var(--text-secondary);">Comprensión</div>
-                    </div>
-                </div>
-
-                <div class="blocks-list stagger-3" style="margin-top:30px;">
-                    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:15px;">Bloque 1: Desbloqueados</h3>
-                    <div id="dashboard-list" style="display:flex; flex-direction:column; gap:12px;">
-                        <!-- JS injected list -->
-                    </div>
-                    
-                    <button class="btn-outline" style="width: 100%; margin-top: 24px; padding: 16px; border-color: rgba(255,255,255,0.1); color: var(--text-secondary); font-family: 'Outfit'; font-weight: 500; font-size: 0.95rem; display: flex; gap: 8px; justify-content: center; background: var(--bg-surface-elevated);" onclick="openSOS()">
-                        <span>🆘</span> Protocolo SOS: Regulación de Cortisol
-                    </button>
-                </div>
-            </div>
-
-            <!-- SESIÓN -->
-            <div id="view-session" class="view">
-                
-<div class="card" style="background:linear-gradient(135deg, rgba(0,229,255,0.05), rgba(0,0,0,0.4)); border:1px solid var(--accent-water); border-radius:16px; padding:20px; margin-bottom:24px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div style="background:rgba(0,198,255,0.15); color:var(--accent-water); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;"> ENTRENAMIENTO COGNITIVO & LECTURA BIÓNICA</div>
-    </div>
-    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:6px; color:#fff;">Tu Espacio de Preparación Neuro-Lectora</h3>
-    <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">
-        Antes de guiar a tu mentoreada, ejercita tu cerebro con la lectura del día, evalúa tu velocidad (PPM) con comprensión profunda y completa la rutina neuropedagógica.
-    </p>
-    <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:16px; line-height:1.6;">
-        <li><strong style="color:var(--accent-water);">Modo Biónico:</strong> Usa el resaltado de fijación para apagar la subvocalización.</li>
-        <li><strong style="color:#FFD700;">Recall Activo:</strong> Responde el quiz sin volver al texto para fortalecer tu memoria de trabajo.</li>
-    </ul>
-</div>
-
-<div class="session-hero stagger-1">
-                    <div class="badge-premium">Bloque 5 • Día 41</div>
-                    <h2 class="display-font" style="font-size: 1.8rem; line-height: 1.1;">La Realidad del Poder</h2>
-                </div>
-
-                <div class="timeline stagger-2">
-
-<div id="mentora-timeline-container">
-<!-- Se inyectara dinamicamente por JS -->
-</div>
-
-</div>
-</div>
-
-<!-- LIBRETA (PLAYBOOK DE MENTORÍA 1-a-1) -->
-            <!-- LIBRETA (PLAYBOOK DIGITAL) -->
-            <div id="view-libreta" class="view">
-                
-<div class="card" style="background:linear-gradient(135deg, rgba(255,94,0,0.05), rgba(0,0,0,0.4)); border:1px solid var(--accent-fire); border-radius:16px; padding:20px; margin-bottom:24px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div style="background:rgba(255,94,0,0.15); color:var(--accent-fire); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;"> GUÍA DE FACILITACIÓN 1-A-1</div>
-    </div>
-    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:6px; color:#fff;">Tu Hoja de Ruta para la Sesión con tu Mentada</h3>
-    <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">
-        Estructura la transformación de tu mentoreada en 2 momentos clave:
-    </p>
-    <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:16px; line-height:1.6;">
-        <li><strong style="color:var(--accent-fire);">Paso 1 (Auto-Maestría):</strong> Completa tus 3 ejercicios de preparación antes de la reunión.</li>
-        <li><strong style="color:var(--accent-water);">Paso 2 (Sesión 1-a-1):</strong> Envía el ancla de WhatsApp 24h antes, lanza la pregunta de coaching socrático y ejecuta el ejercicio de valor en vivo durante la reunión.</li>
-    </ul>
-</div>
-
-<div class="session-hero">
-                    <h2 class="display-font" style="font-size: 1.8rem; margin-bottom: 8px;">Playbook Táctico</h2>
-                    <p style="color: var(--text-secondary); font-size: 0.85rem;">Guía elevada para transformar a la mujer latina ejecutiva.</p>
-                </div>
-
-                <!-- MI MENTOREADA: relación, objetivos y seguimiento -->
-                <div id="mentee-panel" style="margin-bottom: 28px;">
-                    <div class="kit-sec-title" style="margin-top:0;">🎯 Mi Mentoreada</div>
-                    <input id="mp-name" class="input-premium" placeholder="Nombre de tu mentoreada" style="margin-bottom:14px;" oninput="guardarMenteeName()">
-
-                    <div class="kit-stat-grid" style="grid-template-columns:1fr 1fr 1fr;">
-                        <div class="kit-stat"><div class="val" id="mp-goals-count" style="font-size:1.3rem;">0</div><div class="lbl">Objetivos activos</div></div>
-                        <div class="kit-stat"><div class="val" id="mp-next-session" style="font-size:1rem;">—</div><div class="lbl">Próxima sesión</div></div>
-                        <div class="kit-stat"><div class="val" id="mp-compromisos-count" style="font-size:1.3rem;">0</div><div class="lbl">Compromisos abiertos</div></div>
-                    </div>
-
-                    <div class="crisis-grid-mm" style="margin-top:14px;">
-                        <div class="crisis-btn-mm" onclick="abrirMentee('goals')"><span class="cbi">🎯</span><span class="cbl">Objetivos SMART</span></div>
-                        <div class="crisis-btn-mm" onclick="abrirMentee('calendar')"><span class="cbi">📅</span><span class="cbl">Calendario</span></div>
-                        <div class="crisis-btn-mm" onclick="abrirMentee('bitacora')"><span class="cbi">📓</span><span class="cbl">Bitácora</span></div>
-                        <div class="crisis-btn-mm" onclick="abrirMentee('compromisos')"><span class="cbi">✅</span><span class="cbl">Compromisos</span></div>
-                    </div>
-                </div>
-
-                <div class="kit-sec-title">📋 Guía Táctica del Día</div>
-                <div id="playbook-content">
-                    <!-- Dynamic Playbook Populated by JS -->
-                </div>
-            </div>
-
-            <!-- MODAL MI MENTOREADA -->
-            <div id="mentee-modal" style="display:none;position:fixed;inset:0;z-index:6500;background:rgba(0,0,0,.98);padding:20px 20px 60px;overflow-y:auto;">
-                <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:20px">
-                    <h3 id="mentee-modal-title" style="font-family:'Outfit';font-size:1.1rem"></h3>
-                    <button onclick="cerrarMentee()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
-                </div>
-                <div id="mentee-modal-content"></div>
-            </div>
-
-<!-- KIT DE MENTORIA VIEW -->
-<div id="view-kit" class="view kit-view">
-  <div class="kit-scroll">
-    <div style="padding:20px 0 10px">
-      <h2 style="font-family:'Outfit';font-size:1.4rem;font-weight:700">Kit de Mentoría</h2>
-      <p style="color:#8A8F98;font-size:.82rem;margin-top:4px">Tus herramientas como mentora</p>
-    </div>
-    
-<div class="card" style="background:linear-gradient(135deg, rgba(16,185,129,0.05), rgba(0,0,0,0.4)); border:1px solid var(--success); border-radius:16px; padding:20px; margin-bottom:24px;">
-    <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px;">
-        <div style="background:rgba(16,185,129,0.15); color:var(--success); padding:4px 10px; border-radius:20px; font-size:0.7rem; font-weight:bold;"> CENTRO DE APOYO & CONTINGENCIAS</div>
-    </div>
-    <h3 style="font-family:'Outfit'; font-size:1.2rem; margin-bottom:6px; color:#fff;">Tu Caja de Herramientas de Mentoría</h3>
-    <p style="font-size:0.82rem; color:var(--text-secondary); line-height:1.5; margin-bottom:10px;">
-        Respuestas tácticas para desatascar sesiones y calibrar tu criterio de liderazgo:
-    </p>
-    <ul style="font-size:0.78rem; color:var(--text-secondary); padding-left:16px; line-height:1.6; margin-bottom:15px;">
-        <li><strong style="color:var(--success);">Coach de Crisis:</strong> Úsalo cuando tu mentada llore, no avance o se muestre defensiva.</li>
-        <li><strong style="color:var(--accent-water);">Gimnasia Cerebral:</strong> Despierta tu agilidad visual antes de liderar la sesión.</li>
-    </ul>
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="btn-outline" style="border-color:var(--success); color:var(--success); flex:1;" onclick="openCrisisModal()">🚨 Coach de Crisis</button>
-        <button class="btn-outline" style="border-color:var(--accent-water); color:var(--accent-water); flex:1;" onclick="iniciarDespertadorNeuronal()">🧠 Despertador Neuronal</button>
-    </div>
-</div>
-
-<!-- Modal Despertador Neuronal -->
-<div id="despertador-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(6,6,13,.98);justify-content:center;align-items:flex-start;padding-top:12vh;">
-    <div style="background:var(--bg-surface);border:1px solid var(--accent-water);padding:30px;border-radius:24px;text-align:center;max-width:400px;width:100%;">
-        <div style="font-size:2.5rem;margin-bottom:10px;">🧠</div>
-        <h3 style="font-family:'Outfit';font-size:1.3rem;color:white;margin-bottom:5px;">El Despertador Neuronal</h3>
-        <p style="font-size:0.85rem;color:var(--text-secondary);line-height:1.4;margin-bottom:20px;">Decodifica la siguiente frase ejecutiva encriptada (A→4, E→3, I→1, O→0, S→5, B→8, T→7). Tienes 15 segundos.</p>
-        
-        <div id="dn-frase-box" style="background:rgba(0,198,255,0.05); border:1px solid rgba(0,198,255,0.2); padding:20px; border-radius:12px; margin-bottom:20px;">
-            <p id="dn-frase" style="font-family:'Courier New', monospace; font-size:1.1rem; color:var(--accent-water); font-weight:bold; letter-spacing:1px; line-height:1.4; word-break:break-word;">
-                C4RG4ND0...
-            </p>
-        </div>
-        
-        <div id="dn-timer" style="font-family:'Outfit';font-size:3rem;font-weight:bold;color:white;margin-bottom:20px;">15</div>
-        
-        <button id="btn-dn-revelar" class="btn-premium" style="width:100%; margin-bottom:10px;" onclick="revelarDespertador()">Revelar Texto Original</button>
-        <button class="btn-outline" style="width:100%; border-color:var(--text-secondary); color:var(--text-secondary);" onclick="document.getElementById('despertador-modal').style.display='none'">Cerrar</button>
-    </div>
-</div>
-
-<script>
-const dnFrases = [
-    { enc: "3L L1D3R4ZG0 N0 35 UN 717UL0, 35 UN4 R35P0N5481L1D4D.", orig: "EL LIDERAZGO NO ES UN TITULO, ES UNA RESPONSABILIDAD." },
-    { enc: "L4 R351L13NC14 53 C0N57RUY3 3N L4 4DV3R51D4D, N0 3N L4 C0M0D1D4D.", orig: "LA RESILIENCIA SE CONSTRUYE EN LA ADVERSIDAD, NO EN LA COMODIDAD." },
-    { enc: "L4 M3J0R 1NV3R510N QU3 PU3D35 H4C3R 35 3N 7U PR0P10 CR3C1M13N70.", orig: "LA MEJOR INVERSION QUE PUEDES HACER ES EN TU PROPIO CRECIMIENTO." },
-    { enc: "N0 8U5QU35 3XC0545, 8U5C4 R35UL74D05 Y 50LU010N35.", orig: "NO BUSQUES EXCUSAS, BUSCA RESULTADOS Y SOLUCIONES." }
-];
-let dnInterval;
-let dnCurrentFrase;
-
-function iniciarDespertadorNeuronal() {
-    const modal = document.getElementById('despertador-modal');
-    modal.style.display = 'flex';
-    
-    dnCurrentFrase = dnFrases[Math.floor(Math.random() * dnFrases.length)];
-    document.getElementById('dn-frase').textContent = dnCurrentFrase.enc;
-    document.getElementById('dn-frase').style.color = 'var(--accent-water)';
-    document.getElementById('dn-timer').textContent = '15';
-    document.getElementById('btn-dn-revelar').disabled = false;
-    
-    let left = 15;
-    clearInterval(dnInterval);
-    dnInterval = setInterval(() => {
-        left--;
-        document.getElementById('dn-timer').textContent = left;
-        if(left <= 0) {
-            clearInterval(dnInterval);
-            revelarDespertador();
-        }
-    }, 1000);
-}
-
-function revelarDespertador() {
-    clearInterval(dnInterval);
-    document.getElementById('dn-frase').textContent = dnCurrentFrase.orig;
-    document.getElementById('dn-frase').style.color = 'var(--success)';
-    document.getElementById('btn-dn-revelar').disabled = true;
-}
-</script>
-
-<div class="kit-sec-title">📊 Mi Impacto</div>
-    <div class="kit-stat-grid">
-      <div class="kit-stat"><div class="val" id="km-dias">0</div><div class="lbl">Días activos</div></div>
-      <div class="kit-stat"><div class="val" id="km-streak">0</div><div class="lbl">Racha</div></div>
-      <div class="kit-stat"><div class="val" id="km-ppm">—</div><div class="lbl">Mejor PPM</div></div>
-      <div class="kit-stat"><div class="val" id="km-comp">—</div><div class="lbl">Comprensión prom.</div></div>
-    </div>
-    <div class="kit-progress-wrap">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:.75rem;color:#8A8F98;text-transform:uppercase;letter-spacing:1px">Progreso del Bloque</span>
-        <span id="km-pct" style="font-size:.75rem;color:#FF5E00;font-weight:600">0%</span>
-      </div>
-      <div class="kit-bar-bg"><div id="km-bar" class="kit-bar-fill" style="width:0%"></div></div>
-    </div>
-    <div id="km-mirror-profile" class="mirror-wrap" style="display:none">
-      <div style="font-size:.68rem;color:#FF5E00;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tu estilo de mentoría</div>
-      <div id="km-profile-name" style="font-family:'Outfit';font-size:1.1rem;color:#fff;font-weight:600;margin-bottom:6px">—</div>
-      <div id="km-profile-desc" style="font-size:.8rem;color:#8A8F98;line-height:1.6">Completa 5 días para revelar tu perfil.</div>
-    </div>
-
-    <!-- COACH DE CRISIS -->
-    <div class="kit-sec-title">⚡ Coach de Crisis</div>
-    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Cuando la sesión se complica. Toca la situación.</p>
-    <div class="crisis-grid-mm">
-      <div class="crisis-btn-mm" onclick="abrirCrisisMM('no_avanza')"><span class="cbi">😶</span><span class="cbl">No avanza</span></div>
-      <div class="crisis-btn-mm" onclick="abrirCrisisMM('llora')"><span class="cbi">😢</span><span class="cbl">Llora en sesión</span></div>
-      <div class="crisis-btn-mm" onclick="abrirCrisisMM('resistencia')"><span class="cbi">🧱</span><span class="cbl">Resistencia</span></div>
-      <div class="crisis-btn-mm" onclick="abrirCrisisMM('dependencia')"><span class="cbi">🔗</span><span class="cbl">Dependencia</span></div>
-      <div class="crisis-btn-mm" onclick="abrirCrisisMM('limites')"><span class="cbi">⚠️</span><span class="cbl">Límite cruzado</span></div>
-      <div class="crisis-btn-mm" onclick="abrirCrisisMM('estancada')"><span class="cbi">🔄</span><span class="cbl">Sesión vacía</span></div>
-    </div>
-    <div id="crisis-modal-mm">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:20px">
-        <h3 id="crisis-mm-title" style="font-family:'Outfit';font-size:1.1rem"></h3>
-        <button onclick="cerrarCrisisMM()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
-      </div>
-      <div id="crisis-mm-content"></div>
-    </div>
-
-    <!-- ENTRENAMIENTO COGNITIVO -->
-    <div class="kit-sec-title">🧠 Entrenamiento Cognitivo</div>
-    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Ejercicios para acelerar tu visión y procesamiento.</p>
-    <div class="crisis-grid-mm">
-      <div class="crisis-btn-mm" onclick="abrirSchulte()">
-        <span class="cbi">🔢</span>
-        <span class="cbl">Tabla de Schulte<br><span style="font-size:.6rem;opacity:.6">Visión periférica</span></span>
-      </div>
-      <div class="crisis-btn-mm" onclick="abrirFocus()">
-        <span class="cbi">🎯</span>
-        <span class="cbl">Focus Visual<br><span style="font-size:.6rem;opacity:.6">Salto ocular</span></span>
-      </div>
-    </div>
-
-    <!-- SALA DE CASOS -->
-    <div class="kit-sec-title">⚔️ Sala de Casos Socráticos</div>
-    <p style="font-size:.75rem;color:#8A8F98;margin-bottom:12px;margin-top:-8px">Simulaciones de situaciones reales. Elige la respuesta socrática correcta.</p>
-    <div id="sala-casos-list">
-        <div class="caso-card" onclick="abrirCaso(0)">
-          <h4>Caso 1: La Primera Sesión que Falla</h4>
-          <p>Tu mentoreada llega con los brazos cruzados y monosílabos. ¿Cómo activas la apertura?</p>
-          <span class="caso-tag">Candor Radical</span>
-        </div>
-        <div class="caso-card" onclick="abrirCaso(1)">
-          <h4>Caso 2: La Escalera del Drama</h4>
-          <p>Ella construyó una narrativa de víctima sobre su jefe. Tú debes separar datos de inferencias.</p>
-          <span class="caso-tag">Escalera de Inferencia</span>
-        </div>
-        <div class="caso-card" onclick="abrirCaso(2)">
-          <h4>Caso 3: El Triángulo Oculto</h4>
-          <p>Tu mentoreada te pide que tomes partido en un conflicto con su equipo. Detecta el rol.</p>
-          <span class="caso-tag">Triángulo de Karpman</span>
-        </div>
-        <div class="caso-card" onclick="abrirCaso(3)">
-          <h4>Caso 4: La Pregunta que Ella No Esperaba</h4>
-          <p>Tu mentoreada llegó con la solución ya decidida. Tu tarea: hacerla pensar desde cero.</p>
-          <span class="caso-tag">Humble Inquiry</span>
-        </div>
-    </div>
-    <div id="sala-modal">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding-top:10px;margin-bottom:16px">
-        <h3 id="sala-title" style="font-family:'Outfit';font-size:1.1rem;max-width:85%"></h3>
-        <button onclick="cerrarSala()" style="background:transparent;border:none;color:#8A8F98;font-size:1.8rem;cursor:pointer;width:40px">×</button>
-      </div>
-      <div id="sala-content"></div>
-    </div>
-
-    <!-- ESPEJO DE LIDERAZGO -->
-    <div class="kit-sec-title">🔮 Espejo de Liderazgo</div>
-    <div class="caso-card" style="cursor:default">
-      <h4>Tu Arquitectura de Mentoría</h4>
-      <p>Se activa al completar 5 días del bloque. Revela tu estilo dominante, tus brechas como mentora y los patrones que estás replicando sin saberlo.</p>
-      <span id="espejo-status" class="caso-tag">🔒 Completa 5 días</span>
-    </div>
-  </div>
-</div>
-
-<!-- MODAL SCHULTE -->
-<div id="schulte-modal" class="cogn-modal">
-  <button class="cogn-close" onclick="cerrarSchulte()">×</button>
-  <div style="font-family:'Outfit';font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:4px">Tabla de Schulte</div>
-  <div id="schulte-target" style="font-size:.85rem;color:#8A8F98;margin-bottom:12px;">Encuentra el: <strong id="schulte-next" style="color:#FF5E00;font-size:1.2rem;">—</strong></div>
-  <div id="schulte-timer">0.0s</div>
-  <div id="schulte-grid"></div>
-  <div id="schulte-result" style="margin-top:16px;font-family:'Outfit';font-size:1rem;color:#10b981;text-align:center;min-height:24px;"></div>
-  <button id="schulte-start" onclick="iniciarSchulte()" class="btn-premium fire" style="margin-top:18px;padding:13px 32px;border-radius:14px;font-size:.9rem;">▶ Iniciar Entrenamiento</button>
-</div>
-
-<!-- MODAL FOCUS VISUAL -->
-<div id="focus-modal" class="cogn-modal">
-  <button class="cogn-close" onclick="cerrarFocus()">×</button>
-  <div style="font-family:'Outfit';font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:4px">Focus Visual</div>
-  <div style="font-size:.78rem;color:#8A8F98;margin-bottom:14px;">Sigue el punto con tu mirada. No muevas la cabeza.</div>
-  <canvas id="focus-canvas" width="280" height="280"></canvas>
-  <div id="focus-instruction">Mantén el punto de fijación central en tu visión. Deja que tus ojos salten suavemente al punto azul.</div>
-  <div style="margin-top:16px;display:flex;gap:12px;">
-    <button onclick="iniciarFocus()" class="btn-premium water" style="padding:12px 24px;border-radius:12px;font-size:.85rem;">▶ Iniciar</button>
-    <button onclick="cerrarFocus()" class="btn-outline" style="padding:12px 24px;border-radius:12px;font-size:.85rem;">Cerrar</button>
-  </div>
-</div>
 
 
-<!-- BIBLIOTECA MUNDIAL VIEW -->
-<div id="view-library" class="view kit-view" style="display:none; flex-direction:column; height: 100%;">
-    <div class="kit-scroll" style="padding-bottom: 120px;">
-        <div style="padding:20px 0 10px">
-            <h2 style="font-family:'Outfit';font-size:1.4rem;font-weight:700">Biblioteca Mundial</h2>
-            <p style="color:#8A8F98;font-size:.82rem;margin-top:4px">Recursos y evidencia científica del programa</p>
-        </div>
-        
-        <!-- IA Classifier Simulator -->
-        <div class="sim-box" style="margin-top: 10px;">
-            <h4 style="font-family:'Outfit'; color:white; margin-bottom:8px; display:flex; align-items:center; gap:8px; font-size: 0.95rem;">
-                <span>🧠</span> Clasificador de Recursos IA
-            </h4>
-            <p style="font-size:0.75rem; color:var(--text-secondary); margin-bottom:12px; line-height:1.4;">
-                Pega el título, resumen o link de un nuevo recurso y la IA lo categorizará y etiquetará automáticamente.
-            </p>
-            <input type="text" id="sim-input" placeholder="Ej: Libro: Radical Candor de Kim Scott..." style="margin-bottom:8px; width: 100%; box-sizing: border-box; padding: 12px; border-radius: 8px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-subtle); color: #fff; font-family: 'Inter';">
-            <button class="btn-premium fire" onclick="simularClasificacion()" style="padding: 12px; font-size:0.85rem; border-radius:10px; width: 100%; font-family:'Outfit'; font-weight:600; cursor:pointer;">Clasificar mediante IA</button>
-            <div id="sim-loading" style="display:none; text-align:center; margin-top:12px;">
-                <p style="font-size:0.8rem; color:var(--accent-water); animation: pulse 1s infinite alternate;">🧬 Analizando texto y mapeando con Invictus Mind...</p>
-            </div>
-        </div>
-
-        <!-- Search & Filters -->
-        <div class="library-header" style="margin-top: 20px;">
-            <div class="search-box">
-                <span style="margin-right:8px; color:var(--text-secondary);">🔍</span>
-                <input type="text" id="library-search" class="search-input" placeholder="Buscar en la biblioteca..." oninput="filtrarBiblioteca()">
-            </div>
-            <div class="filters-scroll" id="filters-scroll"></div>
-        </div>
-
-        <!-- Resources List -->
-        <div class="library-list" id="library-list" style="margin-top: 15px;"></div>
-    </div>
-</div>
-</main>
-
-        
-            <div id="view-mentada" class="view" style="padding: 80px 20px 100px;">
-            <h2 style="font-family: 'Outfit'; font-weight: 300; letter-spacing: 2px;">PANEL DE MONITOREO</h2>
-            <div id="mentada-dashboard-content" style="margin-top: 30px;">
-                <!-- Rendered via JS -->
-            </div>
-        </div>
-    
-        
-        <!-- PANEL CONEXIÓN (FASE C) -->
-        <div id="view-conexion" class="view" style="padding: 80px 20px 100px; flex-direction: column; height: 100vh;">
-            <h2 id="conexion-title" style="font-family: 'Outfit'; font-weight: 300; letter-spacing: 2px;">CONEXIÓN</h2>
-            
-            <div id="conexion-agenda" style="background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; margin-top: 20px;">
-                <h3 style="font-size: 1rem; color: var(--accent-earth);">Próxima Sesión</h3>
-                <p id="conexion-session-status" style="font-size: 0.9rem; margin-top: 5px; color: #ddd;">Cargando calendario...</p>
-            </div>
-
-            <div id="chat-container" style="flex: 1; overflow-y: auto; margin-top: 20px; display: flex; flex-direction: column; gap: 10px; padding-right: 5px;">
-                <!-- Chat bubbles -->
-            </div>
-            
-            <div id="chat-input-area" style="display: flex; gap: 10px; margin-top: 20px;">
-                <input type="text" id="chat-input" placeholder="Escribe un mensaje..." style="flex: 1; background: rgba(255,255,255,0.1); border: none; padding: 15px; border-radius: 25px; color: white; font-family: 'Inter'; outline: none;">
-                <button onclick="sendChatMessage()" style="background: var(--accent-water); border: none; border-radius: 50%; width: 50px; height: 50px; color: var(--bg-absolute); font-size: 1.2rem; cursor: pointer;">➤</button>
-            </div>
-        </div>
-    
-        <nav class="bottom-nav">
-            <div class="nav-item active" onclick="switchTab('view-dashboard', this)"><div class="nav-icon">⚲</div><span class="nav-label">HOME</span></div>
-            <div class="nav-item" onclick="switchTab('view-session', this)"><div class="nav-icon">⚡</div><span class="nav-label">SESIÓN</span></div>
-            <div class="nav-item" onclick="switchTab('view-libreta', this)"><div class="nav-icon">▤</div><span class="nav-label">PLAYBOOK</span></div>
-            <div class="nav-item" onclick="switchTab('view-kit', this)"><div class="nav-icon">🛡️</div><span class="nav-label">MI KIT</span></div>
-            <div class="nav-item mentada-tab-btn" style="display:none;" onclick="switchTab('view-mentada', this)"><div class="nav-icon">👥</div><span class="nav-label">MI MENTADA</span></div>
-            <div class="nav-item conexion-tab-btn" onclick="switchTab('view-conexion', this)"><div class="nav-icon">🌐</div><span class="nav-label">CONEXIÓN</span></div>
-        </nav>
-    </div>
-
-    <!-- SUPABASE INIT -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
         const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
         const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
-    </script>
     
-    <script>
+
         let currentUser = null;
         let currentPin = '';
         let pinCount = 0;
@@ -1174,8 +434,15 @@ function continueToComprension() {
         currentAnswers = {};
     }
     
-    const savedLastDay = localStorage.getItem('mm_last_day_b1');
-    loadMujeresMentorasDay(savedLastDay ? parseInt(savedLastDay) : 1);
+    // Find highest incomplete day or 1
+    let target = 1;
+    while(completedDays.includes(target)) target++;
+    if(target > window.activeTrackData.length) target = window.activeTrackData.length;
+    
+    // Check if target day was manually overridden in currentDay
+    if(currentDay > target && completedDays.includes(currentDay-1)) target = currentDay;
+    
+    loadMujeresMentorasDay(target);
     // renderDaySwitcher();
 
     if(currentUser.role === 'Mentora') {
@@ -1201,10 +468,8 @@ async function saveProgress() {
         updated_at: new Date().toISOString()
     });
 }
-</script>
 
 
-<script>
 // --- FASE B: DASHBOARD Y RESPUESTAS ---
 async function loadMentadaDashboard() {
     const content = document.getElementById('mentada-dashboard-content');
@@ -1257,10 +522,8 @@ switchTab = function(viewId, element) {
         loadMentadaDashboard();
     }
 };
-</script>
 
 
-<script>
 // --- FASE C: CHAT Y CONEXIÓN ---
 let chatPartner = null;
 let realtimeSubscription = null;
@@ -1388,10 +651,8 @@ switchTab = function(viewId, element) {
         loadConexionTab();
     }
 };
-</script>
 
 
-<script>
 // --- MODULO DE AGENDAMIENTO ---
 let currentSessionId = null;
 
@@ -1499,17 +760,14 @@ async function updateSessionStatus(newStatus) {
     }
     loadAgenda();
 }
-</script>
 
 
-<script>
 function showRealtimeNotification(msg) {
     console.log("Notification: " + msg);
     alert(msg);
 }
-</script>
 
-<script>
+
 // --- PLAYBOOK LOGIC ---
 let playbookSaveTimeout = null;
 
@@ -1624,9 +882,8 @@ function populatePlaybookDays() {
         loadPlaybookDay(window.currentDayIndex);
     }
 }
-</script>
 
-<script>
+
 // --- SIGMA COACH LOGIC ---
 let isSigmaOpen = false;
 
@@ -1687,10 +944,8 @@ function getSigmaResponse(userText) {
 
     appendSigmaMessage(response, 'received');
 }
-</script>
 
 
-<script>
 // --- PLAYBOOK & KIT SYNC (Supabase: user_mentee_tracking) ---
 let currentTracking = {
     mentee_name: '',
@@ -2633,14 +1888,8 @@ function renderMentoraSession(dayIndex) {
     texto = texto.split('\n').map(p => p.trim() ? `<p class="reader-p">${p}</p>` : '').join('');
     
     let preguntasHTML = '';
-    let arr = null;
-    if (d) {
-        if (d.preguntas) arr = d.preguntas;
-        else if (d.comprension) arr = d.comprension;
-        else if (d.fase2_lectura && d.fase2_lectura.comprension) arr = d.fase2_lectura.comprension;
-    }
-    if (arr) {
-        preguntasHTML = arr.map((q, i) => `
+    if (d && d.preguntas) {
+        preguntasHTML = d.preguntas.map((q, i) => `
             <div style="margin-bottom: 20px;">
                 <p style="font-size: 0.9rem; margin-bottom: 12px; color: white;"><strong>${i+1}. ${q.q || q.pregunta}</strong></p>
                 ${(q.options || q.opciones).map((opt, j) => `
@@ -2701,79 +1950,73 @@ function renderMentoraSession(dayIndex) {
         </div>
 
         <!-- F4 -->
-        <div class="phase active" id="comprension-block">
+        <div class="phase" id="comprension-block" style="display:none;">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
-            <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo.</p>
-            <div id="test-content" style="margin-top: 16px;">
-                ${preguntasHTML}
-                <button class="btn-premium fire" style="width: 100%; margin-top: 8px;" onclick="evaluarQuizReal(${dayIndex})">📊 Evaluar Comprensión</button>
+            <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo. Al iniciar el test, el texto desaparecerá permanentemente.</p>
+            <div id="test-intro">
+                <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
             </div>
-            <div id="quiz-result-${dayIndex}" style="display:none; margin-top:20px; padding:20px; border-radius:12px; border:1px solid;"></div>
+            <div id="test-content" style="display: none; margin-top: 16px;">
+                ${preguntasHTML}
+                <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
+            </div>
+            <div id="recall-result" style="display: none; margin-top: 16px; padding: 16px; border-radius: 12px; border: 1px solid transparent;"></div>
         </div>
 
         <!-- F5 -->
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
-            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Libreta MindJump)</p>
-            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase5_desc ? d.fase5_desc : `Abre tu Libreta MindJump. Realiza un esquema visual o diagrama de cómo aplicar <strong>${titulo}</strong> en tu entorno de trabajo. Tacha los elementos limitantes y asume el 100% del control sobre tu trayectoria.`}</p>
-            <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_analog')">✍️ Marcar como Hecho a Mano</button>
+            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+            <p class="phase-desc" style="margin-top: 8px;">Abre tu Libreta MindJump. Realiza el ejercicio correspondiente a este bloque.</p>
+            <button id="btn-analog-1" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_1')">Marcar como Hecho a Mano</button>
         </div>
 
         <!-- F6 -->
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">${d && d.fase6_desc ? d.fase6_desc : `Anclaje corporal consciente: Toca tu cabeza al internalizar los principios racionales de <strong>${titulo}</strong>, y tus manos al visualizar su ejecución táctica para la semana.`}</p>
+            <p class="phase-desc">La memoria espacial es la más fuerte. Usando el anclaje espacial, liga la información a tu cuerpo.</p>
         </div>
 
         <!-- F7 -->
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">${d && d.fase7_desc ? d.fase7_desc : `Si la estrategia de <strong>${titulo}</strong> fuera una herramienta física de ingeniería o precisión, ¿cuál sería y cómo la aplicarías?`}</p>
-            <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo..." style="margin-top: 12px;">
+            <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo...">
             <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 7); document.getElementById('f7-input').disabled = true;">💾 Guardar</button>
         </div>
 
         <!-- F8 -->
         <div class="phase">
             <div class="phase-node"></div>
-            <div class="phase-header"><h4>8. Zona de Riesgo Táctico</h4><span class="phase-duration">5m</span></div>
-            <p class="phase-desc" style="color: white; font-weight: 500;">⚡ Micro-Desafío Real en Libreta</p>
-            <div class="phase-desc" style="margin-top: 8px;">
-                ${d && d.fase8_desc ? d.fase8_desc : `
-                1. <strong>Identifica el Bloqueo:</strong> ¿En qué decisión o área relacionada con <strong>${titulo}</strong> estás dudando por no sentirte '100% lista'?<br><br>
-                2. <strong>Acción Incómoda:</strong> Escribe la acción directa a ejecutar en 48h.<br><br>
-                3. <strong>Regla del 100%:</strong> Escribe a mano: <em>"La seguridad no precede a la acción; la seguridad sigue a la acción ejecutada."</em>
-                `}
-            </div>
-            <button id="btn-analog-8-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_riesgo')">✍️ Marcar como Hecho a Mano</button>
+            <div class="phase-header"><h4>8. Zona de Riesgo Identitario</h4><span class="phase-duration">5m</span></div>
+            <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Cuaderno Físico)</p>
+            <p class="phase-desc" style="margin-top: 8px;">Identifica tu zona de riesgo de liderazgo HOY.</p>
+            <button id="btn-analog-2" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'invictus_analog_2')">Marcar como Hecho a Mano</button>
         </div>
         
         <!-- F9 -->
-        <div class="phase">
+        <div class="phase" style="display: ${showFeynman ? 'block' : 'none'}">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>9. Técnica Feynman</h4></div>
-            <p class="phase-desc">${d && d.fase9_desc ? d.fase9_desc : `Explica en voz alta y de forma simplificada los conceptos de <strong>${titulo}</strong>, como si le enseñaras la estrategia a una mentoreada junior.`}</p>
+            <p class="phase-desc">Explica en voz alta lo aprendido a tu celular o grabadora como si le hablaras a tu mentoreada.</p>
         </div>
 
         <!-- F10 -->
         <div class="phase">
             <div class="phase-node"></div>
-            <div class="phase-header"><h4>10. Metacognición y Sesgos</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc" style="color: #FFFFFF; font-weight: 500;">🧠 Reflexión Profunda en Libreta</p>
-            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase10_desc ? d.fase10_desc : `Escribe a mano en 2 oraciones: ¿Cuál fue tu principal resistencia o sesgo mental durante la sesión sobre <strong>${titulo}</strong>? ¿En qué momento sentiste el impulso de justificar un hábito antiguo?`}</p>
-            <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_meta')">✍️ Marcar como Hecho a Mano</button>
+            <div class="phase-header"><h4>10. Metacognición (Reflexión)</h4><span class="phase-duration">1m</span></div>
+            <input type="text" id="f10-input" class="input-premium" placeholder="Escribe tu mayor bloqueo cognitivo hoy...">
+            <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 10); document.getElementById('f10-input').disabled = true;">💾 Guardar Metacognición</button>
         </div>
 
         <!-- F11 -->
         <div class="phase">
             <div class="phase-node"></div>
-            <div class="phase-header"><h4>11. Ensayo Somático (Identidad)</h4><span class="phase-duration">2m</span></div>
-            <p class="phase-desc">${d && d.fase11_desc ? d.fase11_desc : `Cierra los ojos 60 segundos. Visualízate aplicando <strong>${titulo}</strong> en tu reunión más exigente. Siente tu postura firme y declara en voz alta y por escrito: <strong>"Soy líder. Nací líder. Y actúo como la líder que soy."</strong>`}</p>
-            <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_somatico')">✍️ Marcar como Hecho a Mano</button>
+            <div class="phase-header"><h4>11. Ensayo Somático (Estado del Ser)</h4><span class="phase-duration">2m</span></div>
+            <p class="phase-desc">Cierra los ojos y visualiza el comportamiento deseado en tu próxima reunión crítica.</p>
         </div>
 
         <!-- F12 -->
@@ -2786,18 +2029,8 @@ function renderMentoraSession(dayIndex) {
                 <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
                 <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
             </div>
-            <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px;" onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
-            
-            <div id="concluir-modal-${dayIndex}" style="display: none; margin-top: 14px; padding: 16px; border-radius: 12px; background: rgba(16,185,129,0.12); border: 1px solid var(--success); text-align: center;">
-                <div style="font-size: 1.5rem; margin-bottom: 6px;">✨ 🏆 ✨</div>
-                <h4 style="color: var(--success); font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 4px;">¡Día ${dayIndex} Concluido con Éxito!</h4>
-                <p style="font-size: 0.85rem; color: #E2E8F0; line-height: 1.5; margin-bottom: 12px;">Tu neuroplasticidad y tu identidad de liderazgo han sido consolidadas. Tu progreso se ha guardado en Mi Kit.</p>
-                <button class="btn-premium fire" style="width: 100%; padding: 12px; font-size: 0.9rem;" onclick="loadMujeresMentorasDay(${dayIndex + 1}); window.scrollTo(0,0);">
-                    ▶ Avanzar al Día ${dayIndex + 1} →
-                </button>
-            </div>
+            <div id="subtitles-box" style="display:none; margin-top: 12px; padding: 16px; background: rgba(0,198,255,0.03); border: 1px solid var(--border-subtle); border-radius: 12px; font-style: italic; color: var(--text-secondary); font-size: 0.85rem; line-height: 1.6;"></div>
         </div>
-    </div>
     `;
     
     // Configurar titulo del heroe del bloque
@@ -2838,37 +2071,43 @@ function loadMujeresMentorasDay(dayIndex) {
     renderPlaybookTactico(dayIndex);
 
     // Render roadmap
-    if(typeof renderDashboard === 'function') renderDashboard();
+    renderRoadmap(dayIndex);
 }
 
 /* ---------- ROADMAP RENDER ---------- */
-function renderDashboard() {
-    const list = document.getElementById('dashboard-list');
-    if (!list) return;
-    list.innerHTML = '';
-   
-    const daysData = window.activeTrackData || [];
-    const currentDayId = typeof currentDay !== 'undefined' ? currentDay : 1;
-
-    daysData.forEach(day => {
-        const card = document.createElement('div');
-        const isDone = localStorage.getItem('mm_b1_d' + day.dia + '_done') === 'true' || localStorage.getItem('mm_b1_d' + day.dia) === '1';
-        card.className = `glass-card track-card ${currentDayId === day.dia ? 'active' : ''}`;
-        card.onclick = () => {
-            loadMujeresMentorasDay(day.dia);
-            switchTab('view-session', document.querySelectorAll('.nav-item')[1]);
-            document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-        };
-        card.innerHTML = `
-            <div class="track-number" style="${isDone ? 'background: rgba(16,185,129,0.2); border-color: #10B981; color: #10B981;' : ''}">${isDone ? '✓' : day.dia}</div>
-            <div>
-                <h4 style="font-size: 0.95rem; color: white;">${day.titulo}</h4>
-                <p style="font-size: 0.8rem; color: ${isDone ? '#10B981' : '#FF5E00'};">${isDone ? '✅ Completado' : ("Fundamentos y Raíces")}</p>
-            </div>
-        `;
-        list.appendChild(card);
-    });
+function renderRoadmap(currentDayArg) {
+    const container = document.getElementById('roadmap-container');
+    if (!container) return;
+    const bloques = [
+        { num:1, name:'Identidad de Liderazgo', days:'1–8', icon:'🧬' },
+        { num:2, name:'Inteligencia Emocional', days:'9–18', icon:'🧠' },
+        { num:3, name:'Comunicación Ejecutiva', days:'19–28', icon:'🎤' },
+        { num:4, name:'Estrategia y Sistemas', days:'29–38', icon:'♟️' },
+        { num:5, name:'Negociación e Influencia', days:'39–48', icon:'🤝' },
+        { num:6, name:'Alta Performance', days:'49–58', icon:'⚡' },
+        { num:7, name:'Legado y Red', days:'59–68', icon:'🌐' },
+        { num:8, name:'Transformación Profunda', days:'69–78', icon:'🔮' }
+    ];
+    container.innerHTML = bloques.map(b => {
+        const startDay = (b.num - 1) * 10 + 1;
+        const endDay = b.num * 10;
+        const isActive = currentDayArg >= startDay && currentDayArg <= endDay;
+        const isDone = currentDayArg > endDay;
+        return `<div style="display:flex;align-items:center;gap:14px;background:${
+            isDone ? 'rgba(16,185,129,0.06)' : isActive ? 'rgba(255,94,0,0.06)' : 'rgba(255,255,255,0.03)'
+        };border:1px solid ${
+            isDone ? 'rgba(16,185,129,0.2)' : isActive ? 'rgba(255,94,0,0.3)' : 'rgba(255,255,255,0.07)'
+        };border-radius:14px;padding:14px;cursor:pointer;" onclick="switchTab('view-session',document.querySelectorAll('.nav-item')[1])">
+          <div style="font-size:1.6rem;width:40px;text-align:center">${b.icon}</div>
+          <div style="flex:1">
+            <div style="font-family:'Outfit';font-size:.78rem;font-weight:700;color:${
+                isDone ? '#10b981' : isActive ? '#FF5E00' : '#8A8F98'
+            };text-transform:uppercase;letter-spacing:1px">Bloque ${b.num} · Días ${b.days}</div>
+            <div style="font-size:.9rem;color:#fff;margin-top:2px">${b.name}</div>
+          </div>
+          <div style="font-size:1rem">${isDone ? '✅' : isActive ? '▶' : '🔒'}</div>
+        </div>`;
+    }).join('');
 }
 
 /* ---------- PLAYBOOK TÁCTICO RENDER ---------- */
@@ -3166,16 +2405,9 @@ function evaluarQuizReal(dayId) {
     let qData = [];
     if (window.activeTrackData) {
         const d = window.activeTrackData.find(x => x.dia === currentDay);
-        if (d) {
-            if (d.preguntas) qData = d.preguntas;
-            else if (d.comprension) qData = d.comprension;
-            else if (d.fase2_lectura && d.fase2_lectura.comprension) qData = d.fase2_lectura.comprension;
-        }
+        if (d && d.preguntas) qData = d.preguntas;
     }
-    if (!qData || qData.length === 0) {
-        alert("⚠️ No se encontraron preguntas para evaluar.");
-        return;
-    }
+    if (!qData || qData.length === 0) return;
 
     let correctas = 0;
     let sinResponder = 0;
@@ -3243,13 +2475,10 @@ function evaluarQuizReal(dayId) {
 
 let sosInterval;
 const affirmations = [
-"Perdona a tu persona del pasado, estaba haciendo lo mejor que podía con la consciencia que tenía en ese momento.",
-"No te des tan duro. La autoexigencia brutal destruye tu inspiración; la autocompasión la expande.",
-"No necesitas ser perfecta para liderar. Tu vulnerabilidad humana es, de hecho, tu mayor fortaleza.",
-"El progreso jamás es lineal. Estás exactamente en el lugar que necesitas estar para tu evolución.",
-"Respira profundo. Suelta el hipercontrol. Lo que te pertenece te encontrará incluso en el descanso.",
-"Hoy, elige ser tu propio refugio seguro en lugar de convertirte en tu juez más severo.",
-"Tus errores no definen tu valor, solo refinan tu sabiduría. Date permiso para aprender."
+    "Tus resultados hablan más fuerte que tu síndrome del impostor. Respira tu evidencia",
+    "No tienes que saberlo todo, solo estar dispuesta a aprender el siguiente paso",
+    "Tu valía no se mide por la validación externa, sino por tu congruencia interna",
+    "Permítete ocupar espacio. Perteneces aquí"
 ];
 
 window.openSOS = function() {
@@ -3284,214 +2513,8 @@ window.openCrisisModal = function() {
     document.getElementById('crisis-modal-mm').style.display = 'block';
 };
 
-</script>
-
-    <!-- PPM Result Modal -->
-    <div id="ppm-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(6,6,13,.98);justify-content:center;align-items:flex-start;padding-top:12vh;">
-        <div style="background:var(--bg-surface);border:1px solid rgba(255,255,255,0.1);padding:30px;border-radius:24px;text-align:center;max-width:320px;width:100%;">
-            <div style="font-size:3rem;margin-bottom:10px;">⚡</div>
-            <h3 style="font-family:'Outfit';font-size:1.5rem;color:white;margin-bottom:5px;">Lectura Completada</h3>
-            <div style="font-family:'Outfit';font-size:3.5rem;font-weight:bold;color:var(--accent-fire);line-height:1;" id="ppm-result">--</div>
-            <div style="font-size:0.8rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;">Palabras por Minuto</div>
-            <p style="font-size:0.9rem;color:var(--text-tertiary);line-height:1.5;margin-bottom:24px;" id="ppm-msg">--</p>
-            <button class="btn-premium" style="width:100%;" onclick="closePPMModal()">Continuar al Recall Activo</button>
-        </div>
-    </div>
-
-    <!-- SOS Overlay Protocol -->
-    <div id="sos-overlay" class="sos-overlay">
-        <button class="close-sos" onclick="closeSOS()">Mi frecuencia se ha elevado ⏹</button>
-        <div class="sos-content">
-            <h2 class="display-font" style="font-size:2rem;color:white;margin-bottom:10px;">Protocolo SOS</h2>
-            <p style="color:var(--text-secondary);margin-bottom:40px;">Regulación de Cortisol</p>
-            
-            <div class="breathing-circle-container">
-                <div class="b-circle outer"></div>
-                <div class="b-circle inner"></div>
-                <div class="b-text">Inhala</div>
-            </div>
-            
-            <div class="affirmation-container" id="sos-affirmation">
-                Tus resultados hablan más fuerte que tu síndrome del impostor. Respira tu evidencia
-            </div>
-        </div>
-    </div>
-    
-    <style>
-    /* SOS CSS */
-    .sos-overlay { position:fixed; inset:0; z-index:9999; background:rgba(6,6,13,0.98); display:flex; flex-direction:column; align-items:center; justify-content:center; opacity:0; pointer-events:none; transition:opacity 0.5s; }
-    .sos-overlay.active { opacity:1; pointer-events:all; }
-    .close-sos { position:absolute; top:30px; right:30px; background:transparent; border:1px solid rgba(255,255,255,0.2); color:white; padding:10px 20px; border-radius:20px; cursor:pointer; font-size:0.8rem; }
-    .breathing-circle-container { position:relative; width:200px; height:200px; margin:0 auto 40px; display:flex; align-items:center; justify-content:center; }
-    .b-circle { position:absolute; border-radius:50%; }
-    .b-circle.outer { width:200px; height:200px; background:rgba(0,198,255,0.1); animation: breath 8s infinite ease-in-out; }
-    .b-circle.inner { width:100px; height:100px; background:var(--accent-water); box-shadow:0 0 30px rgba(0,198,255,0.4); }
-    .b-text { position:relative; color:white; font-family:'Outfit'; font-weight:bold; font-size:1.2rem; }
-    .affirmation-container { font-size:1.1rem; color:white; text-align:center; max-width:400px; line-height:1.6; opacity:0; transition:opacity 1s; padding:0 20px; }
-    .affirmation-container.visible { opacity:1; }
-    @keyframes breath {
-        0% { transform:scale(0.5); opacity:0.5; }
-        40% { transform:scale(1.2); opacity:1; }
-        50% { transform:scale(1.2); opacity:1; }
-        90% { transform:scale(0.5); opacity:0.5; }
-        100% { transform:scale(0.5); opacity:0.5; }
-    }
-    
-    /* Mentoras High-End UX Tweaks */
-    .phase-header h4 {
-        font-family: 'Outfit', sans-serif !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        color: #FFFFFF !important;
-    }
-    .phase-desc, .reader-p {
-        font-family: 'Inter', sans-serif !important;
-        font-size: 0.95rem !important;
-        line-height: 1.6 !important;
-        color: #E2E8F0 !important;
-    }
-    .quiz-options label {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 16px !important;
-        min-height: 44px !important;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border-subtle);
-        border-radius: 8px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .quiz-options label:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.3);
-    }
-    .quiz-options input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin: 0;
-    }
-    .btn-premium.fire {
-        background: linear-gradient(135deg, #FF5E00 0%, #E04000 100%) !important;
-        min-height: 44px !important;
-        border-radius: 12px !important;
-    }
-    .btn-outline {
-        min-height: 44px !important;
-        border-radius: 12px !important;
-        font-weight: 500 !important;
-    }
-    .btn-outline.done {
-        background: rgba(16, 185, 129, 0.1) !important;
-        border-color: #10B981 !important;
-        color: #10B981 !important;
-    }
-
-</style>
 
 
-    <!-- Sala de Casos Modal (Socrático) -->
-    <div id="sala-modal" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(6,6,13,.98);padding:20px 24px 24px;overflow-y:auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:10px">
-        <h3 style="font-family:'Outfit';font-size:1.1rem;color:var(--accent-water);">SALA DE CASOS SOCRÁTICOS</h3>
-        <button onclick="document.getElementById('sala-modal').style.display='none'" style="background:transparent;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;width:40px;height:40px">×</button>
-      </div>
-      <div>
-        <h4 style="color:white;margin-bottom:10px;">Preguntas Poderosas</h4>
-        <ul style="color:var(--text-secondary);font-size:0.9rem;padding-left:20px;line-height:1.6;">
-            <li>¿Qué es lo peor que podría pasar si tomas esa decisión?</li>
-            <li>¿Qué estás evitando al no tener esa conversación difícil?</li>
-            <li>Si no tuvieras miedo, ¿qué harías en este momento?</li>
-            <li>¿Cómo te está limitando tu creencia actual sobre este problema?</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Protocolos de Crisis Modal -->
-    <div id="crisis-modal-mm" style="display:none;position:fixed;inset:0;z-index:7000;background:rgba(6,6,13,.98);padding:20px 24px 24px;overflow-y:auto">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;padding-top:10px">
-        <h3 style="font-family:'Outfit';font-size:1.1rem;color:var(--accent-fire);">PROTOCOLOS DE CRISIS</h3>
-        <button onclick="document.getElementById('crisis-modal-mm').style.display='none'" style="background:transparent;border:none;color:var(--text-secondary);font-size:1.6rem;cursor:pointer;width:40px;height:40px">×</button>
-      </div>
-      <div>
-        <div style="background:rgba(255,69,0,0.1); border-left:4px solid #FF4500; padding:15px; margin-bottom:15px; border-radius:4px;">
-            <h4 style="color:white;margin-bottom:5px;">Si la mentada llora o se desborda:</h4>
-            <p style="color:var(--text-secondary);font-size:0.85rem;">Mantén el silencio empático. No intentes 'arreglarla' rápido. Ofrécele agua, pausa y di: "Tómate tu tiempo, estoy aquí contigo".</p>
-        </div>
-        <div style="background:rgba(255,165,0,0.1); border-left:4px solid #FFA500; padding:15px; margin-bottom:15px; border-radius:4px;">
-            <h4 style="color:white;margin-bottom:5px;">Si se muestra defensiva:</h4>
-            <p style="color:var(--text-secondary);font-size:0.85rem;">No debatas. Escucha hasta el final y devuelve en espejo: "Escucho que te sientes atacada por esto, ¿es así?". Redirige al objetivo.</p>
-        </div>
-        <div style="background:rgba(0,198,255,0.1); border-left:4px solid var(--accent-water); padding:15px; margin-bottom:15px; border-radius:4px;">
-            <h4 style="color:white;margin-bottom:5px;">Si se estanca la sesión:</h4>
-            <p style="color:var(--text-secondary);font-size:0.85rem;">Cambia el estado físico. "Levantémonos 1 minuto, estiremos los brazos y volvamos a sentarnos". Reinicia con otra perspectiva.</p>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- Regla Digital -->
-    <div id="regla-digital" style="display:none; position:fixed; left:0; width:100%; height:80px; background:rgba(0,198,255,0.1); border-top:2px solid var(--accent-water); border-bottom:2px solid var(--accent-water); pointer-events:none; z-index:8000; box-shadow:0 0 20px rgba(0,198,255,0.2);"></div>
-    
-    <style>
-    .lectura-atenuada .reader-p { opacity: 0.2; transition: opacity 0.3s; }
-    .lectura-atenuada .reader-p.regla-focus { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.3); }
-    
-    /* Mentoras High-End UX Tweaks */
-    .phase-header h4 {
-        font-family: 'Outfit', sans-serif !important;
-        font-size: 1.1rem !important;
-        font-weight: 600 !important;
-        color: #FFFFFF !important;
-    }
-    .phase-desc, .reader-p {
-        font-family: 'Inter', sans-serif !important;
-        font-size: 0.95rem !important;
-        line-height: 1.6 !important;
-        color: #E2E8F0 !important;
-    }
-    .quiz-options label {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        padding: 14px 16px !important;
-        min-height: 44px !important;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid var(--border-subtle);
-        border-radius: 8px;
-        margin-bottom: 8px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .quiz-options label:hover {
-        background: rgba(255,255,255,0.1);
-        border-color: rgba(255,255,255,0.3);
-    }
-    .quiz-options input[type="radio"] {
-        width: 20px;
-        height: 20px;
-        margin: 0;
-    }
-    .btn-premium.fire {
-        background: linear-gradient(135deg, #FF5E00 0%, #E04000 100%) !important;
-        min-height: 44px !important;
-        border-radius: 12px !important;
-    }
-    .btn-outline {
-        min-height: 44px !important;
-        border-radius: 12px !important;
-        font-weight: 500 !important;
-    }
-    .btn-outline.done {
-        background: rgba(16, 185, 129, 0.1) !important;
-        border-color: #10B981 !important;
-        color: #10B981 !important;
-    }
-
-</style>
-    
-    <script>
     let reglaActiva = false;
     function toggleReglaDigital() {
         const btn = document.getElementById('btn-regla');
@@ -3565,53 +2588,3 @@ window.openCrisisModal = function() {
         }
     }
     
-// Mentoras High-End Executive Functions
-function marcarHecho(btn, key) {
-    if (!btn) return;
-    btn.classList.add('done');
-    btn.innerHTML = '✅ Hecho en el mundo físico';
-    localStorage.setItem(key, 'true');
-}
-
-function concluirDia(dayId) {
-    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
-    const blockNum = blockMatch ? blockMatch[1] : '1';
-
-    localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
-    localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
-
-    const modal = document.getElementById('concluir-modal-' + dayId);
-    const btn = document.getElementById('btn-concluir-' + dayId);
-
-    if (modal) modal.style.display = 'block';
-
-    if (btn) {
-        btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
-        btn.style.background = 'rgba(16,185,129,0.15)';
-        btn.style.borderColor = '#10B981';
-        btn.style.color = '#10B981';
-    }
-
-    if (window.completedDays && !window.completedDays.includes(dayId)) {
-        window.completedDays.push(dayId);
-    }
-
-    if (typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
-    if (typeof renderDashboard === 'function') renderDashboard();
-}
-
-function marcarHecho(btn, key = null) {
-    if (!btn) return;
-    btn.innerHTML = '✅ Hecho en el mundo físico';
-    btn.style.background = 'rgba(16, 185, 129, 0.15)';
-    btn.style.color = '#10B981';
-    btn.style.borderColor = '#10B981';
-    if(key) localStorage.setItem(key, 'true');
-}
-
-
-</script>
-
-</body>
-
-

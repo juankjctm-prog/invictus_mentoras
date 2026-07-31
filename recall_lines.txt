@@ -1,0 +1,7 @@
+329: <li><strong style="color:#FFD700;">Recall Activo:</strong> Responde el quiz sin volver al texto para fortalecer tu memoria de trabajo.</li>
+870: function evaluarRecall() {
+1450: ${renderTextarea('recall_activo', 'Tus reflexiones personales de la Fase 4 (Recall Activo)...', 'Recall Activo (Fase 4)', 'var(--accent-water)')}
+2593: <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
+2596: <button class="btn-outline" style="width: 100%; margin-top: 8px; border-color: var(--accent-fire); color: var(--accent-fire);" onclick="iniciarTest()">🧠 Iniciar Recall (Ocultar Lectura)</button>
+2600: <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="evaluarRecall()">📊 Evaluar Comprensión Cruzada</button>
+3164: <button class="btn-premium" style="width:100%;" onclick="closePPMModal()">Continuar al Recall Activo</button>

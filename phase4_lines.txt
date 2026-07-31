@@ -1,0 +1,16 @@
+        <!-- F4 -->
+        <div class="phase active" id="comprension-block">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>4. Recall Activo y Evaluación</h4><span class="phase-duration">4m</span></div>
+            <p class="phase-desc">La extracción forzada es la base de la retención a largo plazo.</p>
+            <div id="test-content" style="margin-top: 16px;">
+                ${preguntasHTML}
+                <button class="btn-premium fire" style="width: 100%; margin-top: 8px;" onclick="evaluarQuizReal(${dayIndex})">📊 Evaluar Comprensión</button>
+            </div>
+            <div id="quiz-result-${dayIndex}" style="display:none; margin-top:20px; padding:20px; border-radius:12px; border:1px solid;"></div>
+        </div>
+
+        <!-- F5 -->
+        <div class="phase">
+            <div class="phase-node"></div>
+            <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
