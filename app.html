@@ -1180,11 +1180,23 @@ function continueToComprension() {
         currentPhaseProgress = data ? (data.phase_progress || {}) : {};
         currentAnswers = data ? (data.answers || {}) : {};
         
-        completedDays.forEach(d => {
-            if(!progresoLocal[d]) progresoLocal[d] = { completado: true };
-            progresoLocal[d].completado = true;
-        });
+        // Restore local progress from cloud if present
+        if(currentAnswers && currentAnswers.progresoLocal) {
+            progresoLocal = currentAnswers.progresoLocal;
+        } else {
+            completedDays.forEach(d => {
+                if(!progresoLocal[d]) progresoLocal[d] = { completado: true };
+                progresoLocal[d].completado = true;
+            });
+        }
         if(typeof saveProgresoLocal === 'function') saveProgresoLocal();
+        
+        // Restore PPM history from cloud
+        if(currentAnswers && currentAnswers.ppm_history) {
+            for (let k in currentAnswers.ppm_history) {
+                localStorage.setItem(k, currentAnswers.ppm_history[k]);
+            }
+        }
     }
     
     const savedLastDay = localStorage.getItem('mm_last_day_b1');
@@ -1205,6 +1217,18 @@ async function saveProgress() {
     
     // Optimistic UI Update
     updateVisualProgress();
+    
+    // Pack PPM data and local progress into answers for syncing
+    let ppmData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+        let key = localStorage.key(i);
+        if (key && key.includes('_ppm')) {
+            ppmData[key] = localStorage.getItem(key);
+        }
+    }
+    if(!currentAnswers) currentAnswers = {};
+    currentAnswers.ppm_history = ppmData;
+    currentAnswers.progresoLocal = typeof progresoLocal !== 'undefined' ? progresoLocal : {};
     
     // Persist to Supabase
     await _supabase.from('mentoras_progress').upsert({
