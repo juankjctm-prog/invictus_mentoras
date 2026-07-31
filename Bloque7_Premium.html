@@ -3625,6 +3625,8 @@ function concluirDia(dayId) {
         window.completedDays.push(dayId);
     }
 
+    if (typeof saveProgress === 'function') saveProgress();
+
     if (typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
     if (typeof renderDashboard === 'function') renderDashboard();
 }
