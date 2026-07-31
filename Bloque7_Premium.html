@@ -1022,7 +1022,7 @@ function continueToComprension() {
             progresoLocal[currentDay].ppm = basePPM;
             progresoLocal[currentDay].completado = true;
             
-            if (currentUser && _supabase) {
+            if (currentUser && _supabase) { setTimeout(() => { if (typeof saveProgress === 'function') { saveProgress().catch(console.error); } }, 4000); 
                 _supabase.from('mentoras_progress').upsert({
                     user_id: currentUser.id,
                     current_day: currentDay,
