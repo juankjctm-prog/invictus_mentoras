@@ -1367,7 +1367,55 @@
   const CASOS_DATA = [{"title": "El Feedback que Duele", "setup": "Le dices a tu mentoreada algo verdadero pero difícil: que su forma de comunicarse en juntas esta saboteando su credibilidad. Ella responde: 'Eso es lo que creen todos los que tienen miedo de mujeres fuertes.'", "options": [{"label": "Reconozco su perspectiva y luego vuelvo al hecho observable: 'Puede ser. Y también es verdad que en la junta del martes tres personas dejaron de mirarte cuando subiste el tono. Eso es un dato.'", "correct": true, "concept": "Feedback con hechos observables", "feedback": "Correcto. Reconocer su perspectiva primero baja la defensividad. Volver al hecho concreto y observable elimina la interpretacion. No es tu opinion contra la suya — es un dato."}, {"label": "Le digo que tiene razon, quizas fui demasiado dura.", "correct": false, "concept": "Capitulacion por incomodidad", "feedback": "Retractarte del feedback verdadero por presion emocional le ensena que la defensividad funciona. La proxima vez usara la misma estrategia."}, {"label": "Le explico mas ampliamente por que su comunicacion es un problema.", "correct": false, "concept": "Sobreargumentacion", "feedback": "Dar mas argumentos cuando hay resistencia aumenta la resistencia. Menos es mas cuando la otra persona esta en modo defensivo."}, {"label": "Le pido que reflexione y lo hablamos en la proxima sesion.", "correct": false, "concept": "Posposicion", "feedback": "Posponer el momento incomodo le ensena que los temas dificiles se evitan. La sesion que sostiene la incomodidad hasta atravesarla es la que produce el mayor cambio."}], "prompt": "Escribe la frase exacta con la que volveras al feedback verdadero despues de reconocer su perspectiva:"}];
   const ACCENT = '#A855F7';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {

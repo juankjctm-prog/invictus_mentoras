@@ -1456,7 +1456,55 @@
   const CASOS_DATA = [{"title": "La Primera Sesion que Falla", "setup": "Tu mentoreada llega a la primera sesion con los brazos cruzados, monosilabica. Cuando le preguntas como estas?, responde 'bien'. Cuando le preguntas sobre sus metas, dice 'no se'. 20 minutos han pasado y no ha abierto.", "options": [{"label": "Le digo directamente: Parece que no quieres estar aquí. Podemos reprogramar si este no es el momento.", "correct": true, "concept": "Nombramiento directo", "feedback": "Correcto. Nombrar lo que observas sin juicio es la técnica mas poderosa para romper el silencio defensivo. Le das permiso de ser honesta sobre su ambivalencia."}, {"label": "Hablo yo mas para llenar el silencio y demostrar valor.", "correct": false, "concept": "Relleno ansioso", "feedback": "Hablar mas para llenar el silencio transfiere la ansiedad a la mentoreada y confirma que el silencio es peligroso. Otto Scharmer llama esto Nivel 1 de escucha: proyectar para evitar la incomodidad."}, {"label": "Le cuento mi propia historia de cuando yo tampoco queria ser mentorada.", "correct": false, "concept": "Centrado en la mentora", "feedback": "Compartir tu historia puede generar conexion, pero en este momento desvia la atención de lo que ella necesita procesar. Guarda esa historia para cuando ella haya abierto."}, {"label": "Le hago preguntas cerradas faciles para que al menos diga si o no.", "correct": false, "concept": "Escalera de compromiso falso", "feedback": "Las preguntas cerradas generan respuestas cerradas. No construyen apertura, construyen un patron de respuesta minima que se vuelve mas difícil de romper."}], "prompt": "Escribe las primeras palabras exactas que dirias a tu mentoreada en este momento:"}, {"title": "El Éxito Inesperado", "setup": "Tu mentoreada acaba de recibir una promocion grande. Te lo cuenta por WhatsApp: 'Lo logre! Me ascendieron a directora!' Sientes que una parte de ti no se alegra completamente. Hay algo parecido a los celos.", "options": [{"label": "Respondo con entusiasmo total en el mensaje y proceso mis emociones en privado antes de la sesion.", "correct": true, "concept": "Regulacion emocional de la mentora", "feedback": "Correcto. Tus emociones son información para ti, no material para la mentoreada. Una mentora que procesa sus sombras antes de la sesion puede celebrar genuinamente en la sesion."}, {"label": "Le digo en sesion que yo también tuve que esperar mucho para mi primera promocion.", "correct": false, "concept": "Competencia con la mentoreada", "feedback": "Comparar tu trayectoria con la de ella en un momento de celebracion de ella centra la narrativa en ti. Es sutil pero la mentoreada lo siente."}, {"label": "Analizo en sesion si la promocion fue merecida antes de celebrar.", "correct": false, "concept": "Sabotaje del éxito ajeno", "feedback": "Analizar el merito antes de celebrar comunica desconfianza. El momento de celebrar viene primero. El análisis de como sostener el nuevo rol viene despues."}, {"label": "Proceso mis celos con ella para modelar vulnerabilidad.", "correct": false, "concept": "Vulnerabilidad inapropiada", "feedback": "Hay una diferencia entre vulnerabilidad que sirve a la mentoreada y vulnerabilidad que la carga con tus emociones. Esta segunda es una forma de hacer que ella cuide de ti."}], "prompt": "Escribe que haras con tus emociones ANTES de la sesion de celebracion:"}];
   const ACCENT = '#FF5E00';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {

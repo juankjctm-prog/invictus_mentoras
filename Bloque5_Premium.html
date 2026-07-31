@@ -1369,7 +1369,55 @@ ___________________________________________________________________________</li>
   const CASOS_DATA = [{"title": "El Poder que Incomoda", "setup": "Tu mentoreada acaba de recibir un ascenso y ahora tiene mas poder que su exjefa, que es tu amiga personal. Tu amiga te llama molesta y te dice que tu mentoreada 'se le subio el poder a la cabeza'.", "options": [{"label": "Escucho a mi amiga con empatia pero no comparto información de mi mentoreada ni cambio mi coaching.", "correct": true, "concept": "Integridad de rol", "feedback": "Correcto. Puedes ser amiga y mentora sin mezclar los roles. Escuchar a tu amiga es valido. Dejar que esa conversacion modifique tu coaching es una violacion de confianza hacia tu mentoreada."}, {"label": "Le cuento a mi mentoreada lo que dijo mi amiga para que pueda defenderse.", "correct": false, "concept": "Triangulacion", "feedback": "Compartir con tu mentoreada lo que dijo terceros crea triangulacion y convierte la relacion de mentoria en un espacio de chisme organizacional."}, {"label": "Dejo de mentorear a esta persona para proteger mi amistad.", "correct": false, "concept": "Abandono por conveniencia", "feedback": "Abandonar a tu mentoreada porque su éxito incomoda a tu red es exactamente el tipo de traicion que el programa busca eliminar del ecosistema de liderazgo femenino."}, {"label": "Hablo con mi mentoreada sobre como gestionar mejor las percepciones de poder.", "correct": false, "concept": "Sesgo por información externa", "feedback": "Cambiar el tema de coaching basandote en lo que te dijo tu amiga — sin que tu mentoreada haya traido ese tema — es dejar que una fuente externa contamine el espacio de mentoria."}], "prompt": "Escribe que le diras a tu amiga para proteger la relacion de mentoria sin perder la amistad:"}];
   const ACCENT = '#F59E0B';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {

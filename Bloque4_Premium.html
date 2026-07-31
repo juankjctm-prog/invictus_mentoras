@@ -1363,7 +1363,55 @@ ___________________________________________________________________________</li>
   const CASOS_DATA = [{"title": "El Conflicto entre Mentoreadas", "setup": "Tienes dos mentoreadas en la misma empresa. Una te dice confidencialmente que la otra le robo una idea en una presentacion. Te pide que intervengas.", "options": [{"label": "Le explico que mi rol no es arbitro entre ellas. Le ayudo a preparar como manejarlo directamente con su colega.", "correct": true, "concept": "Limites del rol de mentoria", "feedback": "Correcto. Intervenir directamente cruza el limite del rol de mentoria y destruye la confidencialidad de ambas relaciones. Tu rol es darle herramientas para que ella maneje el conflicto, no manejarlo por ella."}, {"label": "Hablo con ambas por separado para entender la situacion completa.", "correct": false, "concept": "Violacion de confidencialidad", "feedback": "Hablar con la otra mentoreada sobre este conflicto viola la confidencialidad de quien te lo conto. Aunque tengas buenas intenciones, cruzaste un limite etico."}, {"label": "Le digo que no puedo ayudarla en esto porque tengo conflicto de interes.", "correct": false, "concept": "Abandono", "feedback": "Decir que no puedes ayudar en nada es abandonarla en el momento que mas necesita apoyo. Si puedes ayudarla — solo que dentro de tu rol correcto."}, {"label": "Le aconsejo que escale el tema a RRHH inmediatamente.", "correct": false, "concept": "Escalada prematura", "feedback": "Escalar a RRHH antes de un intento directo de resolucion es quemar una herramienta de ultimo recurso. Primero equipa a tu mentoreada para la conversacion directa."}], "prompt": "Escribe como abriras esa conversacion con tu mentoreada para darle herramientas sin violar la confidencialidad:"}];
   const ACCENT = '#10B981';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {

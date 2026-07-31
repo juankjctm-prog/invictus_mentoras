@@ -2288,59 +2288,51 @@ window.toggleTheta = function(dayId) {
 
 
 window.updateKitStats = function() {
-    let diasActivos = 0;
-    let maxStreak = 0;
-    let currentStreak = 0;
-    let bestPpm = 0;
-    let scoreSum = 0;
-    let scoreCount = 0;
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
 
-    const dataArr = window.mujeresMentorasData || [];
-    const total = dataArr.length > 0 ? dataArr.length : 1;
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
 
-    for (let d of dataArr) {
-        if (progresoLocal[d.dia] && progresoLocal[d.dia].completado) {
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
             diasActivos++;
             currentStreak++;
-            if (currentStreak > maxStreak) maxStreak = currentStreak;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
             
-            if (progresoLocal[d.dia].ppm && progresoLocal[d.dia].ppm > bestPpm) {
-                bestPpm = progresoLocal[d.dia].ppm;
-            }
-            if (progresoLocal[d.dia].comprension) {
-                scoreSum += progresoLocal[d.dia].comprension;
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
                 scoreCount++;
             }
         } else {
-            currentStreak = 0;
+            currentStreak = 0; // reset streak if day not done
         }
     }
 
-    const pct = Math.round((diasActivos / total) * 100);
-    const avgComp = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : null;
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
 
-    const el = id => document.getElementById(id);
-    if (el('km-dias')) el('km-dias').textContent = diasActivos;
-    if (el('km-streak')) el('km-streak').textContent = maxStreak;
-    if (el('km-ppm')) el('km-ppm').textContent = bestPpm || '0';
-    if (el('km-comp')) el('km-comp').textContent = avgComp !== null ? (avgComp + '%') : '0%';
-    if (el('km-pct')) el('km-pct').textContent = pct + '%';
-    if (el('km-bar')) el('km-bar').style.width = pct + '%';
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
 
-    // Profile
-    if (diasActivos >= 5) {
-        const profiles = [
-            {n:'Mentora Socrática', d:'Preguntas poderosas sobre consejos. Genera autonomía profunda en sus mentoreadas.'},
-            {n:'Mentora Catalizadora', d:'Activa el potencial dormido. Transforma la ambivalencia en movimiento.'},
-            {n:'Mentora Espejo', d:'Refleja verdades difíciles con gracia. Sus mentoreadas se ven a sí mismas con claridad brutal.'},
-            {n:'Mentora Estratega', d:'Conecta el desarrollo personal con la visión organizacional. Piensa en sistemas.'},
-        ];
-        const p = profiles[diasActivos % profiles.length];
-        const wrap = el('km-mirror-profile');
-        if (wrap) { wrap.style.display = 'block'; }
-        if (el('km-profile-name')) el('km-profile-name').textContent = p.n;
-        if (el('km-profile-desc')) el('km-profile-desc').textContent = p.d;
-    }
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
 };
 
 // -----------------------------------

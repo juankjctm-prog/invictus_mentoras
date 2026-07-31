@@ -1365,7 +1365,55 @@ ___________________________________________________________________________</li>
   const CASOS_DATA = [{"title": "La Crisis que Paraliza", "setup": "Tu mentoreada te llama llorando a las 10pm. Acaba de ser excluida de una reunion estrategica clave. Siente que la estan empujando afuera de la organizacion. Dice que quiere renunciar manana.", "options": [{"label": "La escucho. No doy consejos. Al final le pido que espere 72 horas antes de tomar cualquier decisión irreversible.", "correct": true, "concept": "Contencion en crisis", "feedback": "Correcto. En crisis aguda el rol no es resolver sino contener. La regla de las 72 horas es estandar en coaching ejecutivo: ninguna decisión irreversible en estado emocional elevado."}, {"label": "Le explico por que renunciar es un error estratégico.", "correct": false, "concept": "Logica en crisis emocional", "feedback": "Los argumentos logicos no entran cuando el sistema nervioso esta en modo amenaza. Primero regulacion emocional, despues pensamiento estratégico."}, {"label": "Le digo que entiendo y que yo también me hubiera sentido igual.", "correct": false, "concept": "Normalizacion prematura", "feedback": "Decir 'yo también me hubiera sentido igual' puede cerrar el espacio de exploracion. Ella necesita que su experiencia sea escuchada, no comparada."}, {"label": "Le propongo opciones concretas de que puede hacer manana.", "correct": false, "concept": "Solucion prematura", "feedback": "Proponer soluciones antes de que ella haya procesado el impacto emocional produce resistencia. El cerebro en modo amenaza no puede evaluar opciones."}], "prompt": "Escribe las primeras palabras exactas que usarias cuando ella te llama llorando:"}];
   const ACCENT = '#EC4899';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {

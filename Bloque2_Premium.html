@@ -1273,7 +1273,55 @@
   const CASOS_DATA = [{"title": "La Escucha que Falla", "setup": "Llevas 15 minutos escuchando a tu mentoreada hablar de un conflicto con su jefe. De repente te das cuenta de que has estado formulando tu consejo desde el minuto 3. No recuerdas los ultimos 8 minutos de lo que dijo.", "options": [{"label": "Lo admito de inmediato: 'Perdona, me perdi. ?Puedes repetirme la parte mas importante?'", "correct": true, "concept": "Reparacion de la escucha", "feedback": "Correcto. Admitir que te perdiste es un acto de integridad que modela exactamente lo que quieres que ella aprenda: la reparacion rapida es mas valiosa que la perfeccion sostenida."}, {"label": "Improviso una pregunta generica para parecer que escuche.", "correct": false, "concept": "Escucha performativa", "feedback": "Las preguntas genericas revelan que no escuchaste. La mentoreada lo sabe. Y aprende que en las relaciones importantes es normal fingir atención."}, {"label": "Doy el consejo que llevo 12 minutos formulando.", "correct": false, "concept": "Nivel 1 Scharmer", "feedback": "Dar el consejo que preparaste sin haber escuchado es Downloading puro: usas la sesion para confirmar lo que ya pensabas, no para entender lo que ella necesita."}, {"label": "Cambio el tema para salir del momento incomodo.", "correct": false, "concept": "Evasion", "feedback": "Cambiar el tema comunica que el silencio incomodo debe evitarse. Eso es exactamente lo contrario de lo que una sesion de mentoria profunda necesita."}], "prompt": "Escribe como repararas tu presencia en este momento sin perder la autoridad de mentora:"}];
   const ACCENT = '#00C6FF';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {

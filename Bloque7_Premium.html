@@ -1358,7 +1358,55 @@ ___________________________________________________________________________</li>
   const CASOS_DATA = [{"title": "La Voz que no Sale", "setup": "Tu mentoreada tiene que presentar ante la junta directiva la proxima semana. En el ensayo contigo, su voz se quiebra, sus manos tiemblan, pierde el hilo. Ella dice: 'No puedo. No sirvo para esto.'", "options": [{"label": "La interrumpo gentilmente: 'Espera. Tu cuerpo esta en modo amenaza. Hagamos esto: tres respiraciones lentas. Luego empezamos de nuevo desde el punto que mas controlas.'", "correct": true, "concept": "Regulacion somatica", "feedback": "Correcto. El temblor y la voz quebrada son respuestas del sistema nervioso autonomo, no senales de incompetencia. Intervenir a nivel somatico (respiracion) antes de intervenir a nivel cognitivo es la secuencia correcta."}, {"label": "Le digo: 'Tu puedes. Tienes todo lo que necesitas. Yo creo en ti.'", "correct": false, "concept": "Motivacion vacia", "feedback": "Las frases de aliento sin ancla en evidencia concreta no aterrizan. En estado de ansiedad alta, el cerebro las filtra como ruido."}, {"label": "Le digo que quizas necesita mas preparacion y posponemos la presentacion.", "correct": false, "concept": "Refuerzo de la evitacion", "feedback": "Posponer confirma que la amenaza es real y que la evitacion es la respuesta correcta. El sistema nervioso aprende que huir funciona."}, {"label": "Le pregunto por que cree que no sirve para esto.", "correct": false, "concept": "Análisis en crisis", "feedback": "Analizar la creencia limitante en el momento de maxima activacion fisiologica no es efectivo. Primero regulacion, despues exploracion cognitiva."}], "prompt": "Escribe el protocolo somatico de 3 pasos que usaras antes de recomenzar el ensayo:"}];
   const ACCENT = '#6366F1';
 
-  window.renderKitMentoria = function() {
+  window.updateKitStats = function() {
+    let diasActivos = 0, currentStreak = 0, maxStreak = 0;
+    let bestPpm = 0, scoreSum = 0, scoreCount = 0;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const maxDays = blockNum === '1' ? 10 : (blockNum === '2' ? 10 : 10); // Adjust as needed, assume 10 per block or check total
+
+    for (let d = 1; d <= 78; d++) {
+        // Find which block the day belongs to for local storage (simplified for global stats)
+        let bNum = Math.ceil(d / 10);
+        if (bNum > 8) bNum = 8;
+        
+        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        if (isDone) {
+            diasActivos++;
+            currentStreak++;
+            if(currentStreak > maxStreak) maxStreak = currentStreak;
+            
+            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            if (ppm > bestPpm) bestPpm = ppm;
+            
+            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            if (score !== null) {
+                scoreSum += parseInt(score);
+                scoreCount++;
+            }
+        } else {
+            currentStreak = 0; // reset streak if day not done
+        }
+    }
+
+    let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 0;
+    let pct = Math.round((diasActivos / 78) * 100);
+
+    const elDias = document.getElementById('km-dias');
+    const elStreak = document.getElementById('km-streak');
+    const elPpm = document.getElementById('km-ppm');
+    const elComp = document.getElementById('km-comp');
+    const elPct = document.getElementById('km-pct');
+
+    if (elDias) elDias.textContent = diasActivos;
+    if (elStreak) elStreak.textContent = maxStreak;
+    if (elPpm) elPpm.textContent = bestPpm;
+    if (elComp) elComp.textContent = avgScore + '%';
+    if (elPct) elPct.textContent = pct + '%';
+};
+
+window.renderKitMentoria = function() {
     // Stats
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0;
     if (typeof daysData !== 'undefined') {
