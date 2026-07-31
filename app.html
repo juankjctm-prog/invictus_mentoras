@@ -3221,11 +3221,14 @@ function evaluarQuizReal(dayId) {
     const total = qData.length;
     const score = Math.round((correctas / total) * 100);
 
-    const ppmKey = 'mm_b_d' + currentDay + '_ppm';
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+
+    const ppmKey = 'mm_b' + blockNum + '_d' + currentDay + '_ppm';
     const ppm = localStorage.getItem(ppmKey) || '—';
 
-    localStorage.setItem('mm_b_d' + currentDay + '_score', score.toString());
-    localStorage.setItem('mm_b_d' + currentDay, '1');
+    localStorage.setItem('mm_b' + blockNum + '_d' + currentDay + '_score', score.toString());
+    localStorage.setItem('mm_b' + blockNum + '_d' + currentDay, '1');
 
     const box = document.getElementById('quiz-result-' + currentDay);
     if (!box) return;
