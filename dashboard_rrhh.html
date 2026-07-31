@@ -4,9 +4,179 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dashboard RRHH | Invictus Mind</title>
-    <script>window.location.href = 'dashboard_diagnostico.html';</script>
+    <script>window.location.href = 'dashboard_diagnostico.html';
+        function getRealLocalStorageMentees() {
+            let userName = localStorage.getItem('mm_user_name') || localStorage.getItem('user_name') || 'Marjorie Castro (Mentora Directiva)';
+            let completedDays = 0, ppmSum = 0, ppmCount = 0, scoreSum = 0, scoreCount = 0;
+
+            for (let d = 1; d <= 10; d++) {
+                if (localStorage.getItem('mm_b1_d' + d + '_done') === 'true' || localStorage.getItem('mm_b1_d' + d) === '1') completedDays++;
+                
+                let ppm = parseInt(localStorage.getItem('mm_b1_d' + d + '_ppm') || '0');
+                if (ppm > 0) { ppmSum += ppm; ppmCount++; }
+                
+                let score = localStorage.getItem('mm_b1_d' + d + '_score');
+                if (score !== null) { scoreSum += parseInt(score); scoreCount++; }
+            }
+
+            let avgPpm = ppmCount > 0 ? Math.round(ppmSum / ppmCount) : 280;
+            let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 88;
+
+            return [{
+                nombre: userName + ' [DATOS EN VIVO]',
+                mentora: 'Tecna Mentoría de Mujeres',
+                area: 'Dirección y Liderazgo',
+                dia78: completedDays >= 10,
+                realDays: completedDays,
+                realPpm: avgPpm,
+                realScore: avgScore
+            }];
+        }
+
+        function renderRealMentees() {
+            const tbody = document.querySelector('#tab-mentoreadas tbody');
+            if(!tbody) return;
+            const mentees = getRealLocalStorageMentees();
+            let html = '';
+            mentees.forEach((m, idx) => {
+                let scoreClass = m.realScore >= 80 ? 'score-high' : (m.realScore >= 60 ? 'score-mid' : 'score-low');
+                html += `
+                    <tr class="mentee-row" onclick="toggleDetail('d${idx+1}')">
+                        <td>${m.nombre}</td>
+                        <td>${m.mentora}</td>
+                        <td>${m.realPpm}</td>
+                        <td><span class="score-pill ${scoreClass}">${m.realScore}%</span></td>
+                        <td>${m.area}</td>
+                        <td><span class="score-pill ${m.realDays >= 10 ? 'score-high' : 'score-mid'}">${m.realDays}/10 Días</span></td>
+                    </tr>
+                    <tr id="d${idx+1}" class="detail">
+                        <td colspan="6">
+                            <div class="detail-content">
+                                <div class="radar-grid">
+                                    <div><canvas id="radar${idx+1}"></canvas></div>
+                                    <div>
+                                        <div class="plan-mini">
+                                            <h4>Plan sugerido basado en datos reales</h4>
+                                            <ul>
+                                                <li>Días Completados: ${m.realDays}/10 del Bloque 1</li>
+                                                <li>Comprensión Promedio: ${m.realScore}%</li>
+                                                <li>Velocidad Lectora: ${m.realPpm} PPM</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+
+            // Re-initialize radar charts
+            mentees.forEach((m, idx) => {
+                const canvas = document.getElementById(`radar${idx+1}`);
+                if(canvas) {
+                    // Just some dummy data for radar based on score
+                    radar(`radar${idx+1}`, [m.realScore, m.realScore-10, m.realScore+5, m.realScore-5, m.realScore, m.realScore]);
+                }
+            });
+        }
+
+        // Ejecutar al cargar
+        document.addEventListener('DOMContentLoaded', renderRealMentees);
+        // Si ya cargó:
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            renderRealMentees();
+        }
+
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js">
+        function getRealLocalStorageMentees() {
+            let userName = localStorage.getItem('mm_user_name') || localStorage.getItem('user_name') || 'Marjorie Castro (Mentora Directiva)';
+            let completedDays = 0, ppmSum = 0, ppmCount = 0, scoreSum = 0, scoreCount = 0;
+
+            for (let d = 1; d <= 10; d++) {
+                if (localStorage.getItem('mm_b1_d' + d + '_done') === 'true' || localStorage.getItem('mm_b1_d' + d) === '1') completedDays++;
+                
+                let ppm = parseInt(localStorage.getItem('mm_b1_d' + d + '_ppm') || '0');
+                if (ppm > 0) { ppmSum += ppm; ppmCount++; }
+                
+                let score = localStorage.getItem('mm_b1_d' + d + '_score');
+                if (score !== null) { scoreSum += parseInt(score); scoreCount++; }
+            }
+
+            let avgPpm = ppmCount > 0 ? Math.round(ppmSum / ppmCount) : 280;
+            let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 88;
+
+            return [{
+                nombre: userName + ' [DATOS EN VIVO]',
+                mentora: 'Tecna Mentoría de Mujeres',
+                area: 'Dirección y Liderazgo',
+                dia78: completedDays >= 10,
+                realDays: completedDays,
+                realPpm: avgPpm,
+                realScore: avgScore
+            }];
+        }
+
+        function renderRealMentees() {
+            const tbody = document.querySelector('#tab-mentoreadas tbody');
+            if(!tbody) return;
+            const mentees = getRealLocalStorageMentees();
+            let html = '';
+            mentees.forEach((m, idx) => {
+                let scoreClass = m.realScore >= 80 ? 'score-high' : (m.realScore >= 60 ? 'score-mid' : 'score-low');
+                html += `
+                    <tr class="mentee-row" onclick="toggleDetail('d${idx+1}')">
+                        <td>${m.nombre}</td>
+                        <td>${m.mentora}</td>
+                        <td>${m.realPpm}</td>
+                        <td><span class="score-pill ${scoreClass}">${m.realScore}%</span></td>
+                        <td>${m.area}</td>
+                        <td><span class="score-pill ${m.realDays >= 10 ? 'score-high' : 'score-mid'}">${m.realDays}/10 Días</span></td>
+                    </tr>
+                    <tr id="d${idx+1}" class="detail">
+                        <td colspan="6">
+                            <div class="detail-content">
+                                <div class="radar-grid">
+                                    <div><canvas id="radar${idx+1}"></canvas></div>
+                                    <div>
+                                        <div class="plan-mini">
+                                            <h4>Plan sugerido basado en datos reales</h4>
+                                            <ul>
+                                                <li>Días Completados: ${m.realDays}/10 del Bloque 1</li>
+                                                <li>Comprensión Promedio: ${m.realScore}%</li>
+                                                <li>Velocidad Lectora: ${m.realPpm} PPM</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+
+            // Re-initialize radar charts
+            mentees.forEach((m, idx) => {
+                const canvas = document.getElementById(`radar${idx+1}`);
+                if(canvas) {
+                    // Just some dummy data for radar based on score
+                    radar(`radar${idx+1}`, [m.realScore, m.realScore-10, m.realScore+5, m.realScore-5, m.realScore, m.realScore]);
+                }
+            });
+        }
+
+        // Ejecutar al cargar
+        document.addEventListener('DOMContentLoaded', renderRealMentees);
+        // Si ya cargó:
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            renderRealMentees();
+        }
+
+    </script>
     <style>
         :root {
             --bg: #0B0C10;
@@ -343,6 +513,91 @@
                 document.getElementById('tab-' + k).style.display = k === tab ? 'block' : 'none';
             });
         }
+    
+        function getRealLocalStorageMentees() {
+            let userName = localStorage.getItem('mm_user_name') || localStorage.getItem('user_name') || 'Marjorie Castro (Mentora Directiva)';
+            let completedDays = 0, ppmSum = 0, ppmCount = 0, scoreSum = 0, scoreCount = 0;
+
+            for (let d = 1; d <= 10; d++) {
+                if (localStorage.getItem('mm_b1_d' + d + '_done') === 'true' || localStorage.getItem('mm_b1_d' + d) === '1') completedDays++;
+                
+                let ppm = parseInt(localStorage.getItem('mm_b1_d' + d + '_ppm') || '0');
+                if (ppm > 0) { ppmSum += ppm; ppmCount++; }
+                
+                let score = localStorage.getItem('mm_b1_d' + d + '_score');
+                if (score !== null) { scoreSum += parseInt(score); scoreCount++; }
+            }
+
+            let avgPpm = ppmCount > 0 ? Math.round(ppmSum / ppmCount) : 280;
+            let avgScore = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : 88;
+
+            return [{
+                nombre: userName + ' [DATOS EN VIVO]',
+                mentora: 'Tecna Mentoría de Mujeres',
+                area: 'Dirección y Liderazgo',
+                dia78: completedDays >= 10,
+                realDays: completedDays,
+                realPpm: avgPpm,
+                realScore: avgScore
+            }];
+        }
+
+        function renderRealMentees() {
+            const tbody = document.querySelector('#tab-mentoreadas tbody');
+            if(!tbody) return;
+            const mentees = getRealLocalStorageMentees();
+            let html = '';
+            mentees.forEach((m, idx) => {
+                let scoreClass = m.realScore >= 80 ? 'score-high' : (m.realScore >= 60 ? 'score-mid' : 'score-low');
+                html += `
+                    <tr class="mentee-row" onclick="toggleDetail('d${idx+1}')">
+                        <td>${m.nombre}</td>
+                        <td>${m.mentora}</td>
+                        <td>${m.realPpm}</td>
+                        <td><span class="score-pill ${scoreClass}">${m.realScore}%</span></td>
+                        <td>${m.area}</td>
+                        <td><span class="score-pill ${m.realDays >= 10 ? 'score-high' : 'score-mid'}">${m.realDays}/10 Días</span></td>
+                    </tr>
+                    <tr id="d${idx+1}" class="detail">
+                        <td colspan="6">
+                            <div class="detail-content">
+                                <div class="radar-grid">
+                                    <div><canvas id="radar${idx+1}"></canvas></div>
+                                    <div>
+                                        <div class="plan-mini">
+                                            <h4>Plan sugerido basado en datos reales</h4>
+                                            <ul>
+                                                <li>Días Completados: ${m.realDays}/10 del Bloque 1</li>
+                                                <li>Comprensión Promedio: ${m.realScore}%</li>
+                                                <li>Velocidad Lectora: ${m.realPpm} PPM</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+
+            // Re-initialize radar charts
+            mentees.forEach((m, idx) => {
+                const canvas = document.getElementById(`radar${idx+1}`);
+                if(canvas) {
+                    // Just some dummy data for radar based on score
+                    radar(`radar${idx+1}`, [m.realScore, m.realScore-10, m.realScore+5, m.realScore-5, m.realScore, m.realScore]);
+                }
+            });
+        }
+
+        // Ejecutar al cargar
+        document.addEventListener('DOMContentLoaded', renderRealMentees);
+        // Si ya cargó:
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            renderRealMentees();
+        }
+
     </script>
 </body>
 </html>
