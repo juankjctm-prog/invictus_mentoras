@@ -764,15 +764,15 @@
                     }
 
                     const prog = progressMap[user.id];
-                    const currentDay = prog && prog.current_day > 1 ? prog.current_day : 2;
-                    const completedCount = prog && prog.completed_days && prog.completed_days.length > 0 ? prog.completed_days.length : 1;
+                    const currentDay = prog ? prog.current_day : 1;
+                    const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
                     const totalDays = 45; // Assumed program length
                     const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
                     
                     
-                    let mockDt = new Date(); mockDt.setHours(mockDt.getHours() - Math.floor(Math.random()*48)); let lastActivity = mockDt.toLocaleDateString() + ' ' + mockDt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                    let rachaHtml = '<span title="Racha Activa">🔥</span>';
-                    let semaforoHtml = '<span title=Al da style=color:#10B981;>??</span>';
+                    let lastActivity = '--';
+                    let rachaHtml = '';
+                    let semaforoHtml = '';
                     if (prog && prog.updated_at) {
                         const dt = new Date(prog.updated_at);
                         lastActivity = dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
