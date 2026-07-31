@@ -2794,6 +2794,15 @@ function renderMentoraSession(dayIndex) {
                 <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
             </div>
             <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px;" onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
+            
+            <div id="concluir-modal-${dayIndex}" style="display: none; margin-top: 14px; padding: 16px; border-radius: 12px; background: rgba(16,185,129,0.12); border: 1px solid var(--success); text-align: center;">
+                <div style="font-size: 1.5rem; margin-bottom: 6px;">✨ 🏆 ✨</div>
+                <h4 style="color: var(--success); font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 4px;">¡Día ${dayIndex} Concluido con Éxito!</h4>
+                <p style="font-size: 0.85rem; color: #E2E8F0; line-height: 1.5; margin-bottom: 12px;">Tu neuroplasticidad y tu identidad de liderazgo han sido consolidadas. Tu progreso se ha guardado en Mi Kit.</p>
+                <button class="btn-premium fire" style="width: 100%; padding: 12px; font-size: 0.9rem;" onclick="loadMujeresMentorasDay(${dayIndex + 1}); window.scrollTo(0,0);">
+                    ▶ Avanzar al Día ${dayIndex + 1} →
+                </button>
+            </div>
         </div>
     </div>
     `;
@@ -3578,38 +3587,30 @@ function marcarHecho(btn, key) {
 }
 
 function concluirDia(dayId) {
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+
+    localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
+    localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
+
+    const modal = document.getElementById('concluir-modal-' + dayId);
     const btn = document.getElementById('btn-concluir-' + dayId);
+
+    if (modal) modal.style.display = 'block';
+
     if (btn) {
-        btn.classList.remove('fire');
-        btn.style.background = 'linear-gradient(135deg, #10B981 0%, #059669 100%)';
         btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
+        btn.style.background = 'rgba(16,185,129,0.15)';
+        btn.style.borderColor = 'var(--success)';
+        btn.style.color = 'var(--success)';
     }
-    
-    // Save to localStorage
-    localStorage.setItem('mm_b1_d' + dayId + '_done', 'true');
-    
-    // Add to global state if not already
+
     if (window.completedDays && !window.completedDays.includes(dayId)) {
         window.completedDays.push(dayId);
     }
-    
-    // Show celebratory modal
-    const m = document.createElement('div');
-    m.style.position = 'fixed';
-    m.style.top = '0'; m.style.left = '0'; m.style.width = '100vw'; m.style.height = '100vh';
-    m.style.backgroundColor = 'rgba(0,0,0,0.85)';
-    m.style.zIndex = '99999';
-    m.style.display = 'flex'; m.style.flexDirection = 'column';
-    m.style.alignItems = 'center'; m.style.justifyContent = 'center';
-    m.innerHTML = `
-        <div style="background: var(--bg-card); padding: 40px; border-radius: 20px; text-align: center; border: 1px solid var(--border-subtle); max-width: 90%; animation: slideUp 0.5s ease;">
-            <div style="font-size: 4rem; margin-bottom: 20px;">✨ 🏆 ✨</div>
-            <h2 style="font-family: 'Outfit', sans-serif; color: white; margin-bottom: 10px;">¡Día ${dayId} Concluido con Éxito!</h2>
-            <p style="color: var(--text-secondary); font-family: 'Inter', sans-serif; line-height: 1.6;">Has consolidado tu identidad de liderazgo en el plano cognitivo, táctico y somático. Eres imparable.</p>
-            <button class="btn-premium" style="margin-top: 30px; background: white; color: black;" onclick="this.parentElement.parentElement.remove()">Cerrar y Continuar</button>
-        </div>
-    `;
-    document.body.appendChild(m);
+
+    if (typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
+    if (typeof renderDashboard === 'function') renderDashboard();
 }
 
 </script>
