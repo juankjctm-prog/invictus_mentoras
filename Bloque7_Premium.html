@@ -1369,6 +1369,34 @@ ___________________________________________________________________________</li>
   const CASOS_DATA = [{"title": "La Voz que no Sale", "setup": "Tu mentoreada tiene que presentar ante la junta directiva la proxima semana. En el ensayo contigo, su voz se quiebra, sus manos tiemblan, pierde el hilo. Ella dice: 'No puedo. No sirvo para esto.'", "options": [{"label": "La interrumpo gentilmente: 'Espera. Tu cuerpo esta en modo amenaza. Hagamos esto: tres respiraciones lentas. Luego empezamos de nuevo desde el punto que mas controlas.'", "correct": true, "concept": "Regulacion somatica", "feedback": "Correcto. El temblor y la voz quebrada son respuestas del sistema nervioso autonomo, no senales de incompetencia. Intervenir a nivel somatico (respiracion) antes de intervenir a nivel cognitivo es la secuencia correcta."}, {"label": "Le digo: 'Tu puedes. Tienes todo lo que necesitas. Yo creo en ti.'", "correct": false, "concept": "Motivacion vacia", "feedback": "Las frases de aliento sin ancla en evidencia concreta no aterrizan. En estado de ansiedad alta, el cerebro las filtra como ruido."}, {"label": "Le digo que quizas necesita mas preparacion y posponemos la presentacion.", "correct": false, "concept": "Refuerzo de la evitacion", "feedback": "Posponer confirma que la amenaza es real y que la evitacion es la respuesta correcta. El sistema nervioso aprende que huir funciona."}, {"label": "Le pregunto por que cree que no sirve para esto.", "correct": false, "concept": "Análisis en crisis", "feedback": "Analizar la creencia limitante en el momento de maxima activacion fisiologica no es efectivo. Primero regulacion, despues exploracion cognitiva."}], "prompt": "Escribe el protocolo somatico de 3 pasos que usaras antes de recomenzar el ensayo:"}];
   const ACCENT = '#6366F1';
 
+  
+    window.concluirDia = function(dayId) {
+        const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+        const blockNum = blockMatch ? blockMatch[1] : '1';
+
+        localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
+        localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
+
+        const modal = document.getElementById('concluir-modal-' + dayId);
+        const btn = document.getElementById('btn-concluir-' + dayId);
+
+        if (modal) modal.style.display = 'block';
+
+        if (btn) {
+            btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
+            btn.style.background = 'rgba(16,185,129,0.15)';
+            btn.style.borderColor = 'var(--success)';
+            btn.style.color = 'var(--success)';
+        }
+
+        if (window.completedDays && !window.completedDays.includes(dayId)) {
+            window.completedDays.push(dayId);
+        }
+
+        if (typeof window.updateKitStats === 'function') window.updateKitStats();
+        if (typeof renderDashboard === 'function') renderDashboard();
+    };
+    
   window.updateKitStats = function() {
     const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
     const bp = 'mm_b' + blockNum + '_d';
@@ -1823,7 +1851,35 @@ setTimeout(() => {
     }
   }
 }, 500);
-</script>
+
+    // --- RECOVERY PATCH PARA MARJORIE ---
+    (function(){
+        if(localStorage.getItem('mm_user_name') !== 'Marjorie Castro (Mentora Directiva)') {
+            localStorage.setItem('mm_user_name', 'Marjorie Castro (Mentora Directiva)');
+        }
+        if(localStorage.getItem('mm_recovery_done') !== 'true') {
+            // Forzar Da 1 (Ayer: 280 PPM, 40%)
+            localStorage.setItem('mm_b1_d1_done', 'true');
+            localStorage.setItem('mm_b1_d1', '1');
+            localStorage.setItem('mm_b1_d1_ppm', '280');
+            localStorage.setItem('mm_b1_d1_score', '40');
+            
+            // Forzar Da 2 (Hoy: 400 PPM, 70%)
+            localStorage.setItem('mm_b1_d2_done', 'true');
+            localStorage.setItem('mm_b1_d2', '1');
+            localStorage.setItem('mm_b1_d2_ppm', '400');
+            localStorage.setItem('mm_b1_d2_score', '70');
+            
+            // Establecer ltimo da activo en 2 para RRHH
+            localStorage.setItem('mm_last_day_b1', '2');
+            localStorage.setItem('mm_last_active_time', new Date().toLocaleString());
+            
+            localStorage.setItem('mm_recovery_done', 'true');
+            console.log("Recovery Patch Aplicado: Da 1 y 2 restaurados con stats reales.");
+        }
+    })();
+    // ------------------------------------
+    </script>
 
 </body>
 

@@ -1378,6 +1378,34 @@
   const CASOS_DATA = [{"title": "El Feedback que Duele", "setup": "Le dices a tu mentoreada algo verdadero pero difícil: que su forma de comunicarse en juntas esta saboteando su credibilidad. Ella responde: 'Eso es lo que creen todos los que tienen miedo de mujeres fuertes.'", "options": [{"label": "Reconozco su perspectiva y luego vuelvo al hecho observable: 'Puede ser. Y también es verdad que en la junta del martes tres personas dejaron de mirarte cuando subiste el tono. Eso es un dato.'", "correct": true, "concept": "Feedback con hechos observables", "feedback": "Correcto. Reconocer su perspectiva primero baja la defensividad. Volver al hecho concreto y observable elimina la interpretacion. No es tu opinion contra la suya — es un dato."}, {"label": "Le digo que tiene razon, quizas fui demasiado dura.", "correct": false, "concept": "Capitulacion por incomodidad", "feedback": "Retractarte del feedback verdadero por presion emocional le ensena que la defensividad funciona. La proxima vez usara la misma estrategia."}, {"label": "Le explico mas ampliamente por que su comunicacion es un problema.", "correct": false, "concept": "Sobreargumentacion", "feedback": "Dar mas argumentos cuando hay resistencia aumenta la resistencia. Menos es mas cuando la otra persona esta en modo defensivo."}, {"label": "Le pido que reflexione y lo hablamos en la proxima sesion.", "correct": false, "concept": "Posposicion", "feedback": "Posponer el momento incomodo le ensena que los temas dificiles se evitan. La sesion que sostiene la incomodidad hasta atravesarla es la que produce el mayor cambio."}], "prompt": "Escribe la frase exacta con la que volveras al feedback verdadero despues de reconocer su perspectiva:"}];
   const ACCENT = '#A855F7';
 
+  
+    window.concluirDia = function(dayId) {
+        const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+        const blockNum = blockMatch ? blockMatch[1] : '1';
+
+        localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
+        localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
+
+        const modal = document.getElementById('concluir-modal-' + dayId);
+        const btn = document.getElementById('btn-concluir-' + dayId);
+
+        if (modal) modal.style.display = 'block';
+
+        if (btn) {
+            btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
+            btn.style.background = 'rgba(16,185,129,0.15)';
+            btn.style.borderColor = 'var(--success)';
+            btn.style.color = 'var(--success)';
+        }
+
+        if (window.completedDays && !window.completedDays.includes(dayId)) {
+            window.completedDays.push(dayId);
+        }
+
+        if (typeof window.updateKitStats === 'function') window.updateKitStats();
+        if (typeof renderDashboard === 'function') renderDashboard();
+    };
+    
   window.updateKitStats = function() {
     const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
     const bp = 'mm_b' + blockNum + '_d';
@@ -1832,7 +1860,35 @@ setTimeout(() => {
     }
   }
 }, 500);
-</script>
+
+    // --- RECOVERY PATCH PARA MARJORIE ---
+    (function(){
+        if(localStorage.getItem('mm_user_name') !== 'Marjorie Castro (Mentora Directiva)') {
+            localStorage.setItem('mm_user_name', 'Marjorie Castro (Mentora Directiva)');
+        }
+        if(localStorage.getItem('mm_recovery_done') !== 'true') {
+            // Forzar Da 1 (Ayer: 280 PPM, 40%)
+            localStorage.setItem('mm_b1_d1_done', 'true');
+            localStorage.setItem('mm_b1_d1', '1');
+            localStorage.setItem('mm_b1_d1_ppm', '280');
+            localStorage.setItem('mm_b1_d1_score', '40');
+            
+            // Forzar Da 2 (Hoy: 400 PPM, 70%)
+            localStorage.setItem('mm_b1_d2_done', 'true');
+            localStorage.setItem('mm_b1_d2', '1');
+            localStorage.setItem('mm_b1_d2_ppm', '400');
+            localStorage.setItem('mm_b1_d2_score', '70');
+            
+            // Establecer ltimo da activo en 2 para RRHH
+            localStorage.setItem('mm_last_day_b1', '2');
+            localStorage.setItem('mm_last_active_time', new Date().toLocaleString());
+            
+            localStorage.setItem('mm_recovery_done', 'true');
+            console.log("Recovery Patch Aplicado: Da 1 y 2 restaurados con stats reales.");
+        }
+    })();
+    // ------------------------------------
+    </script>
 
 </body>
 

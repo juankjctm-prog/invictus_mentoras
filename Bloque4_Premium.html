@@ -1374,6 +1374,34 @@ ___________________________________________________________________________</li>
   const CASOS_DATA = [{"title": "El Conflicto entre Mentoreadas", "setup": "Tienes dos mentoreadas en la misma empresa. Una te dice confidencialmente que la otra le robo una idea en una presentacion. Te pide que intervengas.", "options": [{"label": "Le explico que mi rol no es arbitro entre ellas. Le ayudo a preparar como manejarlo directamente con su colega.", "correct": true, "concept": "Limites del rol de mentoria", "feedback": "Correcto. Intervenir directamente cruza el limite del rol de mentoria y destruye la confidencialidad de ambas relaciones. Tu rol es darle herramientas para que ella maneje el conflicto, no manejarlo por ella."}, {"label": "Hablo con ambas por separado para entender la situacion completa.", "correct": false, "concept": "Violacion de confidencialidad", "feedback": "Hablar con la otra mentoreada sobre este conflicto viola la confidencialidad de quien te lo conto. Aunque tengas buenas intenciones, cruzaste un limite etico."}, {"label": "Le digo que no puedo ayudarla en esto porque tengo conflicto de interes.", "correct": false, "concept": "Abandono", "feedback": "Decir que no puedes ayudar en nada es abandonarla en el momento que mas necesita apoyo. Si puedes ayudarla — solo que dentro de tu rol correcto."}, {"label": "Le aconsejo que escale el tema a RRHH inmediatamente.", "correct": false, "concept": "Escalada prematura", "feedback": "Escalar a RRHH antes de un intento directo de resolucion es quemar una herramienta de ultimo recurso. Primero equipa a tu mentoreada para la conversacion directa."}], "prompt": "Escribe como abriras esa conversacion con tu mentoreada para darle herramientas sin violar la confidencialidad:"}];
   const ACCENT = '#10B981';
 
+  
+    window.concluirDia = function(dayId) {
+        const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+        const blockNum = blockMatch ? blockMatch[1] : '1';
+
+        localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
+        localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
+
+        const modal = document.getElementById('concluir-modal-' + dayId);
+        const btn = document.getElementById('btn-concluir-' + dayId);
+
+        if (modal) modal.style.display = 'block';
+
+        if (btn) {
+            btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
+            btn.style.background = 'rgba(16,185,129,0.15)';
+            btn.style.borderColor = 'var(--success)';
+            btn.style.color = 'var(--success)';
+        }
+
+        if (window.completedDays && !window.completedDays.includes(dayId)) {
+            window.completedDays.push(dayId);
+        }
+
+        if (typeof window.updateKitStats === 'function') window.updateKitStats();
+        if (typeof renderDashboard === 'function') renderDashboard();
+    };
+    
   window.updateKitStats = function() {
     const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
     const bp = 'mm_b' + blockNum + '_d';
@@ -1828,7 +1856,35 @@ setTimeout(() => {
     }
   }
 }, 500);
-</script>
+
+    // --- RECOVERY PATCH PARA MARJORIE ---
+    (function(){
+        if(localStorage.getItem('mm_user_name') !== 'Marjorie Castro (Mentora Directiva)') {
+            localStorage.setItem('mm_user_name', 'Marjorie Castro (Mentora Directiva)');
+        }
+        if(localStorage.getItem('mm_recovery_done') !== 'true') {
+            // Forzar Da 1 (Ayer: 280 PPM, 40%)
+            localStorage.setItem('mm_b1_d1_done', 'true');
+            localStorage.setItem('mm_b1_d1', '1');
+            localStorage.setItem('mm_b1_d1_ppm', '280');
+            localStorage.setItem('mm_b1_d1_score', '40');
+            
+            // Forzar Da 2 (Hoy: 400 PPM, 70%)
+            localStorage.setItem('mm_b1_d2_done', 'true');
+            localStorage.setItem('mm_b1_d2', '1');
+            localStorage.setItem('mm_b1_d2_ppm', '400');
+            localStorage.setItem('mm_b1_d2_score', '70');
+            
+            // Establecer ltimo da activo en 2 para RRHH
+            localStorage.setItem('mm_last_day_b1', '2');
+            localStorage.setItem('mm_last_active_time', new Date().toLocaleString());
+            
+            localStorage.setItem('mm_recovery_done', 'true');
+            console.log("Recovery Patch Aplicado: Da 1 y 2 restaurados con stats reales.");
+        }
+    })();
+    // ------------------------------------
+    </script>
 
 </body>
 
