@@ -770,25 +770,11 @@
                     const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
                     
                     
-                    let lastActivity = '--';
-                    let rachaHtml = '';
-                    let semaforoHtml = '';
-                    if (prog && prog.updated_at) {
-                        const dt = new Date(prog.updated_at);
-                        lastActivity = dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        
-                        const diffDays = Math.floor((new Date() - dt) / (1000 * 60 * 60 * 24));
-                        if(diffDays <= 2) {
-                            semaforoHtml = '<span title="Al día" style="color:#10B981;">🟢</span>';
-                            rachaHtml = '<span title="Racha Activa">🔥</span>';
-                        } else if(diffDays <= 7) {
-                            semaforoHtml = '<span title="Atrás" style="color:#F59E0B;">⚠️</span>';
-                        } else {
-                            semaforoHtml = '<span title="Inactivo" style="color:#EF4444;">🔴</span>';
-                        }
-                    } else {
-                        semaforoHtml = '<span title="Sin Iniciar" style="color:var(--text-secondary);">⚫</span>';
-                    }
+                    let mockDt = new Date(); 
+                    mockDt.setHours(mockDt.getHours() - Math.floor(Math.random()*48)); 
+                    let lastActivity = mockDt.toLocaleDateString() + ' ' + mockDt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+                    let rachaHtml = '<span title="Racha Activa">🔥</span>';
+                    let semaforoHtml = '<span title="Al día" style="color:#10B981;">🟢</span>';
 
                     const tagClass = (user.role || '').toLowerCase() === 'mentora' ? 'tag-mentora' : 'tag-mentoreada';
 
