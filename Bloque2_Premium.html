@@ -3157,7 +3157,8 @@ function terminarLecturaPPM() {
     let ppm = Math.round(wordCount / elapsedMinutes);
     if (ppm > 1200) ppm = 1200; 
     
-    let key = 'mm_b_d' + currentDay + '_ppm';
+    let blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
+    let key = 'mm_b' + blockNum + '_d' + currentDay + '_ppm';
     localStorage.setItem(key, ppm.toString());
     
     let resultEl = document.getElementById('ppm-result');
@@ -3190,7 +3191,7 @@ function closePPMModal() {
 function evaluarQuizReal(dayId) {
     let qData = [];
     if (window.activeTrackData) {
-        const d = window.activeTrackData.find(x => x.dia === currentDay);
+        const d = window.activeTrackData.find(x => x.dia === dayId);
         if (d) {
             if (d.preguntas) qData = d.preguntas;
             else if (d.comprension) qData = d.comprension;
@@ -3224,13 +3225,13 @@ function evaluarQuizReal(dayId) {
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
 
-    const ppmKey = 'mm_b' + blockNum + '_d' + currentDay + '_ppm';
+    const ppmKey = 'mm_b' + blockNum + '_d' + dayId + '_ppm';
     const ppm = localStorage.getItem(ppmKey) || '—';
 
-    localStorage.setItem('mm_b' + blockNum + '_d' + currentDay + '_score', score.toString());
-    localStorage.setItem('mm_b' + blockNum + '_d' + currentDay, '1');
+    localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_score', score.toString());
+    localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
 
-    const box = document.getElementById('quiz-result-' + currentDay);
+    const box = document.getElementById('quiz-result-' + dayId);
     if (!box) return;
     box.style.display = 'block';
 
