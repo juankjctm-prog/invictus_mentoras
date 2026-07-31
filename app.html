@@ -1159,6 +1159,21 @@ function continueToComprension() {
         window.activeTrackData = [];
     }
     
+    // --- CLEANUP FAKE SIMULATION DATA ---
+    if (localStorage.getItem('mm_b1_d1_ppm') === '280' || localStorage.getItem('mm_b1_d2_ppm') === '400') {
+        localStorage.removeItem('mm_b1_d1_ppm');
+        localStorage.removeItem('mm_b1_d1_score');
+        localStorage.removeItem('mm_b1_d2_ppm');
+        localStorage.removeItem('mm_b1_d2_score');
+        if(typeof progresoLocal !== 'undefined') {
+            if(progresoLocal['1']) { delete progresoLocal['1'].ppm; delete progresoLocal['1'].comprension; }
+            if(progresoLocal['2']) { delete progresoLocal['2'].ppm; delete progresoLocal['2'].comprension; }
+            if(typeof saveProgresoLocal === 'function') saveProgresoLocal();
+        }
+        console.log("Simulated fake data removed automatically.");
+    }
+    // ------------------------------------
+    
     // Fetch from Supabase
     const { data, error } = await _supabase.from('mentoras_progress').select('*').eq('user_id', currentUser.id).single();
     
