@@ -1108,8 +1108,17 @@ function continueToComprension() {
                 utterance.lang = 'es-ES';
                 utterance.pitch = 0.9;
                 utterance.rate = 0.9;
-                utterance.onend = () => { if(isAudio) { markSuenoCompleted(); toggleAudio(); } };
-                
+                // Chrome silently pauses long speechSynthesis utterances after
+                // ~15s unless kept alive, which can leave 'onend' never firing
+                // even though the voice is still audibly speaking. Ping pause/
+                // resume periodically as the standard workaround.
+                const synthKeepAlive = setInterval(() => {
+                    if (!synth.speaking) { clearInterval(synthKeepAlive); return; }
+                    synth.pause();
+                    synth.resume();
+                }, 10000);
+                utterance.onend = () => { clearInterval(synthKeepAlive); if(isAudio) { markSuenoCompleted(); toggleAudio(); } };
+
                 // Theta Binaural
                 ctx = new (window.AudioContext || window.webkitAudioContext)();
                 oscL = ctx.createOscillator(); oscR = ctx.createOscillator();
@@ -1128,6 +1137,17 @@ function continueToComprension() {
                 synth.speak(utterance);
             });
             mp3Audio.onended = () => { if(isAudio) { markSuenoCompleted(); toggleAudio(); } };
+            // 'ended' can fail to fire in real usage (tab backgrounded, OS
+            // media controls, browser quirks) even though the audio genuinely
+            // played through — leaving the user stuck with no visible reason.
+            // Belt-and-suspenders: also complete once playback reaches the
+            // end via timeupdate, which fires reliably during real playback.
+            mp3Audio.addEventListener('timeupdate', () => {
+                if (isAudio && mp3Audio.duration && mp3Audio.currentTime >= mp3Audio.duration - 0.75) {
+                    markSuenoCompleted();
+                    toggleAudio();
+                }
+            });
         }
 
         // Marca la Fase 12 (Modo Sueño) como completada para el día actual,
@@ -2904,7 +2924,7 @@ function renderMentoraSession(dayIndex) {
             </div>
             <p id="sueno-hint-${dayIndex}" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px; display: ${suenoDone ? 'none' : 'block'};">
                 🔒 Escucha el audio completo para poder concluir el día.
-                <a href="#" onclick="markSuenoCompleted(true); return false;" style="color: var(--accent-water); text-decoration: underline;">¿No puedes reproducirlo?</a>
+                <a href="#" onclick="markSuenoCompleted(true); return false;" style="color: var(--accent-water); text-decoration: underline;">¿Ya lo escuchaste completo y no se desbloquea?</a>
             </p>
             <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px; ${suenoDone ? '' : 'opacity: 0.4; cursor: not-allowed;'}" ${suenoDone ? '' : 'disabled'} onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
 
