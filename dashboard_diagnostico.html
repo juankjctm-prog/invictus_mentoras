@@ -287,6 +287,7 @@
         <button class="tab-btn active" onclick="switchDashboardTab('tab-parejas', this)">Parejas & Diagnóstico 360°</button>
         <button class="tab-btn" onclick="switchDashboardTab('tab-mentoras', this)">Diagnóstico & Crecimiento de Mentoras</button>
         <button class="tab-btn" onclick="switchDashboardTab('tab-avance', this)">Avance del Ecosistema</button>
+        <button class="tab-btn" onclick="switchDashboardTab('tab-competencias', this)">Competencias del Ecosistema</button>
     </div>
 
 
@@ -369,8 +370,8 @@
                         <th>Rol</th>
                         <th>Sesi&oacute;n Actual</th>
                         <th>Progreso Global</th>
-                        <th>PPM</th>
-                        <th>Comprensi&oacute;n</th>
+                        <th>Velocidad Lectora<br><span style="font-size:0.65rem; opacity:0.7; text-transform:none; letter-spacing:0;">Diagn&oacute;stico &rarr; Programa</span></th>
+                        <th>Comprensi&oacute;n<br><span style="font-size:0.65rem; opacity:0.7; text-transform:none; letter-spacing:0;">Diagn&oacute;stico &rarr; Programa</span></th>
                         <th>&Uacute;ltima Actividad</th>
                     </tr>
                 </thead>
@@ -382,9 +383,33 @@
     </div>
 
 
-    <!-- SUPABASE INIT -->
-    
             </div>
+            <div id="tab-competencias" class="tab-content">
+
+    <div class="container" style="margin-bottom: 60px;">
+        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 30px;">
+            <h3 style="font-family:'Outfit'; color:var(--accent-water); margin-bottom: 6px; font-size:1.5rem; text-align:center;">Competencias del Ecosistema</h3>
+            <p style="text-align:center; color:var(--text-secondary); font-size:0.8rem; margin-bottom:8px;">Promedio de autoevaluaci&oacute;n inicial (0-100%) de las 11 competencias, agregado entre todas las participantes reales &mdash; no solo por pareja. Ordenado de menor a mayor: arriba, donde el ecosistema reporta menos confianza hoy.</p>
+            <p id="comp-eco-coverage" style="text-align:center; color:var(--text-secondary); font-size:0.75rem; margin-bottom:24px;"></p>
+
+            <div id="comp-eco-alert" style="display:none; background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.3); border-radius:12px; padding:16px 20px; margin-bottom:24px; font-size:0.85rem; color:#FCA5A5;"></div>
+
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                <div>
+                    <h4 style="color:var(--accent-fire); margin-bottom:14px; font-family:'Outfit'; text-align:center;">Mentoras &mdash; Autoevaluaci&oacute;n</h4>
+                    <div id="comp-eco-mentoras"></div>
+                </div>
+                <div>
+                    <h4 style="color:var(--accent-water); margin-bottom:14px; font-family:'Outfit'; text-align:center;">Mentadas &mdash; Autoevaluaci&oacute;n</h4>
+                    <div id="comp-eco-mentadas"></div>
+                </div>
+            </div>
+            <style>@media (max-width: 900px) { #tab-competencias div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; } }</style>
+        </div>
+    </div>
+
+            </div>
+            <!-- SUPABASE INIT -->
             <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         
@@ -437,7 +462,7 @@
                 if (usersData) {
                     usersData.forEach(u => {
                         const pin = u.pin;
-                        if (pin === '010101' || pin === '012699') return;
+                        if (pin === '010101' || pin === '012699' || pin.endsWith('07')) return;
                         if (pin.length === 6) {
                             const pairId = pin.slice(-2);
                             if (!globalPairs[pairId]) globalPairs[pairId] = { id: pairId, mentadaUser: null, mentoraUser: null, mentadaRow: null, mentoraRow: null };
@@ -451,7 +476,7 @@
                 if (data) {
                     data.forEach(row => {
                         const pin = row.user_pin || '';
-                        if (pin === '010101' || pin === '012699') return;
+                        if (pin === '010101' || pin === '012699' || pin.endsWith('07')) return;
                         
                         if (pin.length >= 2) {
                             const pairId = pin.slice(-2);
@@ -528,7 +553,7 @@
                 ? Math.round(comprensionValues.reduce((a, b) => a + b, 0) / comprensionValues.length)
                 : null;
             const comprensionColor = avgComprension === null ? 'var(--text-secondary)'
-                : avgComprension >= 80 ? 'var(--success)'
+                : avgComprension >= 80 ? 'var(--accent-jefe)'
                 : avgComprension >= 60 ? '#F59E0B' : '#EF4444';
 
             let lastActivity = '--';
@@ -550,6 +575,53 @@
             }
 
             return { hasProgress: !!prog, currentDay, completedCount, percentage, bestPpm, avgComprension, comprensionColor, lastActivity, semaforoHtml, rachaHtml };
+        }
+
+        // El scoring de comprensión lectora del diagnóstico inicial comparaba
+        // la respuesta contra `q.correct`, un campo que no existía en los datos
+        // (que usaban `q.answer`) — daba 0% siempre, sin importar la respuesta
+        // real. Se corrigió el 2026-07-27 12:49pm (commit 6365a8c), pero los
+        // diagnósticos hechos ANTES de ese momento quedaron con un 0% falso
+        // permanente: las respuestas individuales nunca se guardaron, así que
+        // no hay forma de recalcular el score real — solo repitiendo el
+        // diagnóstico. Detectarlo para no mostrar ese 0% como si fuera un dato
+        // real en el dashboard de cara a las empresas.
+        const DIAG_SCORING_FIX_CUTOFF = new Date('2026-07-27T17:49:20Z');
+        function lecturaInicialContaminada(diagRow) {
+            if (!diagRow || !diagRow.resultados || !diagRow.resultados.lectura) return false;
+            const comp = diagRow.resultados.lectura.comprensión !== undefined ? diagRow.resultados.lectura.comprensión : diagRow.resultados.lectura.comprension;
+            return comp === 0 && new Date(diagRow.created_at) < DIAG_SCORING_FIX_CUTOFF;
+        }
+
+        // Encuentra el diagnóstico inicial de un usuario a partir de su PIN,
+        // usando globalPairs (poblado por loadData()) — mismo dato que ya usa
+        // el resto del dashboard, sin una consulta adicional a Supabase.
+        function getDiagRowByPin(pin) {
+            if (!pin || pin.length < 2) return null;
+            const pairId = pin.slice(-2);
+            const pair = globalPairs[pairId];
+            if (!pair) return null;
+            return pin.startsWith('0126') ? pair.mentoraRow : pair.mentadaRow;
+        }
+
+        // Construye la celda "Inicial → Actual" para PPM o Comprensión, con
+        // flecha de color según si mejoró, empeoró o se mantuvo, y aviso
+        // visible cuando el dato inicial está contaminado por el bug de
+        // scoring (en vez de mostrar un 0% falso como si fuera real).
+        function renderEvolucionCelda(inicialVal, actualVal, unidad, contaminada) {
+            if (contaminada) {
+                return '<span style="color:#F59E0B;" title="Diagnóstico inicial anterior al 27-jul: el 0% registrado es un bug de scoring ya corregido, no una respuesta real. Pedir que repita el diagnóstico para tener este dato.">⚠️ dato no confiable</span>' +
+                    (actualVal !== null ? ` <span style="color:var(--text-secondary);">&rarr; ${actualVal}${unidad}</span>` : '');
+            }
+            const iniStr = (inicialVal !== null && inicialVal !== undefined) ? `${inicialVal}${unidad}` : '--';
+            const actStr = (actualVal !== null && actualVal !== undefined) ? `${actualVal}${unidad}` : '--';
+            if (inicialVal === null || inicialVal === undefined || actualVal === null || actualVal === undefined) {
+                return `<span style="color:var(--text-secondary);">${iniStr} &rarr; ${actStr}</span>`;
+            }
+            const delta = actualVal - inicialVal;
+            const arrowColor = delta > 0 ? 'var(--accent-jefe)' : (delta < 0 ? '#EF4444' : 'var(--text-secondary)');
+            const arrow = delta > 0 ? '&#8599;' : (delta < 0 ? '&#8600;' : '&rarr;');
+            return `${iniStr} <span style="color:${arrowColor}; font-weight:700;">${arrow}</span> ${actStr}`;
         }
 
         function calculateAverage(brechas) {
@@ -819,6 +891,12 @@
 
                     const { currentDay, completedCount, percentage, bestPpm, avgComprension, comprensionColor, lastActivity, semaforoHtml, rachaHtml } = computeProgressStats(user.id);
 
+                    const diagRow = getDiagRowByPin(pin);
+                    const lecturaInicial = diagRow && diagRow.resultados && diagRow.resultados.lectura ? diagRow.resultados.lectura : null;
+                    const ppmInicial = lecturaInicial ? lecturaInicial.ppm : null;
+                    const compInicial = lecturaInicial ? (lecturaInicial.comprensión !== undefined ? lecturaInicial.comprensión : lecturaInicial.comprension) : null;
+                    const compContaminada = lecturaInicialContaminada(diagRow);
+
                     const tagClass = (user.role || '').toLowerCase() === 'mentora' ? 'tag-mentora' : 'tag-mentoreada';
 
                     html += `
@@ -841,8 +919,8 @@
                                     </div>
                                 </div>
                             </td>
-                            <td><span class="score-box" style="color:var(--accent-water);">${bestPpm > 0 ? bestPpm + ' PPM' : '--'}</span></td>
-                            <td><span class="score-box" style="color:${comprensionColor};">${avgComprension !== null ? avgComprension + '%' : '--'}</span></td>
+                            <td><span class="score-box" style="font-size:0.9rem;">${renderEvolucionCelda(ppmInicial, bestPpm > 0 ? bestPpm : null, ' PPM', false)}</span></td>
+                            <td><span class="score-box" style="font-size:0.9rem;">${renderEvolucionCelda(compInicial, avgComprension, '%', compContaminada)}</span></td>
                             <td style="font-size:0.85rem; color:var(--text-secondary);">${lastActivity}</td>
                         </tr>
                     `;
@@ -874,6 +952,83 @@
             
             if(tabId === 'tab-mentoras') {
                 populateMentoraSelect();
+            }
+            if(tabId === 'tab-competencias') {
+                renderCompetenciasEcosistema();
+            }
+        }
+
+        // Agrega la autoevaluación inicial de competencias (0-100%) de TODAS
+        // las participantes reales — no solo de la pareja seleccionada —
+        // separado por rol (brechasAuto de Mentoras, brechas de Mentadas),
+        // para dar una vista de dónde el ecosistema completo reporta menos
+        // confianza hoy. Se basa en globalPairs, ya poblado por loadData().
+        function renderCompetenciasEcosistema() {
+            const mentoraSums = {}, mentoraCounts = {};
+            const mentadaSums = {}, mentadaCounts = {};
+            COMPETENCIAS.forEach(c => { mentoraSums[c] = 0; mentoraCounts[c] = 0; mentadaSums[c] = 0; mentadaCounts[c] = 0; });
+
+            let mentorasConDiag = 0, mentadasConDiag = 0;
+            Object.values(globalPairs).forEach(pair => {
+                const evalMentora = pair.mentoraRow && pair.mentoraRow.resultados ? pair.mentoraRow.resultados.brechasAuto : null;
+                const evalMentada = pair.mentadaRow && pair.mentadaRow.resultados ? pair.mentadaRow.resultados.brechas : null;
+                if (evalMentora) {
+                    mentorasConDiag++;
+                    COMPETENCIAS.forEach(c => { if (evalMentora[c] !== undefined && evalMentora[c] !== null) { mentoraSums[c] += evalMentora[c]; mentoraCounts[c]++; } });
+                }
+                if (evalMentada) {
+                    mentadasConDiag++;
+                    COMPETENCIAS.forEach(c => { if (evalMentada[c] !== undefined && evalMentada[c] !== null) { mentadaSums[c] += evalMentada[c]; mentadaCounts[c]++; } });
+                }
+            });
+
+            const totalUsuarias = Object.values(globalPairs).reduce((n, p) => n + (p.mentoraUser ? 1 : 0) + (p.mentadaUser ? 1 : 0), 0);
+            document.getElementById('comp-eco-coverage').innerHTML =
+                `Cobertura: <strong style="color:white;">${mentorasConDiag + mentadasConDiag} de ${totalUsuarias}</strong> participantes con diagnóstico inicial completo (${mentorasConDiag} mentoras &middot; ${mentadasConDiag} mentadas).`;
+
+            const buildAvgList = (sums, counts) => COMPETENCIAS
+                .map(c => ({ nombre: c, avg: counts[c] > 0 ? Math.round(sums[c] / counts[c]) : null, n: counts[c] }))
+                .sort((a, b) => (a.avg === null ? 999 : a.avg) - (b.avg === null ? 999 : b.avg));
+
+            const renderBarList = (list) => list.map(item => {
+                if (item.avg === null) {
+                    return `<div style="margin-bottom:14px;"><div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:4px;"><span style="color:var(--text-secondary);">${item.nombre}</span><span style="color:var(--text-secondary);">sin datos</span></div><div class="progress-bar-bg"></div></div>`;
+                }
+                const color = item.avg >= 70 ? 'var(--accent-jefe)' : (item.avg >= 50 ? '#F59E0B' : '#EF4444');
+                return `<div style="margin-bottom:14px;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:4px;">
+                        <span style="color:white;">${item.nombre}</span>
+                        <span style="color:${color}; font-weight:600;">${item.avg}% <span style="color:var(--text-secondary); font-weight:400;">(n=${item.n})</span></span>
+                    </div>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:${item.avg}%; background:${color};"></div></div>
+                </div>`;
+            }).join('');
+
+            const mentoraList = buildAvgList(mentoraSums, mentoraCounts);
+            const mentadaList = buildAvgList(mentadaSums, mentadaCounts);
+            document.getElementById('comp-eco-mentoras').innerHTML = mentorasConDiag > 0 ? renderBarList(mentoraList) : '<p class="empty-state">Ninguna mentora ha completado el diagnóstico inicial todavía.</p>';
+            document.getElementById('comp-eco-mentadas').innerHTML = mentadasConDiag > 0 ? renderBarList(mentadaList) : '<p class="empty-state">Ninguna mentada ha completado el diagnóstico inicial todavía.</p>';
+
+            // Callout de las competencias más débiles combinando ambos roles.
+            const combined = {};
+            COMPETENCIAS.forEach(c => {
+                const vals = [];
+                if (mentoraCounts[c] > 0) vals.push(mentoraSums[c] / mentoraCounts[c]);
+                if (mentadaCounts[c] > 0) vals.push(mentadaSums[c] / mentadaCounts[c]);
+                combined[c] = vals.length > 0 ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+            });
+            const weakest = Object.entries(combined)
+                .filter(([, v]) => v !== null)
+                .sort((a, b) => a[1] - b[1])
+                .slice(0, 3);
+            const alertBox = document.getElementById('comp-eco-alert');
+            if (weakest.length > 0) {
+                alertBox.style.display = 'block';
+                alertBox.innerHTML = `<strong>⚠️ Las 3 competencias con mayor brecha en todo el ecosistema:</strong> ` +
+                    weakest.map(([nombre, avg]) => `${nombre} (${Math.round(avg)}%)`).join(' &middot; ') +
+                    ` — candidatas prioritarias para refuerzo o contenido adicional.`;
+            } else {
+                alertBox.style.display = 'none';
             }
         }
         
