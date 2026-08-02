@@ -367,7 +367,7 @@
                         <th>Nombre</th>
                         <th>PIN</th>
                         <th>Rol</th>
-                        <th>D&iacute;a Actual</th>
+                        <th>Sesi&oacute;n Actual</th>
                         <th>Progreso Global</th>
                         <th>PPM</th>
                         <th>Comprensi&oacute;n</th>
@@ -437,7 +437,7 @@
                 if (usersData) {
                     usersData.forEach(u => {
                         const pin = u.pin;
-                        if (pin === '010101' || pin === '012699' || pin.endsWith('07')) return;
+                        if (pin === '010101' || pin === '012699') return;
                         if (pin.length === 6) {
                             const pairId = pin.slice(-2);
                             if (!globalPairs[pairId]) globalPairs[pairId] = { id: pairId, mentadaUser: null, mentoraUser: null, mentadaRow: null, mentoraRow: null };
@@ -451,7 +451,7 @@
                 if (data) {
                     data.forEach(row => {
                         const pin = row.user_pin || '';
-                        if (pin === '010101' || pin === '012699' || pin.endsWith('07')) return;
+                        if (pin === '010101' || pin === '012699') return;
                         
                         if (pin.length >= 2) {
                             const pairId = pin.slice(-2);
@@ -831,7 +831,7 @@
                             </td>
                             <td style="font-weight:bold; letter-spacing:1px;">${user.pin}</td>
                             <td><span class="tag ${tagClass}">${user.role || '--'}</span></td>
-                            <td><span class="score-box" style="color:var(--accent-water);">D&iacute;a ${currentDay}</span></td>
+                            <td><span class="score-box" style="color:var(--accent-water);">Sesi&oacute;n ${currentDay}</span></td>
                             <td>
                                 <div style="display:flex; align-items:center; gap:10px;">
                                     <span class="score-box">${completedCount}</span>
@@ -905,7 +905,7 @@
                 <p style="color:white; font-size:0.95rem; margin-bottom:12px;">${lecturaInicial}</p>
                 <p style="color:var(--text-secondary); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">Progreso Real Hoy</p>
                 <p style="color:white; font-size:0.95rem;">
-                    ${stats.semaforoHtml} D&iacute;a ${stats.currentDay} &middot;
+                    ${stats.semaforoHtml} Sesi&oacute;n ${stats.currentDay} &middot;
                     ${stats.bestPpm > 0 ? stats.bestPpm + ' PPM' : '-- PPM'} &middot;
                     Comprensi&oacute;n: ${stats.avgComprension !== null ? stats.avgComprension + '%' : '--'}
                 </p>

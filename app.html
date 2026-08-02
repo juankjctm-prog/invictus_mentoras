@@ -337,7 +337,7 @@
                         </svg>
                         <div class="ring-content" style="position:absolute; inset:0; display:flex; flex-direction:column; justify-content:center; align-items:center;">
                             <h2 id="dashboard-day-number" class="text-gradient" style="font-size:3rem; margin:0; line-height:1;">1</h2>
-                            <p style="margin:0; font-size:0.9rem; color:var(--text-secondary);">Día de 78</p>
+                            <p style="margin:0; font-size:0.9rem; color:var(--text-secondary);">Sesión de 78</p>
                         </div>
                     </div>
                 </div>
@@ -383,7 +383,7 @@
 </div>
 
 <div class="session-hero stagger-1">
-                    <div class="badge-premium">Bloque 5 • Día 41</div>
+                    <div class="badge-premium">Bloque 5 • Sesión 41</div>
                     <h2 class="display-font" style="font-size: 1.8rem; line-height: 1.1;">La Realidad del Poder</h2>
                 </div>
 
@@ -438,7 +438,7 @@
                     </div>
                 </div>
 
-                <div class="kit-sec-title">📋 Guía Táctica del Día</div>
+                <div class="kit-sec-title">📋 Guía Táctica de la Sesión</div>
                 <div id="playbook-content">
                     <!-- Dynamic Playbook Populated by JS -->
                 </div>
@@ -541,7 +541,7 @@ function revelarDespertador() {
 
 <div class="kit-sec-title">📊 Mi Impacto</div>
     <div class="kit-stat-grid">
-      <div class="kit-stat"><div class="val" id="km-dias">0</div><div class="lbl">Días activos</div></div>
+      <div class="kit-stat"><div class="val" id="km-dias">0</div><div class="lbl">Sesiones activas</div></div>
       <div class="kit-stat"><div class="val" id="km-streak">0</div><div class="lbl">Racha</div></div>
       <div class="kit-stat"><div class="val" id="km-ppm">—</div><div class="lbl">Mejor PPM</div></div>
       <div class="kit-stat"><div class="val" id="km-comp">—</div><div class="lbl">Comprensión prom.</div></div>
@@ -556,7 +556,7 @@ function revelarDespertador() {
     <div id="km-mirror-profile" class="mirror-wrap" style="display:none">
       <div style="font-size:.68rem;color:#FF5E00;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px">Tu estilo de mentoría</div>
       <div id="km-profile-name" style="font-family:'Outfit';font-size:1.1rem;color:#fff;font-weight:600;margin-bottom:6px">—</div>
-      <div id="km-profile-desc" style="font-size:.8rem;color:#8A8F98;line-height:1.6">Completa 5 días para revelar tu perfil.</div>
+      <div id="km-profile-desc" style="font-size:.8rem;color:#8A8F98;line-height:1.6">Completa 5 sesiones para revelar tu perfil.</div>
     </div>
 
     <!-- COACH DE CRISIS -->
@@ -629,8 +629,8 @@ function revelarDespertador() {
     <div class="kit-sec-title">🔮 Espejo de Liderazgo</div>
     <div class="caso-card" style="cursor:default">
       <h4>Tu Arquitectura de Mentoría</h4>
-      <p>Se activa al completar 5 días del bloque. Revela tu estilo dominante, tus brechas como mentora y los patrones que estás replicando sin saberlo.</p>
-      <span id="espejo-status" class="caso-tag">🔒 Completa 5 días</span>
+      <p>Se activa al completar 5 sesiones del bloque. Revela tu estilo dominante, tus brechas como mentora y los patrones que estás replicando sin saberlo.</p>
+      <span id="espejo-status" class="caso-tag">🔒 Completa 5 sesiones</span>
     </div>
   </div>
 </div>
@@ -1067,7 +1067,7 @@ function continueToComprension() {
             if (diasCompletos === 5 && !localStorage.getItem('espejo_revelado')) {
                 localStorage.setItem('espejo_revelado', 'true');
                 setTimeout(() => {
-                    alert('🎉 ESPEJO DE LIDERAZGO REVELADO\\n\\n¡Has completado 5 días de actividad! Según tus respuestas y velocidad, tu perfil de mentoría es: MENTORA ESTRATEGA.\\n\\nFortaleza: Transformación de la visión a la acción.\\n\\nVe a "Mi Kit" para ver los detalles.');
+                    alert('🎉 ESPEJO DE LIDERAZGO REVELADO\\n\\n¡Has completado 5 sesiones de actividad! Según tus respuestas y velocidad, tu perfil de mentoría es: MENTORA ESTRATEGA.\\n\\nFortaleza: Transformación de la visión a la acción.\\n\\nVe a "Mi Kit" para ver los detalles.');
                     if(window.renderKitMentoria) window.renderKitMentoria();
                 }, 1500);
             }
@@ -1383,7 +1383,7 @@ async function loadMentadaDashboard() {
     
     let html = `<div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; margin-bottom: 30px;">
          <h3 style="margin-bottom: 5px; color: var(--accent-water); font-size:1.3rem;">${mentadaUser.name} ${mentadaUser.full_name.replace(mentadaUser.name, '').trim()}</h3>
-         <p style="font-size: 0.9rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">Día actual: ${day} de 78</p>
+         <p style="font-size: 0.9rem; color: #aaa; text-transform: uppercase; letter-spacing: 1px;">Sesión actual: ${day} de 78</p>
     </div>`;
     
     html += `<h3 style="font-family: 'Outfit'; font-weight:300; letter-spacing:1px; margin-bottom:15px;">Respuestas y Reflexiones</h3>`;
@@ -1394,7 +1394,7 @@ async function loadMentadaDashboard() {
         if(answers[d].trim() !== '') {
             hasAnswers = true;
             html += `<div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
-                 <span style="color: var(--accent-earth); font-size: 0.8rem; text-transform: uppercase;">Día ${d}</span>
+                 <span style="color: var(--accent-earth); font-size: 0.8rem; text-transform: uppercase;">Sesión ${d}</span>
                  <p style="margin-top: 10px; font-size: 0.95rem; line-height: 1.5; color: #ddd; white-space: pre-wrap;">${answers[d]}</p>
             </div>`;
         }
@@ -1676,7 +1676,7 @@ async function loadPlaybookDay(dayIndex) {
     const contentArea = document.getElementById('playbook-content-area');
     
     if(!dayIndex) {
-        contentArea.innerHTML = '<div style="text-align:center; padding: 40px 0; color: var(--text-tertiary);">Selecciona un día para ver o escribir tus apuntes...</div>';
+        contentArea.innerHTML = '<div style="text-align:center; padding: 40px 0; color: var(--text-tertiary);">Selecciona una sesión para ver o escribir tus apuntes...</div>';
         return;
     }
     
@@ -1765,15 +1765,15 @@ switchTab = function(viewId, element) {
 function populatePlaybookDays() {
     const selector = document.getElementById('playbook-day-selector');
     if(!selector) return;
-    selector.innerHTML = '<option value="">-- Selecciona el Día --</option>';
-    
+    selector.innerHTML = '<option value="">-- Selecciona la Sesión --</option>';
+
     // Check maxUnlockedDay from dashboard
     let maxDay = (typeof maxUnlockedDay !== 'undefined') ? maxUnlockedDay : 78;
-    
+
     for(let i=1; i<=maxDay; i++) {
         const opt = document.createElement('option');
         opt.value = i;
-        opt.innerText = `Día ${i}`;
+        opt.innerText = `Sesión ${i}`;
         selector.appendChild(opt);
     }
     
@@ -2593,163 +2593,163 @@ var PLAYBOOK_DATA = {
     }
   },
   2: {
-    tema: 'Atención y Multitasking',
-    autor: 'Daniel Goleman',
+    tema: 'Epigenética y Creencias',
+    autor: 'Bruce Lipton',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'El multitasking no es una habilidad de alto rendimiento. Es el disfraz del miedo al aburrimiento.',
+      intro: 'El 95-99% del comportamiento adulto corre en programas subconscientes instalados antes de los 7 años. Antes de señalar un patrón en tu mentoreada, identifica uno tuyo.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Cuenta: ¿cuántas veces revisaste el teléfono durante la lectura de hoy? Escríbelo. Sin juicio. Solo el dato.' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablaremos del hábito que más drena tu poder ejecutivo. Trae tu agenda y el recuento honesto de cuántas ventanas tienes abiertas cuando trabajas."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no enseñas concentración. Hoy modelas concentración. Apaga todas las notificaciones antes de entrar a la sesión.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Escribe un patrón de respuesta automática tuyo bajo presión. ¿Qué función protectora cumplió cuando lo aprendiste? Lipton dice que son adaptaciones, no defectos.' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablamos de creencias que ni siquiera sabemos que tenemos. Piensa: ¿qué mensaje sobre el liderazgo femenino escuchaste repetidamente antes de los 10 años, en casa o en la escuela?"' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no corriges sus creencias. Le ayudas a verlas — el cambio empieza por nombrar el programa, no por pelear contra él.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿De qué estás huyendo emocionalmente cuando revisas el teléfono en una reunión de alto riesgo?" — La respuesta honesta aquí es oro puro.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Protocolo de Auditoría de Atención: pídele que abra su agenda del lunes pasado. ¿Cuántos bloques de trabajo profundo sin interrupciones tiene? (Ninguno cuenta como respuesta.) Calcula el costo: si cada interrupción cuesta 23 minutos de recuperación (Gloria Mark, UCI), ¿cuántas horas de trabajo profundo perdió?' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: bloquear 1 ventana de 90 minutos de trabajo profundo cada día. Teléfono boca abajo, notificaciones apagadas, puerta cerrada. Registrar en papel cuánto logra en ese bloque vs. en el resto del día.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "es que mi trabajo requiere estar disponible": "¿Tu jefe contrata una CEO o una secretaria de sí misma? La disponibilidad constante es el lujo que no se pueden permitir las lideresas de alto impacto."' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Lograste el bloque de 90 min? Dime el número concreto: ¿cuántos logros de alta palanca completaste en él?"' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué mensaje sobre el liderazgo escuchaste antes de los 10 años que todavía opera en ti hoy?" — deja el silencio, no rescates la respuesta.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Pídele que identifique un patrón de respuesta automática (evitar el conflicto, sobreexplicar, minimizar un logro). Juntas, rastreen de dónde pudo venir — sin diagnosticar, solo con curiosidad.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: cada vez que note ese patrón activarse, escribir en su libreta la situación exacta, sin corregirse todavía — solo observar.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "así soy yo, no es un programa": "Lipton no dice que no seas tú. Dice que aprendiste a ser así antes de poder elegirlo. ¿Eso cambia algo de cómo lo miras?"' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuántas veces notaste el patrón esta semana? No tienes que haberlo cambiado. Solo dime cuántas veces lo viste venir."' }
       ]
     }
   },
   3: {
-    tema: 'Escucha Nivel 3',
-    autor: 'Otto Scharmer',
+    tema: 'Trauma Intergeneracional',
+    autor: 'Rachel Yehuda',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'La mayoría escucha Nivel 1 (desde sus propios pensamientos) o Nivel 2 (desde los hechos del otro). El Nivel 3 es escuchar lo que aún no ha sido dicho.',
+      intro: 'Los patrones de respuesta al estrés pueden transmitirse biológicamente, generación tras generación — y son reversibles con las condiciones relacionales correctas.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Recuerda la última sesión con tu mentoreada. ¿Escuchaste para responder o para entender su dolor más profundo? ¿Cuál fue la frase que más te incomodó? ¿Por qué?' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana auditaremos la calidad de tu escucha. Prepárate para descubrir cuánto tiempo de la sesión hablas TÚ. (La respuesta correcta es: menos del 40%.)"' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy en la sesión: mide internamente el porcentaje del tiempo en que hablas tú. Si supera el 40%, es señal de que la sesión fue tuya, no de ella.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Nombra un patrón de respuesta al poder o al estrés que reconoces en ti y también viste en tu madre o abuela. No lo juzgues — solo nómbralo.' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablamos de lo que heredamos sin saberlo. Piensa en una mujer de tu familia y cómo se relacionaba con ocupar espacio."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no le pides que resuelva su historia familiar. Le muestras que tú también cargas la tuya — eso construye la seguridad para que ella nombre la suya.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Antes de que me cuentes lo de esta semana — ¿qué es lo que más te cuesta decirme hoy?" Espera 15 segundos sin llenar el silencio.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Protocolo de Escucha Espejo: ella habla 3 minutos sobre un desafío actual. Tú solo escuchas, sin tomar notas. Al final, le reflejas: "Lo que escuché fue... ¿es eso?" — No interpretes, no resumas con tus palabras, solo refleja las de ella.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: en 1 reunión difícil, practicar escucha Nivel 2 completa — no interrumpir, no dar consejos, solo preguntas. Registrar cómo cambia la dinámica de la reunión.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si se siente incómoda con el silencio: "El silencio que sientes es la resistencia de tu cerebro a no llenar el espacio con soluciones. Ese malestar es exactamente el músculo que estamos entrenando."' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuándo fue la última vez que alguien se fue de una reunión contigo sintiéndose profundamente escuchada? ¿Cómo lo sabes?"' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Reconoces en ti algún patrón de respuesta al poder que sea más antiguo que tu propia historia?" — dale tiempo, es una pregunta que incomoda al principio.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Pídele que ubique ese patrón en un momento reciente de trabajo. Pregúntale: ¿qué costo tenía para la mujer que lo originó, en su época, NO tener ese patrón?' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: elegir UNA situación donde ese patrón suele activarse, y decidir con anticipación una respuesta distinta a probar.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "no quiero psicoanalizar a mi familia": "No se trata de diagnosticar a nadie. Se trata de que tú decidas, con los ojos abiertos, si ese patrón te sirve hoy."' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Probaste la respuesta distinta que planeamos? ¿Qué pasó en tu cuerpo cuando lo hiciste diferente?"' }
       ]
     }
   },
   4: {
-    tema: 'Escalera de Inferencia',
-    autor: 'Chris Argyris',
+    tema: 'Síndrome del Impostor',
+    autor: 'Valerie Young',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'Subimos de los datos brutos a las conclusiones en milisegundos, sin notar los peldaños que saltamos.',
+      intro: 'Los 5 arquetipos de Young — Perfeccionista, Experta, Solista, Genio Natural, Superhumana — no son debilidades, son estrategias de protección que hoy cuestan más de lo que protegen.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Recuerda un conflicto reciente en tu trabajo. Escribe: ¿cuáles fueron los DATOS REALES que observaste? ¿Cuántos peldaños subiste antes de concluir lo que concluiste?' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana separaremos el drama de los datos. Trae el conflicto que más te está drenando energía esta semana — pero solo los hechos observables, sin interpretación."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Cuando ella diga "él siempre" o "ella nunca", mentalmente anota: peldaño de generalización. Tu trabajo es bajarla al primer peldaño.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Identifica tu propio arquetipo dominante. Escribe la última vez que te hizo dudar de tu autoridad frente a tu mentoreada.' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablamos del impostor — ese que nos dice que no somos suficientemente buenas a pesar de la evidencia. Piensa en los 5 arquetipos de Young y cuál te suena más a ti."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no le dices que "no es impostora". Le ayudas a nombrar CUÁL arquetipo específico opera en ella — la especificidad es lo que permite trabajarlo.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Si asumiéramos que no tienes todos los datos sobre la intención de la otra persona, ¿qué cambiaría en tu narrativa?" — Esta pregunta es el desarmador de conflictos más potente que existe.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Dibuja juntas la Escalera de Inferencia para su conflicto actual: Datos observables → Selección de datos → Interpretación → Supuesto → Conclusión → Acción. Identifica en qué peldaño su conclusión pierde contacto con los datos reales.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: antes de responder a un email que la active emocionalmente, ella debe escribir en papel las 3 interpretaciones alternativas posibles de esa comunicación antes de enviar su respuesta.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si insiste en que su interpretación es correcta: "Puede que tengas razón. Y también es posible que tengas razón y la otra persona también tenga razón desde su propia escalera. ¿Cuál de las dos interpretaciones te da más poder de acción?"' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"Cuéntame: ¿tuviste una situación donde aplicaste la escalera esta semana? ¿Cuál fue el dato real que cambiaste por inferencia?"' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Cuál de estos 5 patrones te suena más a ti: la que nunca es suficientemente perfecta, la que nunca sabe suficiente, la que no puede pedir ayuda, la que cree que si le cuesta es porque no es su talento, o la que compensa con puro trabajo?"' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Pídele que elija su arquetipo dominante y recuerde la última vez que le impidió actuar (no postularse, no hablar, no pedir ayuda). Pregúntale qué habría hecho distinto sin ese arquetipo.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: UNA acción concreta que el arquetipo normalmente bloquearía — postularse, hablar en la reunión, pedir ayuda.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "es que de verdad me falta preparación": "Steele demostró que sentir que perteneces reduce más la amenaza del impostor que cualquier cantidad de preparación extra. ¿Sientes que perteneces al espacio que ocupas?"' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Hiciste la acción que el arquetipo normalmente bloquea? ¿Qué tan cierto era el miedo, comparado con lo que realmente pasó?"' }
       ]
     }
   },
   5: {
-    tema: 'Autoeficacia y Evidencia',
-    autor: 'Albert Bandura',
+    tema: 'Escritura Expresiva',
+    autor: 'James Pennebaker',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'La autoeficacia no es creer que puedes hacerlo todo. Es creer que puedes aprender lo que necesitas cuando lo necesitas.',
+      intro: 'Pennebaker demostró que externalizar en palabras lo que se carga produce efectos medibles en salud e inmunidad. La reflexión escrita también es tu herramienta de desarrollo, no solo la de tu mentoreada.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe 3 momentos donde actuaste sin certeza completa y funcionó. Esos no son éxitos de suerte — son evidencia de autoeficacia real.' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana trabajaremos en construir el archivo de evidencia más poderoso que tienes: tu propio historial de éxito. Llega con 3 logros que atribuiste a la suerte o las circunstancias."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Tu trabajo hoy es ayudarla a recuperar la autoría de su éxito. Nada de lo que logró fue accidente.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Escribe 3 minutos sin parar sobre tu última sesión de mentoría: qué funcionó, qué no, qué supuesto tuyo se activó.' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablamos de escribir lo que cargamos. Trae algo — una decisión, un conflicto — que nunca has puesto en palabras."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no le pides que hable de lo que carga. Le das el espacio y la privacidad para escribirlo primero — Pennebaker encontró que eso es lo que realmente produce el efecto.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Dime algo que lograste en los últimos 3 meses que internamente atribuiste a la suerte, a alguien más o al momento oportuno." — Cuando ella lo diga, pregunta: "¿Y qué hiciste TÚ para estar en posición de aprovecharlo?"' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Construir juntas el "Archivo de Evidencia": 5 logros concretos de los últimos 2 años. Para cada uno: ¿qué decisión tomó ella? ¿qué riesgo asumió? ¿qué competencia aplicó? — Recuperar la autoría de cada éxito.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Identificar 1 oportunidad que ha estado postergando por "no estar lista". Definir qué evidencia de su Archivo de Evidencia prueba que ya está suficientemente lista.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "pero ese caso fue diferente": "¿Diferente en qué? ¿Los desafíos eran distintos o la versión tuya que los resolvió era menos capaz que la de hoy?" — La segunda opción nunca es verdad.' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Aplicaste para algo esta semana que antes habrías descartado por sentirte no lista? Cuéntame el resultado — no el éxito, sino el aprendizaje."' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué estás cargando en tu vida profesional que nunca has puesto en palabras — ni en voz alta ni por escrito?" — no le pidas que lo diga en voz alta todavía. Solo que lo nombre para sí misma.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Explícale la diferencia entre escribir sobre el dolor y escribir con palabras de causa ("porque", "lo que produjo") — Pennebaker encontró que esto último predice mejor la mejora. Pídele que intente 3 minutos de escritura libre sobre lo que nombró.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: 15 minutos, en un momento estable del día (no en crisis), escribiendo sobre lo que carga. Privado — nadie más lo lee, ni siquiera tú.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "no sé qué escribir": "No tiene que tener sentido ni buena gramática. Pennebaker encontró que la libertad de formato produce el texto más auténtico."' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Escribiste esta semana? No necesito saber qué — solo si notaste alguna diferencia en cómo cargas ese asunto."' }
       ]
     }
   },
   6: {
-    tema: 'Escucha de Nivel 3 (Presencia Total)',
-    autor: 'Otto Scharmer',
+    tema: 'El Perdón Estratégico',
+    autor: 'Robert Enright',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'La presencia es el acto de dejar entrar el momento tal como es, sin filtrar con tus categorías previas.',
+      intro: 'El perdón no es rendirte ni reconciliar. Es decidir soltar lo que consume tu energía — incluido el perdón a sistemas, no solo a personas.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Antes de la sesión de hoy: 3 minutos de silencio. Sin teléfono. Sin agenda mental. Solo observa qué pensamientos llegan y déjalos pasar sin seguirlos.' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana tu única tarea es llegar sin agenda. Sin el consejo que ya preparaste. Sin el logro que quieres compartir. Solo tú, presente. ¿Puedes hacer eso?"' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Si en algún momento de la sesión tu mente planea la próxima pregunta mientras ella habla — pausa, regresa, escucha su voz.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Nombra tu resentimiento activo más grande — hacia una persona, una organización, o un sistema. Ubícalo en una de las 4 fases de Enright: Descubrimiento, Decisión, Trabajo, Profundización.' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablamos del perdón — no como obligación, como estrategia. Piensa en qué resentimiento te consume más energía hoy."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no le pides que perdone. Le ayudas a nombrar en qué fase del proceso está realmente, sin apurarla a una fase que no le corresponde todavía.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué está vivo en ti ahora mismo? No lo que pasó esta semana — lo que está vivo ahora, en este momento." — Esto activa presencia inmediata.' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Protocolo de Presencia Somática: 2 minutos cada una con los ojos cerrados, mano en el pecho, observando el ritmo cardíaco. Después: "¿Qué notó tu cuerpo que tu mente no había procesado?" — Llevar eso al centro de la sesión.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: en la reunión de mayor tensión de la semana, hacer una pausa de 30 segundos antes de responder — respirar, notar el cuerpo, luego hablar.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si se desconecta o se va al teléfono: "Noto que algo en esta conversación activó algo en tu cuerpo. ¿Qué fue?" — No es confrontación; es curiosidad hacia la señal.' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuándo en la semana te fuiste a piloto automático y tomaste una decisión sin estar presente? ¿Qué cambiarías?"' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Cuál es el resentimiento que más energía te consume hoy — hacia una persona, una organización, o un sistema?"' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Enseña las 4 fases de Enright (Descubrimiento, Decisión, Trabajo, Profundización). Pídele que ubique honestamente en cuál está — sin presionarla a "ya deber estar" en la última.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: UNA acción del tamaño de la fase en la que está — no de la fase final. Si está en Descubrimiento, la acción es solo reconocer el daño por completo, no todavía perdonar.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "perdonar es dejar que se salga con la suya": "Enright es explícito: el perdón no requiere reconciliación ni elimina las consecuencias justas. Es recuperar tu propia energía, no aprobar lo que pasó."' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿En qué fase estás hoy, comparado con la semana pasada? No tiene que haber avanzado — solo dime dónde estás."' }
       ]
     }
   },
   7: {
-    tema: 'Negociación de Alto Valor',
-    autor: 'Roger Fisher / William Ury',
+    tema: 'Integración — Técnica Feynman',
+    autor: 'Richard Feynman / Roediger & Karpicke',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'Negociar no es pedir. Es demostrar que el valor que entregas supera el costo de lo que solicitas.',
+      intro: 'Explicar algo simple, sin términos técnicos, es la prueba real de que lo entendiste. Antes de pedirle a tu mentoreada que integre los últimos 6 días, inténtalo tú primero.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe: ¿cuándo fue la última vez que negociaste algo importante para ti? ¿Qué ZOPA (zona de posible acuerdo) tenías preparada? ¿O improvisaste desde la emoción?' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablaremos del dinero, el poder y las conversaciones que las mujeres evitan. Trae la negociación que has postergado durante más de 30 días."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Tu trabajo hoy: que ella salga de la sesión sabiendo exactamente qué va a pedir, por qué lo merece y cuándo lo va a pedir.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Elige el concepto de los últimos 6 días que más te costó explicar hoy en la Fase 4. Vuelve a intentarlo en voz alta, sin ningún término técnico.' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana no aprendemos nada nuevo — conectamos lo de las últimas dos semanas. Trae tu explicación más simple de qué fue lo que más te marcó."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no repasas contenido. Escuchas dónde su explicación fluye y dónde se traba — ahí está el hueco real de comprensión.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué es lo que más temes que digan cuando pidas lo que mereces? ¿Y si te dijeran exactamente eso — qué harías después?"' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Preparar juntas la negociación usando el modelo de Fisher/Ury: 1) Intereses vs. posiciones (¿qué quiere realmente vs. qué está pidiendo?), 2) BATNA propio (¿mejor alternativa si no hay acuerdo?), 3) Criterios objetivos (¿qué datos externos justifican su pedido?). Escribirlo en papel, no en el teléfono.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Fecha concreta para tener la conversación de negociación esta semana. Si no tiene fecha, la sesión no cuenta.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "no es el momento": "¿Cuándo fue el momento perfecto para algo importante en tu vida? El momento perfecto es una ficción que usa el cerebro para evitar el riesgo. ¿Cuál es el costo de esperar 6 meses más?"' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Cuánto pediste? ¿Cuánto obtuviste? ¿Cuándo es la próxima conversación de seguimiento?"' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Si tuvieras que explicarle estos 6 días a alguien sin ninguna formación en el tema, ¿por dónde empezarías?" — deja que improvise, no la corrijas todavía.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Pídele que conecte 2 de los 6 conceptos (identidad, epigenética, trauma, impostor, escritura, perdón) con una situación real suya de esta semana. Escucha dónde recurre a vocabulario técnico — ahí la comprensión aún no es completamente suya.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: escribir, en una sola página, su propio mapa de cómo se conectan los 6 conceptos — con sus propias palabras, no las del programa.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si se traba y recurre a jerga técnica: "Eso que acabas de decir, ¿me lo explicas como si yo nunca hubiera oído esas palabras?" — la Técnica Feynman en acción.' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Terminaste tu mapa de una página? Léemelo — quiero escuchar dónde fluye y dónde todavía se siente prestado."' }
       ]
     }
   },
   8: {
-    tema: 'Pensamiento Crítico y Datos',
-    autor: 'Kahneman / Cialdini',
+    tema: 'Seguridad Psicológica',
+    autor: 'Amy Edmondson',
     paso1: {
       titulo: 'Tu Preparación Interna',
-      intro: 'El pensamiento crítico no es ser escéptica de todo. Es saber cuándo tu Sistema 1 (automático) está tomando decisiones que necesitan tu Sistema 2 (racional).',
+      intro: 'Los equipos de más alto rendimiento reportan MÁS errores, no menos — porque es seguro hacerlo. Esa misma seguridad determina si tu mentoreada te muestra su versión real o su versión pulida.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Escribe la última decisión importante que tomaste rápidamente (Sistema 1). ¿Cuáles fueron los sesgos que probablemente activó? (Ancla, disponibilidad, confirmación...)' },
-        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana auditaremos la calidad de tus decisiones de alto riesgo. Trae la decisión más costosa que tomaste este trimestre — y la pregunta que no te hiciste antes de tomarla."' },
-        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy enseñas a pensar más despacio en lo que importa. La herramienta más valiosa que le puedes dar es la pregunta que nunca se hace.' }
+        { icon:'🪞', label:'Auto-Maestría', text:'Piensa en la última vez que tu mentoreada te mostró una duda o un error. ¿Respondiste con apertura genuina, o con una corrección apresurada?' },
+        { icon:'💬', label:'WhatsApp Previo', text:'"Mañana hablamos de qué tan segura te sientes de mostrarme tus dudas reales, no solo tus avances pulidos."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy modelas tu propia falibilidad primero — Edmondson dice que es una de las 3 condiciones que el líder controla.' }
       ]
     },
     paso2: {
       titulo: 'Guía de la Sesión 1-a-1',
       secciones: [
-        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Cuál es la decisión que tomaste recientemente de la que aún no estás 100% segura? ¿Qué pregunta no te hiciste?"' },
-        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Auditoría de Sesgos: tomar una decisión actual de ella y pasarla por 3 filtros: 1) ¿Sesgo de confirmación? (¿busqué solo evidencia que apoya mi conclusión?), 2) ¿Sesgo de disponibilidad? (¿elegí lo primero que recordé?), 3) ¿Sesgo de ancla? (¿el primer número que escuché marcó mi expectativa?). Reescribir la decisión sin esos sesgos.' },
-        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: antes de cualquier decisión con consecuencias de más de 30 días, escribir en papel 3 razones por las que podría estar equivocada. Luego decidir.' },
-        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "es que yo confío en mi intuición": "La intuición es el reconocimiento de patrones basado en experiencia. ¿Cuánta experiencia exacta tienes en decisiones de este tipo? ¿Es suficiente para confiar sin Sistema 2?"' },
-        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Aplicaste los 3 filtros de sesgo esta semana? ¿Qué decisión revisaste? ¿Qué cambió cuando la miré sin el sesgo?"' }
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Hay algo que no me has contado porque temes que piense que no estás avanzando lo suficiente?" — hazla con calidez real, no como examen.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Comparte tú primero un error o una duda reciente tuya como mentora — modela la falibilidad antes de pedirle vulnerabilidad a ella. Luego pregúntale qué ha estado callando.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: cada vez que tu mentoreada te muestre una duda o un error, responder con la tercera condición de Edmondson — sin defensividad, sin silencio incómodo, con curiosidad genuina.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si ella minimiza sus propios errores ("no es nada, ya lo resolví"): "No necesitas tenerlo resuelto para contármelo. Prefiero saberlo a tiempo que perfecto."' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Te sentiste más segura de mostrarme algo incómodo esta semana? ¿Qué hice yo que ayudó — o que no ayudó?"' }
       ]
     }
   },
@@ -2783,8 +2783,8 @@ var PLAYBOOK_DATA = {
       titulo: 'Tu Preparación Interna',
       intro: 'Kegan y Lahey encontraron que los líderes que examinan sus compromisos contradictorios producen cambios más duraderos que los que solo trabajan habilidades. Antes de cerrar con tu mentoreada, cierra contigo.',
       ejercicios: [
-        { icon:'🪞', label:'Auto-Maestría', text:'Vuelve a tus notas del Día 1. Escribe en una frase qué cambió realmente en cómo lideras, y en otra qué compromiso contradictorio sigue intacto.' },
-        { icon:'💬', label:'WhatsApp Previo (enviar antes de la sesión)', text:'"Mañana cerramos el primer bloque. No es un examen — es un inventario. Trae tus notas del Día 1 a la sesión."' },
+        { icon:'🪞', label:'Auto-Maestría', text:'Vuelve a tus notas de la Sesión 1. Escribe en una frase qué cambió realmente en cómo lideras, y en otra qué compromiso contradictorio sigue intacto.' },
+        { icon:'💬', label:'WhatsApp Previo (enviar antes de la sesión)', text:'"Mañana cerramos el primer bloque. No es un examen — es un inventario. Trae tus notas de la Sesión 1 a la sesión."' },
         { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no evalúas su progreso. Construyes con ella el inventario honesto que sostiene el Bloque 2.' }
       ]
     },
@@ -2989,20 +2989,20 @@ function renderMentoraSession(dayIndex) {
             <div class="audio-pill" id="audio-pill" onclick="toggleAudio()">
                 <div class="play-circle" id="play-circle"><div class="play-icon"></div></div>
                 <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
-                <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
+                <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Sesión ${dayIndex})</span>
             </div>
             <p id="sueno-hint-${dayIndex}" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px; display: ${suenoDone ? 'none' : 'block'};">
-                🔒 Escucha el audio completo para poder concluir el día.
+                🔒 Escucha el audio completo para poder concluir la sesión.
                 <a href="#" onclick="markSuenoCompleted(true); return false;" style="color: var(--accent-water); text-decoration: underline;">¿Ya lo escuchaste completo y no se desbloquea?</a>
             </p>
-            <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px; ${suenoDone ? '' : 'opacity: 0.4; cursor: not-allowed;'}" ${suenoDone ? '' : 'disabled'} onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
+            <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px; ${suenoDone ? '' : 'opacity: 0.4; cursor: not-allowed;'}" ${suenoDone ? '' : 'disabled'} onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente la Sesión ${dayIndex}</button>
 
             <div id="concluir-modal-${dayIndex}" style="display: none; margin-top: 14px; padding: 16px; border-radius: 12px; background: rgba(16,185,129,0.12); border: 1px solid var(--success); text-align: center;">
                 <div style="font-size: 1.5rem; margin-bottom: 6px;">✨ 🏆 ✨</div>
-                <h4 style="color: var(--success); font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 4px;">¡Día ${dayIndex} Concluido con Éxito!</h4>
+                <h4 style="color: var(--success); font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 4px;">¡Sesión ${dayIndex} Concluida con Éxito!</h4>
                 <p style="font-size: 0.85rem; color: #E2E8F0; line-height: 1.5; margin-bottom: 12px;">Tu neuroplasticidad y tu identidad de liderazgo han sido consolidadas. Tu progreso se ha guardado en Mi Kit.</p>
                 <button class="btn-premium fire" style="width: 100%; padding: 12px; font-size: 0.9rem;" onclick="loadMujeresMentorasDay(${dayIndex + 1}); window.scrollTo(0,0);">
-                    ▶ Avanzar al Día ${dayIndex + 1} →
+                    ▶ Avanzar a la Sesión ${dayIndex + 1} →
                 </button>
             </div>
         </div>
@@ -3013,7 +3013,7 @@ function renderMentoraSession(dayIndex) {
     const heroTitle = document.querySelector('.session-hero h2');
     const heroBadge = document.querySelector('.session-hero .badge-premium');
     if (heroTitle) heroTitle.innerText = titulo;
-    if (heroBadge) heroBadge.innerText = `Día ${dayIndex}`;
+    if (heroBadge) heroBadge.innerText = `Sesión ${dayIndex}`;
 }
 
 function loadMujeresMentorasDay(dayIndex) {
@@ -3094,7 +3094,7 @@ function renderDashboard() {
             <div class="track-number" style="${isDone ? 'background: rgba(16,185,129,0.2); border-color: #10B981; color: #10B981;' : ''}">${isLocked ? '🔒' : (isDone ? '✓' : day.dia)}</div>
             <div>
                 <h4 style="font-size: 0.95rem; color: ${isLocked ? 'var(--text-secondary)' : 'white'};">${day.titulo}</h4>
-                <p style="font-size: 0.8rem; color: ${isDone ? '#10B981' : (isLocked ? 'var(--text-secondary)' : '#FF5E00')};">${isDone ? '✅ Completado' : (isLocked ? '🔒 Completa el día anterior para desbloquear' : "Fundamentos y Raíces")}</p>
+                <p style="font-size: 0.8rem; color: ${isDone ? '#10B981' : (isLocked ? 'var(--text-secondary)' : '#FF5E00')};">${isDone ? '✅ Completado' : (isLocked ? '🔒 Completa la sesión anterior para desbloquear' : "Fundamentos y Raíces")}</p>
             </div>
         `;
         list.appendChild(card);
@@ -3119,7 +3119,7 @@ function renderPlaybookTactico(dayIndex) {
     let html = `
     <div class="pb-nav">
         <button class="pb-nav-btn" onclick="renderPlaybookTactico(Math.max(1,${dayIndex}-1))" style="${dayIndex<=1?'opacity:.3;pointer-events:none':''}">&larr;</button>
-        <div class="pb-day-badge">Día ${dayIndex} · ${d.tema}</div>
+        <div class="pb-day-badge">Sesión ${dayIndex} · ${d.tema}</div>
         <button class="pb-nav-btn" onclick="renderPlaybookTactico(Math.min(${maxUnlockedDay},${dayIndex}+1))" style="${dayIndex>=maxUnlockedDay?'opacity:.3;pointer-events:none':''}">→</button>
     </div>
     <div class="pb-step" style="border-color:rgba(255,94,0,.2)">
@@ -3854,12 +3854,12 @@ function concluirDia(dayId) {
     if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_somatico') !== 'true') manualPendientes.push('Fase 11 (Ensayo Somático)');
 
     if (manualPendientes.length > 0) {
-        alert('Antes de concluir el día, marca como "Hecho a Mano" estos ejercicios:\n\n- ' + manualPendientes.join('\n- '));
+        alert('Antes de concluir la sesión, marca como "Hecho a Mano" estos ejercicios:\n\n- ' + manualPendientes.join('\n- '));
         return;
     }
 
     if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_sueno') !== 'true') {
-        alert('Antes de concluir el día, escucha el audio completo de la Fase 12 (arriba).');
+        alert('Antes de concluir la sesión, escucha el audio completo de la Fase 12 (arriba).');
         return;
     }
 
@@ -3872,7 +3872,7 @@ function concluirDia(dayId) {
     if (modal) modal.style.display = 'block';
 
     if (btn) {
-        btn.innerHTML = '✅ Día ' + dayId + ' Concluido con Éxito';
+        btn.innerHTML = '✅ Sesión ' + dayId + ' Concluida con Éxito';
         btn.style.background = 'rgba(16,185,129,0.15)';
         btn.style.borderColor = '#10B981';
         btn.style.color = '#10B981';
