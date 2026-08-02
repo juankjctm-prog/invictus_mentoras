@@ -741,7 +741,9 @@
 
                 const progressMap = {};
                 if (progressData) {
-                    progressData.forEach(p => { progressMap[p.user_id] = p; });
+                    // progressData is ordered by updated_at desc, so keep only the
+                    // first (most recent) row per user in case of duplicate rows.
+                    progressData.forEach(p => { if (!progressMap[p.user_id]) progressMap[p.user_id] = p; });
                 }
 
                 let html = '';

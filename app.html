@@ -1022,14 +1022,8 @@ function continueToComprension() {
             progresoLocal[currentDay].ppm = basePPM;
             progresoLocal[currentDay].completado = true;
             
-            if (currentUser && _supabase) { setTimeout(() => { if (typeof saveProgress === 'function') { saveProgress().catch(console.error); } }, 4000); 
-                _supabase.from('mentoras_progress').upsert({
-                    user_id: currentUser.id,
-                    current_day: currentDay,
-                    ppm: basePPM,
-                    comprension: score,
-                    completado: true
-                }).then(() => console.log('Progreso guardado'));
+            if (currentUser && _supabase) {
+                setTimeout(() => { if (typeof saveProgress === 'function') { saveProgress().catch(console.error); } }, 4000);
             }
             
             const res = document.getElementById('recall-result');
@@ -1188,11 +1182,13 @@ function continueToComprension() {
         completedDays = localCompleted;
         currentPhaseProgress = data ? (data.phase_progress || {}) : {};
         currentAnswers = data ? (data.answers || {}) : {};
+        maxUnlockedDay = Math.max(maxUnlockedDay, currentDay);
         setTimeout(() => { if (typeof saveProgress === 'function') saveProgress(); }, 2000);
     } else {
         currentDay = cloudCurrentDay;
         completedDays = cloudCompletedDays;
         currentPhaseProgress = data ? (data.phase_progress || {}) : {};
+        maxUnlockedDay = Math.max(maxUnlockedDay, currentDay);
         currentAnswers = data ? (data.answers || {}) : {};
         
         // Restore local progress from cloud if present
@@ -1245,15 +1241,20 @@ async function saveProgress() {
     currentAnswers.ppm_history = ppmData;
     currentAnswers.progresoLocal = typeof progresoLocal !== 'undefined' ? progresoLocal : {};
     
+    // current_day must never regress when reviewing an earlier day
+    maxUnlockedDay = Math.max(maxUnlockedDay || 1, currentDay || 1);
+
     // Persist to Supabase
-    await _supabase.from('mentoras_progress').upsert({
+    const { error: saveError } = await _supabase.from('mentoras_progress').upsert({
         user_id: currentUser.id,
-        current_day: currentDay,
+        current_day: maxUnlockedDay,
         completed_days: completedDays,
         phase_progress: currentPhaseProgress,
         answers: currentAnswers,
         updated_at: new Date().toISOString()
-    });
+    }, { onConflict: 'user_id' });
+
+    if (saveError) console.error('Error al guardar progreso en Supabase:', saveError);
 }
 </script>
 
@@ -3675,6 +3676,10 @@ function concluirDia(dayId) {
 
     if (window.completedDays && !window.completedDays.includes(dayId)) {
         window.completedDays.push(dayId);
+    }
+
+    if (typeof maxUnlockedDay !== 'undefined' && dayId >= maxUnlockedDay) {
+        maxUnlockedDay = dayId + 1;
     }
 
     if (typeof saveProgress === 'function') saveProgress();
