@@ -2529,7 +2529,7 @@ var CASOS_DATA = [
 ];
 
 
-/* ---------- PLAYBOOK_DATA — 8 días del Bloque 1 ---------- */
+/* ---------- PLAYBOOK_DATA — 10 días del Bloque 1 ---------- */
 
 /* ---------- MOCKS INYECTADOS ---------- */
 const THETA_SCRIPTS = [
@@ -2730,11 +2730,58 @@ var PLAYBOOK_DATA = {
         { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Aplicaste los 3 filtros de sesgo esta semana? ¿Qué decisión revisaste? ¿Qué cambió cuando la miré sin el sesgo?"' }
       ]
     }
+  },
+  9: {
+    tema: 'Neuroplasticidad Deliberada',
+    autor: 'Merzenich / Pascual-Leone',
+    paso1: {
+      titulo: 'Tu Preparación Interna',
+      intro: 'El cerebro no distingue limpiamente entre imaginar y hacer. Antes de pedirle a tu mentoreada que practique un comportamiento nuevo, practica tú primero el tuyo.',
+      ejercicios: [
+        { icon:'🪞', label:'Auto-Maestría', text:'Elige un comportamiento de liderazgo que quieres volver automático. Ensáyalo mentalmente 60 segundos, con el detalle de un pianista de Pascual-Leone practicando una escala.' },
+        { icon:'💬', label:'WhatsApp Previo (enviar antes de la sesión)', text:'"Mañana hablamos de por qué la fuerza de voluntad no es el problema — es la repetición. Piensa en un comportamiento que sabes que deberías tener pero no logras sostener."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no le enseñas fuerza de voluntad. Le enseñas que cada repetición —incluida la mental— construye el circuito que reemplaza al antiguo.' }
+      ]
+    },
+    paso2: {
+      titulo: 'Guía de la Sesión 1-a-1',
+      secciones: [
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"¿Qué comportamiento de liderazgo intentaste cambiar por pura fuerza de voluntad y no funcionó?" — deja que note la diferencia entre decisión única y repetición sostenida.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Principio de Hebb: pídele que identifique un circuito antiguo (el patrón que quiere reemplazar) y un circuito nuevo (el comportamiento deseado). Pregúntale: ¿cuántas veces esta semana activó el circuito nuevo — no solo lo pensó, lo hizo?' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Esta semana: practicar el comportamiento nuevo en UNA situación real de bajo riesgo, más una visualización mental diaria de 60 segundos del mismo comportamiento en una situación de alto riesgo.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "ya lo intenté y no funcionó": "¿Lo intentaste una vez, o lo repetiste lo suficiente para que el circuito nuevo compitiera con el antiguo? Merzenich necesitó semanas de entrenamiento repetido para ver cambios corticales medibles — no un solo intento."' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Practicaste el comportamiento nuevo, aunque fuera mentalmente? No me digas si ya es automático. Dime cuántas repeticiones llevas."' }
+      ]
+    }
+  },
+  10: {
+    tema: 'Cierre y Compromiso del Bloque 1',
+    autor: 'Kegan & Lahey / Clutterbuck',
+    paso1: {
+      titulo: 'Tu Preparación Interna',
+      intro: 'Kegan y Lahey encontraron que los líderes que examinan sus compromisos contradictorios producen cambios más duraderos que los que solo trabajan habilidades. Antes de cerrar con tu mentoreada, cierra contigo.',
+      ejercicios: [
+        { icon:'🪞', label:'Auto-Maestría', text:'Vuelve a tus notas del Día 1. Escribe en una frase qué cambió realmente en cómo lideras, y en otra qué compromiso contradictorio sigue intacto.' },
+        { icon:'💬', label:'WhatsApp Previo (enviar antes de la sesión)', text:'"Mañana cerramos el primer bloque. No es un examen — es un inventario. Trae tus notas del Día 1 a la sesión."' },
+        { icon:'🎯', label:'Tu intención de hoy', text:'Hoy no evalúas su progreso. Construyes con ella el inventario honesto que sostiene el Bloque 2.' }
+      ]
+    },
+    paso2: {
+      titulo: 'Guía de la Sesión 1-a-1',
+      secciones: [
+        { code:'A', color:'#00C6FF', title:'Apertura Socrática', text:'"Si tuvieras que explicarle a alguien qué cambió en ti en estos 10 días sin usar ninguna palabra técnica del programa, ¿qué dirías?" — es su propio Feynman del bloque completo.' },
+        { code:'I', color:'#FF5E00', title:'Ejercicio Principal (5 min)', text:'Clutterbuck encontró que el trabajo interno de la mentora predice mejor los resultados de la mentoreada que las técnicas de mentoría. Pídele que nombre UN patrón —identidad, creencia heredada, arquetipo del impostor, resentimiento— que decide seguir trabajando activamente en el Bloque 2.' },
+        { code:'II', color:'#FF5E00', title:'Asignación de Riesgo Táctico', text:'Antes del Bloque 2: escribir en la Libreta MindJump un compromiso de una línea con ese patrón — no resolverlo, solo nombrarlo como trabajo en curso.' },
+        { code:'III', color:'#a78bfa', title:'Intervención si hay Resistencia', text:'Si dice "siento que no cambié lo suficiente": "El propósito del Bloque 1 no era terminar transformada. Era volverte consciente de tus propios patrones. Eso ya ocurrió — se nota en que ahora puedes nombrarlos."' },
+        { code:'IV', color:'#10b981', title:'Tarea de Seguimiento', text:'"¿Escribiste tu compromiso para el Bloque 2? Léemelo. No tiene que estar resuelto — tiene que estar nombrado."' }
+      ]
+    }
   }
 };
 
 
 /* ---------- CURRENT DAY (shared state) ---------- */
+var TOTAL_PROGRAM_DAYS = 78; // 78 días × 2 roles = 156 filas en mentoras_content
 var currentDay = 1;
 var completedDays = [];
 var currentPhaseProgress = {};
@@ -3091,8 +3138,12 @@ window.renderKitMentoria = function() {
     const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
     const bp = 'mm_b' + blockNum + '_d';
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0, scoreSum = 0, scoreCount = 0;
-   
-    for (let d = 1; d <= 10; d++) {
+
+    // TOTAL_PROGRAM_DAYS (78, confirmed against mentoras_content: 78 días × 2
+    // roles). This used to be hardcoded to 10 — correct only while everyone
+    // was inside Bloque 1, but it silently undercounted días activos/streak/PPM
+    // and capped the progress bar at 100% the moment anyone reached Día 11.
+    for (let d = 1; d <= TOTAL_PROGRAM_DAYS; d++) {
         const key = bp + d;
         const done = localStorage.getItem(key) === '1' || localStorage.getItem(key + '_done') === 'true';
         if (done) { diasActivos++; streak++; if (streak > maxStreak) maxStreak = streak; }
@@ -3103,17 +3154,16 @@ window.renderKitMentoria = function() {
         if (score !== null) { scoreSum += parseInt(score); scoreCount++; }
         else if (done) { scoreSum += 100; scoreCount++; }
     }
-   
-    if (bestPpm === 0 && diasActivos > 0) bestPpm = 280;
+
     const avgComp = scoreCount > 0 ? Math.round(scoreSum / scoreCount) : (diasActivos > 0 ? 100 : 0);
     const el = id => document.getElementById(id);
-    
+
     if (el('km-dias')) el('km-dias').textContent = diasActivos;
     if (el('km-streak')) el('km-streak').textContent = maxStreak;
     if (el('km-ppm')) el('km-ppm').textContent = bestPpm > 0 ? bestPpm : '—';
     if (el('km-comp')) el('km-comp').textContent = avgComp > 0 ? (avgComp + '%') : '—';
-    if (el('km-pct')) el('km-pct').textContent = Math.round((diasActivos / 10) * 100) + '%';
-    if (el('km-bar')) el('km-bar').style.width = Math.round((diasActivos / 10) * 100) + '%';
+    if (el('km-pct')) el('km-pct').textContent = Math.round((diasActivos / TOTAL_PROGRAM_DAYS) * 100) + '%';
+    if (el('km-bar')) el('km-bar').style.width = Math.round((diasActivos / TOTAL_PROGRAM_DAYS) * 100) + '%';
     
     // Vincular cajas de Home
     if (el('home-ppm')) el('home-ppm').textContent = bestPpm > 0 ? bestPpm : '0';
