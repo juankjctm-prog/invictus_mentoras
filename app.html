@@ -1210,8 +1210,28 @@ function continueToComprension() {
         }
     }
     
+    // Backfill legacy per-day flags (mm_bN_dD_done/_ppm/_score) from the
+    // restored progresoLocal, since Home stats (renderKitMentoria) and the
+    // roadmap (renderDashboard) read those raw keys directly and won't see
+    // cloud progress otherwise (e.g. on a fresh browser/device).
+    const blockMatchInit = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNumInit = blockMatchInit ? blockMatchInit[1] : '1';
+    Object.keys(progresoLocal || {}).forEach(d => {
+        const p = progresoLocal[d];
+        if (!p) return;
+        const key = 'mm_b' + blockNumInit + '_d' + d;
+        if (p.completado) {
+            localStorage.setItem(key + '_done', 'true');
+            localStorage.setItem(key, '1');
+        }
+        if (p.ppm !== undefined && p.ppm !== null && p.ppm !== '') localStorage.setItem(key + '_ppm', p.ppm);
+        if (p.comprension !== undefined && p.comprension !== null) localStorage.setItem(key + '_score', p.comprension);
+    });
+
+    // Resume at the furthest day reached (from cloud/local merge), not at
+    // whatever day this specific browser last happened to view.
     const savedLastDay = localStorage.getItem('mm_last_day_b1');
-    loadMujeresMentorasDay(savedLastDay ? parseInt(savedLastDay) : 1);
+    loadMujeresMentorasDay(savedLastDay ? Math.max(parseInt(savedLastDay), currentDay) : currentDay);
     if(typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
     if(typeof renderDashboard === 'function') renderDashboard();
     // renderDaySwitcher();

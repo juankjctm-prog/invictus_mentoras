@@ -376,11 +376,13 @@
                         <th>Rol</th>
                         <th>D&iacute;a Actual</th>
                         <th>Progreso Global</th>
+                        <th>PPM</th>
+                        <th>Comprensi&oacute;n</th>
                         <th>&Uacute;ltima Actividad</th>
                     </tr>
                 </thead>
                 <tbody id="avance-body">
-                    <tr><td colspan="6" class="empty-state">Cargando datos desde Supabase...</td></tr>
+                    <tr><td colspan="8" class="empty-state">Cargando datos desde Supabase...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -728,14 +730,14 @@
 
         async function loadAvance() {
             const tbody = document.getElementById('avance-body');
-            tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Cargando datos...</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="8" class="empty-state">Cargando datos...</td></tr>';
 
             try {
                 const { data: usersData, error: usersError } = await _supabase.from('mentoras_users').select('*');
                 const { data: progressData, error: progressError } = await _supabase.from('mentoras_progress').select('*').order('updated_at', { ascending: false });
 
                 if (!usersData || usersData.length === 0) {
-                    tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No hay usuarios registrados.</td></tr>';
+                    tbody.innerHTML = '<tr><td colspan="8" class="empty-state">No hay usuarios registrados.</td></tr>';
                     return;
                 }
 
@@ -770,8 +772,34 @@
                     const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
                     const totalDays = 45; // Assumed program length
                     const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
-                    
-                    
+
+                    // PPM and comprensión are stored per-day inside answers.progresoLocal
+                    // (fallback to answers.ppm_history for the PPM if that's missing).
+                    let bestPpm = 0;
+                    const comprensionValues = [];
+                    if (prog && prog.answers) {
+                        const perDay = prog.answers.progresoLocal || {};
+                        Object.values(perDay).forEach(entry => {
+                            if (!entry) return;
+                            const ppmVal = parseInt(entry.ppm, 10);
+                            if (!isNaN(ppmVal) && ppmVal > bestPpm) bestPpm = ppmVal;
+                            const compVal = parseFloat(entry.comprension);
+                            if (!isNaN(compVal)) comprensionValues.push(compVal);
+                        });
+                        if (bestPpm === 0 && prog.answers.ppm_history) {
+                            Object.values(prog.answers.ppm_history).forEach(v => {
+                                const n = parseInt(v, 10);
+                                if (!isNaN(n) && n > bestPpm) bestPpm = n;
+                            });
+                        }
+                    }
+                    const avgComprension = comprensionValues.length > 0
+                        ? Math.round(comprensionValues.reduce((a, b) => a + b, 0) / comprensionValues.length)
+                        : null;
+                    const comprensionColor = avgComprension === null ? 'var(--text-secondary)'
+                        : avgComprension >= 80 ? 'var(--success)'
+                        : avgComprension >= 60 ? '#F59E0B' : '#EF4444';
+
                     let lastActivity = '--';
                     let rachaHtml = '';
                     let semaforoHtml = '';
@@ -814,14 +842,16 @@
                                     </div>
                                 </div>
                             </td>
+                            <td><span class="score-box" style="color:var(--accent-water);">${bestPpm > 0 ? bestPpm + ' PPM' : '--'}</span></td>
+                            <td><span class="score-box" style="color:${comprensionColor};">${avgComprension !== null ? avgComprension + '%' : '--'}</span></td>
                             <td style="font-size:0.85rem; color:var(--text-secondary);">${lastActivity}</td>
                         </tr>
                     `;
                 });
-                tbody.innerHTML = html || '<tr><td colspan="6" class="empty-state">No hay datos de avance que mostrar.</td></tr>';
+                tbody.innerHTML = html || '<tr><td colspan="8" class="empty-state">No hay datos de avance que mostrar.</td></tr>';
             } catch (err) {
                 console.error(err);
-                tbody.innerHTML = `<tr><td colspan="6" class="empty-state">Excepción al cargar avance: ${err.message}.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" class="empty-state">Excepción al cargar avance: ${err.message}.</td></tr>`;
             }
         }
         // Initialize
