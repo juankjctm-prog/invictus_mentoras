@@ -318,11 +318,12 @@
     
             </div>
             <div id="tab-mentoras" class="tab-content">
-                
+
             <div class="container" style="margin-bottom: 60px;">
-                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 30px; text-align: center;">
-                    <h3 style="font-family:'Outfit'; color:var(--accent-fire); margin-bottom: 20px; font-size:1.5rem;">Crecimiento de Mentoras</h3>
-                    
+                <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 30px;">
+                    <h3 style="font-family:'Outfit'; color:var(--accent-fire); margin-bottom: 6px; font-size:1.5rem; text-align:center;">Crecimiento de Mentoras</h3>
+                    <p style="text-align:center; color:var(--text-secondary); font-size:0.8rem; margin-bottom:24px;">Diagn&oacute;stico inicial real y progreso real de lectura, por pareja mentora-mentada.</p>
+
                     <div style="display:flex; justify-content:center; margin-bottom:30px;">
                         <select id="mentora-select" class="filter-select" style="width:100%; max-width:400px;" onchange="renderMentoraTab()">
                             <option value="">Selecciona una Mentora...</option>
@@ -330,28 +331,20 @@
                     </div>
 
                     <div id="mentora-tab-content" style="display:none; text-align:left;">
+                        <h4 style="color:white; margin-bottom:15px; font-family:'Outfit';">Progreso Real Hoy</h4>
                         <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom:30px;">
-                            <div class="semaforo-box" style="margin-bottom:0;">
-                                <h4 style="color:var(--accent-water); margin-bottom:10px; font-family:'Outfit';">Estilo de Mentoría Revelado</h4>
-                                <p id="m-estilo" style="color:white; font-size:1.1rem; font-weight:bold;">--</p>
-                                <p id="m-estilo-desc" style="color:var(--text-secondary); font-size:0.85rem; margin-top:8px;">--</p>
-                            </div>
-                            <div class="semaforo-box" style="margin-bottom:0;">
-                                <h4 style="color:var(--accent-jefe); margin-bottom:10px; font-family:'Outfit';">Impacto sobre su Mentada</h4>
-                                <p id="m-impacto" style="color:white; font-size:1.1rem; font-weight:bold;">--</p>
-                                <p id="m-impacto-desc" style="color:var(--text-secondary); font-size:0.85rem; margin-top:8px;">--</p>
-                            </div>
+                            <div class="semaforo-box" style="margin-bottom:0;" id="m-progreso-mentora"></div>
+                            <div class="semaforo-box" style="margin-bottom:0;" id="m-progreso-mentada"></div>
                         </div>
 
-                        <h4 style="color:white; margin-bottom:15px; font-family:'Outfit';">Comparativa: Autoevaluación Inicial vs Día 78</h4>
-                        <div style="background:rgba(0,0,0,0.4); border-radius:12px; padding:20px; border: 1px solid var(--border-subtle);">
+                        <h4 style="color:white; margin-bottom:15px; font-family:'Outfit';">Diagn&oacute;stico Inicial &mdash; Autoevaluaci&oacute;n de Competencias</h4>
+                        <div style="background:rgba(0,0,0,0.4); border-radius:12px; padding:20px; border: 1px solid var(--border-subtle); overflow-x:auto;">
                             <table class="comp-table">
                                 <thead>
                                     <tr>
                                         <th>Competencia</th>
-                                        <th>Inicial</th>
-                                        <th>Día 78 (Actual)</th>
-                                        <th>Crecimiento</th>
+                                        <th>Mentora (Inicial)</th>
+                                        <th>Mentada (Inicial)</th>
                                     </tr>
                                 </thead>
                                 <tbody id="m-crecimiento-body">
@@ -361,7 +354,7 @@
                     </div>
                 </div>
             </div>
-            
+
             </div>
             <div id="tab-avance" class="tab-content">
                 
@@ -415,6 +408,7 @@
 
         let globalPairs = {};
         let usersMap = {};
+        let globalProgressMap = {};
 
         async function loadData() {
             document.getElementById('pairs-container').innerHTML = '<div class="empty-state">Cargando datos...</div>';
@@ -500,6 +494,62 @@
             if (diff >= 10) return '#F59E0B';
             if (diff >= 0) return '#10B981';
             return '#00C6FF';
+        }
+
+        // Computes real progress metrics (día, PPM, comprensión, actividad)
+        // for one user from mentoras_progress, reused by the "Avance del
+        // Ecosistema" table and the "Crecimiento de Mentoras" tab.
+        function computeProgressStats(userId) {
+            const prog = userId ? globalProgressMap[userId] : null;
+            const currentDay = prog ? prog.current_day : 1;
+            const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
+            const totalDays = 45; // Assumed program length
+            const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
+
+            let bestPpm = 0;
+            const comprensionValues = [];
+            if (prog && prog.answers) {
+                const perDay = prog.answers.progresoLocal || {};
+                Object.values(perDay).forEach(entry => {
+                    if (!entry) return;
+                    const ppmVal = parseInt(entry.ppm, 10);
+                    if (!isNaN(ppmVal) && ppmVal > bestPpm) bestPpm = ppmVal;
+                    const compVal = parseFloat(entry.comprension);
+                    if (!isNaN(compVal)) comprensionValues.push(compVal);
+                });
+                if (bestPpm === 0 && prog.answers.ppm_history) {
+                    Object.values(prog.answers.ppm_history).forEach(v => {
+                        const n = parseInt(v, 10);
+                        if (!isNaN(n) && n > bestPpm) bestPpm = n;
+                    });
+                }
+            }
+            const avgComprension = comprensionValues.length > 0
+                ? Math.round(comprensionValues.reduce((a, b) => a + b, 0) / comprensionValues.length)
+                : null;
+            const comprensionColor = avgComprension === null ? 'var(--text-secondary)'
+                : avgComprension >= 80 ? 'var(--success)'
+                : avgComprension >= 60 ? '#F59E0B' : '#EF4444';
+
+            let lastActivity = '--';
+            let rachaHtml = '';
+            let semaforoHtml = '<span title="Sin Iniciar" style="color:var(--text-secondary);">⚫</span>';
+            if (prog && prog.updated_at) {
+                const dt = new Date(prog.updated_at);
+                lastActivity = dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                const diffDays = Math.floor((new Date() - dt) / (1000 * 60 * 60 * 24));
+                if (diffDays <= 2) {
+                    semaforoHtml = '<span title="Al día" style="color:#10B981;">🟢</span>';
+                    rachaHtml = '<span title="Racha Activa">🔥</span>';
+                } else if (diffDays <= 7) {
+                    semaforoHtml = '<span title="Atrás" style="color:#F59E0B;">⚠️</span>';
+                } else {
+                    semaforoHtml = '<span title="Inactivo" style="color:#EF4444;">🔴</span>';
+                }
+            }
+
+            return { hasProgress: !!prog, currentDay, completedCount, percentage, bestPpm, avgComprension, comprensionColor, lastActivity, semaforoHtml, rachaHtml };
         }
 
         function calculateAverage(brechas) {
@@ -741,11 +791,11 @@
                     return;
                 }
 
-                const progressMap = {};
+                globalProgressMap = {};
                 if (progressData) {
                     // progressData is ordered by updated_at desc, so keep only the
                     // first (most recent) row per user in case of duplicate rows.
-                    progressData.forEach(p => { if (!progressMap[p.user_id]) progressMap[p.user_id] = p; });
+                    progressData.forEach(p => { if (!globalProgressMap[p.user_id]) globalProgressMap[p.user_id] = p; });
                 }
 
                 let html = '';
@@ -767,58 +817,7 @@
                         if (pin.startsWith('0126') && globalPairs[pairId].mentoraRow) hasDiag = true;
                     }
 
-                    const prog = progressMap[user.id];
-                    const currentDay = prog ? prog.current_day : 1;
-                    const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
-                    const totalDays = 45; // Assumed program length
-                    const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
-
-                    // PPM and comprensión are stored per-day inside answers.progresoLocal
-                    // (fallback to answers.ppm_history for the PPM if that's missing).
-                    let bestPpm = 0;
-                    const comprensionValues = [];
-                    if (prog && prog.answers) {
-                        const perDay = prog.answers.progresoLocal || {};
-                        Object.values(perDay).forEach(entry => {
-                            if (!entry) return;
-                            const ppmVal = parseInt(entry.ppm, 10);
-                            if (!isNaN(ppmVal) && ppmVal > bestPpm) bestPpm = ppmVal;
-                            const compVal = parseFloat(entry.comprension);
-                            if (!isNaN(compVal)) comprensionValues.push(compVal);
-                        });
-                        if (bestPpm === 0 && prog.answers.ppm_history) {
-                            Object.values(prog.answers.ppm_history).forEach(v => {
-                                const n = parseInt(v, 10);
-                                if (!isNaN(n) && n > bestPpm) bestPpm = n;
-                            });
-                        }
-                    }
-                    const avgComprension = comprensionValues.length > 0
-                        ? Math.round(comprensionValues.reduce((a, b) => a + b, 0) / comprensionValues.length)
-                        : null;
-                    const comprensionColor = avgComprension === null ? 'var(--text-secondary)'
-                        : avgComprension >= 80 ? 'var(--success)'
-                        : avgComprension >= 60 ? '#F59E0B' : '#EF4444';
-
-                    let lastActivity = '--';
-                    let rachaHtml = '';
-                    let semaforoHtml = '';
-                    if (prog && prog.updated_at) {
-                        const dt = new Date(prog.updated_at);
-                        lastActivity = dt.toLocaleDateString() + ' ' + dt.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-                        
-                        const diffDays = Math.floor((new Date() - dt) / (1000 * 60 * 60 * 24));
-                        if(diffDays <= 2) {
-                            semaforoHtml = '<span title="Al día" style="color:#10B981;">🟢</span>';
-                            rachaHtml = '<span title="Racha Activa">🔥</span>';
-                        } else if(diffDays <= 7) {
-                            semaforoHtml = '<span title="Atrás" style="color:#F59E0B;">⚠️</span>';
-                        } else {
-                            semaforoHtml = '<span title="Inactivo" style="color:#EF4444;">🔴</span>';
-                        }
-                    } else {
-                        semaforoHtml = '<span title="Sin Iniciar" style="color:var(--text-secondary);">⚫</span>';
-                    }
+                    const { currentDay, completedCount, percentage, bestPpm, avgComprension, comprensionColor, lastActivity, semaforoHtml, rachaHtml } = computeProgressStats(user.id);
 
                     const tagClass = (user.role || '').toLowerCase() === 'mentora' ? 'tag-mentora' : 'tag-mentoreada';
 
@@ -885,6 +884,28 @@
             });
         }
         
+        function progresoCardHtml(titulo, colorVar, user, stats, inicial) {
+            if (!user) {
+                return `<h4 style="color:${colorVar}; margin-bottom:10px; font-family:'Outfit';">${titulo}</h4>
+                        <p style="color:var(--text-secondary); font-size:0.85rem;">A&uacute;n no hay una persona asignada en este rol.</p>`;
+            }
+            const lecturaInicial = (inicial && inicial.lectura)
+                ? `${inicial.lectura.ppm || '--'} PPM / ${(inicial.lectura.comprensión !== undefined ? inicial.lectura.comprensión : inicial.lectura.comprension)}% comprensi&oacute;n`
+                : 'Sin diagn&oacute;stico inicial de lectura';
+            return `
+                <h4 style="color:${colorVar}; margin-bottom:10px; font-family:'Outfit';">${titulo}: ${user.name || user.full_name || '--'}</h4>
+                <p style="color:var(--text-secondary); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">Lectura Inicial (Diagn&oacute;stico)</p>
+                <p style="color:white; font-size:0.95rem; margin-bottom:12px;">${lecturaInicial}</p>
+                <p style="color:var(--text-secondary); font-size:0.75rem; text-transform:uppercase; letter-spacing:1px; margin-bottom:2px;">Progreso Real Hoy</p>
+                <p style="color:white; font-size:0.95rem;">
+                    ${stats.semaforoHtml} D&iacute;a ${stats.currentDay} &middot;
+                    ${stats.bestPpm > 0 ? stats.bestPpm + ' PPM' : '-- PPM'} &middot;
+                    Comprensi&oacute;n: ${stats.avgComprension !== null ? stats.avgComprension + '%' : '--'}
+                </p>
+                <p style="color:var(--text-secondary); font-size:0.75rem; margin-top:6px;">&Uacute;ltima actividad: ${stats.hasProgress ? stats.lastActivity : 'Sin actividad registrada a&uacute;n'}</p>
+            `;
+        }
+
         function renderMentoraTab() {
             const val = document.getElementById('mentora-select').value;
             const content = document.getElementById('mentora-tab-content');
@@ -893,33 +914,40 @@
                 return;
             }
             content.style.display = 'block';
-            
+
             const pair = globalPairs[val];
-            if(!pair || !pair.mentoraRow) return;
-            
-            // Randomize/Mock for Demo (En un entorno real vendría de supabase)
-            const estilos = ["Empática & Socrática", "Directa & Táctica", "Analítica & Estructurada", "Desafiante & Transformacional"];
-            document.getElementById('m-estilo').textContent = estilos[Math.floor(Math.random() * estilos.length)];
-            document.getElementById('m-estilo-desc').textContent = "Tiende a usar preguntas poderosas antes de dar consejos.";
-            
-            const impactos = ["Alto (Transferencia Visible)", "Medio (En Progreso)", "Sólido (Generó Confianza)"];
-            document.getElementById('m-impacto').textContent = impactos[Math.floor(Math.random() * impactos.length)];
-            
+            if(!pair || !pair.mentoraUser) return;
+
+            const mentoraStats = computeProgressStats(pair.mentoraUser.id);
+            const mentadaStats = pair.mentadaUser ? computeProgressStats(pair.mentadaUser.id) : null;
+            const mentoraInicial = pair.mentoraRow ? pair.mentoraRow.resultados : null;
+            const mentadaInicial = pair.mentadaRow ? pair.mentadaRow.resultados : null;
+
+            document.getElementById('m-progreso-mentora').innerHTML =
+                progresoCardHtml('Mentora', 'var(--accent-water)', pair.mentoraUser, mentoraStats, mentoraInicial);
+            document.getElementById('m-progreso-mentada').innerHTML = pair.mentadaUser
+                ? progresoCardHtml('Mentada', 'var(--accent-jefe)', pair.mentadaUser, mentadaStats, mentadaInicial)
+                : `<h4 style="color:var(--accent-jefe); margin-bottom:10px; font-family:'Outfit';">Mentada</h4><p style="color:var(--text-secondary); font-size:0.85rem;">A&uacute;n no hay una mentada asignada a esta pareja.</p>`;
+
+            // Diagnóstico inicial real: autoevaluación propia de cada quien
+            // (mentora.resultados.brechasAuto, mentada.resultados.brechas).
+            const evalMentora = mentoraInicial ? mentoraInicial.brechasAuto : null;
+            const evalMentada = mentadaInicial ? mentadaInicial.brechas : null;
+
             const tbody = document.getElementById('m-crecimiento-body');
+            if (!evalMentora && !evalMentada) {
+                tbody.innerHTML = '<tr><td colspan="3" class="empty-state">Ninguna de las dos ha completado el diagn&oacute;stico inicial de competencias todav&iacute;a.</td></tr>';
+                return;
+            }
             let html = '';
             COMPETENCIAS.forEach(c => {
-                const inicial = pair.mentoraRow.brechas[c] !== undefined ? pair.mentoraRow.brechas[c] : Math.floor(Math.random()*40 + 40);
-                let actual = inicial + Math.floor(Math.random()*15);
-                if(actual > 100) actual = 100;
-                let diff = actual - inicial;
-                let color = diff > 0 ? 'var(--success)' : 'var(--text-secondary)';
-                
+                const vMentora = evalMentora && evalMentora[c] !== undefined ? evalMentora[c] : null;
+                const vMentada = evalMentada && evalMentada[c] !== undefined ? evalMentada[c] : null;
                 html += `
                 <tr>
                     <td style="color:white;">${c}</td>
-                    <td><span class="score-box" style="color:var(--text-secondary); border-color:var(--border-subtle);">${inicial}%</span></td>
-                    <td><span class="score-box" style="color:var(--accent-water); border-color:rgba(0,198,255,0.3);">${actual}%</span></td>
-                    <td style="color:${color}; font-weight:bold;">+${diff}%</td>
+                    <td><span class="score-box" style="color:var(--accent-water); border-color:rgba(0,198,255,0.3);">${vMentora !== null ? vMentora + '%' : '--'}</span></td>
+                    <td><span class="score-box" style="color:var(--accent-jefe); border-color:rgba(16,185,129,0.3);">${vMentada !== null ? vMentada + '%' : '--'}</span></td>
                 </tr>
                 `;
             });
