@@ -307,7 +307,7 @@
                 <option value="parcial">⚠️ Diagnóstico Parcial</option>
                 <option value="vacio">🔴 Sin Diagnóstico</option>
             </select>
-            <button class="btn-refresh" onclick="loadData(); loadAvance();">↻ Actualizar Datos</button>
+            <button class="btn-refresh" onclick="refreshAllDashboardData()">↻ Actualizar Datos</button>
         </div>
 
         <div id="pairs-container">
@@ -853,10 +853,17 @@
                 tbody.innerHTML = `<tr><td colspan="8" class="empty-state">Excepción al cargar avance: ${err.message}.</td></tr>`;
             }
         }
+        // loadAvance() reads globalPairs (populated by loadData()) to decide the
+        // "Diagnóstico Inicial" ✅/❌ icon, so it must run AFTER loadData()
+        // finishes, not in parallel — otherwise it races and shows ❌ for users
+        // who do have a diagnostic on file, depending on which fetch lands first.
+        async function refreshAllDashboardData() {
+            await loadData();
+            await loadAvance();
+        }
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            loadData();
-            loadAvance();
+            refreshAllDashboardData();
         });
     
         function switchDashboardTab(tabId, btn) {

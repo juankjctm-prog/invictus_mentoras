@@ -1294,17 +1294,28 @@ async function saveProgress() {
     // current_day must never regress when reviewing an earlier day
     maxUnlockedDay = Math.max(maxUnlockedDay || 1, currentDay || 1);
 
-    // Persist to Supabase
-    const { error: saveError } = await _supabase.from('mentoras_progress').upsert({
-        user_id: currentUser.id,
-        current_day: maxUnlockedDay,
-        completed_days: completedDays,
-        phase_progress: currentPhaseProgress,
-        answers: currentAnswers,
-        updated_at: new Date().toISOString()
-    }, { onConflict: 'user_id' });
+    // Persist to Supabase. This can silently fail on flaky connections (the
+    // caller doesn't await/catch it), leaving local progress looking fine
+    // while the cloud row — and therefore the RRHH dashboard — never updates.
+    // Surface it so the user knows to retry instead of assuming it worked.
+    try {
+        const { error: saveError } = await _supabase.from('mentoras_progress').upsert({
+            user_id: currentUser.id,
+            current_day: maxUnlockedDay,
+            completed_days: completedDays,
+            phase_progress: currentPhaseProgress,
+            answers: currentAnswers,
+            updated_at: new Date().toISOString()
+        }, { onConflict: 'user_id' });
 
-    if (saveError) console.error('Error al guardar progreso en Supabase:', saveError);
+        if (saveError) {
+            console.error('Error al guardar progreso en Supabase:', saveError);
+            if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión.');
+        }
+    } catch (err) {
+        console.error('Excepción al guardar progreso en Supabase:', err);
+        if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión.');
+    }
 }
 </script>
 
