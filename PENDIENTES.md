@@ -60,6 +60,40 @@ sigue mostrando el texto genérico siempre. Falta decidir: ¿la Fase 9 debería 
 (ej. un badge "Día de Repaso") solo esos días de repaso, o falta cargar contenido de texto
 para ella igual que las demás? Sin esa definición no se puede tocar sin adivinar.
 
+## Resuelto (sesión 2026-08-02, parte 3 — auditoría completa de las 16 mentoras/mentadas)
+
+Se consultó Supabase directamente para las 16 usuarias reales (no solo Marjorie) por queja
+generalizada de que el avance no se refleja en el dashboard RRHH ni el PPM/% Comprensión.
+
+- **Causa raíz confirmada de "PPM/Comprensión siempre vacío" (100% de usuarias, 0/16 con
+  datos)**: `evaluarQuizReal()` — la función real conectada al botón "Evaluar Comprensión"
+  del flujo actual — calculaba el score pero nunca lo escribía en `progresoLocal[dayId]`,
+  que es lo único que `saveProgress()` empaqueta en `answers` hacia Supabase y lo único que
+  `computeProgressStats()` lee para Comprensión (PPM tiene un fallback a `ppm_history`, pero
+  Comprensión no tiene ninguno). Existía una función vieja (`evaluarRecall()`, pantalla de
+  lectura de un solo día con IDs `#reader-content`/`#comprension-block`) que sí lo hacía
+  correctamente, pero ya no está conectada a ningún botón del flujo multi-día actual — quedó
+  como código muerto. Corregido: `evaluarQuizReal()` ahora escribe `progresoLocal[dayId].ppm`
+  y `.comprension`, llama a `saveProgresoLocal()`, y siempre sincroniza a la nube (antes solo
+  sincronizaba la primera vez que se completaba el día — un quiz repetido con score distinto
+  nunca se resincronizaba). — `app.html`
+
+### Hallazgo abierto, no tocado: contaminación de datos en `mentoras_progress`
+
+12 de las 16 filas de `mentoras_progress` comparten un `updated_at` **idéntico al
+microsegundo** (`2026-07-31T22:48:09.330413Z`), con `current_day`/`completed_days`
+sospechosamente uniformes (`2`/`[1]` en casi todos los casos). Ningún usuario real generaría
+ese patrón. Coincide con el historial de commits de esta misma sesión de hoy
+("forcing simulated dashboard data" → "reverting dashboard to real data"): parece que un
+script de simulación escribió datos falsos directo a Supabase para que el dashboard se viera
+poblado, y el "revert" posterior solo limpió marcadores falsos en `localStorage`
+(`mm_b1_d1_ppm === '280'`, ver `initUserSession`) — nunca tocó las filas ya sembradas en la
+nube. Es decir, el `Día 2` que hoy muestra el dashboard para la mayoría de mentoras/mentadas
+probablemente **no es su progreso real**. No se modificó ninguna fila de producción sin
+confirmar con el equipo — requiere decidir si se resetean esas 12 filas a `current_day: 1,
+completed_days: []` para que puedan reconstruir su avance real (que ahora sí sincronizará
+correctamente con el fix de arriba), o si se dejan y se corrigen solas conforme avancen.
+
 ## Pendiente: Diagnóstico de Cierre (antes/después real de competencias)
 
 Objetivo: que RRHH pueda ver crecimiento real de las 11 competencias, no solo el punto de

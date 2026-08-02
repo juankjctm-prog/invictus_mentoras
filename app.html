@@ -3364,6 +3364,17 @@ function evaluarQuizReal(dayId) {
     const ppmKey = 'mm_b' + blockNum + '_d' + dayId + '_ppm';
     const ppm = localStorage.getItem(ppmKey) || '—';
 
+    // This is the only place a real quiz result is scored, so it's the only
+    // place that can feed progresoLocal — which is what saveProgress() ships
+    // to Supabase as answers.progresoLocal, and what the RRHH dashboard reads
+    // for PPM / % Comprensión. Without this, those columns stay empty forever
+    // even though the day itself correctly advances.
+    if (!progresoLocal[dayId]) progresoLocal[dayId] = {};
+    progresoLocal[dayId].comprension = score;
+    const ppmNum = parseInt(ppm, 10);
+    if (!isNaN(ppmNum)) progresoLocal[dayId].ppm = ppmNum;
+    if (typeof saveProgresoLocal === 'function') saveProgresoLocal();
+
     localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_score', score.toString());
     localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
 
@@ -3402,8 +3413,10 @@ function evaluarQuizReal(dayId) {
     
     if(!completedDays.includes(currentDay)) {
         completedDays.push(currentDay);
-        if(typeof saveProgress === 'function') saveProgress();
     }
+    // Always sync, not just on first completion, so a retaken quiz's updated
+    // score/PPM also reaches Supabase instead of only the first attempt.
+    if(typeof saveProgress === 'function') saveProgress();
 }
 
 let sosInterval;
