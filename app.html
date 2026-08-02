@@ -1108,7 +1108,7 @@ function continueToComprension() {
                 utterance.lang = 'es-ES';
                 utterance.pitch = 0.9;
                 utterance.rate = 0.9;
-                utterance.onend = () => { if(isAudio) toggleAudio(); };
+                utterance.onend = () => { if(isAudio) { markSuenoCompleted(); toggleAudio(); } };
                 
                 // Theta Binaural
                 ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1127,7 +1127,36 @@ function continueToComprension() {
                 oscL.start(); oscR.start();
                 synth.speak(utterance);
             });
-            mp3Audio.onended = () => { if(isAudio) toggleAudio(); };
+            mp3Audio.onended = () => { if(isAudio) { markSuenoCompleted(); toggleAudio(); } };
+        }
+
+        // Marca la Fase 12 (Modo Sueño) como completada para el día actual,
+        // desbloqueando el botón "Concluir día". Se llama al terminar el
+        // audio de forma natural, o manualmente si la usuaria no puede
+        // reproducirlo (fallback para no bloquearla por un problema técnico).
+        function markSuenoCompleted(manual) {
+            if (typeof currentDay === 'undefined') return;
+            const dayId = currentDay;
+            const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+            const blockNum = blockMatch ? blockMatch[1] : '1';
+            localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_sueno', 'true');
+
+            if (typeof progresoLocal !== 'undefined') {
+                if (!progresoLocal[dayId]) progresoLocal[dayId] = {};
+                progresoLocal[dayId].suenoCompletado = true;
+                if (typeof saveProgresoLocal === 'function') saveProgresoLocal();
+            }
+
+            const btn = document.getElementById('btn-concluir-' + dayId);
+            if (btn) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            }
+            const hint = document.getElementById('sueno-hint-' + dayId);
+            if (hint) hint.style.display = 'none';
+
+            if (manual && typeof isAudio !== 'undefined' && isAudio) toggleAudio();
         }
 
         async function initUserSession() {
@@ -1226,6 +1255,7 @@ function continueToComprension() {
         }
         if (p.ppm !== undefined && p.ppm !== null && p.ppm !== '') localStorage.setItem(key + '_ppm', p.ppm);
         if (p.comprension !== undefined && p.comprension !== null) localStorage.setItem(key + '_score', p.comprension);
+        if (p.suenoCompletado) localStorage.setItem(key + '_sueno', 'true');
     });
 
     // Resume at the furthest day reached (from cloud/local merge), not at
@@ -2721,6 +2751,9 @@ function renderMentoraSession(dayIndex) {
 
     const showFeynman = (dayIndex % 7 === 0);
     const thetaScript = THETA_SCRIPTS[(dayIndex - 1) % THETA_SCRIPTS.length].guion;
+    const blockMatchSueno = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNumSueno = blockMatchSueno ? blockMatchSueno[1] : '1';
+    const suenoDone = localStorage.getItem('mm_b' + blockNumSueno + '_d' + dayIndex + '_sueno') === 'true';
 
     container.innerHTML = `
         <!-- F1 -->
@@ -2846,15 +2879,19 @@ function renderMentoraSession(dayIndex) {
         <!-- F12 -->
         <div class="phase active">
             <div class="phase-node" style="background: var(--accent-water); box-shadow: 0 0 0 4px rgba(0,198,255,0.2), 0 0 0 8px var(--bg-absolute);"></div>
-            <div class="phase-header"><h4 style="color: var(--accent-water);">12. Modo Sueño (Consciencia y Paz)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
+            <div class="phase-header"><h4 style="color: var(--accent-water);">12. Modo Integración (Consciencia y Paz)</h4><span class="phase-duration" style="color:var(--accent-water);">8m</span></div>
             <p class="phase-desc">Frecuencia Theta 6Hz: ${thetaScript}</p>
             <div class="audio-pill" id="audio-pill" onclick="toggleAudio()">
                 <div class="play-circle" id="play-circle"><div class="play-icon"></div></div>
                 <div class="waveform"><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div><div class="bar"></div></div>
                 <span style="font-size: 0.8rem; font-weight: 500; margin-left: 8px; color: white;">Guía Theta 6Hz (Día ${dayIndex})</span>
             </div>
-            <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px;" onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
-            
+            <p id="sueno-hint-${dayIndex}" style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 10px; display: ${suenoDone ? 'none' : 'block'};">
+                🔒 Escucha el audio completo para poder concluir el día.
+                <a href="#" onclick="markSuenoCompleted(true); return false;" style="color: var(--accent-water); text-decoration: underline;">¿No puedes reproducirlo?</a>
+            </p>
+            <button id="btn-concluir-${dayIndex}" class="btn-premium fire" style="width: 100%; margin-top: 24px; ${suenoDone ? '' : 'opacity: 0.4; cursor: not-allowed;'}" ${suenoDone ? '' : 'disabled'} onclick="concluirDia(${dayIndex})">🎉 Has concluido exitosamente el Día ${dayIndex}</button>
+
             <div id="concluir-modal-${dayIndex}" style="display: none; margin-top: 14px; padding: 16px; border-radius: 12px; background: rgba(16,185,129,0.12); border: 1px solid var(--success); text-align: center;">
                 <div style="font-size: 1.5rem; margin-bottom: 6px;">✨ 🏆 ✨</div>
                 <h4 style="color: var(--success); font-family: 'Outfit'; font-size: 1.1rem; margin-bottom: 4px;">¡Día ${dayIndex} Concluido con Éxito!</h4>
@@ -3696,6 +3733,11 @@ function marcarHecho(btn, key) {
 function concluirDia(dayId) {
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
+
+    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_sueno') !== 'true') {
+        alert('Antes de concluir el día, escucha el audio completo de la Fase 12 (arriba).');
+        return;
+    }
 
     localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
     localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
