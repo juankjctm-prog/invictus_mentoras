@@ -503,7 +503,7 @@
             const prog = userId ? globalProgressMap[userId] : null;
             const currentDay = prog ? prog.current_day : 1;
             const completedCount = prog && prog.completed_days ? prog.completed_days.length : 0;
-            const totalDays = 45; // Assumed program length
+            const totalDays = 78; // Confirmed: mentoras_content has 78 días × 2 roles (156 rows)
             const percentage = Math.min(100, Math.round((completedCount / totalDays) * 100));
 
             let bestPpm = 0;

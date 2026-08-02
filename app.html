@@ -2784,7 +2784,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-node"></div>
             <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
             <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Libreta MindJump)</p>
-            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase5_desc ? d.fase5_desc : `Abre tu Libreta MindJump. Realiza un esquema visual o diagrama de cómo aplicar <strong>${titulo}</strong> en tu entorno de trabajo. Tacha los elementos limitantes y asume el 100% del control sobre tu trayectoria.`}</p>
+            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase5_codificacion_dual ? d.fase5_codificacion_dual : `Abre tu Libreta MindJump. Realiza un esquema visual o diagrama de cómo aplicar <strong>${titulo}</strong> en tu entorno de trabajo. Tacha los elementos limitantes y asume el 100% del control sobre tu trayectoria.`}</p>
             <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_analog')">✍️ Marcar como Hecho a Mano</button>
         </div>
 
@@ -2792,14 +2792,14 @@ function renderMentoraSession(dayIndex) {
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>6. Método Loci (Espacial)</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">${d && d.fase6_desc ? d.fase6_desc : `Anclaje corporal consciente: Toca tu cabeza al internalizar los principios racionales de <strong>${titulo}</strong>, y tus manos al visualizar su ejecución táctica para la semana.`}</p>
+            <p class="phase-desc">${d && d.fase6_loci ? d.fase6_loci : `Anclaje corporal consciente: Toca tu cabeza al internalizar los principios racionales de <strong>${titulo}</strong>, y tus manos al visualizar su ejecución táctica para la semana.`}</p>
         </div>
 
         <!-- F7 -->
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>7. Razonamiento Analógico</h4><span class="phase-duration">1m</span></div>
-            <p class="phase-desc">${d && d.fase7_desc ? d.fase7_desc : `Si la estrategia de <strong>${titulo}</strong> fuera una herramienta física de ingeniería o precisión, ¿cuál sería y cómo la aplicarías?`}</p>
+            <p class="phase-desc">${d && d.fase7_analogia ? d.fase7_analogia : `Si la estrategia de <strong>${titulo}</strong> fuera una herramienta física de ingeniería o precisión, ¿cuál sería y cómo la aplicarías?`}</p>
             <input type="text" id="f7-input" class="input-premium" placeholder="Tu razonamiento análogo..." style="margin-top: 12px;">
             <button class="btn-outline" style="width: 100%; margin-top: 8px;" onclick="window.markPhaseDone(this, 7); document.getElementById('f7-input').disabled = true;">💾 Guardar</button>
         </div>
@@ -2810,7 +2810,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-header"><h4>8. Zona de Riesgo Táctico</h4><span class="phase-duration">5m</span></div>
             <p class="phase-desc" style="color: white; font-weight: 500;">⚡ Micro-Desafío Real en Libreta</p>
             <div class="phase-desc" style="margin-top: 8px;">
-                ${d && d.fase8_desc ? d.fase8_desc : `
+                ${d && d.fase8_ejercicio ? d.fase8_ejercicio : `
                 1. <strong>Identifica el Bloqueo:</strong> ¿En qué decisión o área relacionada con <strong>${titulo}</strong> estás dudando por no sentirte '100% lista'?<br><br>
                 2. <strong>Acción Incómoda:</strong> Escribe la acción directa a ejecutar en 48h.<br><br>
                 3. <strong>Regla del 100%:</strong> Escribe a mano: <em>"La seguridad no precede a la acción; la seguridad sigue a la acción ejecutada."</em>
@@ -2831,7 +2831,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-node"></div>
             <div class="phase-header"><h4>10. Metacognición y Sesgos</h4><span class="phase-duration">1m</span></div>
             <p class="phase-desc" style="color: #FFFFFF; font-weight: 500;">🧠 Reflexión Profunda en Libreta</p>
-            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase10_desc ? d.fase10_desc : `Escribe a mano en 2 oraciones: ¿Cuál fue tu principal resistencia o sesgo mental durante la sesión sobre <strong>${titulo}</strong>? ¿En qué momento sentiste el impulso de justificar un hábito antiguo?`}</p>
+            <p class="phase-desc" style="margin-top: 8px;">${d && d.fase10_metacognicion ? d.fase10_metacognicion : `Escribe a mano en 2 oraciones: ¿Cuál fue tu principal resistencia o sesgo mental durante la sesión sobre <strong>${titulo}</strong>? ¿En qué momento sentiste el impulso de justificar un hábito antiguo?`}</p>
             <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_meta')">✍️ Marcar como Hecho a Mano</button>
         </div>
 
@@ -2839,7 +2839,7 @@ function renderMentoraSession(dayIndex) {
         <div class="phase">
             <div class="phase-node"></div>
             <div class="phase-header"><h4>11. Ensayo Somático (Identidad)</h4><span class="phase-duration">2m</span></div>
-            <p class="phase-desc">${d && d.fase11_desc ? d.fase11_desc : `Cierra los ojos 60 segundos. Visualízate aplicando <strong>${titulo}</strong> en tu reunión más exigente. Siente tu postura firme y declara en voz alta y por escrito: <strong>"Soy líder. Nací líder. Y actúo como la líder que soy."</strong>`}</p>
+            <p class="phase-desc">${d && d.fase11_ensayo ? d.fase11_ensayo : `Cierra los ojos 60 segundos. Visualízate aplicando <strong>${titulo}</strong> en tu reunión más exigente. Siente tu postura firme y declara en voz alta y por escrito: <strong>"Soy líder. Nací líder. Y actúo como la líder que soy."</strong>`}</p>
             <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_somatico')">✍️ Marcar como Hecho a Mano</button>
         </div>
 
@@ -2891,14 +2891,8 @@ function loadMujeresMentorasDay(dayIndex) {
         ring.style.strokeDasharray = circumference;
         ring.style.strokeDashoffset = circumference * (1 - pct);
     }
-    // Update PPM / Score from local progress
-    if (progresoLocal[dayIndex]) {
-        const p = progresoLocal[dayIndex];
-        const ppmEl = document.getElementById('dash-ppm');
-        const scoreEl = document.getElementById('dash-score');
-        if (ppmEl && p.ppm) ppmEl.textContent = p.ppm;
-        if (scoreEl && p.comprension != null) scoreEl.textContent = p.comprension + '%';
-    }
+    // (dash-ppm/dash-score are set from the aggregate best PPM / avg
+    // comprensión by renderKitMentoria() below, not from this single day.)
 
     // Inject Playbook content
     renderMentoraSession(dayIndex);
@@ -2922,25 +2916,43 @@ function renderDashboard() {
     const list = document.getElementById('dashboard-list');
     if (!list) return;
     list.innerHTML = '';
-   
+
     const daysData = window.activeTrackData || [];
     const currentDayId = typeof currentDay !== 'undefined' ? currentDay : 1;
+
+    // A day is unlocked once maxUnlockedDay reaches it. As a safety net for
+    // progress saved before this lock existed, also unlock up to one day
+    // past the highest day already marked completed, so nobody who already
+    // finished a day gets accidentally locked out of the next one.
+    const highestCompleted = (typeof completedDays !== 'undefined' && completedDays.length > 0)
+        ? Math.max(...completedDays) : 0;
+    const unlockedUpTo = Math.max(
+        typeof maxUnlockedDay !== 'undefined' ? maxUnlockedDay : 1,
+        highestCompleted + 1,
+        1
+    );
 
     daysData.forEach(day => {
         const card = document.createElement('div');
         const isDone = localStorage.getItem('mm_b1_d' + day.dia + '_done') === 'true' || localStorage.getItem('mm_b1_d' + day.dia) === '1';
-        card.className = `glass-card track-card ${currentDayId === day.dia ? 'active' : ''}`;
-        card.onclick = () => {
-            loadMujeresMentorasDay(day.dia);
-            switchTab('view-session', document.querySelectorAll('.nav-item')[1]);
-            document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
-            card.classList.add('active');
-        };
+        const isLocked = !isDone && day.dia > unlockedUpTo;
+        card.className = `glass-card track-card ${currentDayId === day.dia ? 'active' : ''} ${isLocked ? 'locked' : ''}`;
+        if (isLocked) {
+            card.style.opacity = '0.45';
+            card.style.cursor = 'not-allowed';
+        } else {
+            card.onclick = () => {
+                loadMujeresMentorasDay(day.dia);
+                switchTab('view-session', document.querySelectorAll('.nav-item')[1]);
+                document.querySelectorAll('.track-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+            };
+        }
         card.innerHTML = `
-            <div class="track-number" style="${isDone ? 'background: rgba(16,185,129,0.2); border-color: #10B981; color: #10B981;' : ''}">${isDone ? '✓' : day.dia}</div>
+            <div class="track-number" style="${isDone ? 'background: rgba(16,185,129,0.2); border-color: #10B981; color: #10B981;' : ''}">${isLocked ? '🔒' : (isDone ? '✓' : day.dia)}</div>
             <div>
-                <h4 style="font-size: 0.95rem; color: white;">${day.titulo}</h4>
-                <p style="font-size: 0.8rem; color: ${isDone ? '#10B981' : '#FF5E00'};">${isDone ? '✅ Completado' : ("Fundamentos y Raíces")}</p>
+                <h4 style="font-size: 0.95rem; color: ${isLocked ? 'var(--text-secondary)' : 'white'};">${day.titulo}</h4>
+                <p style="font-size: 0.8rem; color: ${isDone ? '#10B981' : (isLocked ? 'var(--text-secondary)' : '#FF5E00')};">${isDone ? '✅ Completado' : (isLocked ? '🔒 Completa el día anterior para desbloquear' : "Fundamentos y Raíces")}</p>
             </div>
         `;
         list.appendChild(card);
@@ -3033,6 +3045,12 @@ window.renderKitMentoria = function() {
     // Vincular cajas de Home
     if (el('home-ppm')) el('home-ppm').textContent = bestPpm > 0 ? bestPpm : '0';
     if (el('home-comp')) el('home-comp').textContent = avgComp > 0 ? (avgComp + '%') : '0%';
+
+    // La pantalla de Home real usa dash-ppm/dash-score (no home-ppm/home-comp).
+    // Deben mostrar las mismas métricas agregadas que Mi Kit, no el dato del
+    // día que se esté viendo en ese momento.
+    if (el('dash-ppm')) el('dash-ppm').textContent = bestPpm > 0 ? bestPpm : '0';
+    if (el('dash-score')) el('dash-score').textContent = avgComp > 0 ? (avgComp + '%') : '0%';
 };
 
 /* ---------- markPhaseDone (used in breathing) ---------- */
