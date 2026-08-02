@@ -2751,9 +2751,14 @@ function renderMentoraSession(dayIndex) {
 
     const showFeynman = (dayIndex % 7 === 0);
     const thetaScript = THETA_SCRIPTS[(dayIndex - 1) % THETA_SCRIPTS.length].guion;
-    const blockMatchSueno = window.location.pathname.match(/Bloque(\d+)/);
-    const blockNumSueno = blockMatchSueno ? blockMatchSueno[1] : '1';
-    const suenoDone = localStorage.getItem('mm_b' + blockNumSueno + '_d' + dayIndex + '_sueno') === 'true';
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    const mmKey = (suffix) => 'mm_b' + blockNum + '_d' + dayIndex + suffix;
+    const suenoDone = localStorage.getItem(mmKey('_sueno')) === 'true';
+    const analogDone = localStorage.getItem(mmKey('_analog')) === 'true';
+    const riesgoDone = localStorage.getItem(mmKey('_riesgo')) === 'true';
+    const metaDone = localStorage.getItem(mmKey('_meta')) === 'true';
+    const somaticoDone = localStorage.getItem(mmKey('_somatico')) === 'true';
 
     container.innerHTML = `
         <!-- F1 -->
@@ -2818,7 +2823,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
             <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Libreta MindJump)</p>
             <p class="phase-desc" style="margin-top: 8px;">${d && d.fase5_codificacion_dual ? d.fase5_codificacion_dual : `Abre tu Libreta MindJump. Realiza un esquema visual o diagrama de cómo aplicar <strong>${titulo}</strong> en tu entorno de trabajo. Tacha los elementos limitantes y asume el 100% del control sobre tu trayectoria.`}</p>
-            <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_analog')">✍️ Marcar como Hecho a Mano</button>
+            <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${analogDone ? 'opacity:.7;' : ''}" ${analogDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_analog')">${analogDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
 
         <!-- F6 -->
@@ -2849,7 +2854,7 @@ function renderMentoraSession(dayIndex) {
                 3. <strong>Regla del 100%:</strong> Escribe a mano: <em>"La seguridad no precede a la acción; la seguridad sigue a la acción ejecutada."</em>
                 `}
             </div>
-            <button id="btn-analog-8-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_riesgo')">✍️ Marcar como Hecho a Mano</button>
+            <button id="btn-analog-8-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${riesgoDone ? 'opacity:.7;' : ''}" ${riesgoDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_riesgo')">${riesgoDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
         
         <!-- F9 -->
@@ -2865,7 +2870,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-header"><h4>10. Metacognición y Sesgos</h4><span class="phase-duration">1m</span></div>
             <p class="phase-desc" style="color: #FFFFFF; font-weight: 500;">🧠 Reflexión Profunda en Libreta</p>
             <p class="phase-desc" style="margin-top: 8px;">${d && d.fase10_metacognicion ? d.fase10_metacognicion : `Escribe a mano en 2 oraciones: ¿Cuál fue tu principal resistencia o sesgo mental durante la sesión sobre <strong>${titulo}</strong>? ¿En qué momento sentiste el impulso de justificar un hábito antiguo?`}</p>
-            <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_meta')">✍️ Marcar como Hecho a Mano</button>
+            <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${metaDone ? 'opacity:.7;' : ''}" ${metaDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_meta')">${metaDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
 
         <!-- F11 -->
@@ -2873,7 +2878,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-node"></div>
             <div class="phase-header"><h4>11. Ensayo Somático (Identidad)</h4><span class="phase-duration">2m</span></div>
             <p class="phase-desc">${d && d.fase11_ensayo ? d.fase11_ensayo : `Cierra los ojos 60 segundos. Visualízate aplicando <strong>${titulo}</strong> en tu reunión más exigente. Siente tu postura firme y declara en voz alta y por escrito: <strong>"Soy líder. Nací líder. Y actúo como la líder que soy."</strong>`}</p>
-            <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle);" onclick="marcarHecho(this, 'b1_d' + dayIndex + '_somatico')">✍️ Marcar como Hecho a Mano</button>
+            <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${somaticoDone ? 'opacity:.7;' : ''}" ${somaticoDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_somatico')">${somaticoDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
 
         <!-- F12 -->
@@ -3096,14 +3101,6 @@ if (!window.markPhaseDone) {
         if (!currentPhaseProgress) currentPhaseProgress = {};
         currentPhaseProgress['p'+phaseNum] = true;
         if (btn) { btn.textContent = '✅ Completado'; btn.disabled = true; btn.style.opacity = '.6'; }
-    };
-}
-
-/* ---------- marcarHecho (analog tasks) ---------- */
-if (!window.marcarHecho) {
-    window.marcarHecho = function(btn, key) {
-        if (key) localStorage.setItem(key, 'true');
-        if (btn) { btn.textContent = '✅ Hecho a Mano'; btn.disabled = true; btn.style.opacity = '.7'; }
     };
 }
 
@@ -3734,6 +3731,17 @@ function concluirDia(dayId) {
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
 
+    const manualPendientes = [];
+    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_analog') !== 'true') manualPendientes.push('Fase 5 (Codificación Dual)');
+    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_riesgo') !== 'true') manualPendientes.push('Fase 8 (Zona de Riesgo Táctico)');
+    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_meta') !== 'true') manualPendientes.push('Fase 10 (Metacognición)');
+    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_somatico') !== 'true') manualPendientes.push('Fase 11 (Ensayo Somático)');
+
+    if (manualPendientes.length > 0) {
+        alert('Antes de concluir el día, marca como "Hecho a Mano" estos ejercicios:\n\n- ' + manualPendientes.join('\n- '));
+        return;
+    }
+
     if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_sueno') !== 'true') {
         alert('Antes de concluir el día, escucha el audio completo de la Fase 12 (arriba).');
         return;
@@ -3770,10 +3778,12 @@ function concluirDia(dayId) {
 
 function marcarHecho(btn, key = null) {
     if (!btn) return;
-    btn.innerHTML = '✅ Hecho en el mundo físico';
+    btn.innerHTML = '✅ Hecho a Mano';
     btn.style.background = 'rgba(16, 185, 129, 0.15)';
     btn.style.color = '#10B981';
     btn.style.borderColor = '#10B981';
+    btn.style.opacity = '.7';
+    btn.disabled = true;
     if(key) localStorage.setItem(key, 'true');
 }
 
