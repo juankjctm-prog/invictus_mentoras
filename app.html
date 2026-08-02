@@ -944,14 +944,37 @@ function toggleTimer() {
         }, 1000);
     } else {
         clearInterval(timer); isRunning = false;
-        const basePPM = Math.round((currentDay === 1 ? 1560 : 1920) / (secs>0?secs:1) * 60);
+        const basePPM = calcularYGuardarPPM();
         btn.innerText = `Velocidad: ${basePPM} PPM`;
         btn.style.fontSize = '0.9rem';
         btn.style.padding = '8px';
         btn.disabled = true;
-        
+
         document.getElementById('re-read-prompt').style.display = 'block';
     }
+}
+
+// Cuenta las palabras reales del texto de lectura del día (no un número fijo
+// por día — antes asumía 1,560 palabras para el Día 1 y 1,920 para TODOS los
+// demás días, dando un PPM incorrecto en cualquier día con un conteo real
+// distinto), calcula PPM y lo persiste — antes se calculaba y se mostraba un
+// instante en el botón, pero nunca se guardaba, así que nunca llegaba a
+// Home, Mi Kit ni a la nube.
+function calcularYGuardarPPM() {
+    const paras = document.querySelectorAll('#reader-content .reader-p');
+    let wordCount = 0;
+    paras.forEach(p => { wordCount += (p.innerText || '').trim().split(/\s+/).filter(Boolean).length; });
+    if (wordCount === 0) wordCount = 1560;
+
+    const elapsedMinutes = Math.max(secs, 1) / 60;
+    let ppm = Math.round(wordCount / elapsedMinutes);
+    if (ppm > 1200) ppm = 1200;
+
+    const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
+    const blockNum = blockMatch ? blockMatch[1] : '1';
+    localStorage.setItem('mm_b' + blockNum + '_d' + currentDay + '_ppm', ppm.toString());
+
+    return ppm;
 }
 
 function resetTimer() {
@@ -966,7 +989,6 @@ function resetTimer() {
 
 function continueToComprension() {
     document.getElementById('sticky-timer-wrapper').style.display = 'none';
-    const basePPM = Math.round((currentDay === 1 ? 1560 : 1920) / (secs>0?secs:1) * 60);
     document.getElementById('comprension-block').style.display = 'block';
     showMotivationToast("Velocidad registrada. Ahora, pongamos a prueba tu retención.");
 }
