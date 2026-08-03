@@ -1316,8 +1316,16 @@ function continueToComprension() {
 }
 
 async function saveProgress() {
-    if(!currentUser) return;
-    
+    // Antes esto salía en silencio si currentUser no estaba listo — cero
+    // rastro, ni consola, ni aviso. Si eso pasaba, el progreso local se veía
+    // bien (modal de éxito, día avanzado) pero la nube nunca se enteraba, sin
+    // ninguna pista de por qué. Ahora es imposible de pasar por alto.
+    if(!currentUser) {
+        console.error('saveProgress() cancelado: currentUser no está definido. El progreso NO se guardó en la nube.');
+        if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ Tu sesión no está activa — este progreso no se guardó. Vuelve a iniciar sesión con tu PIN.');
+        return;
+    }
+
     // Optimistic UI Update
     updateVisualProgress();
     
@@ -1339,24 +1347,37 @@ async function saveProgress() {
     // Persist to Supabase. This can silently fail on flaky connections (the
     // caller doesn't await/catch it), leaving local progress looking fine
     // while the cloud row — and therefore the RRHH dashboard — never updates.
-    // Surface it so the user knows to retry instead of assuming it worked.
-    try {
-        const { error: saveError } = await _supabase.from('mentoras_progress').upsert({
-            user_id: currentUser.id,
-            current_day: maxUnlockedDay,
-            completed_days: completedDays,
-            phase_progress: currentPhaseProgress,
-            answers: currentAnswers,
-            updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id' });
+    // Surface it so the user knows to retry instead of assuming it worked,
+    // and retry once automatically before bothering them — most failures
+    // at this point are a momentary network blip, not a real problem.
+    const payload = {
+        user_id: currentUser.id,
+        current_day: maxUnlockedDay,
+        completed_days: completedDays,
+        phase_progress: currentPhaseProgress,
+        answers: currentAnswers,
+        updated_at: new Date().toISOString()
+    };
 
+    async function attemptSave() {
+        const { error: saveError } = await _supabase.from('mentoras_progress').upsert(payload, { onConflict: 'user_id' });
+        return saveError;
+    }
+
+    try {
+        let saveError = await attemptSave();
         if (saveError) {
-            console.error('Error al guardar progreso en Supabase:', saveError);
-            if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión.');
+            console.error('Error al guardar progreso en Supabase (intento 1):', saveError);
+            await new Promise(r => setTimeout(r, 2000));
+            saveError = await attemptSave();
+        }
+        if (saveError) {
+            console.error('Error al guardar progreso en Supabase (intento 2, definitivo):', saveError);
+            if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión e inténtalo de nuevo.');
         }
     } catch (err) {
         console.error('Excepción al guardar progreso en Supabase:', err);
-        if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión.');
+        if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión e inténtalo de nuevo.');
     }
 }
 </script>
