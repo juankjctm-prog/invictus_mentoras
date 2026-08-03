@@ -277,10 +277,27 @@
 </head>
 <body>
 
-    
+    <!-- Login gate: este dashboard expone datos personales de todas las
+         participantes (nombres, PINs, diagnósticos). Antes solo dependía de
+         que nadie encontrara la URL. Ahora exige una sesión real de
+         Supabase Auth — reforzada también por RLS en la base de datos, no
+         solo por esta pantalla. -->
+    <div id="login-gate" style="position:fixed; inset:0; background:var(--bg-absolute); display:flex; align-items:center; justify-content:center; z-index:9999; padding:20px;">
+        <div style="width:100%; max-width:360px; background:rgba(255,255,255,0.03); border:1px solid var(--border-subtle); border-radius:16px; padding:32px; backdrop-filter: blur(12px);">
+            <h2 style="font-family:'Outfit'; text-align:center; margin-bottom:6px; background: linear-gradient(135deg, var(--accent-fire), var(--accent-water)); -webkit-background-clip:text; -webkit-text-fill-color:transparent;">Master Dashboard</h2>
+            <p style="text-align:center; color:var(--text-secondary); font-size:0.85rem; margin-bottom:24px;">Acceso restringido &mdash; inicia sesión para continuar.</p>
+            <input id="login-email" type="email" class="search-box" style="width:100%; margin-bottom:12px;" placeholder="Correo">
+            <input id="login-password" type="password" class="search-box" style="width:100%; margin-bottom:16px;" placeholder="Contraseña">
+            <button id="login-btn" class="btn-refresh" style="width:100%; padding:12px;" onclick="handleDashboardLogin()">Iniciar sesión</button>
+            <p id="login-error" style="display:none; color:#EF4444; font-size:0.8rem; text-align:center; margin-top:14px;"></p>
+        </div>
+    </div>
+
+    <div id="dashboard-app" style="display:none; width:100%; flex-direction:column; align-items:center;">
     <header>
         <h1>Master Dashboard</h1>
         <p>Centro de Inteligencia Visual de Parejas (Mentora-Mentada)</p>
+        <button onclick="handleDashboardLogout()" style="margin-top:10px; background:none; border:1px solid var(--border-subtle); color:var(--text-secondary); padding:6px 14px; border-radius:8px; cursor:pointer; font-size:0.75rem;">Cerrar sesión</button>
     </header>
 
     <div class="tabs-header">
@@ -409,6 +426,7 @@
     </div>
 
             </div>
+    </div><!-- /dashboard-app -->
             <!-- SUPABASE INIT -->
             <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
@@ -939,11 +957,10 @@
             await loadData();
             await loadAvance();
         }
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            refreshAllDashboardData();
-        });
-    
+        // Nota: la carga inicial ya no ocurre aquí directamente — ahora
+        // depende de que el login (más abajo, handleDashboardLogin /
+        // showDashboardApp) confirme una sesión válida primero.
+
         function switchDashboardTab(tabId, btn) {
             document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
@@ -1115,6 +1132,57 @@
             });
             tbody.innerHTML = html;
         }
+
+        // --- Autenticación del dashboard ---
+        // Este dashboard requiere una sesión real de Supabase Auth antes de
+        // cargar cualquier dato. Sin esto, cualquiera que abriera esta URL
+        // (o supiera adivinarla) podía ver los datos de las 14 participantes
+        // reales sin ningún login. Las cuentas se crean manualmente en
+        // Supabase (Authentication → Users), una por persona autorizada.
+        async function handleDashboardLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            errorEl.style.display = 'none';
+
+            if (!email || !password) {
+                errorEl.textContent = 'Ingresa correo y contraseña.';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            const { error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                errorEl.textContent = 'No se pudo iniciar sesión: ' + error.message;
+                errorEl.style.display = 'block';
+                return;
+            }
+            showDashboardApp();
+        }
+
+        async function handleDashboardLogout() {
+            await _supabase.auth.signOut();
+            window.location.reload();
+        }
+
+        function showDashboardApp() {
+            document.getElementById('login-gate').style.display = 'none';
+            const app = document.getElementById('dashboard-app');
+            app.style.display = 'flex';
+            refreshAllDashboardData();
+        }
+
+        // Al cargar la página, revisa si ya hay una sesión válida (por
+        // ejemplo, si no cerró sesión la última vez) antes de mostrar el
+        // formulario de login.
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data } = await _supabase.auth.getSession();
+            if (data && data.session) {
+                showDashboardApp();
+            } else {
+                document.getElementById('login-gate').style.display = 'flex';
+            }
+        });
 
 </script>
 </body>

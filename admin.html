@@ -103,21 +103,19 @@
 <body>
 
     <!-- PANTALLA DE AUTENTICACION -->
+    <!-- Antes era un PIN de 6 dígitos hardcodeado en el código fuente
+         ("010101", visible para cualquiera que abriera el archivo) sin
+         ninguna verificación del lado del servidor. Reemplazado por una
+         sesión real de Supabase Auth, reforzada por RLS en la base de
+         datos — no solo por esta pantalla. -->
     <div id="auth-overlay" class="auth-overlay">
         <h2 style="font-family: 'Outfit'; font-size: 1.5rem; color: var(--accent-water);">Invictus Admin</h2>
-        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px;">Ingresa el PIN Maestro</p>
-        
-        <div class="pin-dots" id="pin-dots">
-            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
-        </div>
-        
-        <div class="keypad">
-            <div class="key" onclick="pressKey('1')">1</div><div class="key" onclick="pressKey('2')">2</div><div class="key" onclick="pressKey('3')">3</div>
-            <div class="key" onclick="pressKey('4')">4</div><div class="key" onclick="pressKey('5')">5</div><div class="key" onclick="pressKey('6')">6</div>
-            <div class="key" onclick="pressKey('7')">7</div><div class="key" onclick="pressKey('8')">8</div><div class="key" onclick="pressKey('9')">9</div>
-            <div></div><div class="key" onclick="pressKey('0')">0</div><div></div>
-        </div>
+        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; margin-bottom: 24px;">Acceso restringido &mdash; inicia sesión para continuar.</p>
+
+        <input id="login-email" type="email" placeholder="Correo" style="width:260px; background:var(--bg-surface-elevated); border:1px solid var(--border-subtle); color:white; padding:12px 16px; border-radius:10px; margin-bottom:12px; font-family:'Inter';">
+        <input id="login-password" type="password" placeholder="Contraseña" style="width:260px; background:var(--bg-surface-elevated); border:1px solid var(--border-subtle); color:white; padding:12px 16px; border-radius:10px; margin-bottom:16px; font-family:'Inter';">
+        <button onclick="handleAdminLogin()" style="width:260px; background:var(--accent-fire); border:none; color:white; padding:12px; border-radius:10px; font-family:'Outfit'; font-weight:600; cursor:pointer;">Iniciar sesión</button>
+        <p id="login-error" style="display:none; color:#EF4444; font-size:0.8rem; text-align:center; margin-top:14px; max-width:260px;"></p>
     </div>
 
     <!-- APP CONTAINER -->
@@ -177,41 +175,37 @@
         const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
         const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-        let enteredPin = "";
-        const ADMIN_PIN = "010101";
+        async function handleAdminLogin() {
+            const email = document.getElementById('login-email').value.trim();
+            const password = document.getElementById('login-password').value;
+            const errorEl = document.getElementById('login-error');
+            errorEl.style.display = 'none';
 
-        function pressKey(num) {
-            if (enteredPin.length < 6) {
-                enteredPin += num;
-                updateDots();
+            if (!email || !password) {
+                errorEl.textContent = 'Ingresa correo y contraseña.';
+                errorEl.style.display = 'block';
+                return;
             }
-            if (enteredPin.length === 6) {
-                setTimeout(checkPin, 200);
+
+            const { error } = await _supabase.auth.signInWithPassword({ email, password });
+            if (error) {
+                errorEl.textContent = 'No se pudo iniciar sesión: ' + error.message;
+                errorEl.style.display = 'block';
+                return;
             }
+            showAdminApp();
         }
 
-        function updateDots() {
-            const dots = document.querySelectorAll('.dot');
-            dots.forEach((dot, index) => {
-                if (index < enteredPin.length) dot.classList.add('filled');
-                else dot.classList.remove('filled');
-            });
+        function showAdminApp() {
+            document.getElementById('auth-overlay').classList.add('hidden');
+            document.getElementById('app-container').classList.add('visible');
+            loadDashboardData();
         }
 
-        function checkPin() {
-            if (enteredPin === ADMIN_PIN) {
-                document.getElementById('auth-overlay').classList.add('hidden');
-                document.getElementById('app-container').classList.add('visible');
-                loadDashboardData();
-            } else {
-                enteredPin = "";
-                updateDots();
-                const dotsContainer = document.getElementById('pin-dots');
-                dotsContainer.style.transform = "translateX(-10px)";
-                setTimeout(() => dotsContainer.style.transform = "translateX(10px)", 100);
-                setTimeout(() => dotsContainer.style.transform = "translateX(0)", 200);
-            }
-        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            const { data } = await _supabase.auth.getSession();
+            if (data && data.session) showAdminApp();
+        });
 
         let allUsers = [];
         let allProgress = [];
