@@ -1316,6 +1316,30 @@ function continueToComprension() {
     
 }
 
+// Registra un fallo de guardado directamente en Supabase (tabla
+// client_error_log), para poder diagnosticar guardados fallidos
+// consultando la base de datos directamente, en vez de depender de que
+// alguien note el problema y lo describa. No debe poder romper el flujo
+// normal si esta tabla no existe todavía o si el log mismo falla.
+async function logClientError(context, details) {
+    try {
+        await _supabase.from('client_error_log').insert([{
+            context: context,
+            user_pin: (typeof currentUser !== 'undefined' && currentUser) ? currentUser.pin : (currentPin || null),
+            user_id: (typeof currentUser !== 'undefined' && currentUser) ? currentUser.id : null,
+            details: {
+                ...details,
+                currentDay: typeof currentDay !== 'undefined' ? currentDay : null,
+                maxUnlockedDay: typeof maxUnlockedDay !== 'undefined' ? maxUnlockedDay : null,
+                url: window.location.href,
+                userAgent: navigator.userAgent
+            }
+        }]);
+    } catch (e) {
+        console.error('No se pudo escribir en client_error_log:', e);
+    }
+}
+
 async function saveProgress() {
     // Antes esto salía en silencio si currentUser no estaba listo — cero
     // rastro, ni consola, ni aviso. Si eso pasaba, el progreso local se veía
@@ -1324,6 +1348,7 @@ async function saveProgress() {
     if(!currentUser) {
         console.error('saveProgress() cancelado: currentUser no está definido. El progreso NO se guardó en la nube.');
         if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ Tu sesión no está activa — este progreso no se guardó. Vuelve a iniciar sesión con tu PIN.');
+        logClientError('saveProgress_no_currentUser', {});
         return;
     }
 
@@ -1375,10 +1400,12 @@ async function saveProgress() {
         if (saveError) {
             console.error('Error al guardar progreso en Supabase (intento 2, definitivo):', saveError);
             if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión e inténtalo de nuevo.');
+            logClientError('saveProgress_upsert_failed', { message: saveError.message, code: saveError.code });
         }
     } catch (err) {
         console.error('Excepción al guardar progreso en Supabase:', err);
         if (typeof showMotivationToast === 'function') showMotivationToast('⚠️ No se pudo guardar tu progreso en la nube. Revisa tu conexión e inténtalo de nuevo.');
+        logClientError('saveProgress_exception', { message: err && err.message ? err.message : String(err) });
     }
 }
 </script>
