@@ -1352,9 +1352,6 @@ async function saveProgress() {
         return;
     }
 
-    // Optimistic UI Update
-    updateVisualProgress();
-    
     // Pack PPM data and local progress into answers for syncing
     let ppmData = {};
     for (let i = 0; i < localStorage.length; i++) {
