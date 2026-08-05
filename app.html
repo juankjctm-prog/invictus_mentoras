@@ -774,6 +774,7 @@ function revelarDespertador() {
                             
                         if (data && !error) {
                             currentUser = data;
+                            if (typeof migrateLegacyUserData === 'function') migrateLegacyUserData();
                             if (typeof loadProgresoLocal === 'function') loadProgresoLocal();
 
                             const headerTitle = document.querySelector('.header-greeting h1');
@@ -3104,6 +3105,68 @@ var TOTAL_PROGRAM_DAYS = 78; // 78 días × 2 roles = 156 filas en mentoras_cont
 // mismo navegador.
 function userScope() {
     return (typeof currentUser !== 'undefined' && currentUser && currentUser.pin) ? currentUser.pin : 'anon';
+}
+
+// Cualquiera que haya usado el navegador ANTES de que las claves de arriba
+// se identificaran por usuaria dejó su progreso real bajo las claves viejas
+// sin prefijo (invictus_progreso, mm_bN_dD_*, mm_last_day_b1, pb_notes_dN,
+// espejo_revelado, invictus_pair_*). Sin esto, esa persona pierde de vista
+// (no se borra, pero queda invisible) todo lo que hizo hasta ahora la
+// primera vez que carga la versión nueva. Se corre una sola vez por usuaria
+// por dispositivo (bandera mm_migrated_<pin>) y solo copia hacia la clave
+// nueva si esta todavía no existe, para no pisar progreso que ya se guardó
+// correctamente con el esquema nuevo.
+function migrateLegacyUserData() {
+    const scope = userScope();
+    if (scope === 'anon') return;
+    const migFlag = 'mm_migrated_' + scope;
+    if (localStorage.getItem(migFlag)) return;
+
+    const newProgKey = 'invictus_progreso_' + scope;
+    if (!localStorage.getItem(newProgKey)) {
+        const legacy = localStorage.getItem('invictus_progreso');
+        if (legacy) localStorage.setItem(newProgKey, legacy);
+    }
+
+    const legacyMmKeys = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && /^mm_b\d/.test(k)) legacyMmKeys.push(k);
+    }
+    legacyMmKeys.forEach(k => {
+        const newKey = 'mm_' + scope + '_' + k.slice(3);
+        if (!localStorage.getItem(newKey)) localStorage.setItem(newKey, localStorage.getItem(k));
+    });
+
+    const newLastDayKey = 'mm_' + scope + '_last_day_b1';
+    if (!localStorage.getItem(newLastDayKey)) {
+        const legacyLastDay = localStorage.getItem('mm_last_day_b1');
+        if (legacyLastDay) localStorage.setItem(newLastDayKey, legacyLastDay);
+    }
+
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        const m = k && k.match(/^pb_notes_d(\d+)$/);
+        if (m) {
+            const newKey = 'pb_' + scope + '_notes_d' + m[1];
+            if (!localStorage.getItem(newKey)) localStorage.setItem(newKey, localStorage.getItem(k));
+        }
+    }
+
+    const newEspejoKey = 'espejo_revelado_' + scope;
+    if (!localStorage.getItem(newEspejoKey) && localStorage.getItem('espejo_revelado')) {
+        localStorage.setItem(newEspejoKey, localStorage.getItem('espejo_revelado'));
+    }
+
+    ['invictus_pair_mentee_name', 'invictus_pair_goals', 'invictus_pair_calendar', 'invictus_pair_bitacora', 'invictus_pair_compromisos'].forEach(k => {
+        const newKey = k + '_' + scope;
+        if (!localStorage.getItem(newKey)) {
+            const legacy = localStorage.getItem(k);
+            if (legacy) localStorage.setItem(newKey, legacy);
+        }
+    });
+
+    localStorage.setItem(migFlag, 'true');
 }
 
 var currentDay = 1;
