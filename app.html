@@ -774,7 +774,8 @@ function revelarDespertador() {
                             
                         if (data && !error) {
                             currentUser = data;
-                            
+                            if (typeof loadProgresoLocal === 'function') loadProgresoLocal();
+
                             const headerTitle = document.querySelector('.header-greeting h1');
                             const profilePic = document.querySelector('.profile-pic');
                             if(headerTitle) headerTitle.innerText = `Hola, ${currentUser.name || 'Mentora'}`;
@@ -973,7 +974,7 @@ function calcularYGuardarPPM() {
 
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
-    localStorage.setItem('mm_b' + blockNum + '_d' + currentDay + '_ppm', ppm.toString());
+    localStorage.setItem('mm_' + userScope() + '_b' + blockNum + '_d' + currentDay + '_ppm', ppm.toString());
 
     return ppm;
 }
@@ -1065,8 +1066,8 @@ function continueToComprension() {
             
             // Evaluar Espejo de Liderazgo (5 dias)
             const diasCompletos = Object.values(progresoLocal).filter(d => d.completado).length;
-            if (diasCompletos === 5 && !localStorage.getItem('espejo_revelado')) {
-                localStorage.setItem('espejo_revelado', 'true');
+            if (diasCompletos === 5 && !localStorage.getItem('espejo_revelado_' + userScope())) {
+                localStorage.setItem('espejo_revelado_' + userScope(), 'true');
                 setTimeout(() => {
                     alert('🎉 ESPEJO DE LIDERAZGO REVELADO\\n\\n¡Has completado 5 sesiones de actividad! Según tus respuestas y velocidad, tu perfil de mentoría es: MENTORA ESTRATEGA.\\n\\nFortaleza: Transformación de la visión a la acción.\\n\\nVe a "Mi Kit" para ver los detalles.');
                     if(window.renderKitMentoria) window.renderKitMentoria();
@@ -1182,7 +1183,7 @@ function continueToComprension() {
             const dayId = currentDay;
             const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
             const blockNum = blockMatch ? blockMatch[1] : '1';
-            localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_sueno', 'true');
+            localStorage.setItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_sueno', 'true');
 
             if (typeof progresoLocal !== 'undefined') {
                 if (!progresoLocal[dayId]) progresoLocal[dayId] = {};
@@ -1291,7 +1292,7 @@ function continueToComprension() {
     Object.keys(progresoLocal || {}).forEach(d => {
         const p = progresoLocal[d];
         if (!p) return;
-        const key = 'mm_b' + blockNumInit + '_d' + d;
+        const key = 'mm_' + userScope() + '_b' + blockNumInit + '_d' + d;
         if (p.completado) {
             localStorage.setItem(key + '_done', 'true');
             localStorage.setItem(key, '1');
@@ -1303,7 +1304,7 @@ function continueToComprension() {
 
     // Resume at the furthest day reached (from cloud/local merge), not at
     // whatever day this specific browser last happened to view.
-    const savedLastDay = localStorage.getItem('mm_last_day_b1');
+    const savedLastDay = localStorage.getItem('mm_' + userScope() + '_last_day_b1');
     loadMujeresMentorasDay(savedLastDay ? Math.max(parseInt(savedLastDay), currentDay) : currentDay);
     if(typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
     if(typeof renderDashboard === 'function') renderDashboard();
@@ -1356,7 +1357,7 @@ async function saveProgress() {
     let ppmData = {};
     for (let i = 0; i < localStorage.length; i++) {
         let key = localStorage.key(i);
-        if (key && key.includes('_ppm')) {
+        if (key && key.includes('_ppm') && key.includes('_' + userScope() + '_')) {
             ppmData[key] = localStorage.getItem(key);
         }
     }
@@ -2122,7 +2123,7 @@ window.abrirCrisisMM = function(id) {
   window.guardarCaso = function(idx) {
     const ans = document.getElementById('sala-answer').value.trim();
     if (!ans) return;
-    localStorage.setItem('mm_b1_caso_' + idx, ans);
+    localStorage.setItem('mm_' + userScope() + '_b1_caso_' + idx, ans);
     window.cerrarSala();
     window.renderKitMentoria();
   };
@@ -2180,7 +2181,7 @@ window.cerrarCrisisMM = function() {
   window.guardarCaso = function(idx) {
     const ans = document.getElementById('sala-answer').value.trim();
     if (!ans) return;
-    localStorage.setItem('mm_b1_caso_' + idx, ans);
+    localStorage.setItem('mm_' + userScope() + '_b1_caso_' + idx, ans);
     window.cerrarSala();
     window.renderKitMentoria();
   };
@@ -2213,9 +2214,9 @@ window.cerrarCrisisMM = function() {
   const ACCENT2 = '#FF5E00';
 
   function getArr(key) {
-    try { return JSON.parse(localStorage.getItem(key) || '[]'); } catch(e) { return []; }
+    try { return JSON.parse(localStorage.getItem(key + '_' + userScope()) || '[]'); } catch(e) { return []; }
   }
-  function setArr(key, arr) { localStorage.setItem(key, JSON.stringify(arr)); }
+  function setArr(key, arr) { localStorage.setItem(key + '_' + userScope(), JSON.stringify(arr)); }
   function newId() { return 'id' + Date.now() + Math.floor(Math.random()*1000); }
   function fmtDate(iso) {
     if (!iso) return '—';
@@ -2226,12 +2227,12 @@ window.cerrarCrisisMM = function() {
 
   window.guardarMenteeName = function() {
     const el = document.getElementById('mp-name');
-    if (el) localStorage.setItem(K.name, el.value);
+    if (el) localStorage.setItem(K.name + '_' + userScope(), el.value);
   };
 
   window.renderMenteePanel = function() {
     const nameEl = document.getElementById('mp-name');
-    if (nameEl) nameEl.value = localStorage.getItem(K.name) || '';
+    if (nameEl) nameEl.value = localStorage.getItem(K.name + '_' + userScope()) || '';
 
     const goals = getArr(K.goals);
     const activeGoals = goals.filter(g => g.status !== 'logrado' && g.status !== 'pausado');
@@ -2504,16 +2505,16 @@ window.updateKitStats = function() {
         let bNum = Math.ceil(d / 10);
         if (bNum > 8) bNum = 8;
         
-        let isDone = localStorage.getItem('mm_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_b' + bNum + '_d' + d) === '1';
+        let isDone = localStorage.getItem('mm_' + userScope() + '_b' + bNum + '_d' + d + '_done') === 'true' || localStorage.getItem('mm_' + userScope() + '_b' + bNum + '_d' + d) === '1';
         if (isDone) {
             diasActivos++;
             currentStreak++;
             if(currentStreak > maxStreak) maxStreak = currentStreak;
             
-            let ppm = parseInt(localStorage.getItem('mm_b' + bNum + '_d' + d + '_ppm') || '0');
+            let ppm = parseInt(localStorage.getItem('mm_' + userScope() + '_b' + bNum + '_d' + d + '_ppm') || '0');
             if (ppm > bestPpm) bestPpm = ppm;
             
-            let score = localStorage.getItem('mm_b' + bNum + '_d' + d + '_score');
+            let score = localStorage.getItem('mm_' + userScope() + '_b' + bNum + '_d' + d + '_score');
             if (score !== null) {
                 scoreSum += parseInt(score);
                 scoreCount++;
@@ -2546,8 +2547,20 @@ window.updateKitStats = function() {
    ============================================================ */
 
 /* ---------- PROGRESS LOCAL (base para Kit Stats) ---------- */
-var progresoLocal = JSON.parse(localStorage.getItem('invictus_progreso') || '{}');
-function saveProgresoLocal() { localStorage.setItem('invictus_progreso', JSON.stringify(progresoLocal)); }
+// Empieza vacío a propósito: antes esto se cargaba de una clave fija
+// ('invictus_progreso') compartida por cualquiera que usara el mismo
+// navegador, sin importar con qué PIN entrara. Se carga de verdad, ya
+// identificado por usuaria, en loadProgresoLocal() — llamada justo
+// después de un login exitoso (ver pressKey/checkPin).
+var progresoLocal = {};
+function saveProgresoLocal() { localStorage.setItem('invictus_progreso_' + userScope(), JSON.stringify(progresoLocal)); }
+function loadProgresoLocal() {
+    try {
+        progresoLocal = JSON.parse(localStorage.getItem('invictus_progreso_' + userScope()) || '{}');
+    } catch (e) {
+        progresoLocal = {};
+    }
+}
 
 /* ---------- ACCENT (usada en templates de crisis/casos) ---------- */
 var ACCENT = '#FF5E00';
@@ -3080,6 +3093,19 @@ var PLAYBOOK_DATA = {
 
 /* ---------- CURRENT DAY (shared state) ---------- */
 var TOTAL_PROGRAM_DAYS = 78; // 78 días × 2 roles = 156 filas en mentoras_content
+
+// Todas las claves de progreso local (mm_bN_dD_*, mm_last_day_*, etc.)
+// estaban sin identificar a la usuaria — solo bloque y día. Eso significa
+// que si dos personas distintas usan el mismo navegador/dispositivo (muy
+// común al probar varias cuentas seguidas), la segunda persona ve y
+// sobreescribe el progreso local de la primera, sin ningún aislamiento.
+// Esta función agrega el PIN de quien inició sesión como prefijo de toda
+// clave de progreso, para que cada usuaria tenga su propio espacio en el
+// mismo navegador.
+function userScope() {
+    return (typeof currentUser !== 'undefined' && currentUser && currentUser.pin) ? currentUser.pin : 'anon';
+}
+
 var currentDay = 1;
 var completedDays = [];
 var currentPhaseProgress = {};
@@ -3129,7 +3155,7 @@ function renderMentoraSession(dayIndex) {
     const thetaScript = THETA_SCRIPTS[(dayIndex - 1) % THETA_SCRIPTS.length].guion;
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
-    const mmKey = (suffix) => 'mm_b' + blockNum + '_d' + dayIndex + suffix;
+    const mmKey = (suffix) => 'mm_' + userScope() + '_b' + blockNum + '_d' + dayIndex + suffix;
     const suenoDone = localStorage.getItem(mmKey('_sueno')) === 'true';
     const analogDone = localStorage.getItem(mmKey('_analog')) === 'true';
     const riesgoDone = localStorage.getItem(mmKey('_riesgo')) === 'true';
@@ -3199,7 +3225,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-header"><h4>5. Codificación Dual (Auditoría de Éxito)</h4><span class="phase-duration">3m</span></div>
             <p class="phase-desc" style="color: white; font-weight: 500;">✍️ Ejercicio Analógico (Libreta MindJump)</p>
             <p class="phase-desc" style="margin-top: 8px;">${d && d.fase5_codificacion_dual ? d.fase5_codificacion_dual : `Abre tu Libreta MindJump. Realiza un esquema visual o diagrama de cómo aplicar <strong>${titulo}</strong> en tu entorno de trabajo. Tacha los elementos limitantes y asume el 100% del control sobre tu trayectoria.`}</p>
-            <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${analogDone ? 'opacity:.7;' : ''}" ${analogDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_analog')">${analogDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
+            <button id="btn-analog-5-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${analogDone ? 'opacity:.7;' : ''}" ${analogDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_${userScope()}_b${blockNum}_d${dayIndex}_analog')">${analogDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
 
         <!-- F6 -->
@@ -3230,7 +3256,7 @@ function renderMentoraSession(dayIndex) {
                 3. <strong>Regla del 100%:</strong> Escribe a mano: <em>"La seguridad no precede a la acción; la seguridad sigue a la acción ejecutada."</em>
                 `}
             </div>
-            <button id="btn-analog-8-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${riesgoDone ? 'opacity:.7;' : ''}" ${riesgoDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_riesgo')">${riesgoDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
+            <button id="btn-analog-8-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${riesgoDone ? 'opacity:.7;' : ''}" ${riesgoDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_${userScope()}_b${blockNum}_d${dayIndex}_riesgo')">${riesgoDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
         
         <!-- F9 -->
@@ -3246,7 +3272,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-header"><h4>10. Metacognición y Sesgos</h4><span class="phase-duration">1m</span></div>
             <p class="phase-desc" style="color: #FFFFFF; font-weight: 500;">🧠 Reflexión Profunda en Libreta</p>
             <p class="phase-desc" style="margin-top: 8px;">${d && d.fase10_metacognicion ? d.fase10_metacognicion : `Escribe a mano en 2 oraciones: ¿Cuál fue tu principal resistencia o sesgo mental durante la sesión sobre <strong>${titulo}</strong>? ¿En qué momento sentiste el impulso de justificar un hábito antiguo?`}</p>
-            <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${metaDone ? 'opacity:.7;' : ''}" ${metaDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_meta')">${metaDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
+            <button id="btn-analog-10-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${metaDone ? 'opacity:.7;' : ''}" ${metaDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_${userScope()}_b${blockNum}_d${dayIndex}_meta')">${metaDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
 
         <!-- F11 -->
@@ -3254,7 +3280,7 @@ function renderMentoraSession(dayIndex) {
             <div class="phase-node"></div>
             <div class="phase-header"><h4>11. Ensayo Somático (Identidad)</h4><span class="phase-duration">2m</span></div>
             <p class="phase-desc">${d && d.fase11_ensayo ? d.fase11_ensayo : `Cierra los ojos 60 segundos. Visualízate aplicando <strong>${titulo}</strong> en tu reunión más exigente. Siente tu postura firme y declara en voz alta y por escrito: <strong>"Soy líder. Nací líder. Y actúo como la líder que soy."</strong>`}</p>
-            <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${somaticoDone ? 'opacity:.7;' : ''}" ${somaticoDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_b${blockNum}_d${dayIndex}_somatico')">${somaticoDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
+            <button id="btn-analog-11-${dayIndex}" class="btn-outline" style="width: 100%; margin-top: 16px; border-color: var(--border-subtle); ${somaticoDone ? 'opacity:.7;' : ''}" ${somaticoDone ? 'disabled' : ''} onclick="marcarHecho(this, 'mm_${userScope()}_b${blockNum}_d${dayIndex}_somatico')">${somaticoDone ? '✅ Hecho a Mano' : '✍️ Marcar como Hecho a Mano'}</button>
         </div>
 
         <!-- F12 -->
@@ -3322,9 +3348,9 @@ function loadMujeresMentorasDay(dayIndex) {
     // PERSISTENCE & HOME STATS UPDATE
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
-    localStorage.setItem('mm_last_day_b' + blockNum, dayIndex);
-    localStorage.setItem('mm_last_day_b1', dayIndex);
-    localStorage.setItem('mm_last_active_time', new Date().toLocaleString());
+    localStorage.setItem('mm_' + userScope() + '_last_day_b' + blockNum, dayIndex);
+    localStorage.setItem('mm_' + userScope() + '_last_day_b1', dayIndex);
+    localStorage.setItem('mm_' + userScope() + '_last_active_time', new Date().toLocaleString());
     
     if(typeof window.renderKitMentoria === 'function') window.renderKitMentoria();
 }
@@ -3352,7 +3378,7 @@ function renderDashboard() {
 
     daysData.forEach(day => {
         const card = document.createElement('div');
-        const isDone = localStorage.getItem('mm_b1_d' + day.dia + '_done') === 'true' || localStorage.getItem('mm_b1_d' + day.dia) === '1';
+        const isDone = localStorage.getItem('mm_' + userScope() + '_b1_d' + day.dia + '_done') === 'true' || localStorage.getItem('mm_' + userScope() + '_b1_d' + day.dia) === '1';
         const isLocked = !isDone && day.dia > unlockedUpTo;
         card.className = `glass-card track-card ${currentDayId === day.dia ? 'active' : ''} ${isLocked ? 'locked' : ''}`;
         if (isLocked) {
@@ -3388,7 +3414,7 @@ function renderPlaybookTactico(dayIndex) {
     }
 
     // Load saved notes
-    const noteKey = 'pb_notes_d' + dayIndex;
+    const noteKey = 'pb_' + userScope() + '_notes_d' + dayIndex;
     let savedNotes = {};
     try { savedNotes = JSON.parse(localStorage.getItem(noteKey) || '{}'); } catch(e){}
 
@@ -3424,7 +3450,7 @@ function renderPlaybookTactico(dayIndex) {
 }
 
 function guardarNotaPlaybook(dayIndex, key, val) {
-    const noteKey = 'pb_notes_d' + dayIndex;
+    const noteKey = 'pb_' + userScope() + '_notes_d' + dayIndex;
     let notes = {};
     try { notes = JSON.parse(localStorage.getItem(noteKey) || '{}'); } catch(e){}
     notes[key] = val;
@@ -3434,7 +3460,7 @@ function guardarNotaPlaybook(dayIndex, key, val) {
 /* ---------- renderKitMentoria (previously missing) ---------- */
 window.renderKitMentoria = function() {
     const blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
-    const bp = 'mm_b' + blockNum + '_d';
+    const bp = 'mm_' + userScope() + '_b' + blockNum + '_d';
     let diasActivos = 0, streak = 0, maxStreak = 0, bestPpm = 0, scoreSum = 0, scoreCount = 0;
 
     // TOTAL_PROGRAM_DAYS (78, confirmed against mentoras_content: 78 días × 2
@@ -3662,7 +3688,7 @@ function terminarLecturaPPM() {
     if (ppm > 1200) ppm = 1200; 
     
     let blockNum = window.location.pathname.match(/Bloque(\d+)/) ? window.location.pathname.match(/Bloque(\d+)/)[1] : '1';
-    let key = 'mm_b' + blockNum + '_d' + currentDay + '_ppm';
+    let key = 'mm_' + userScope() + '_b' + blockNum + '_d' + currentDay + '_ppm';
     localStorage.setItem(key, ppm.toString());
     
     let resultEl = document.getElementById('ppm-result');
@@ -3729,7 +3755,7 @@ function evaluarQuizReal(dayId) {
     const blockMatch = window.location.pathname.match(/Bloque(\d+)/);
     const blockNum = blockMatch ? blockMatch[1] : '1';
 
-    const ppmKey = 'mm_b' + blockNum + '_d' + dayId + '_ppm';
+    const ppmKey = 'mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_ppm';
     const ppm = localStorage.getItem(ppmKey) || '—';
 
     // This is the only place a real quiz result is scored, so it's the only
@@ -3743,8 +3769,8 @@ function evaluarQuizReal(dayId) {
     if (!isNaN(ppmNum)) progresoLocal[dayId].ppm = ppmNum;
     if (typeof saveProgresoLocal === 'function') saveProgresoLocal();
 
-    localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_score', score.toString());
-    localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
+    localStorage.setItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_score', score.toString());
+    localStorage.setItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId, '1');
 
     const box = document.getElementById('quiz-result-' + dayId);
     if (!box) return;
@@ -4126,23 +4152,23 @@ function concluirDia(dayId) {
     const blockNum = blockMatch ? blockMatch[1] : '1';
 
     const manualPendientes = [];
-    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_analog') !== 'true') manualPendientes.push('Fase 5 (Codificación Dual)');
-    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_riesgo') !== 'true') manualPendientes.push('Fase 8 (Zona de Riesgo Táctico)');
-    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_meta') !== 'true') manualPendientes.push('Fase 10 (Metacognición)');
-    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_somatico') !== 'true') manualPendientes.push('Fase 11 (Ensayo Somático)');
+    if (localStorage.getItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_analog') !== 'true') manualPendientes.push('Fase 5 (Codificación Dual)');
+    if (localStorage.getItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_riesgo') !== 'true') manualPendientes.push('Fase 8 (Zona de Riesgo Táctico)');
+    if (localStorage.getItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_meta') !== 'true') manualPendientes.push('Fase 10 (Metacognición)');
+    if (localStorage.getItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_somatico') !== 'true') manualPendientes.push('Fase 11 (Ensayo Somático)');
 
     if (manualPendientes.length > 0) {
         alert('Antes de concluir la sesión, marca como "Hecho a Mano" estos ejercicios:\n\n- ' + manualPendientes.join('\n- '));
         return;
     }
 
-    if (localStorage.getItem('mm_b' + blockNum + '_d' + dayId + '_sueno') !== 'true') {
+    if (localStorage.getItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_sueno') !== 'true') {
         alert('Antes de concluir la sesión, escucha el audio completo de la Fase 12 (arriba).');
         return;
     }
 
-    localStorage.setItem('mm_b' + blockNum + '_d' + dayId + '_done', 'true');
-    localStorage.setItem('mm_b' + blockNum + '_d' + dayId, '1');
+    localStorage.setItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId + '_done', 'true');
+    localStorage.setItem('mm_' + userScope() + '_b' + blockNum + '_d' + dayId, '1');
 
     const modal = document.getElementById('concluir-modal-' + dayId);
     const btn = document.getElementById('btn-concluir-' + dayId);
