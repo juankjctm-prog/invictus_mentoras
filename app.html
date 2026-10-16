@@ -739,6 +739,7 @@ function revelarDespertador() {
 
     <!-- SUPABASE INIT -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="fallback_content_b2b.js"></script>
     <script>
         const supabaseUrl = 'https://unbaagnuwdhavqkajory.supabase.co';
         const supabaseKey = 'sb_publishable_8G_qiAoStdmRsEwPfvaa0g__2XlfLjV';
@@ -1226,6 +1227,34 @@ function continueToComprension() {
         console.error("Excepción al cargar contenido:", err);
         window.activeTrackData = [];
     }
+
+    // --- INTEGRACIÓN Y CONTINGENCIA LOCAL COMPLETA (DÍAS 1 A 30) ---
+    if (!window.activeTrackData) window.activeTrackData = [];
+    const userRoleTrack = (currentUser && currentUser.role) ? currentUser.role : 'Mentora';
+    const fallbackList = (window.LOCAL_FALLBACK_TRACKS && (window.LOCAL_FALLBACK_TRACKS[userRoleTrack] || window.LOCAL_FALLBACK_TRACKS['Mentora'])) || [];
+    
+    fallbackList.forEach(fbDay => {
+        const existingIdx = window.activeTrackData.findIndex(x => x && x.dia === fbDay.dia);
+        if (existingIdx === -1) {
+            window.activeTrackData.push(fbDay);
+        } else {
+            const existing = window.activeTrackData[existingIdx];
+            const hasText = existing && existing.texto_lectura && existing.texto_lectura.length > 200;
+            const hasQuestions = existing && ((existing.preguntas && existing.preguntas.length > 0) || (existing.comprension && existing.comprension.length > 0));
+            if (!hasText || !hasQuestions) {
+                window.activeTrackData[existingIdx] = Object.assign({}, fbDay, existing, {
+                    texto_lectura: (existing && existing.texto_lectura && existing.texto_lectura.length > 200) ? existing.texto_lectura : fbDay.texto_lectura,
+                    preguntas: (existing && existing.preguntas && existing.preguntas.length > 0) ? existing.preguntas : fbDay.preguntas,
+                    comprension: (existing && existing.preguntas && existing.preguntas.length > 0) ? existing.preguntas : fbDay.preguntas,
+                    fase2_lectura: {
+                        texto: (existing && existing.texto_lectura && existing.texto_lectura.length > 200) ? existing.texto_lectura : fbDay.texto_lectura,
+                        comprension: (existing && existing.preguntas && existing.preguntas.length > 0) ? existing.preguntas : fbDay.preguntas
+                    }
+                });
+            }
+        }
+    });
+    window.activeTrackData.sort((a, b) => (a.dia || 0) - (b.dia || 0));
     
     // --- CLEANUP FAKE SIMULATION DATA ---
     if (localStorage.getItem('mm_b1_d1_ppm') === '280' || localStorage.getItem('mm_b1_d2_ppm') === '400') {
@@ -3187,6 +3216,18 @@ function renderMentoraSession(dayIndex) {
     if (window.activeTrackData) {
         d = window.activeTrackData.find(x => x.dia === dayIndex);
     }
+    if (!d || !d.texto_lectura || d.texto_lectura.length < 100 || !d.preguntas || d.preguntas.length === 0) {
+        const userRoleKey = (typeof currentUser !== 'undefined' && currentUser && currentUser.role) ? currentUser.role : 'Mentora';
+        if (typeof window.getFallbackDay === 'function') {
+            const fb = window.getFallbackDay(userRoleKey, dayIndex);
+            if (fb) {
+                d = Object.assign({}, fb, d || {}, {
+                    texto_lectura: (fb.texto_lectura && (!d || !d.texto_lectura || d.texto_lectura.length < 100)) ? fb.texto_lectura : (d ? d.texto_lectura : ''),
+                    preguntas: (fb.preguntas && (!d || !d.preguntas || d.preguntas.length === 0)) ? fb.preguntas : (d ? d.preguntas : [])
+                });
+            }
+        }
+    }
     
     // Fallback data
     const titulo = d ? (d.titulo || "La Identidad de Liderazgo") : "Entrenamiento Cognitivo";
@@ -3197,9 +3238,9 @@ function renderMentoraSession(dayIndex) {
     let preguntasHTML = '';
     let arr = null;
     if (d) {
-        if (d.preguntas) arr = d.preguntas;
-        else if (d.comprension) arr = d.comprension;
-        else if (d.fase2_lectura && d.fase2_lectura.comprension) arr = d.fase2_lectura.comprension;
+        if (d.preguntas && d.preguntas.length > 0) arr = d.preguntas;
+        else if (d.comprension && d.comprension.length > 0) arr = d.comprension;
+        else if (d.fase2_lectura && d.fase2_lectura.comprension && d.fase2_lectura.comprension.length > 0) arr = d.fase2_lectura.comprension;
     }
     if (arr) {
         preguntasHTML = arr.map((q, i) => `
@@ -3423,6 +3464,18 @@ function renderDashboard() {
     const list = document.getElementById('dashboard-list');
     if (!list) return;
     list.innerHTML = '';
+
+    if (!window.activeTrackData || window.activeTrackData.length < 30) {
+        const userRoleKey = (typeof currentUser !== 'undefined' && currentUser && currentUser.role) ? currentUser.role : 'Mentora';
+        const fallbackList = (window.LOCAL_FALLBACK_TRACKS && (window.LOCAL_FALLBACK_TRACKS[userRoleKey] || window.LOCAL_FALLBACK_TRACKS['Mentora'])) || [];
+        if (!window.activeTrackData) window.activeTrackData = [];
+        fallbackList.forEach(fbDay => {
+            if (!window.activeTrackData.some(x => x && x.dia === fbDay.dia)) {
+                window.activeTrackData.push(fbDay);
+            }
+        });
+        window.activeTrackData.sort((a, b) => (a.dia || 0) - (b.dia || 0));
+    }
 
     const daysData = window.activeTrackData || [];
     const currentDayId = typeof currentDay !== 'undefined' ? currentDay : 1;
@@ -3786,9 +3839,18 @@ function evaluarQuizReal(dayId) {
     if (window.activeTrackData) {
         const d = window.activeTrackData.find(x => x.dia === dayId);
         if (d) {
-            if (d.preguntas) qData = d.preguntas;
-            else if (d.comprension) qData = d.comprension;
-            else if (d.fase2_lectura && d.fase2_lectura.comprension) qData = d.fase2_lectura.comprension;
+            if (d.preguntas && d.preguntas.length > 0) qData = d.preguntas;
+            else if (d.comprension && d.comprension.length > 0) qData = d.comprension;
+            else if (d.fase2_lectura && d.fase2_lectura.comprension && d.fase2_lectura.comprension.length > 0) qData = d.fase2_lectura.comprension;
+        }
+    }
+    if (!qData || qData.length === 0) {
+        const userRoleKey = (typeof currentUser !== 'undefined' && currentUser && currentUser.role) ? currentUser.role : 'Mentora';
+        if (typeof window.getFallbackDay === 'function') {
+            const fb = window.getFallbackDay(userRoleKey, dayId);
+            if (fb && fb.preguntas && fb.preguntas.length > 0) {
+                qData = fb.preguntas;
+            }
         }
     }
     if (!qData || qData.length === 0) {
