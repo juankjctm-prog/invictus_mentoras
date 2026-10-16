@@ -232,24 +232,50 @@
                 let html = '';
 
                 allUsers.forEach(user => {
-                    if(user.role === 'Mentora') mentorasCount++;
-                    if(user.role === 'Mentada') mentadasCount++;
+                    const isBaja = (user.status === 'baja') || (user.name && user.name.toLowerCase().includes('lorena'));
+                    if (isBaja) {
+                        let progress = allProgress.find(p => p.user_id === user.id);
+                        let currentDay = progress ? progress.current_day : 1;
+                        html += `
+                            <tr style="opacity: 0.5;">
+                                <td>
+                                    <div style="font-weight: 500;">${user.name} <span style="font-size:0.7rem; color:#f87171; border:1px solid #f87171; border-radius:4px; padding:1px 4px; margin-left:4px;">Baja</span></div>
+                                    <div style="font-size: 0.75rem; color: var(--text-secondary);">${user.full_name || ''}</div>
+                                </td>
+                                <td><span class="badge" style="background:rgba(255,255,255,0.1); color:#aaa;">Inactiva</span></td>
+                                <td>Día ${currentDay}</td>
+                                <td>
+                                    <button class="action-btn" onclick="viewAnswers('${user.id}', '${user.name}')">Ver Respuestas</button>
+                                </td>
+                            </tr>
+                        `;
+                        return;
+                    }
+
+                    // Lourdes Sanchez es Mentada de Marjorie
+                    let role = user.role;
+                    if (user.id === 'usr_05' || (user.name && user.name.toLowerCase().includes('lourdes'))) {
+                        role = 'Mentada';
+                    }
+
+                    if(role === 'Mentora') mentorasCount++;
+                    if(role === 'Mentada') mentadasCount++;
 
                     let progress = allProgress.find(p => p.user_id === user.id);
                     let currentDay = progress ? progress.current_day : 1;
                     
-                    let badgeClass = user.role === 'Mentora' ? 'mentora' : 'mentada';
+                    let badgeClass = role === 'Mentora' ? 'mentora' : 'mentada';
                     
                     html += `
                         <tr>
                             <td>
                                 <div style="font-weight: 500;">${user.name}</div>
-                                <div style="font-size: 0.75rem; color: var(--text-secondary);">${user.full_name}</div>
+                                <div style="font-size: 0.75rem; color: var(--text-secondary);">${user.full_name || ''}</div>
                             </td>
-                            <td><span class="badge ${badgeClass}">${user.role}</span></td>
+                            <td><span class="badge ${badgeClass}">${role}</span></td>
                             <td>Día ${currentDay}</td>
                             <td>
-                                <button class="action-btn" onclick="viewAnswers(${user.id}, '${user.name}')">Ver Respuestas</button>
+                                <button class="action-btn" onclick="viewAnswers('${user.id}', '${user.name}')">Ver Respuestas</button>
                             </td>
                         </tr>
                     `;
