@@ -773,6 +773,10 @@ function revelarDespertador() {
                             .eq('pin', currentPin)
                             .single();
                             
+                        if (data && !error && data.status === 'baja') {
+                            if (typeof showMotivationToast === 'function') showMotivationToast('Este PIN ya no está activo en el programa.');
+                            throw new Error("Usuaria dada de baja");
+                        }
                         if (data && !error) {
                             currentUser = data;
                             if (typeof migrateLegacyUserData === 'function') migrateLegacyUserData();
@@ -1220,8 +1224,18 @@ function continueToComprension() {
             console.error("Error al cargar contenido de Supabase:", contentError);
             window.activeTrackData = [];
         } else {
-            // Map the rows back to the array of objects
-            window.activeTrackData = contentData.map(row => row.content);
+            // La BD guarda la lectura y el quiz en content.fase2_lectura; se exponen
+            // también como texto_lectura/preguntas, que es lo que lee el resto del
+            // código. Sin esto la BD se ignoraba y siempre se mostraba el fallback.
+            window.activeTrackData = contentData.map(row => {
+                const c = row.content || {};
+                const f2 = c.fase2_lectura || {};
+                return Object.assign({}, c, {
+                    texto_lectura: c.texto_lectura || f2.texto,
+                    preguntas: (c.preguntas && c.preguntas.length) ? c.preguntas : f2.comprension,
+                    comprension: (c.comprension && c.comprension.length) ? c.comprension : f2.comprension
+                });
+            });
         }
     } catch (err) {
         console.error("Excepción al cargar contenido:", err);
@@ -1273,7 +1287,18 @@ function continueToComprension() {
     
     // Fetch from Supabase
     const { data, error } = await _supabase.from('mentoras_progress').select('*').eq('user_id', currentUser.id).single();
-    
+
+    // Reinicio de progreso ordenado desde la BD: un SQL deja la fila en cero y
+    // marca answers.reset_epoch. Sin borrar también lo guardado en este
+    // navegador, la lógica de abajo ("local tiene más días que la nube")
+    // volvería a subir el progreso viejo.
+    const resetEpoch = data && data.answers && data.answers.reset_epoch;
+    const resetKey = 'mm_reset_epoch_' + userScope();
+    if (resetEpoch && localStorage.getItem(resetKey) !== resetEpoch) {
+        clearLocalProgress();
+        localStorage.setItem(resetKey, resetEpoch);
+    }
+
     let cloudCurrentDay = data ? (data.current_day || 1) : 1;
     let cloudCompletedDays = data ? (data.completed_days || []) : [];
     
@@ -1451,12 +1476,7 @@ async function loadMentadaDashboard() {
         const { data } = await _supabase.from('mentoras_users').select('*').eq('assigned_mentor_id', currentUser.id).single();
         mentadaUser = data;
     } catch(e) {}
-    
-    // Pareja del ecosistema: Marjorie Castro es mentora de Lourdes Sanchez
-    if (!mentadaUser && (currentUser.id === 'usr_04' || currentUser.pin === '012604')) {
-        mentadaUser = { id: 'usr_05', name: 'Lourdes', full_name: 'Lourdes Sanchez', role: 'Mentada', pin: '012605' };
-    }
-    
+
     if(!mentadaUser) {
         content.innerHTML = '<p style="color:#aaa;">Aún no tienes una mentada asignada en el sistema.</p>';
         return;
@@ -1477,8 +1497,10 @@ async function loadMentadaDashboard() {
     html += `<div style="display:flex; flex-direction:column; gap:15px;">`;
     
     let hasAnswers = false;
+    // answers también guarda objetos (progresoLocal, ppm_history); solo los
+    // textos son respuestas de la mentada.
     for(let d in answers) {
-        if(answers[d].trim() !== '') {
+        if(typeof answers[d] === 'string' && answers[d].trim() !== '') {
             hasAnswers = true;
             html += `<div style="background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05);">
                  <span style="color: var(--accent-earth); font-size: 0.8rem; text-transform: uppercase;">Sesión ${d}</span>
@@ -1522,17 +1544,11 @@ async function loadConexionTab() {
             const { data } = await _supabase.from('mentoras_users').select('*').eq('assigned_mentor_id', currentUser.id).single();
             chatPartner = data;
         } catch(e) {}
-        if (!chatPartner && (currentUser.id === 'usr_04' || currentUser.pin === '012604')) {
-            chatPartner = { id: 'usr_05', name: 'Lourdes', full_name: 'Lourdes Sanchez', role: 'Mentada', pin: '012605' };
-        }
     } else {
         try {
             const { data } = await _supabase.from('mentoras_users').select('*').eq('id', currentUser.assigned_mentor_id).single();
             chatPartner = data;
         } catch(e) {}
-        if (!chatPartner && (currentUser.id === 'usr_05' || currentUser.pin === '012605')) {
-            chatPartner = { id: 'usr_04', name: 'Marjorie', full_name: 'Marjorie Castro', role: 'Mentora', pin: '012604' };
-        }
     }
     
     if(!chatPartner) {
@@ -3216,6 +3232,24 @@ function migrateLegacyUserData() {
     });
 
     localStorage.setItem(migFlag, 'true');
+}
+
+// Borra todo el progreso guardado en este navegador para la usuaria actual
+// (lo usa el reinicio ordenado desde la BD). Conserva la bandera de migración
+// para que migrateLegacyUserData no vuelva a copiar claves viejas sin prefijo.
+function clearLocalProgress() {
+    const scope = userScope();
+    if (scope === 'anon') return;
+    const keep = ['mm_migrated_' + scope, 'mm_reset_epoch_' + scope];
+    const toRemove = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (!k || keep.includes(k)) continue;
+        if (k.includes('_' + scope + '_') || k.endsWith('_' + scope)) toRemove.push(k);
+    }
+    toRemove.forEach(k => localStorage.removeItem(k));
+    progresoLocal = {};
+    maxUnlockedDay = 1;
 }
 
 var currentDay = 1;

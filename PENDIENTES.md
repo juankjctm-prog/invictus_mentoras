@@ -3,6 +3,70 @@
 Registro de qué se arregló, qué falta y por qué, para no perder el hilo entre sesiones.
 El detalle línea por línea de cada fix está en `git log` de este repo (`invictus_mentoras`).
 
+## Auditoría general de contenido y progreso (sesión 2026-10-21)
+
+Queja: lecturas que no salen, preguntas que no coinciden con los textos, inconsistencias
+en usuarias. Diagnóstico hecho sobre un export completo de Supabase (solo lectura) y los
+textos finales (bucket `textos` = mismos archivos que `\\JTPCAS\Users\Public\Downloads`).
+
+### Resuelto
+
+- **La BD se ignoraba en los días 1-30.** `initUserSession` buscaba `texto_lectura` /
+  `preguntas` en el nivel superior de `content`, pero la BD los guarda en
+  `content.fase2_lectura.{texto, comprension}` → siempre se mostraba
+  `fallback_content_b2b.js`. Ahora se leen de `fase2_lectura`; el fallback solo cubre días
+  sin contenido. — `app.html`
+- **Contenido dañado** (en el fallback y en `src/data/json`): textos sin acentos o con letras
+  separadas (archivos fuente en cp1252/UTF-16 leídos como UTF-8), "RESPUESTA MODELO" visible
+  en las preguntas, opciones de relleno con la correcta siempre en 0, quizzes escritos para
+  versiones viejas de las lecturas. Regenerado todo desde los textos finales con
+  `scripts/build_contenido_mentoras.js` (detecta codificación, extrae lectura, parsea los
+  quizzes oficiales) y verificado con `scripts/validar_contenido_mentoras.js`.
+  - Días 6-10: el archivo oficial solo trae la clave → quizzes redactados desde la lectura
+    (`src/data/contenido_mentoras/quizzes_dias6_10.json`). Día 10: la clave era de otro texto.
+  - 67 preguntas (25 Mentora, 42 Mentada) que la lectura final no respaldaba, reemplazadas
+    por otras basadas en la lectura, con cita de soporte
+    (`src/data/contenido_mentoras/preguntas_reemplazo.json`).
+  - Archivos finales equivocados reemplazados por la versión correcta de `\\JTPCAS`: Mentora
+    d20 (era el checkpoint de Mentoreadas), Mentada d14 (era reescritura del d13), Mentada
+    d28 (bloque de lectura vacío).
+- **SQL sin filtro de rol**: los días 10-78 de Mentada en `mentoras_content` tenían el
+  contenido de Mentora (lectura, título y casi todas las fases). Los días 1-30 se corrigen
+  con `mentoras_content_dias1_30_{mentora,mentada}.sql` (siempre `WHERE role AND dia`).
+- **Bajas y Lourdes**: el SQL del commit dd47cca nunca se aplicó (usaba `status`, columna
+  inexistente). Nuevo `ecosistema_bajas_y_reinicio_lourdes.sql`: agrega `status`, da de baja
+  a 022604/022605, Lourdes → Mentada de Marjorie desde cero. `app.html` bloquea el login de
+  usuarias en `baja` y, con `answers.reset_epoch`, borra también el progreso local del
+  navegador (si no, la lógica "local tiene más días que la nube" lo volvía a subir).
+- Pestaña de la mentora "Mi mentada" se rompía: hacía `.trim()` sobre `answers`, que también
+  guarda objetos. Quitados los emparejamientos Marjorie/Lourdes escritos a mano en el código.
+- Las 12 filas "simuladas" de `mentoras_progress` (ver hallazgo de 2026-08-02) ya no existen:
+  en el export de hoy no hay `updated_at` repetidos y todo el progreso es coherente.
+
+### Pendiente
+
+- **Días 31-78 no tienen contenido final** (confirmado por Juan). En la BD, Mentada 31-78
+  tiene el contenido de Mentora: una mentoreada que llegue al día 31 verá contenido de
+  mentora. La más avanzada (Eliana, mentora) va en el día 17.
+- **Fases 1, 3 y 5-12 de Mentada (días 1-30)** siguen siendo las de Mentora en la BD. Fuente
+  posible: `Playbook mentoreadas/` y `Complementos mentoreadas/` del Storage.
+- **Audios**: no existen `Dia27Mentora.mp3` ni `Dia15Mentoreadas.mp3` (solo los .wav base);
+  hay que renombrar en el bucket `audios`: `Dia18mentoreadas.mp3` → `Dia18Mentoreadas.mp3`,
+  `Dia 23Mentoreadas.mp3` → `Dia23Mentoreadas.mp3`, `Dia27Mentereadas.mp3` →
+  `Dia27Mentoreadas.mp3`.
+- **Problemas de redacción en lecturas finales** (contenido del autor, no se tocó):
+  Mentada d12 le habla a una mentora; Mentada d17 tiene errores en el resumen del bloque
+  (omite el día 17, atribuye "Víctima" al d15 y Mehrabian al d16); Mentada d25 tiene "When
+  tu mentora"; Mentoreadas 15 y 19 y las versiones de Mentora d20 / Mentada d14 vienen sin
+  acentos en origen (el generador restaura solo los inequívocos: "estás"/"qué" pueden
+  quedar sin tilde).
+- Marjorie (012604): figuran días 1-11 completados pero solo hay puntajes de los días 4-10.
+- Mabel, Stephany y Valentina tienen `current_day` igual a su último día completado (el
+  quiz marca el día como completado antes de "Concluir día"). No las bloquea: el roadmap
+  desbloquea el día siguiente al más alto completado.
+- El `/dashboard` de la web Next.js lee `src/data/json/usuarias_b2b.json`, una foto fija del
+  15-oct. Para ver avance real usar `dashboard_diagnostico.html` / `admin.html` (en vivo).
+
 ## Resuelto (sesión 2026-08-02)
 
 - **`current_day` retrocedía** al revisar un día ya completado, y podía duplicar filas en
